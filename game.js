@@ -5190,6 +5190,2527 @@ if (typeof goHome !== "function") {
   }
 }
 
+
+/* ===== v38 precise rules text + minimal character info =====
+   Goals:
+   - Every status/keyword explains exact timing, numbers, and what it affects.
+   - Character info panel is minimal: name, proficiencies, stats, current statuses, passive.
+   - Active abilities are inspected from the ability wheel, not from the character info panel.
+*/
+
+// Exact keyword/status definitions.
+if (typeof KEYWORDS_V32 !== "undefined") {
+  Object.assign(KEYWORDS_V32, {
+    "exhausted": {
+      title: "Exhausted",
+      text: "The next non-Guard action this unit resolves has -2 Speed and deals -2 damage. Then Exhausted is removed. Guard actions and passives are not affected."
+    },
+    "exposed": {
+      title: "Exposed",
+      text: "The next time this unit takes damage from a hit, that hit gets +2 damage before Armor and Shield are calculated. Then Exposed is removed."
+    },
+    "shield": {
+      title: "Shield",
+      text: "Temporary protection. Damage is reduced by Armor first, then Shield absorbs the remaining damage before HP is lost. All Shield is removed at end of round."
+    },
+    "armor": {
+      title: "Armor",
+      text: "Reduces normal damage before Shield and HP. Example: 5 damage against 2 Armor becomes 3 damage before Shield. Damage ignoring Armor skips this step."
+    },
+    "pierce": {
+      title: "Pierce X",
+      text: "For this hit, reduce the target's effective Armor by X. Example: Pierce 2 against 3 Armor means only 1 Armor reduces the hit."
+    },
+    "sunder": {
+      title: "Sunder X",
+      text: "Reduce the target's Armor by X until end of round. This affects later hits during the same round, then wears off."
+    },
+    "poison": {
+      title: "Poison",
+      text: "At end of round, this unit loses HP equal to ceil(Poison / 2), then removes that many Poison stacks. Poison HP loss ignores Armor and Shield."
+    },
+    "bleed": {
+      title: "Bleed",
+      text: "When this unit is hit by a damaging attack, remove all Bleed and add that much damage to the hit before Armor and Shield are calculated."
+    },
+    "freeze": {
+      title: "Freeze",
+      text: "Stacking ice status. When this unit reaches 5 Freeze, remove all Freeze and apply Frozen."
+    },
+    "frozen": {
+      title: "Frozen",
+      text: "The next non-Guard action this unit tries to resolve is canceled. Then Frozen is removed. Guard actions are not canceled."
+    },
+    "hypnosis": {
+      title: "Hypnosis",
+      text: "Non-stackable control status. It does nothing by itself. Hypnotic abilities can consume it or check for it for stronger effects."
+    },
+    "guard": {
+      title: "Guard",
+      text: "A defensive action that resolves before normal actions. Guard actions are not canceled by Frozen and are not weakened by Exhausted."
+    },
+    "protect": {
+      title: "Protect",
+      text: "Choose an ally. The first attack targeting that ally this round targets the protector instead."
+    },
+    "dodge": {
+      title: "Dodge",
+      text: "Avoid the next attack targeting this unit this round. After it avoids one attack, Dodge is removed."
+    },
+    "ignoring armor": {
+      title: "Ignoring Armor",
+      text: "This damage skips Armor. Shield still absorbs it before HP is lost."
+    },
+    "ignore armor": {
+      title: "Ignore Armor",
+      text: "This damage skips Armor. Shield still absorbs it before HP is lost."
+    },
+    "lose hp": {
+      title: "Lose HP",
+      text: "Direct HP loss. It ignores both Armor and Shield."
+    },
+    "front row is empty": {
+      title: "Front Row Is Empty",
+      text: "There are no living characters in that side's front row. When this is true, melee attacks can target the back row."
+    }
+  });
+}
+if (window.KEYWORDS_V32_SAFE) {
+  Object.assign(window.KEYWORDS_V32_SAFE, (typeof KEYWORDS_V32 !== "undefined" ? KEYWORDS_V32 : {}));
+}
+
+function statusLineV38(u){
+  if(!u || !u.status) return "None";
+  const parts = [];
+  const order = ["poison","bleed","freeze","frozen","hypnosis","exposed","exhausted"];
+  for(const k of order){
+    const v = u.status[k] || 0;
+    if(v) parts.push(`${k[0].toUpperCase()+k.slice(1)}${v === 1 && ["frozen","hypnosis","exposed","exhausted"].includes(k) ? "" : " " + v}`);
+  }
+  return parts.length ? parts.join(" · ") : "None";
+}
+
+function passiveExactV38(u){
+  return u?.passive || "No passive ability.";
+}
+
+// Minimal character info: no active ability list.
+function renderInfo(){
+  let u=selectedId&&unit(selectedId);
+  $("infoTitle").innerHTML = u
+    ? `<span>${escapeHtmlV32 ? escapeHtmlV32(u.name) : u.name}</span><button id="closeInfoBtn" class="closeInfoBtn" type="button" aria-label="Close info">×</button>`
+    : "Plan hidden actions";
+
+  const queuedCount = state?.plans?.filter(p=>p.side==="player").length || 0;
+
+  if(u){
+    const enemyNote = u.side === "enemy"
+      ? `<div class="statusInfoBox"><b>Enemy intel:</b> You can inspect stats, current statuses, and passive. Active abilities stay hidden until they resolve.</div>`
+      : "";
+
+    $("infoBody").innerHTML =
+      `<div class="miniInfoCard">
+        <div><b>Proficiencies:</b> ${renderKeywordText ? renderKeywordText(`${u.class} / ${u.prof}`) : `${u.class} / ${u.prof}`}</div>
+        <div><b>Health:</b> ❤️ ${u.hp}/${u.maxHp}</div>
+        <div><b>Armor:</b> 🛡️ ${getArmor ? getArmor(u) : u.armor}</div>
+        <div><b>Speed:</b> ⚡ ${u.speed}</div>
+        <div><b>Current statuses:</b> ${renderKeywordText ? renderKeywordText(statusLineV38(u)) : statusLineV38(u)}</div>
+        <div><b>Passive:</b> ${renderKeywordText ? renderKeywordText(passiveExactV38(u)) : passiveExactV38(u)}</div>
+      </div>
+      ${enemyNote}`;
+  } else {
+    $("infoBody").innerHTML = `Queued: ${queuedCount} action${queuedCount===1?"":"s"}. Click a fighter to add actions. Remove actions from the queue strip.`;
+  }
+
+  const btn = $("closeInfoBtn");
+  if(btn) btn.onclick = (ev) => {
+    ev.stopPropagation();
+    closeInfoPanel();
+  };
+
+  if(pendingAbility && selectedId) previewTargeting(unit(selectedId), pendingAbility);
+}
+
+function tunePreciseTextV38(){
+  const byId = id => ROSTER.find(c=>c.id===id);
+  const set = (id, patch) => { const c=byId(id); if(c) Object.assign(c, patch); };
+
+  set("smithen", {
+    passive:"Passive — Frost Edge: Smithen's damaging abilities deal +2 damage to targets that currently have any Freeze stacks.",
+    abilities:[
+      A("needle","Ice Needle",1,3,"Ranged attack. Deal 2 damage with Pierce 1. Then apply 1 Freeze to the target.","damageStatus",{dmg:2,status:"freeze",stacks:1,range:"ranged",pierce:1}),
+      A("flash","Whiteout Step",1,99,"Guard. Smithen gains Dodge. Dodge prevents the next attack targeting Smithen this round, then Dodge is removed.","dodge",{guard:true}),
+      A("pin","Frost Pin",1,2,"Ranged status. Apply 2 Freeze to one enemy. If that enemy already had any Freeze before this ability, also apply Exposed.","whiteout",{range:"ranged"}),
+      A("shatter","Shatter Shot",2,0,"Ranged payoff attack. Deal 4 damage with Pierce 1. If the target has any Freeze, deal +5 damage, then remove all Freeze from that target.","shatter",{range:"ranged",pierce:1})
+    ]
+  });
+
+  set("dravain", {
+    passive:"Passive — Blood Guard: when Dravain uses Blood Claim and removes Bleed from a target, Dravain gains 3 Shield until end of round.",
+    abilities:[
+      A("protect","Protect Ally",1,99,"Guard. Choose an ally. The first attack targeting that ally this round targets Dravain instead.","protect",{guard:true,range:"ally"}),
+      A("bash","Shield Bash",1,0,"Melee attack. Deal damage equal to 2 plus Dravain's current Armor. This damage is reduced by the target's Armor and Shield normally.","armorStrike",{range:"melee"}),
+      A("drain","Vampiric Thrust",2,-1,"Melee attack. Deal 5 damage. After the hit resolves, Dravain restores 3 HP.","drain",{dmg:5,heal:3,range:"melee"}),
+      A("claim","Blood Claim",2,-2,"Bleed payoff. Remove all Bleed from one enemy. Deal damage equal to removed Bleed plus 4. Then Dravain restores 2 HP and gains 3 Shield until end of round.","consumeBleed",{bonus:4,heal:2,range:"ranged"})
+    ]
+  });
+
+  set("yaura", {
+    passive:"Passive — Blood Echo: once per round, when one of your own abilities makes an ally lose HP, apply 1 Bleed to each enemy in the front row.",
+    abilities:[
+      A("ward","Blood Ward",1,99,"Guard. Choose an ally. If that ally is attacked this round, they gain 5 Shield before damage is dealt. The attacker also gains 1 Bleed.","ward",{guard:true,range:"ally",shield:5}),
+      A("bolt","Blood Bolt",1,1,"Ranged attack. Deal 2 damage ignoring Armor. Shield can still absorb this damage. Then apply 2 Bleed.","damageStatus",{dmg:2,status:"bleed",stacks:2,range:"ranged",ignoreArmor:true}),
+      A("price","Blood Price",1,0,"Bloodcraft magic. Choose an ally. That ally loses 2 HP; this ignores Armor and Shield. Then each enemy in the front row takes 4 damage ignoring Armor; Shield can still absorb this enemy damage.","allyPain",{range:"ally",dmg:4,self:2,ignoreArmor:true}),
+      A("rain","Red Rain",2,-1,"Area status. Apply 2 Bleed to every enemy. This ability deals no immediate damage.","allStatus",{status:"bleed",stacks:2})
+    ]
+  });
+
+  set("kku", {
+    passive:"Passive — Cold Hide: after an enemy hits K'ku with a melee attack, that enemy gains 1 Freeze.",
+    abilities:[
+      A("guard","Ice Guard",1,99,"Guard. If K'ku is attacked this round, K'ku gains 6 Shield before damage is dealt. The attacker also gains 2 Freeze.","selfCounter",{guard:true,status:"freeze",stacks:2,shield:6}),
+      A("slam","Frost Slam",1,0,"Melee attack. Deal 4 damage. Then apply 1 Freeze and Sunder 1 to the target until end of round.","damageStatus",{dmg:4,status:"freeze",stacks:1,range:"melee",sunder:1}),
+      A("break","Glacier Break",2,-2,"Melee breaker. Deal 5 damage and Sunder 2 until end of round. If the target has any Freeze, deal +5 damage.","glacier",{range:"melee",sunder:2}),
+      A("roar","Blizzard Roar",2,-3,"Front-row status. Apply 2 Freeze to each enemy in the front row. This ability deals no immediate damage.","rowStatus",{status:"freeze",stacks:2,row:"front"})
+    ]
+  });
+
+  set("kahro", {
+    passive:"Passive — Opportunist: Kahro's damaging abilities deal +1 damage to targets that currently have any negative status.",
+    abilities:[
+      A("needle","Shadow Needle",1,4,"Ranged precision attack. Deal 3 damage with Pierce 2.","damage",{dmg:3,range:"ranged",pierce:2}),
+      A("mark","Shadow Mark",1,3,"Ranged setup. Apply Exposed and 1 Bleed to one enemy. This ability deals no immediate damage.","multiStatus",{statuses:[["exposed",1],["bleed",1]],range:"ranged"}),
+      A("assassinate","Assassinate",2,0,"Ranged finisher. Deal 5 damage with Pierce 2. If the target is in the back row and that side's front row is empty, deal +4 damage.","assassinate",{range:"ranged",pierce:2}),
+      A("vanish","Vanish",1,99,"Guard. Kahro gains Dodge. Dodge prevents the next attack targeting Kahro this round, then Dodge is removed.","dodge",{guard:true})
+    ]
+  });
+
+  set("maoja", {
+    passive:"Passive — Toxic Momentum: Maoja's damaging abilities deal +1 damage to targets that currently have Poison.",
+    abilities:[
+      A("hands","Poison Hands",1,2,"Ally buff. Choose an ally. Until end of next round, each damaging hit by that ally also applies 2 Poison to its target.","poisonHands",{range:"ally"}),
+      A("grip","Corrosive Grip",1,0,"Melee attack. Deal 3 damage and Sunder 1 until end of round. Then apply 2 Poison. If the target already had Poison before this ability, also apply Exhausted.","toxicGrip",{range:"melee",sunder:1}),
+      A("breath","Caustic Breath",2,-1,"Row status. Choose an enemy row. Apply 4 Poison to each enemy in that row. This ability deals no immediate damage.","rowStatus",{status:"poison",stacks:4,range:"ranged"}),
+      A("burst","Rot Burst",2,-3,"Poison payoff. Remove all Poison from one enemy. Deal damage equal to 2 times the removed Poison, ignoring Armor. Shield can still absorb this damage.","poisonBurst",{range:"ranged",ignoreArmor:true})
+    ]
+  });
+
+  set("paleya", {
+    passive:"Passive — Mind Weaver: the first time each round Paleya consumes Hypnosis with Mind Lance, gain +1 Action next round.",
+    abilities:[
+      A("lance","Mind Lance",1,1,"Magic attack. Deal 3 damage ignoring Armor. Shield can still absorb this damage. If the target has Hypnosis, remove Hypnosis and deal 7 damage ignoring Armor instead.","mindBreak",{range:"ranged",ignoreArmor:true}),
+      A("mesmer","Mesmerize",1,2,"Ranged control. Apply Hypnosis to one enemy. Hypnosis is non-stackable and does nothing until another ability uses it.","status",{status:"hypnosis",stacks:1,range:"ranged"}),
+      A("mirror","Mirror Guard",1,99,"Guard prediction. Choose an enemy. If it uses a damaging attack this round, cancel that action and apply Hypnosis to it.","predict",{guard:true,range:"ranged"}),
+      A("mass","Mass Suggestion",2,0,"Front-row control. Apply Hypnosis and Exposed to each enemy in the front row. This ability deals no immediate damage.","frontHypno",{range:"ranged"})
+    ]
+  });
+
+  set("poom", {
+    passive:"Passive — Mirror Mind: after an enemy hits Poom with a melee attack, that enemy gains Hypnosis.",
+    abilities:[
+      A("guard","Guard Mind",1,99,"Guard. If Poom is attacked this round, Poom gains 4 Shield before damage is dealt. The attacker also gains Hypnosis.","selfCounter",{guard:true,status:"hypnosis",stacks:1,shield:4}),
+      A("bash","Bash",1,0,"Melee attack. Deal 3 damage and Sunder 1 until end of round.","damage",{dmg:3,range:"melee",sunder:1}),
+      A("roar","Mesmer Roar",2,-1,"Front-row control. Apply Hypnosis and Exposed to each enemy in the front row. This ability deals no immediate damage.","frontHypno",{range:"ranged"}),
+      A("bodyguard","Revenge Body",2,-1,"Melee attack. Poom loses 2 HP; this ignores Armor and Shield. Then deal 5 damage. If Poom already lost HP this round, deal +3 damage. Sunder 1 until end of round.","revenge",{dmg:5,self:2,range:"melee",sunder:1})
+    ]
+  });
+
+  set("bahl", {}); // safety for alternate id
+  set("shaman", {
+    name:"Bahl",
+    passive:"Passive — Demon Infection: when Bahl applies Poison with an ability, each enemy in the front row also gains 1 Bleed. When Bahl applies Bleed with an ability, each enemy in the front row also gains 1 Poison.",
+    abilities:[
+      A("mark","Infect Mark",1,2,"Ranged status. Apply 2 Poison and 1 Bleed to one enemy. This ability deals no immediate damage.","multiStatus",{statuses:[["poison",2],["bleed",1]],range:"ranged"}),
+      A("proliferate","Dark Proliferation",2,1,"Ranged payoff. Choose an enemy. Double that enemy's current Poison, Bleed, and Freeze stacks. If it has Hypnosis, also apply Exposed. This ability deals no immediate damage.","proliferate",{range:"ranged"}),
+      A("plague","Plague Wave",2,0,"Row status. Choose an enemy row. Apply 3 Poison to each enemy in that row. This ability deals no immediate damage.","rowStatus",{status:"poison",stacks:3,range:"ranged"}),
+      A("ward","Demon Ward",1,99,"Guard. Choose an ally. If that ally is attacked this round, they gain 5 Shield before damage is dealt. The attacker also gains 1 Bleed.","ward",{guard:true,range:"ally",shield:5})
+    ]
+  });
+
+  set("eva", {
+    passive:"Passive — Crimson Hunger: when Lady Eva hits a target that had Bleed before the hit, Lady Eva restores 1 HP.",
+    abilities:[
+      A("stab","Crimson Stab",1,4,"Melee precision attack. Deal 2 damage with Pierce 2. If the target had Bleed before the hit, Lady Eva restores 1 HP.","bloodDash",{range:"melee",pierce:2}),
+      A("mist","Mist Step",1,99,"Guard. Lady Eva gains Dodge. Dodge prevents the next attack targeting Lady Eva this round, then Dodge is removed.","dodge",{guard:true}),
+      A("kiss","Vampire Kiss",2,1,"Ranged attack. Deal 3 damage with Pierce 1. Then apply 3 Bleed.","damageStatus",{dmg:3,status:"bleed",stacks:3,range:"ranged",pierce:1}),
+      A("bite","Final Bite",2,0,"Bleed payoff. Remove all Bleed from one enemy. Deal damage equal to removed Bleed plus 4 with Pierce 1. Then Lady Eva restores 2 HP.","consumeBleed",{bonus:4,heal:2,range:"melee",pierce:1})
+    ]
+  });
+
+  set("hyafrost", {
+    passive:"Passive — Deep Winter: whenever Hyafrost applies Freeze with one of his abilities, Hyafrost gains 1 Shield until end of round.",
+    abilities:[
+      A("frostbite","Frostbite",1,1,"Magic status. Apply 2 Freeze to one enemy. If the target already had Freeze before this ability, also deal 2 damage ignoring Armor. Shield can still absorb this damage.","whiteout",{range:"ranged",ignoreArmor:true}),
+      A("armor","Frost Armor",1,2,"Ally support. Choose an ally. That ally gains +2 Armor and 3 Shield until end of round.","armorBuff",{range:"ally",armor:2,shield:3}),
+      A("field","Frozen Field",2,0,"Row control. Choose an enemy row. Apply 2 Freeze to each enemy in that row. This ability deals no immediate damage.","rowStatus",{status:"freeze",stacks:2,range:"ranged"}),
+      A("zero","Absolute Zero",2,-2,"Magic payoff. Deal 3 damage ignoring Armor to each enemy that currently has Freeze. Shield can still absorb this damage. Then apply Exhausted to each damaged enemy.","absoluteZero",{dmg:3,ignoreArmor:true})
+    ]
+  });
+
+  set("bakub", {
+    passive:"Passive — Nightmare Brew: Bakub's damaging abilities deal +2 damage to targets that currently have both Poison and Hypnosis.",
+    abilities:[
+      A("vial","Nightmare Vial",1,2,"Ranged status. Apply 2 Poison and Hypnosis to one enemy. This ability deals no immediate damage.","multiStatus",{statuses:[["poison",2],["hypnosis",1]],range:"ranged"}),
+      A("toxin","Mind Toxin",1,1,"Magic attack. Deal 3 damage ignoring Armor. Shield can still absorb this damage. If the target has Hypnosis, also apply 3 Poison.","mindToxin",{range:"ranged",ignoreArmor:true}),
+      A("fog","Demon Fog",2,0,"Row status. Choose an enemy row. Apply 1 Poison and Hypnosis to each enemy in that row. This ability deals no immediate damage.","rowMultiStatus",{statuses:[["poison",1],["hypnosis",1]],range:"ranged"}),
+      A("future","False Future",1,99,"Guard prediction. Choose an enemy. If that enemy uses a damaging attack this round, cancel that action and apply 2 Poison to that enemy.","predictPoison",{guard:true,range:"ranged"})
+    ]
+  });
+}
+
+tunePreciseTextV38();
+
+
+/* ===== v39 tactical resolve + animated arrows + armor bugfix =====
+   Fixes:
+   - effectiveArmorForHit missing.
+   - Tactical Resolution toggle visible and works one step at a time.
+   - Animated arrows from actor to target(s) during resolution.
+*/
+
+function effectiveArmorForHit(target, opt={}){
+  const armor = getArmor ? getArmor(target) : Math.max(0, target?.armor || 0);
+  if(opt.ignoreArmor) return 0;
+  return Math.max(0, armor - (opt.pierce || 0));
+}
+
+// Exhausted Option A: next non-Guard action has -2 Speed and deals -2 damage.
+function exhaustedSpeedPenalty(u, ability){
+  return (u?.status?.exhausted && !ability?.guard) ? -2 : 0;
+}
+
+const totalSpeedBeforeV39 = totalSpeed;
+totalSpeed = function(u,a){
+  return totalSpeedBeforeV39(u,a) + exhaustedSpeedPenalty(u,a);
+};
+
+// Some older damage/apply paths did not reduce damage for Exhausted.
+// This wraps damage so Exhausted's -2 damage is always enforced for the acting unit's next non-Guard action.
+const damageBeforeExhaustedV39 = damage;
+damage = function(src,t,amt,opt={}){
+  const active = state?.currentActionKey ? plannedActionsForStrip(true).find(x=>x.key===state.currentActionKey) : null;
+  const shouldReduce = active && active.unit === src && src?.status?.exhausted && !active.ability?.guard && opt.attack;
+  const finalAmt = shouldReduce ? Math.max(0, amt - 2) : amt;
+  if(shouldReduce){
+    pushActionEvent?.("statusTrigger", `Exhausted reduced ${src.name}'s damage by 2`, src);
+    spawnFloatingText?.(src, "Exhausted -2 dmg", "status");
+  }
+  return damageBeforeExhaustedV39(src,t,finalAmt,opt);
+};
+
+function ensureTacticalControlsV39(){
+  let resolve = $("resolveBtn");
+  if(!$("tacticalToggleBtn")){
+    const b=document.createElement("button");
+    b.id="tacticalToggleBtn";
+    b.className="pill tacticalToggleBtn";
+    b.type="button";
+    b.textContent="Tactical: Off";
+    resolve?.insertAdjacentElement("afterend", b);
+  }
+  if(!$("continueResolveBtn")){
+    const c=document.createElement("button");
+    c.id="continueResolveBtn";
+    c.className="primary continueResolveBtn hidden";
+    c.type="button";
+    c.textContent="Continue";
+    $("tacticalToggleBtn")?.insertAdjacentElement("afterend", c);
+  }
+}
+ensureTacticalControlsV39();
+
+if(typeof tacticalResolution === "undefined"){
+  var tacticalResolution = localStorage.getItem("splitSecondsTacticalResolution") === "1";
+}
+if(typeof tacticalContinue === "undefined"){
+  var tacticalContinue = null;
+}
+
+function setTacticalResolution(on){
+  tacticalResolution = !!on;
+  localStorage.setItem("splitSecondsTacticalResolution", tacticalResolution ? "1" : "0");
+  updateTacticalButtons();
+}
+
+function updateTacticalButtons(){
+  ensureTacticalControlsV39();
+  const btn=$("tacticalToggleBtn");
+  if(btn){
+    btn.textContent = tacticalResolution ? "Tactical: On" : "Tactical: Off";
+    btn.classList.toggle("active", tacticalResolution);
+  }
+  const cont=$("continueResolveBtn");
+  if(cont && !tacticalContinue) cont.classList.add("hidden");
+}
+
+function installTacticalButtons(){
+  ensureTacticalControlsV39();
+  const toggle=$("tacticalToggleBtn");
+  if(toggle) toggle.onclick=()=>setTacticalResolution(!tacticalResolution);
+  const cont=$("continueResolveBtn");
+  if(cont) cont.onclick=()=>{
+    if(tacticalContinue){
+      const fn=tacticalContinue;
+      tacticalContinue=null;
+      cont.classList.add("hidden");
+      fn();
+    }
+  };
+  updateTacticalButtons();
+}
+
+function waitForTacticalContinue(){
+  if(!tacticalResolution) return Promise.resolve();
+  ensureTacticalControlsV39();
+  const cont=$("continueResolveBtn");
+  if(cont){
+    cont.classList.remove("hidden");
+    cont.textContent="Continue";
+  }
+  return new Promise(resolve=>{ tacticalContinue=resolve; });
+}
+
+// Tactical = one click per action, not three clicks.
+// Auto = quick reveal/impact/result.
+function cinematicDelay(stage){
+  if(tacticalResolution) return 40;
+  if(stage==="reveal") return 650;
+  if(stage==="impact") return 260;
+  if(stage==="result") return 760;
+  return 280;
+}
+
+async function pauseForStage(stage){
+  await sleep(cinematicDelay(stage));
+  if(tacticalResolution && stage==="result") await waitForTacticalContinue();
+}
+
+function affectedTargetsForActionV39(actor, ability, target){
+  if(!actor || !ability) return target ? [target] : [];
+  const enemySide = other(actor.side);
+  switch(ability.effect){
+    case "rowStatus":
+    case "rowDamageStatus":
+    case "rowMultiStatus":
+      return rowUnits(enemySide, target?.row || ability.row || "front").filter(x=>!x.dead);
+    case "frontHypno":
+      return rowUnits(enemySide,"front").filter(x=>!x.dead);
+    case "allStatus":
+    case "allDamageStatus":
+      return alive(enemySide);
+    case "absoluteZero":
+      return alive(enemySide).filter(x=>x.status?.freeze);
+    case "allyPain":
+    case "allyBleed":
+      return [target, ...rowUnits(enemySide,"front").filter(x=>!x.dead)].filter(Boolean);
+    default:
+      return target ? [target] : [];
+  }
+}
+
+function spawnArrowV39(fromUnit, toUnit, kind="attack", delay=0){
+  const a=tileEl(fromUnit?.id), b=tileEl(toUnit?.id);
+  const fx=fxLayer?.();
+  if(!a||!b||!fx) return;
+  const p1=centerOf(a), p2=centerOf(b);
+  const dx=p2.x-p1.x, dy=p2.y-p1.y;
+  const len=Math.max(24, Math.hypot(dx,dy));
+  const ang=Math.atan2(dy,dx)*180/Math.PI;
+  const arrow=document.createElement("div");
+  arrow.className=`actionArrow ${kind}`;
+  arrow.style.left=p1.x+"px";
+  arrow.style.top=p1.y+"px";
+  arrow.style.width=len+"px";
+  arrow.style.transform=`rotate(${ang}deg)`;
+  arrow.style.animationDelay=delay+"ms";
+  fx.appendChild(arrow);
+  setTimeout(()=>arrow.remove(), 1050+delay);
+}
+
+function spawnActionArrowsV39(actor, ability, target){
+  const targets=affectedTargetsForActionV39(actor,ability,target);
+  const kind=actionKind(ability);
+  targets.forEach((t,i)=>spawnArrowV39(actor,t,kind,i*90));
+}
+
+// Keep old line API but make it an arrow.
+function spawnLine(fromUnit,toUnit,kind="attack"){
+  spawnArrowV39(fromUnit,toUnit,kind,0);
+}
+
+async function resolveRound(){
+  if(state.phase!=="planning")return;
+  chooseEnemy();
+  state.phase="resolving";
+  state.resolvedActionKeys=[];
+  state.canceledActionKeys=[];
+  currentResolveDetail=null;
+  const acts=plannedActionsForStrip(true);
+  renderBattle();
+
+  for(const act of acts){
+    if(!act.unit||act.unit.dead){state.canceledActionKeys.push(act.key);renderBattle();continue;}
+    state.currentActionKey=act.key;
+    lastAction={actorId:act.unit.id,targetId:act.target?.id,kind:actionKind(act.ability)};
+    currentResolveDetail={actorId:act.unit.id,abilityId:act.ability.id,targetId:act.target?.id};
+
+    showActionToast?.(act.unit,act.ability,act.target);
+    showResolutionOverlay(act.unit,act.ability,act.target,"reveal");
+    showResolveDetail(act.unit,act.ability,act.target,"before");
+    log(`${act.unit.name} uses ${act.ability.name}: ${act.ability.desc}`);
+    renderBattle();
+    await pauseForStage("reveal");
+
+    showResolutionOverlay(act.unit,act.ability,act.target,"impact");
+    spawnActionArrowsV39(act.unit,act.ability,act.target);
+    renderBattle();
+    await pauseForStage("impact");
+
+    startActionEventCapture(act.unit,act.ability,act.target);
+    apply(act.unit,act.ability,act.target);
+    const events=finishActionEventCapture();
+    if(!state.canceledActionKeys.includes(act.key)) state.resolvedActionKeys.push(act.key);
+
+    showResolutionOverlay(act.unit,act.ability,act.target,"result",events);
+    showResolveDetail(act.unit,act.ability,act.target,"after",events);
+    renderBattle();
+    if(checkWin()) return;
+    await pauseForStage("result");
+
+    // Remove Exhausted after the unit's next non-Guard action fully resolves.
+    if(act.unit?.status?.exhausted && !act.ability?.guard){
+      act.unit.status.exhausted=0;
+      log(`${act.unit.name}'s Exhausted is removed.`);
+    }
+  }
+
+  hideResolutionOverlay();
+  currentResolveDetail=null;
+  const cont=$("continueResolveBtn");
+  if(cont)cont.classList.add("hidden");
+  tacticalContinue=null;
+  endRound();
+}
+
+installTacticalButtons();
+
+
+/* ===== v40 shipped-feeling mobile radial menu =====
+   Mobile keeps the radial menu, but it is redesigned for touch:
+   - Large wheel, placed in a stable thumb-friendly lower-center area.
+   - Large finger-sized ability buttons.
+   - First tap previews, second tap chooses.
+   - Big readable bottom ability sheet.
+   - Tap outside wheel closes it.
+*/
+
+function isPhoneLayoutV40(){
+  return window.matchMedia("(max-width: 760px), (pointer: coarse)").matches;
+}
+
+function positionAbilityTooltipV34(tooltip, wheel, btn, index){
+  if(!tooltip || !wheel || !btn) return;
+
+  if(isPhoneLayoutV40()){
+    tooltip.classList.add("mobileAbilitySheet");
+    tooltip.style.left = "10px";
+    tooltip.style.right = "10px";
+    tooltip.style.top = "auto";
+    tooltip.style.bottom = "max(10px, env(safe-area-inset-bottom))";
+    tooltip.style.width = "calc(100vw - 20px)";
+    return;
+  }
+
+  tooltip.classList.remove("mobileAbilitySheet");
+  const wr = wheel.getBoundingClientRect();
+  const br = btn.getBoundingClientRect();
+  const tw = Math.min(360, window.innerWidth - 20);
+  const th = Math.min(220, window.innerHeight * 0.38);
+  let x, y;
+  if(index === 0){
+    x = wr.left + wr.width / 2 - tw / 2;
+    y = wr.top - th - 14;
+  } else if(index === 2){
+    x = wr.left + wr.width / 2 - tw / 2;
+    y = wr.bottom + 14;
+  } else if(index === 1){
+    x = wr.right + 14;
+    y = br.top + br.height / 2 - th / 2;
+  } else {
+    x = wr.left - tw - 14;
+    y = br.top + br.height / 2 - th / 2;
+  }
+  x = Math.max(10, Math.min(window.innerWidth - tw - 10, x));
+  y = Math.max(10, Math.min(window.innerHeight - th - 10, y));
+  tooltip.style.left = x + "px";
+  tooltip.style.top = y + "px";
+  tooltip.style.width = tw + "px";
+}
+
+function openWheel(u){
+  const tile = document.querySelector(`.tile[data-unit-id="${u.id}"]`) || document.querySelector(".tile.selected");
+  const radial = $("radial");
+  const wheel = $("wheel") || document.querySelector(".wheel");
+  const tooltip = $("abilityTooltip");
+  if(!radial || !wheel) return;
+
+  wheelPreviewAbilityIdV34 = null;
+  radial.classList.remove("hidden");
+  radial.classList.toggle("mobileRadialMode", isPhoneLayoutV40());
+  if(tooltip) {
+    tooltip.classList.add("hidden");
+    tooltip.classList.remove("mobileAbilitySheet");
+  }
+
+  let size;
+  if(isPhoneLayoutV40()){
+    size = Math.min(window.innerWidth * 0.92, window.innerHeight * 0.46, 430);
+    size = Math.max(330, size);
+  } else {
+    size = Math.min(380, Math.max(310, Math.min(window.innerWidth * 0.84, window.innerHeight * 0.64)));
+  }
+  wheel.style.width = size + "px";
+  wheel.style.height = size + "px";
+
+  let cx = window.innerWidth / 2;
+  let cy = window.innerHeight / 2;
+
+  if(isPhoneLayoutV40()){
+    // Stable lower-center anchor: feels intentional and keeps buttons readable.
+    // Leave space for the ability sheet below.
+    const sheetReserve = Math.min(190, Math.max(150, window.innerHeight * 0.22));
+    cy = window.innerHeight - sheetReserve - size * 0.42;
+    cx = window.innerWidth / 2;
+  } else if(tile){
+    const r = tile.getBoundingClientRect();
+    cx = r.left + r.width / 2;
+    cy = r.top + r.height / 2;
+  }
+
+  const margin = size / 2 + 8;
+  cx = Math.max(margin, Math.min(window.innerWidth - margin, cx));
+  cy = Math.max(margin, Math.min(window.innerHeight - margin, cy));
+  wheel.style.left = cx + "px";
+  wheel.style.top = cy + "px";
+
+  $("wheelCenter").innerHTML = `
+    <div class="miniCenterName">${escapeHtmlV32 ? escapeHtmlV32(u.name) : u.name}</div>
+    <div class="miniCenterHint">${isPhoneLayoutV40() ? "tap twice" : "choose"}</div>
+  `;
+
+  $("wheelButtons").innerHTML = u.abilities.map((a,i)=>{
+    const iconUrl = abilityIconUrl(u, a);
+    const speedLabel = a.guard ? "Guard" : `⚡ ${totalSpeed(u,a)}`;
+    return `<button class="wheelBtn w${i}" ${state.actionsLeft<a.cost?"disabled":""}
+      data-id="${a.id}" data-index="${i}" style="--prof-icon:url('${iconUrl}')">
+      <span class="wheelBtnTitle">${escapeHtmlV32 ? escapeHtmlV32(a.name) : a.name}</span>
+      <span class="wheelBtnMeta">${a.cost} AP · ${speedLabel}</span>
+    </button>`;
+  }).join("");
+
+  const chooseAbility = (a) => {
+    pendingAbility = a;
+    radial.classList.add("hidden");
+    if(tooltip) tooltip.classList.add("hidden");
+    hideKeywordPopup?.();
+    renderBattle();
+    if(!targets(u,pendingAbility).length) plan(null);
+  };
+
+  const showTipFor = (btn, a) => {
+    if(!tooltip) return;
+    tooltip.innerHTML = `
+      <div class="tipTop">
+        <span class="tipIcon" style="background-image:url('${abilityIconUrl(u,a)}')"></span>
+        <div>
+          <b>${escapeHtmlV32 ? escapeHtmlV32(a.name) : a.name}</b>
+          <small>${a.cost} AP · ${a.guard ? "Guard Priority" : `Speed ${totalSpeed(u,a)}`}</small>
+        </div>
+      </div>
+      <div class="abilityDescText">${renderKeywordText ? renderKeywordText(a.desc) : a.desc}</div>
+      ${clarityTextForAbility ? clarityTextForAbility(a) : ""}
+      <div class="tipTags">
+        <span>${escapeHtmlV32 ? escapeHtmlV32(abilityIconKey(u,a)) : abilityIconKey(u,a)}</span>
+        <span>${escapeHtmlV32 ? escapeHtmlV32(a.range || (a.guard ? "guard" : "self")) : (a.range || (a.guard ? "guard" : "self"))}</span>
+        ${isPhoneLayoutV40() ? "<span>tap same ability again to choose</span>" : ""}
+      </div>
+    `;
+    tooltip.classList.remove("hidden");
+    positionAbilityTooltipV34(tooltip, wheel, btn, Number(btn.dataset.index));
+  };
+
+  if(tooltip){
+    tooltip.onpointerdown = (ev) => {
+      const kw = ev.target.closest(".keywordLink");
+      if(kw){
+        ev.preventDefault();
+        ev.stopPropagation();
+        showKeywordPopup?.(kw.dataset.keyword, kw, kw.dataset.label);
+      } else {
+        ev.stopPropagation();
+      }
+    };
+    tooltip.onclick = (ev) => {
+      const kw = ev.target.closest(".keywordLink");
+      if(kw){
+        ev.preventDefault();
+        ev.stopPropagation();
+        showKeywordPopup?.(kw.dataset.keyword, kw, kw.dataset.label);
+        return;
+      }
+      ev.stopPropagation();
+    };
+  }
+
+  document.querySelectorAll(".wheelBtn").forEach(btn=>{
+    const a = u.abilities.find(x=>x.id===btn.dataset.id);
+
+    btn.onmouseenter = () => { if(!isPhoneLayoutV40()) showTipFor(btn,a); };
+    btn.onfocus = () => showTipFor(btn,a);
+    btn.onmouseleave = () => {
+      if(!isPhoneLayoutV40() && tooltip) tooltip.classList.add("hidden");
+    };
+
+    const previewOrChoose = (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      if(isPhoneLayoutV40()){
+        showTipFor(btn,a);
+        if(wheelPreviewAbilityIdV34 === a.id){
+          chooseAbility(a);
+        } else {
+          wheelPreviewAbilityIdV34 = a.id;
+          document.querySelectorAll(".wheelBtn").forEach(x=>x.classList.remove("previewing"));
+          btn.classList.add("previewing");
+        }
+        return;
+      }
+
+      chooseAbility(a);
+    };
+
+    btn.ontouchstart = previewOrChoose;
+    btn.onclick = previewOrChoose;
+  });
+
+  // Tap outside the wheel closes it, but not if tapping the tooltip/keyword popup.
+  radial.onclick = (ev) => {
+    if(ev.target.closest(".wheel") || ev.target.closest("#abilityTooltip") || ev.target.closest("#keywordPopup")) return;
+    radial.classList.add("hidden");
+    if(tooltip) tooltip.classList.add("hidden");
+  };
+}
+
+// Reposition open mobile wheel on orientation/resize.
+window.addEventListener("resize", () => {
+  if(!$("radial")?.classList.contains("hidden") && selectedId){
+    const u = unit(selectedId);
+    if(u) openWheel(u);
+  }
+});
+
+
+/* ===== v41 resolution polish: continue button, readable float text, static target lines, correct icons =====
+   Fixes:
+   - The "Press Continue" hint is replaced by the real Continue button inside the resolve card.
+   - Target arrows are now static readable beams, not rotating/janky animated arrows.
+   - Floating combat text stays longer.
+   - Ability icons use explicit ability tags before text heuristics.
+*/
+
+const ABILITY_ICON_OVERRIDES_V41 = {
+  // Smithen
+  iceNeedle:"icecraft", needle:"icecraft", flash:"icecraft", pin:"icecraft", shatter:"icecraft",
+  // Dravain
+  protect:"warrior", bash:"warrior", drain:"vampire", claim:"vampire",
+  // Yaura
+  ward:"bloodcraft", bolt:"bloodcraft", price:"bloodcraft", rain:"bloodcraft",
+  // K'ku
+  guard:"icecraft", slam:"icecraft", break:"brute", roar:"icecraft",
+  // Kahro
+  mark:"darkness", assassinate:"assassin", vanish:"assassin",
+  // Maoja
+  hands:"witchcraft", grip:"witchcraft", breath:"witchcraft", burst:"witchcraft",
+  // Paleya
+  lance:"hypnotic", mesmer:"hypnotic", mirror:"hypnotic", mass:"hypnotic",
+  // Poom
+  bodyguard:"brute",
+  // Bahl
+  proliferate:"demon", plague:"demon",
+  // Lady Eva
+  stab:"vampire", mist:"assassin", kiss:"vampire", bite:"vampire",
+  // Hyafrost
+  frostbite:"icecraft", armor:"icecraft", field:"icecraft", zero:"icecraft",
+  // Bakub
+  vial:"witchcraft", toxin:"witchcraft", fog:"demon", future:"hypnotic"
+};
+
+function abilityIconKey(caster, ability) {
+  if (ability?.iconKey) return ability.iconKey;
+  if (ABILITY_ICON_OVERRIDES_V41[ability?.id]) return ABILITY_ICON_OVERRIDES_V41[ability.id];
+
+  const text = `${ability?.name || ""} ${ability?.desc || ""} ${ability?.effect || ""}`.toLowerCase();
+
+  // Important: guard/protect should be checked before status words in the text,
+  // otherwise "attacker gains Hypnosis" incorrectly makes Guard Mind hypnotic.
+  if (/protect|guard|ward|wall/.test(text)) return caster?.class || "warrior";
+  if (/freeze|frost|ice|blizzard|glacier|whiteout|zero|winter/.test(text)) return "icecraft";
+  if (/blood|bleed|crimson|fang|vampir|bite|drain/.test(text)) return caster?.prof?.includes("bloodcraft") ? "bloodcraft" : "vampire";
+  if (/poison|toxic|rot|caustic|vial|brew|witch|potion/.test(text)) return "witchcraft";
+  if (/hypno|mind|dream|mesmer|predict|future/.test(text)) return "hypnotic";
+  if (/shadow|dark|exposed|assassinate/.test(text)) return "darkness";
+  if (/demon|plague|infect/.test(text)) return "demon";
+  if (/slash|strike|thrust|bash/.test(text)) return caster?.class || "warrior";
+
+  return caster?.class || "warrior";
+}
+
+function actionSummaryV36(actor, ability, target, stage="reveal", events=[]){
+  const speedText=ability.guard?"Guard Priority":`Speed ${totalSpeed(actor,ability)}`;
+  const targetText=target?target.name:"No target";
+  const evHtml=events?.length?`<div class="resolveEventList">${events.slice(0,6).map(e=>`<div class="resolveEvent ${e.type||""}">${renderKeywordText(e.text||String(e))}</div>`).join("")}</div>`:"";
+  return `
+    <div class="resolveCard ${stage}">
+      <div class="resolveTop">
+        <span class="resolveIcon" style="background-image:url('${abilityIconUrl(actor, ability)}')"></span>
+        <div class="resolveMain">
+          <div class="resolveStage">${stage==="result"?"Result":stage==="impact"?"Impact":"Resolving"}</div>
+          <div class="resolveTitle">${escapeHtmlV32(actor.name)} — ${escapeHtmlV32(ability.name)}</div>
+          <div class="resolveMeta">${actor.side==="enemy"?"Enemy action revealed":"Your action"} · ${ability.cost} AP · ${speedText} · Target: ${escapeHtmlV32(targetText)}</div>
+        </div>
+      </div>
+      <div class="resolveDesc">${renderKeywordText(ability.desc)}</div>
+      ${evHtml}
+      ${tacticalResolution && stage==="result" ? `<button id="inlineContinueResolveBtn" class="inlineContinueResolveBtn" type="button">Continue</button>` : ""}
+    </div>`;
+}
+
+function hookInlineContinueV41(){
+  const inline=$("inlineContinueResolveBtn");
+  const hidden=$("continueResolveBtn");
+  if(inline){
+    inline.onclick=(ev)=>{
+      ev.preventDefault();
+      ev.stopPropagation();
+      if(tacticalContinue){
+        const fn=tacticalContinue;
+        tacticalContinue=null;
+        hidden?.classList.add("hidden");
+        inline.disabled=true;
+        fn();
+      }
+    };
+  }
+}
+
+function showResolutionOverlay(actor, ability, target, stage="reveal", events=[]){
+  ensureUiLayersV36?.();
+  const overlay=$("resolutionOverlay");
+  if(!overlay)return;
+  overlay.innerHTML=actionSummaryV36(actor,ability,target,stage,events);
+  overlay.classList.remove("hidden");
+  hookInlineContinueV41();
+}
+
+function waitForTacticalContinue(){
+  if(!tacticalResolution) return Promise.resolve();
+  const hidden=$("continueResolveBtn");
+  if(hidden) hidden.classList.add("hidden"); // use inline button instead
+  hookInlineContinueV41();
+  return new Promise(resolve=>{ tacticalContinue=resolve; });
+}
+
+function spawnFloatingText(unitObj, text, kind="hp"){
+  const el = tileEl(unitObj?.id);
+  const fx = fxLayer?.();
+  if(!el || !fx) return;
+  const c = centerOf(el);
+  const div = document.createElement("div");
+  div.className = `floatText ${kind}`;
+  div.textContent = text;
+  div.style.left = c.x + "px";
+  div.style.top = (c.y - c.h*0.10) + "px";
+  fx.appendChild(div);
+  setTimeout(()=>div.remove(), 3200);
+}
+
+function spawnArrowV39(fromUnit, toUnit, kind="attack", delay=0){
+  const a=tileEl(fromUnit?.id), b=tileEl(toUnit?.id);
+  const fx=fxLayer?.();
+  if(!a||!b||!fx) return;
+  const p1=centerOf(a), p2=centerOf(b);
+  const dx=p2.x-p1.x, dy=p2.y-p1.y;
+  const len=Math.max(24, Math.hypot(dx,dy));
+  const ang=Math.atan2(dy,dx)*180/Math.PI;
+  const beam=document.createElement("div");
+  beam.className=`actionBeam ${kind}`;
+  beam.style.left=p1.x+"px";
+  beam.style.top=p1.y+"px";
+  beam.style.width=len+"px";
+  beam.style.transform=`rotate(${ang}deg)`;
+  beam.style.animationDelay=delay+"ms";
+  fx.appendChild(beam);
+  setTimeout(()=>beam.remove(), 1800+delay);
+}
+
+function spawnLine(fromUnit,toUnit,kind="attack"){
+  spawnArrowV39(fromUnit,toUnit,kind,0);
+}
+
+
+/* ===== v42 icecraft/dread/payoff changes =====
+   Requested gameplay updates:
+   - Frost Armor: +2 Armor; melee attackers gain 1 Freeze while buff lasts.
+   - Shatter Shot: removes Freeze and gains +2 damage per removed Freeze stack.
+   - Ice Needle: melee, 3 damage.
+   - Shadow Mark: darkness icon; applies Dread instead of Bleed.
+   - Dread: disables one random ability until end of round; ability appears greyed with X.
+   - Mesmer Roar: Hypnosis payoff; consumes Hypnosis for bonus damage.
+   - Vampire Kiss: melee attack, ignores Armor, no Pierce.
+*/
+
+if (typeof KEYWORDS_V32 !== "undefined") {
+  KEYWORDS_V32.dread = {
+    title: "Dread",
+    text: "Until end of round, one random active ability on this unit is disabled. The disabled ability appears greyed out with an X and cannot be chosen."
+  };
+}
+if (window.KEYWORDS_V32_SAFE) {
+  window.KEYWORDS_V32_SAFE.dread = {
+    title: "Dread",
+    text: "Until end of round, one random active ability on this unit is disabled. The disabled ability appears greyed out with an X and cannot be chosen."
+  };
+}
+
+function applyDreadV42(target){
+  if(!target || target.dead) return;
+  const candidates = (target.abilities || []).filter(a=>!a.guard);
+  const pool = candidates.length ? candidates : (target.abilities || []);
+  if(!pool.length) return;
+  const chosen = pool[Math.floor(Math.random() * pool.length)];
+  target.status.dread = 1;
+  target.dreadDisabledAbilityId = chosen.id;
+  spawnStatusPop?.(target, "dread", "");
+  spawnFloatingText?.(target, `Dread: ${chosen.name}`, "status");
+  pushActionEvent?.("statusGain", `${target.name} gained Dread: ${chosen.name} is disabled until end of round`, target);
+  log(`${target.name} gains Dread. ${chosen.name} is disabled until end of round.`);
+}
+
+function isAbilityDisabledByDreadV42(unitObj, ability){
+  return !!(unitObj?.status?.dread && unitObj?.dreadDisabledAbilityId === ability?.id);
+}
+
+function addStatus(t,s,n=1){
+  if(!t||t.dead)return;
+
+  if(s==="dread"){
+    applyDreadV42(t);
+    return;
+  }
+
+  if(s==="hypnosis" || s==="exposed" || s==="exhausted" || s==="frozen"){
+    t.status[s]=1;
+    spawnStatusPop?.(t,s,"");
+    pushActionEvent?.("statusGain", `${t.name} gained ${s}`, t, {status:s, value:1});
+    log(`${t.name} gains ${s}.`);
+    return;
+  }
+
+  t.status[s]=(t.status[s]||0)+n;
+  spawnStatusPop?.(t,s,n);
+  pushActionEvent?.("statusGain", `${t.name} gained ${n} ${s}`, t, {status:s, value:n});
+  log(`${t.name} gains ${n} ${s}.`);
+
+  if(s==="freeze" && (t.status.freeze||0)>=5){
+    t.status.freeze=0;
+    t.status.frozen=1;
+    spawnStatusPop?.(t,"frozen","");
+    pushActionEvent?.("statusTrigger", `${t.name} reached 5 Freeze and became Frozen`, t, {status:"frozen"});
+    log(`${t.name} reaches 5 Freeze and becomes Frozen. Its next non-Guard action will be canceled.`);
+  }
+}
+
+function icon(s){
+  return {poison:"☠️",bleed:"🩸",freeze:"❄️",hypnosis:"🌀",exposed:"🎯",exhausted:"💤",frozen:"🧊",dread:"✖️"}[s]||"";
+}
+
+// Replace openWheel so Dread-disabled abilities appear as unusable with an X.
+function openWheel(u){
+  const tile = document.querySelector(`.tile[data-unit-id="${u.id}"]`) || document.querySelector(".tile.selected");
+  const radial = $("radial");
+  const wheel = $("wheel") || document.querySelector(".wheel");
+  const tooltip = $("abilityTooltip");
+  if(!radial || !wheel) return;
+
+  wheelPreviewAbilityIdV34 = null;
+  radial.classList.remove("hidden");
+  radial.classList.toggle("mobileRadialMode", isPhoneLayoutV40());
+  if(tooltip) {
+    tooltip.classList.add("hidden");
+    tooltip.classList.remove("mobileAbilitySheet");
+  }
+
+  let size;
+  if(isPhoneLayoutV40()){
+    size = Math.min(window.innerWidth * 0.92, window.innerHeight * 0.46, 430);
+    size = Math.max(330, size);
+  } else {
+    size = Math.min(380, Math.max(310, Math.min(window.innerWidth * 0.84, window.innerHeight * 0.64)));
+  }
+  wheel.style.width = size + "px";
+  wheel.style.height = size + "px";
+
+  let cx = window.innerWidth / 2;
+  let cy = window.innerHeight / 2;
+  if(isPhoneLayoutV40()){
+    const sheetReserve = Math.min(190, Math.max(150, window.innerHeight * 0.22));
+    cy = window.innerHeight - sheetReserve - size * 0.42;
+    cx = window.innerWidth / 2;
+  } else if(tile){
+    const r = tile.getBoundingClientRect();
+    cx = r.left + r.width / 2;
+    cy = r.top + r.height / 2;
+  }
+
+  const margin = size / 2 + 8;
+  cx = Math.max(margin, Math.min(window.innerWidth - margin, cx));
+  cy = Math.max(margin, Math.min(window.innerHeight - margin, cy));
+  wheel.style.left = cx + "px";
+  wheel.style.top = cy + "px";
+
+  $("wheelCenter").innerHTML = `
+    <div class="miniCenterName">${escapeHtmlV32 ? escapeHtmlV32(u.name) : u.name}</div>
+    <div class="miniCenterHint">${isPhoneLayoutV40() ? "tap twice" : "choose"}</div>
+  `;
+
+  $("wheelButtons").innerHTML = u.abilities.map((a,i)=>{
+    const iconUrl = abilityIconUrl(u, a);
+    const speedLabel = a.guard ? "Guard" : `⚡ ${totalSpeed(u,a)}`;
+    const dreadDisabled = isAbilityDisabledByDreadV42(u,a);
+    const disabled = state.actionsLeft<a.cost || dreadDisabled;
+    const dreadTitle = dreadDisabled ? ` title="Disabled by Dread until end of round"` : "";
+    return `<button class="wheelBtn w${i} ${dreadDisabled ? "dreadDisabled" : ""}" ${disabled?"disabled":""}
+      data-id="${a.id}" data-index="${i}" style="--prof-icon:url('${iconUrl}')"${dreadTitle}>
+      ${dreadDisabled ? `<span class="dreadX">×</span>` : ""}
+      <span class="wheelBtnTitle">${escapeHtmlV32 ? escapeHtmlV32(a.name) : a.name}</span>
+      <span class="wheelBtnMeta">${dreadDisabled ? "Dread disabled" : `${a.cost} AP · ${speedLabel}`}</span>
+    </button>`;
+  }).join("");
+
+  const chooseAbility = (a) => {
+    if(isAbilityDisabledByDreadV42(u,a)) {
+      showKeywordPopup?.("dread");
+      return;
+    }
+    pendingAbility = a;
+    radial.classList.add("hidden");
+    if(tooltip) tooltip.classList.add("hidden");
+    hideKeywordPopup?.();
+    renderBattle();
+    if(!targets(u,pendingAbility).length) plan(null);
+  };
+
+  const showTipFor = (btn, a) => {
+    if(!tooltip) return;
+    const disabledText = isAbilityDisabledByDreadV42(u,a)
+      ? `<div class="rulesClarifier">${renderKeywordText("Dread disables this ability until end of round.")}</div>`
+      : "";
+    tooltip.innerHTML = `
+      <div class="tipTop">
+        <span class="tipIcon" style="background-image:url('${abilityIconUrl(u,a)}')"></span>
+        <div>
+          <b>${escapeHtmlV32 ? escapeHtmlV32(a.name) : a.name}</b>
+          <small>${a.cost} AP · ${a.guard ? "Guard Priority" : `Speed ${totalSpeed(u,a)}`}</small>
+        </div>
+      </div>
+      <div class="abilityDescText">${renderKeywordText ? renderKeywordText(a.desc) : a.desc}</div>
+      ${disabledText}
+      ${clarityTextForAbility ? clarityTextForAbility(a) : ""}
+      <div class="tipTags">
+        <span>${escapeHtmlV32 ? escapeHtmlV32(abilityIconKey(u,a)) : abilityIconKey(u,a)}</span>
+        <span>${escapeHtmlV32 ? escapeHtmlV32(a.range || (a.guard ? "guard" : "self")) : (a.range || (a.guard ? "guard" : "self"))}</span>
+        ${isPhoneLayoutV40() ? "<span>tap same ability again to choose</span>" : ""}
+      </div>
+    `;
+    tooltip.classList.remove("hidden");
+    positionAbilityTooltipV34(tooltip, wheel, btn, Number(btn.dataset.index));
+  };
+
+  if(tooltip){
+    tooltip.onpointerdown = (ev) => {
+      const kw = ev.target.closest(".keywordLink");
+      if(kw){
+        ev.preventDefault();
+        ev.stopPropagation();
+        showKeywordPopup?.(kw.dataset.keyword, kw, kw.dataset.label);
+      } else {
+        ev.stopPropagation();
+      }
+    };
+    tooltip.onclick = (ev) => {
+      const kw = ev.target.closest(".keywordLink");
+      if(kw){
+        ev.preventDefault();
+        ev.stopPropagation();
+        showKeywordPopup?.(kw.dataset.keyword, kw.dataset.label);
+        return;
+      }
+      ev.stopPropagation();
+    };
+  }
+
+  document.querySelectorAll(".wheelBtn").forEach(btn=>{
+    const a = u.abilities.find(x=>x.id===btn.dataset.id);
+
+    btn.onmouseenter = () => { if(!isPhoneLayoutV40()) showTipFor(btn,a); };
+    btn.onfocus = () => showTipFor(btn,a);
+    btn.onmouseleave = () => {
+      if(!isPhoneLayoutV40() && tooltip) tooltip.classList.add("hidden");
+    };
+
+    const previewOrChoose = (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      if(isAbilityDisabledByDreadV42(u,a)){
+        showTipFor(btn,a);
+        showKeywordPopup?.("dread", btn, "Dread");
+        return;
+      }
+
+      if(isPhoneLayoutV40()){
+        showTipFor(btn,a);
+        if(wheelPreviewAbilityIdV34 === a.id){
+          chooseAbility(a);
+        } else {
+          wheelPreviewAbilityIdV34 = a.id;
+          document.querySelectorAll(".wheelBtn").forEach(x=>x.classList.remove("previewing"));
+          btn.classList.add("previewing");
+        }
+        return;
+      }
+
+      chooseAbility(a);
+    };
+
+    btn.ontouchstart = previewOrChoose;
+    btn.onclick = previewOrChoose;
+  });
+
+  radial.onclick = (ev) => {
+    if(ev.target.closest(".wheel") || ev.target.closest("#abilityTooltip") || ev.target.closest("#keywordPopup")) return;
+    radial.classList.add("hidden");
+    if(tooltip) tooltip.classList.add("hidden");
+  };
+}
+
+// Dread also affects enemy AI.
+const chooseEnemyBeforeDreadV42 = chooseEnemy;
+chooseEnemy = function(){
+  state.plans = (state.plans || []).filter(p=>p.side!=="enemy");
+  let ap=3;
+  const enemies=alive("enemy");
+  let safety=0;
+  while(ap>0 && safety++<10){
+    const choices=[];
+    for(const e of enemies){
+      for(const a of e.abilities){
+        if(isAbilityDisabledByDreadV42(e,a)) continue;
+        if(a.cost<=ap){
+          const ts=targets(e,a);
+          if(ts.length) ts.forEach(t=>choices.push({e,a,t}));
+          else choices.push({e,a,t:null});
+        }
+      }
+    }
+    if(!choices.length) break;
+    const pick=choices[Math.floor(Math.random()*choices.length)];
+    state.plans.push(makePlan(pick.e,pick.a,pick.t,"enemy"));
+    ap-=pick.a.cost;
+  }
+  state.enemyRevealed = true;
+  log("Enemy actions revealed.");
+  show?.("Enemy actions revealed");
+};
+
+// Frost Armor reactive buff: melee attackers gain Freeze.
+const damageBeforeFrostArmorV42 = damage;
+damage = function(src,t,amt,opt={}){
+  const result = damageBeforeFrostArmorV42(src,t,amt,opt);
+  if(opt?.attack && opt?.melee && t && !t.dead && t.buff?.frostArmorRetaliate && src && !src.dead){
+    addStatus(src,"freeze",1);
+    spawnFloatingText?.(src, "+1 Freeze", "status");
+    pushActionEvent?.("statusGain", `${src.name} attacked ${t.name} with melee and gained 1 Freeze from Frost Armor`, src);
+    log(`${src.name} gains 1 Freeze from attacking ${t.name}'s Frost Armor with melee.`);
+  }
+  return result;
+};
+
+const applyBeforeV42 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  if(c.status?.frozen && !a.guard){
+    c.status.frozen=0;
+    state.canceledActionKeys?.push?.(state.currentActionKey);
+    spawnFloatingText?.(c, "Frozen: canceled", "cancel");
+    log(`${c.name} is Frozen. ${c.name}'s non-Guard action is canceled, then Frozen is removed.`);
+    return;
+  }
+
+  if(isAbilityDisabledByDreadV42(c,a)){
+    state.canceledActionKeys?.push?.(state.currentActionKey);
+    spawnFloatingText?.(c, "Dread: disabled", "cancel");
+    pushActionEvent?.("cancel", `${c.name}'s ${a.name} was disabled by Dread`, c);
+    log(`${c.name} cannot use ${a.name}; it is disabled by Dread.`);
+    return;
+  }
+
+  switch(a.effect){
+    case "frostArmorRetaliate":
+      addArmorThisRound?.(t,a.armor||2);
+      t.buff.frostArmorRetaliate = 1;
+      addStatus(t,"_noop",0); // harmless no-op fallback; statusText ignores it
+      spawnFloatingText?.(t, "Frost Armor", "shield");
+      pushActionEvent?.("shieldGain", `${t.name} gains +${a.armor||2} Armor and melee attackers gain 1 Freeze until end of round`, t);
+      log(`${t.name} gains +${a.armor||2} Armor until end of round. Melee attackers gain 1 Freeze.`);
+      break;
+
+    case "shatterScaling": {
+      const stacks = t?.status?.freeze || 0;
+      if(stacks > 0){
+        t.status.freeze = 0;
+        spawnFloatingText?.(t, `Freeze x${stacks} removed`, "status");
+        pushActionEvent?.("statusLoss", `${t.name}'s ${stacks} Freeze stacks were removed for +${stacks*2} damage`, t);
+      }
+      damage(c,t,4 + stacks*2,{attack:true,melee:false,pierce:a.pierce||0});
+      break;
+    }
+
+    case "mesmerPayoff": {
+      const had = !!t?.status?.hypnosis;
+      if(had){
+        t.status.hypnosis = 0;
+        spawnFloatingText?.(t, "Hypnosis removed", "status");
+        pushActionEvent?.("statusLoss", `${t.name}'s Hypnosis was removed for bonus damage`, t);
+      }
+      damage(c,t, had ? (a.dmg + (a.bonus||5)) : a.dmg, {attack:true, melee:false, ignoreArmor:!!a.ignoreArmor});
+      break;
+    }
+
+    default:
+      applyBeforeV42(c,a,t);
+  }
+};
+
+const endRoundBeforeDreadV42 = endRound;
+endRound = function(){
+  state.units?.forEach(u=>{
+    if(u.status){
+      u.status.dread = 0;
+      delete u.dreadDisabledAbilityId;
+    }
+    if(u.buff) delete u.buff.frostArmorRetaliate;
+  });
+  endRoundBeforeDreadV42();
+};
+
+// Ensure no hidden _noop status appears.
+const statusTextBeforeV42 = statusText;
+statusText = function(u){
+  if(!u?.status) return statusTextBeforeV42(u);
+  const old = u.status._noop;
+  delete u.status._noop;
+  const out = statusTextBeforeV42(u);
+  if(old !== undefined) u.status._noop = old;
+  return out;
+};
+
+const hasDebuffBeforeV42 = hasDebuff;
+hasDebuff = function(u){
+  return hasDebuffBeforeV42(u) || !!u?.status?.dread;
+};
+
+// Explicit icon mapping updates.
+Object.assign(ABILITY_ICON_OVERRIDES_V41, {
+  iceNeedle:"icecraft",
+  needle:"icecraft",
+  shatter:"icecraft",
+  armor:"icecraft",
+  mark:"darkness",
+  roar:"hypnotic",
+  kiss:"vampire"
+});
+
+function tuneV42Abilities(){
+  const byId = id => ROSTER.find(c=>c.id===id);
+
+  const smithen = byId("smithen");
+  if(smithen){
+    const iceNeedle = smithen.abilities.find(a=>a.id==="iceNeedle" || a.id==="needle");
+    if(iceNeedle){
+      iceNeedle.id = "iceNeedle";
+      iceNeedle.name = "Ice Needle";
+      iceNeedle.cost = 1;
+      iceNeedle.spd = 3;
+      iceNeedle.desc = "Melee attack. Deal 3 damage, then apply 1 Freeze to the target.";
+      iceNeedle.effect = "damageStatus";
+      iceNeedle.dmg = 3;
+      iceNeedle.status = "freeze";
+      iceNeedle.stacks = 1;
+      iceNeedle.range = "melee";
+      iceNeedle.iconKey = "icecraft";
+      delete iceNeedle.pierce;
+    }
+    const shatter = smithen.abilities.find(a=>a.id==="shatter");
+    if(shatter){
+      shatter.desc = "Ranged payoff attack. Deal 4 damage with Pierce 1. If the target has any Freeze, remove all of that Freeze and gain +2 damage for each removed Freeze stack.";
+      shatter.effect = "shatterScaling";
+      shatter.range = "ranged";
+      shatter.pierce = 1;
+      shatter.iconKey = "icecraft";
+    }
+  }
+
+  const hyafrost = byId("hyafrost");
+  if(hyafrost){
+    const frostbite = hyafrost.abilities.find(a=>a.id==="frostbite");
+    if(frostbite) frostbite.iconKey = "icecraft";
+    const armor = hyafrost.abilities.find(a=>a.id==="armor");
+    if(armor){
+      armor.name = "Frost Armor";
+      armor.desc = "Ally support. Choose an ally. That ally gains +2 Armor until end of round. Until end of round, whenever an enemy hits that ally with a melee attack, that enemy gains 1 Freeze.";
+      armor.effect = "frostArmorRetaliate";
+      armor.range = "ally";
+      armor.armor = 2;
+      armor.iconKey = "icecraft";
+      delete armor.shield;
+    }
+  }
+
+  const kahro = byId("kahro");
+  if(kahro){
+    const mark = kahro.abilities.find(a=>a.id==="mark");
+    if(mark){
+      mark.desc = "Ranged setup. Apply Exposed and Dread to one enemy. Dread disables one random non-Guard ability on that enemy until end of round.";
+      mark.effect = "multiStatus";
+      mark.statuses = [["exposed",1],["dread",1]];
+      mark.iconKey = "darkness";
+    }
+  }
+
+  const poom = byId("poom");
+  if(poom){
+    const roar = poom.abilities.find(a=>a.id==="roar");
+    if(roar){
+      roar.name = "Mesmer Roar";
+      roar.cost = 2;
+      roar.spd = -1;
+      roar.desc = "Hypnotic payoff. Choose one enemy. Deal 3 damage. If that enemy has Hypnosis, remove Hypnosis and deal +5 damage.";
+      roar.effect = "mesmerPayoff";
+      roar.range = "ranged";
+      roar.dmg = 3;
+      roar.bonus = 5;
+      roar.iconKey = "hypnotic";
+    }
+  }
+
+  const eva = byId("eva");
+  if(eva){
+    const kiss = eva.abilities.find(a=>a.id==="kiss");
+    if(kiss){
+      kiss.name = "Vampire Kiss";
+      kiss.desc = "Melee attack. Deal 3 damage ignoring Armor. Shield can still absorb this damage. Then apply 3 Bleed.";
+      kiss.effect = "damageStatus";
+      kiss.dmg = 3;
+      kiss.status = "bleed";
+      kiss.stacks = 3;
+      kiss.range = "melee";
+      kiss.ignoreArmor = true;
+      kiss.iconKey = "vampire";
+      delete kiss.pierce;
+    }
+  }
+}
+tuneV42Abilities();
+
+
+/* ===== v43 Ivory Fairy boss =====
+   Adds second boss:
+   - World Toad: aggressive AOE.
+   - Ivory Fairy: protective, healing, single-target damage, Bleed/Dread control.
+*/
+
+ART.ivory_fairy = "url('assets/ivory_fairy.png')";
+
+const WORLD_TOAD_BOSS = BOSS;
+
+const IVORY_FAIRY_BOSS = {
+  id:"ivory_fairy_boss",
+  name:"The Ivory Fairy",
+  class:"divinity",
+  prof:"bloodcraft darkness boss",
+  hp:72,
+  armor:3,
+  speed:5,
+  art:ART.ivory_fairy,
+  passive:"Passive — Ivory Benediction: whenever The Ivory Fairy restores HP, her next damaging attack this battle deals +2 damage. This bonus stacks until she damages a target.",
+  abilities:[
+    A("ivory_salve","Ivory Salve",1,2,"Healing. Restore 8 HP to The Ivory Fairy. This triggers Ivory Benediction and gives her next damaging attack +2 damage.","ivoryHeal",{heal:8,iconKey:"divinity"}),
+    A("ivory_aegis","Ivory Aegis",1,99,"Guard. The Ivory Fairy gains 8 Shield before damage is dealt this round. If an enemy hits her this round, that attacker gains 1 Bleed.","ivoryGuard",{guard:true,shield:8,iconKey:"divinity"}),
+    A("dark_edict","Dark Edict",1,1,"Ranged status. Apply Dread and 2 Bleed to one enemy. Dread disables one random non-Guard ability on that enemy until end of round.","multiStatus",{statuses:[["dread",1],["bleed",2]],range:"ranged",iconKey:"darkness"}),
+    A("ivory_spear","Ivory Spear",2,0,"Ranged precision attack. Deal 6 damage with Pierce 2, then apply 2 Bleed. If Ivory Benediction has bonus damage stored, add it to this hit and then reset the bonus to 0.","ivorySpear",{dmg:6,status:"bleed",stacks:2,range:"ranged",pierce:2,iconKey:"divinity"})
+  ]
+};
+
+let selectedBossId = "world_toad";
+
+function currentBossV43(){
+  return selectedBossId === "ivory_fairy" ? IVORY_FAIRY_BOSS : WORLD_TOAD_BOSS;
+}
+
+function bossCloneV43(){
+  const b = currentBossV43();
+  return structuredClone({
+    ...b,
+    side:"enemy",
+    row:"boss",
+    col:0,
+    size:"boss",
+    maxHp:b.hp,
+    shield:0,
+    status:{},
+    buff:{ivoryBonus:0},
+    planned:null,
+    dead:false
+  });
+}
+
+const applyBeforeIvoryV43 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "ivoryHeal": {
+      const before = c.hp;
+      heal(c, a.heal || 8);
+      const healed = Math.max(0, c.hp - before);
+      if(healed > 0){
+        c.buff.ivoryBonus = (c.buff.ivoryBonus || 0) + 2;
+        spawnFloatingText?.(c, `Ivory +2 dmg`, "heal");
+        pushActionEvent?.("passive", `Ivory Benediction stored +2 damage for The Ivory Fairy's next damaging attack`, c);
+        markPassive?.(c, "Ivory Benediction");
+        log(`Ivory Benediction stores +2 damage for The Ivory Fairy's next damaging attack.`);
+      }
+      break;
+    }
+
+    case "ivoryGuard": {
+      addShield?.(c, a.shield || 8);
+      state.counters.push({caster:c,status:"bleed",stacks:1,shield:0});
+      state.guarded[c.id]=true;
+      spawnFloatingText?.(c, "Ivory Aegis", "shield");
+      pushActionEvent?.("shieldGain", `The Ivory Fairy gains ${a.shield||8} Shield. Attackers that hit her gain 1 Bleed.`, c);
+      break;
+    }
+
+    case "ivorySpear": {
+      const bonus = c.buff?.ivoryBonus || 0;
+      if(bonus > 0){
+        spawnFloatingText?.(c, `+${bonus} Benediction`, "heal");
+        pushActionEvent?.("passive", `Ivory Benediction added +${bonus} damage to Ivory Spear`, c);
+        markPassive?.(c, "Ivory Benediction");
+      }
+      damage(c,t,(a.dmg || 6) + bonus,{attack:true,melee:false,pierce:a.pierce||2});
+      c.buff.ivoryBonus = 0;
+      addStatus(t,a.status || "bleed",a.stacks || 2);
+      break;
+    }
+
+    default:
+      applyBeforeIvoryV43(c,a,t);
+  }
+};
+
+Object.assign(ABILITY_ICON_OVERRIDES_V41, {
+  ivory_salve:"divinity",
+  ivory_aegis:"divinity",
+  dark_edict:"darkness",
+  ivory_spear:"divinity"
+});
+
+// Override startBattle to support selected boss.
+function startBattle(){
+  let player=selectedTeam.map(s=>cloneChar(s.id,"player",s.row,s.col));
+  let enemies;
+  if(mode==="boss"){
+    enemies=[bossCloneV43()];
+  } else {
+    let ids=ENEMY_PRESETS.find(p=>!p.some(id=>chosenIds.includes(id)))||ENEMY_PRESETS[0],
+      pos=[["front",0],["front",2],["back",1]];
+    enemies=ids.map((id,i)=>cloneChar(id,"enemy",pos[i][0],pos[i][1]));
+  }
+  state={
+    round:1,
+    phase:"planning",
+    actions:3,
+    actionsMax:3,
+    actionsLeft:3,
+    units:[...player,...enemies],
+    protects:[],
+    dodges:[],
+    predicts:[],
+    counters:[],
+    guarded:{},
+    attacked:{},
+    currentActionKey:null
+  };
+  logLines=["Battle started. Plan hidden actions, then resolve."];
+  $("builder").classList.add("hidden");
+  $("battle").classList.remove("hidden");
+  startRandomBattleMusicV35?.();
+  renderBattle();
+}
+
+// Add boss selector UI dynamically.
+function ensureBossSelectorV43(){
+  const modeButtons = document.querySelector(".modeButtons");
+  if(!modeButtons || $("bossSelectorV43")) return;
+  const wrap = document.createElement("div");
+  wrap.id = "bossSelectorV43";
+  wrap.className = "bossSelectorV43";
+  wrap.innerHTML = `
+    <div class="panelTitle bossSelectTitle">Boss</div>
+    <button id="bossWorldToadBtn" class="bossChoice active" type="button">
+      <span class="bossChoiceArt" style="background:${WORLD_TOAD_BOSS.art}"></span>
+      <span><b>World Toad</b><small>Aggressive AOE</small></span>
+    </button>
+    <button id="bossIvoryFairyBtn" class="bossChoice" type="button">
+      <span class="bossChoiceArt" style="background:${IVORY_FAIRY_BOSS.art}"></span>
+      <span><b>The Ivory Fairy</b><small>Protective single-target</small></span>
+    </button>
+  `;
+  modeButtons.insertAdjacentElement("afterend", wrap);
+
+  $("bossWorldToadBtn").onclick = () => {
+    selectedBossId = "world_toad";
+    updateBossSelectorV43();
+  };
+  $("bossIvoryFairyBtn").onclick = () => {
+    selectedBossId = "ivory_fairy";
+    updateBossSelectorV43();
+  };
+  updateBossSelectorV43();
+}
+
+function updateBossSelectorV43(){
+  $("bossWorldToadBtn")?.classList.toggle("active", selectedBossId === "world_toad");
+  $("bossIvoryFairyBtn")?.classList.toggle("active", selectedBossId === "ivory_fairy");
+  const box = $("bossSelectorV43");
+  if(box) box.classList.toggle("hidden", mode !== "boss");
+}
+
+const renderBuilderBeforeBossV43 = renderBuilder;
+renderBuilder = function(){
+  renderBuilderBeforeBossV43();
+  ensureBossSelectorV43();
+  updateBossSelectorV43();
+};
+
+const renderArrangeBeforeBossV43 = renderArrange;
+renderArrange = function(){
+  renderArrangeBeforeBossV43();
+  ensureBossSelectorV43();
+  updateBossSelectorV43();
+};
+
+// Patch mode buttons to refresh boss selector after click.
+setTimeout(()=>{
+  if($("squadMode")){
+    const old = $("squadMode").onclick;
+    $("squadMode").onclick = (ev)=>{ old?.(ev); updateBossSelectorV43(); };
+  }
+  if($("bossMode")){
+    const old = $("bossMode").onclick;
+    $("bossMode").onclick = (ev)=>{ old?.(ev); updateBossSelectorV43(); };
+  }
+  ensureBossSelectorV43();
+},0);
+
+
+/* ===== v44 Geshar boss =====
+   Adds Geshar:
+   - spirit / divinity / darkness
+   - one-tile boss, starts alone in enemy back row
+   - weaker stats than big bosses
+   - passive converts defeated player characters to Geshar's side with 3 HP in the front row
+*/
+
+ART.geshar = "url('assets/geshar.png')";
+
+const GESHAR_BOSS = {
+  id:"geshar_boss",
+  name:"Geshar",
+  class:"spirit",
+  prof:"divinity darkness boss",
+  hp:46,
+  armor:2,
+  speed:6,
+  art:ART.geshar,
+  passive:"Passive — Soul Dominion: whenever an enemy character is defeated, return that character to life under Geshar's control with 3 HP in Geshar's front row.",
+  abilities:[
+    A("soul_mend","Soul Mend",1,2,"Healing. Restore 4 HP to Geshar and each of his living allies.","gesharHealAll",{heal:4,iconKey:"divinity"}),
+    A("spirit_veil","Spirit Veil",1,99,"Guard. Geshar gains 5 Shield and Dodge. Dodge prevents the next attack targeting Geshar this round, then Dodge is removed.","gesharSpiritGuard",{guard:true,shield:5,iconKey:"spirit"}),
+    A("soul_lance","Soul Lance",2,1,"Direct damage. Choose one enemy. That enemy loses 5 HP; this ignores Armor and Shield.","gesharDirect",{loss:5,range:"ranged",iconKey:"darkness"}),
+    A("grave_pressure","Grave Pressure",2,-1,"Row attack. Choose an enemy row. Deal 3 damage to each enemy in that row, then apply Exhausted to each damaged enemy.","gesharRowExhaust",{dmg:3,range:"ranged",iconKey:"spirit"})
+  ]
+};
+
+Object.assign(ABILITY_ICON_OVERRIDES_V41, {
+  soul_mend:"divinity",
+  spirit_veil:"spirit",
+  soul_lance:"darkness",
+  grave_pressure:"spirit"
+});
+
+function isGesharAliveV44(){
+  return !!(state?.units || []).find(u => u.id === "geshar_boss" && u.side === "enemy" && !u.dead);
+}
+
+function firstFreeEnemyFrontColV44(){
+  const used = new Set((state?.units || [])
+    .filter(u => u.side === "enemy" && !u.dead && u.row === "front")
+    .map(u => u.col));
+  for(let i=0;i<3;i++) if(!used.has(i)) return i;
+  return 1;
+}
+
+function triggerGesharSoulDominionV44(){
+  if(!isGesharAliveV44()) return;
+
+  const fallen = (state?.units || []).filter(u =>
+    u.side === "player" &&
+    u.dead &&
+    !u.gesharConverted &&
+    u.id !== "geshar_boss"
+  );
+
+  for(const u of fallen){
+    u.gesharConverted = true;
+    u.side = "enemy";
+    u.dead = false;
+    u.hp = 3;
+    u.shield = 0;
+    u.status = {};
+    u.buff = {};
+    u.planned = null;
+    u.row = "front";
+    u.col = firstFreeEnemyFrontColV44();
+
+    const geshar = state.units.find(x=>x.id==="geshar_boss");
+    markPassive?.(geshar, "Soul Dominion");
+    spawnFloatingText?.(u, "Soul Dominion", "status");
+    pushActionEvent?.("passive", `Geshar returned ${u.name} to life under his control with 3 HP`, u);
+    log(`Geshar's Soul Dominion returns ${u.name} to life under his control with 3 HP.`);
+  }
+}
+
+function loseHpDirectV44(u,n,reason="direct HP loss"){
+  if(!u || u.dead || n<=0) return;
+  u.hp -= n;
+  spawnFloatingText?.(u, `-${n} HP`, "hp");
+  markRumble?.(u);
+  pushActionEvent?.("hp", `${u.name} lost ${n} HP (${reason}; ignores Armor and Shield)`, u);
+  log(`${u.name} loses ${n} HP from ${reason}.`);
+  if(u.hp <= 0){
+    u.hp = 0;
+    u.dead = true;
+    spawnFloatingText?.(u, "Defeated", "cancel");
+    pushActionEvent?.("dead", `${u.name} was defeated`, u);
+    log(`${u.name} is defeated.`);
+  }
+}
+
+const applyBeforeGesharV44 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "gesharHealAll": {
+      alive(c.side).forEach(x => heal(x, a.heal || 4));
+      break;
+    }
+
+    case "gesharSpiritGuard": {
+      addShield?.(c, a.shield || 5);
+      if(!state.dodges.includes(c.id)) state.dodges.push(c.id);
+      state.guarded[c.id] = true;
+      spawnFloatingText?.(c, "Spirit Veil", "shield");
+      pushActionEvent?.("shieldGain", `Geshar gains ${a.shield||5} Shield and Dodge`, c);
+      break;
+    }
+
+    case "gesharDirect": {
+      loseHpDirectV44(t, a.loss || 5, "Soul Lance");
+      break;
+    }
+
+    case "gesharRowExhaust": {
+      rowUnits(other(c.side), t?.row || "front").forEach(x=>{
+        const before = x.hp;
+        damage(c,x,a.dmg || 3,{attack:true,aoe:true});
+        if(!x.dead && x.hp < before) addStatus(x,"exhausted",1);
+      });
+      break;
+    }
+
+    default:
+      applyBeforeGesharV44(c,a,t);
+  }
+
+  triggerGesharSoulDominionV44();
+};
+
+const endRoundBeforeGesharV44 = endRound;
+endRound = function(){
+  endRoundBeforeGesharV44();
+  triggerGesharSoulDominionV44();
+};
+
+// Override boss lookup/clone to include Geshar.
+function currentBossV43(){
+  if(selectedBossId === "ivory_fairy") return IVORY_FAIRY_BOSS;
+  if(selectedBossId === "geshar") return GESHAR_BOSS;
+  return WORLD_TOAD_BOSS;
+}
+
+function bossCloneV43(){
+  const b = currentBossV43();
+  const isGeshar = selectedBossId === "geshar";
+  return structuredClone({
+    ...b,
+    side:"enemy",
+    row:isGeshar ? "back" : "boss",
+    col:isGeshar ? 1 : 0,
+    size:isGeshar ? undefined : "boss",
+    maxHp:b.hp,
+    shield:0,
+    status:{},
+    buff:{ivoryBonus:0},
+    planned:null,
+    dead:false
+  });
+}
+
+// Patch target picking: Geshar's row ability targets rows; direct is ranged.
+const targetsBeforeGesharV44 = targets;
+targets = function(c,a){
+  if(a?.effect === "gesharRowExhaust"){
+    return alive(other(c.side));
+  }
+  return targetsBeforeGesharV44(c,a);
+};
+
+// Add Geshar button to existing boss selector.
+function ensureBossSelectorV43(){
+  const modeButtons = document.querySelector(".modeButtons");
+  if(!modeButtons || $("bossSelectorV43")) return;
+  const wrap = document.createElement("div");
+  wrap.id = "bossSelectorV43";
+  wrap.className = "bossSelectorV43";
+  wrap.innerHTML = `
+    <div class="panelTitle bossSelectTitle">Boss</div>
+    <button id="bossWorldToadBtn" class="bossChoice active" type="button">
+      <span class="bossChoiceArt" style="background:${WORLD_TOAD_BOSS.art}"></span>
+      <span><b>World Toad</b><small>Aggressive AOE</small></span>
+    </button>
+    <button id="bossIvoryFairyBtn" class="bossChoice" type="button">
+      <span class="bossChoiceArt" style="background:${IVORY_FAIRY_BOSS.art}"></span>
+      <span><b>The Ivory Fairy</b><small>Protective single-target</small></span>
+    </button>
+    <button id="bossGesharBtn" class="bossChoice" type="button">
+      <span class="bossChoiceArt" style="background:${GESHAR_BOSS.art}"></span>
+      <span><b>Geshar</b><small>Soul control</small></span>
+    </button>
+  `;
+  modeButtons.insertAdjacentElement("afterend", wrap);
+
+  $("bossWorldToadBtn").onclick = () => {
+    selectedBossId = "world_toad";
+    updateBossSelectorV43();
+  };
+  $("bossIvoryFairyBtn").onclick = () => {
+    selectedBossId = "ivory_fairy";
+    updateBossSelectorV43();
+  };
+  $("bossGesharBtn").onclick = () => {
+    selectedBossId = "geshar";
+    updateBossSelectorV43();
+  };
+  updateBossSelectorV43();
+}
+
+function updateBossSelectorV43(){
+  $("bossWorldToadBtn")?.classList.toggle("active", selectedBossId === "world_toad");
+  $("bossIvoryFairyBtn")?.classList.toggle("active", selectedBossId === "ivory_fairy");
+  $("bossGesharBtn")?.classList.toggle("active", selectedBossId === "geshar");
+  const box = $("bossSelectorV43");
+  if(box) box.classList.toggle("hidden", mode !== "boss");
+}
+
+
+/* ===== v45 enemy placement + smarter non-deterministic AI =====
+   1. Regular enemy squads are placed by role:
+      - warriors/brutes front
+      - assassins/sorcerers back
+      - always at least one frontliner if possible
+   2. AI scoring:
+      - does not use payoff actions when payoff is not met unless randomness strongly picks it.
+      - prefers setup actions when setup is useful.
+      - prioritizes low-HP kill targets.
+      - remains stochastic with weighted random selection.
+*/
+
+function isFrontlineClassV45(c){
+  return ["warrior","brute"].includes(String(c?.class || "").toLowerCase());
+}
+function isBacklineClassV45(c){
+  return ["assassin","sorcerer"].includes(String(c?.class || "").toLowerCase());
+}
+function enemyTeamIdsV45(){
+  const available = ROSTER.map(c=>c.id).filter(id=>!chosenIds.includes(id));
+  const presets = ENEMY_PRESETS.filter(p=>p.every(id=>available.includes(id)));
+  let ids = presets.length ? presets[Math.floor(Math.random()*presets.length)] : available.sort(()=>Math.random()-.5).slice(0,3);
+
+  // Make sure regular enemy team has at least one sensible frontliner when possible.
+  if(!ids.some(id=>isFrontlineClassV45(cdef(id)))){
+    const frontCandidate = available.find(id=>isFrontlineClassV45(cdef(id)));
+    if(frontCandidate){
+      // Replace the least front-like member.
+      const replaceIndex = ids.findIndex(id=>isBacklineClassV45(cdef(id)));
+      ids[replaceIndex >= 0 ? replaceIndex : ids.length-1] = frontCandidate;
+    }
+  }
+  return [...new Set(ids)].slice(0,3);
+}
+
+function layoutEnemyTeamV45(ids){
+  const chars = ids.map(id=>cdef(id)).filter(Boolean);
+  const front = chars.filter(isFrontlineClassV45);
+  const back = chars.filter(c=>!isFrontlineClassV45(c));
+
+  const placements = [];
+  const frontCols = [0,2,1];
+  const backCols = [1,0,2];
+
+  // Place up to two frontliners in front first.
+  front.forEach((c,i)=>{
+    placements.push({id:c.id,row:"front",col:frontCols[i] ?? 1});
+  });
+
+  // If no frontliner somehow exists, put the toughest character in front.
+  if(!placements.some(p=>p.row==="front") && chars.length){
+    const toughest = [...chars].sort((a,b)=>(b.hp+b.armor*3)-(a.hp+a.armor*3))[0];
+    placements.push({id:toughest.id,row:"front",col:1});
+  }
+
+  const placed = new Set(placements.map(p=>p.id));
+  back.filter(c=>!placed.has(c.id)).forEach((c,i)=>{
+    placements.push({id:c.id,row:"back",col:backCols[i] ?? 1});
+  });
+
+  // Overflow goes into sensible free slots.
+  chars.filter(c=>!placements.some(p=>p.id===c.id)).forEach(c=>{
+    const row = isFrontlineClassV45(c) ? "front" : "back";
+    const used = new Set(placements.filter(p=>p.row===row).map(p=>p.col));
+    const col = [0,1,2].find(x=>!used.has(x)) ?? 1;
+    placements.push({id:c.id,row,col});
+  });
+
+  return placements.slice(0,3);
+}
+
+function selectRegularEnemiesV45(){
+  const ids = enemyTeamIdsV45();
+  return layoutEnemyTeamV45(ids).map(p=>cloneChar(p.id,"enemy",p.row,p.col));
+}
+
+function statusCountV45(u, s){ return u?.status?.[s] || 0; }
+function hasStatusV45(u, s){ return statusCountV45(u,s) > 0; }
+function enemyLowestHpV45(side){
+  const list = alive(other(side));
+  return list.length ? Math.min(...list.map(u=>u.hp)) : 999;
+}
+function canKillApproxV45(c,a,t){
+  if(!t) return false;
+  let dmg = a.dmg || 0;
+  if(a.effect==="consumeBleed") dmg = (statusCountV45(t,"bleed") || 0) + (a.bonus || 0);
+  if(a.effect==="shatterScaling") dmg = 4 + (statusCountV45(t,"freeze") || 0) * 2;
+  if(a.effect==="mesmerPayoff") dmg = (a.dmg || 0) + (hasStatusV45(t,"hypnosis") ? (a.bonus || 0) : 0);
+  if(a.effect==="poisonBurst") dmg = statusCountV45(t,"poison") * 2;
+  if(a.effect==="mindBreak") dmg = hasStatusV45(t,"hypnosis") ? 7 : 3;
+  if(a.effect==="gesharDirect") dmg = a.loss || 5;
+  return dmg >= t.hp;
+}
+
+function payoffReadinessV45(a,t){
+  switch(a.effect){
+    case "consumeBleed": return statusCountV45(t,"bleed") > 0;
+    case "shatter":
+    case "shatterScaling":
+    case "whiteout":
+    case "glacier": return statusCountV45(t,"freeze") > 0;
+    case "mindBreak":
+    case "mesmerPayoff": return hasStatusV45(t,"hypnosis");
+    case "poisonBurst": return statusCountV45(t,"poison") > 0;
+    case "proliferate": return ["poison","bleed","freeze"].some(s=>statusCountV45(t,s)>0) || hasStatusV45(t,"hypnosis");
+    case "absoluteZero": return alive(other(t?.side || "enemy")).some(x=>statusCountV45(x,"freeze")>0);
+    default: return true;
+  }
+}
+
+function isPayoffAbilityV45(a){
+  return ["consumeBleed","shatter","shatterScaling","glacier","mindBreak","mesmerPayoff","poisonBurst","proliferate","absoluteZero"].includes(a.effect);
+}
+
+function isSetupAbilityV45(a){
+  const txt = `${a.name} ${a.desc || ""} ${a.effect || ""}`.toLowerCase();
+  return ["status","multistatus","rowstatus","allstatus","frontHypno","poisonHands","predict","predictPoison"].includes(a.effect)
+    || /apply|poison|bleed|freeze|hypnosis|dread|exposed|sunder|setup/.test(txt);
+}
+
+function targetScoreV45(c,a,t){
+  if(!t) return 0;
+  let score = 0;
+
+  // Prefer finishing low HP characters.
+  score += Math.max(0, 18 - t.hp) * 1.15;
+  if(canKillApproxV45(c,a,t)) score += 22;
+
+  // Don't over-target very healthy tanks with weak payoff-less actions.
+  if(t.hp <= enemyLowestHpV45(c.side)+2) score += 7;
+
+  // Setup wants targets that do not already have the setup.
+  if(a.status && !hasStatusV45(t,a.status)) score += 5;
+  if(a.statuses){
+    for(const [s,_] of a.statuses) if(!hasStatusV45(t,s)) score += 3.5;
+  }
+  if(/bleed/i.test(a.desc||"") && !hasStatusV45(t,"bleed")) score += 4;
+  if(/poison/i.test(a.desc||"") && !hasStatusV45(t,"poison")) score += 4;
+  if(/freeze/i.test(a.desc||"") && !hasStatusV45(t,"freeze")) score += 4;
+  if(/hypnosis/i.test(a.desc||"") && !hasStatusV45(t,"hypnosis")) score += 4;
+  if(/dread/i.test(a.desc||"") && !hasStatusV45(t,"dread")) score += 6;
+
+  // Payoffs strongly prefer targets where condition is met.
+  if(isPayoffAbilityV45(a)){
+    score += payoffReadinessV45(a,t) ? 16 : -22;
+  }
+
+  return score;
+}
+
+function abilityScoreV45(c,a,targetsForA,ap){
+  let score = 10;
+  const bestTarget = targetsForA.length ? targetsForA.map(t=>targetScoreV45(c,a,t)).sort((x,y)=>y-x)[0] : 0;
+  score += bestTarget;
+
+  if(isSetupAbilityV45(a)) score += 5;
+
+  if(isPayoffAbilityV45(a)){
+    const ready = targetsForA.some(t=>payoffReadinessV45(a,t));
+    score += ready ? 12 : -30;
+  }
+
+  // Guard/support is better when wounded or allies are wounded.
+  if(a.guard) {
+    const wounded = c.hp <= c.maxHp * 0.55;
+    score += wounded ? 10 : -3;
+  }
+  if(["drain","gesharHealAll","ivoryHeal"].includes(a.effect)){
+    const woundedAllies = alive(c.side).filter(u=>u.hp < u.maxHp).length;
+    score += woundedAllies * 6;
+    if(c.hp < c.maxHp) score += 5;
+  }
+  if(["protect","ward","ivoryGuard","gesharSpiritGuard"].includes(a.effect)){
+    score += alive(c.side).some(u=>u.hp <= u.maxHp*0.45) ? 8 : 0;
+  }
+
+  // Slightly prefer spending AP efficiently, but not deterministically.
+  score += a.cost * 1.5;
+  score += (Math.random() * 10) - 4; // unpredictability
+
+  return Math.max(1, score);
+}
+
+function weightedPickV45(items){
+  const total = items.reduce((s,x)=>s+x.weight,0);
+  let r = Math.random() * total;
+  for(const x of items){
+    r -= x.weight;
+    if(r <= 0) return x.item;
+  }
+  return items[items.length-1]?.item;
+}
+
+function chooseTargetV45(c,a,ts){
+  if(!ts || !ts.length) return null;
+  const weighted = ts.map(t=>({item:t, weight:Math.max(1,targetScoreV45(c,a,t)+8+Math.random()*5)}));
+  return weightedPickV45(weighted);
+}
+
+function chooseEnemy(){
+  state.plans = (state.plans || []).filter(p=>p.side!=="enemy");
+  for(let e of alive("enemy")) e.planned = null;
+
+  let ap = 3;
+  let safety = 0;
+
+  while(ap > 0 && safety++ < 12){
+    const choices = [];
+
+    for(const e of alive("enemy")){
+      for(const a of e.abilities){
+        if(a.cost > ap) continue;
+        if(typeof isAbilityDisabledByDreadV42 === "function" && isAbilityDisabledByDreadV42(e,a)) continue;
+
+        const ts = targets(e,a);
+        const score = abilityScoreV45(e,a,ts,ap);
+        choices.push({e,a,ts,score});
+      }
+    }
+
+    if(!choices.length) break;
+
+    const picked = weightedPickV45(choices.map(x=>({item:x, weight:Math.max(1,x.score)})));
+    const target = chooseTargetV45(picked.e,picked.a,picked.ts);
+
+    state.plans.push(makePlan(picked.e,picked.a,target,"enemy"));
+    picked.e.planned = {ability:picked.a.id, target:target?.id || null};
+    ap -= picked.a.cost;
+
+    // Reduce chance that same unit eats all AP unless it has no allies.
+    if(alive("enemy").length > 1 && Math.random() < 0.45){
+      picked.e._aiActedThisRound = true;
+    }
+  }
+
+  alive("enemy").forEach(e=>delete e._aiActedThisRound);
+  state.enemyRevealed = true;
+  log("Enemy actions revealed.");
+  show?.("Enemy actions revealed");
+}
+
+// Override regular startBattle placement only; boss logic remains from v44.
+const startBattleBeforeV45 = startBattle;
+startBattle = function(){
+  if(mode === "boss") return startBattleBeforeV45();
+
+  const player = selectedTeam.map(s=>cloneChar(s.id,"player",s.row,s.col));
+  const enemies = selectRegularEnemiesV45();
+
+  state={
+    round:1,
+    phase:"planning",
+    actions:3,
+    actionsMax:3,
+    actionsLeft:3,
+    units:[...player,...enemies],
+    protects:[],
+    dodges:[],
+    predicts:[],
+    counters:[],
+    guarded:{},
+    attacked:{},
+    currentActionKey:null
+  };
+  logLines=["Battle started. Enemy team uses role-based placement."];
+  $("builder").classList.add("hidden");
+  $("battle").classList.remove("hidden");
+  startRandomBattleMusicV35?.();
+  renderBattle();
+};
+
+
+/* ===== v46 boss/action queue fix + Geshar back-row footprint =====
+   Fixes:
+   - Boss battles created state without plans/planSeq, so queuing actions spent AP but did not appear in the strip.
+   - Resolve button could stay disabled after queuing actions.
+   - Enemy name always said World Toad in boss mode.
+   - Geshar now occupies the entire enemy back row as a 1x3 boss unit.
+*/
+
+function initBattleStateV46(player, enemies, message){
+  state = {
+    round:1,
+    phase:"planning",
+    actions:3,
+    actionsMax:3,
+    actionsLeft:3,
+    units:[...player, ...enemies],
+    plans:[],
+    planSeq:0,
+    resolvedActionKeys:[],
+    canceledActionKeys:[],
+    protects:[],
+    dodges:[],
+    predicts:[],
+    counters:[],
+    guarded:{},
+    attacked:{},
+    currentActionKey:null,
+    enemyRevealed:false
+  };
+  logLines=[message || "Battle started. Plan hidden actions, then resolve."];
+  $("builder").classList.add("hidden");
+  $("battle").classList.remove("hidden");
+  startRandomBattleMusicV35?.();
+  renderBattle();
+}
+
+function bossCloneV43(){
+  const b = currentBossV43 ? currentBossV43() : BOSS;
+  const isGeshar = selectedBossId === "geshar";
+  return structuredClone({
+    ...b,
+    side:"enemy",
+    row:isGeshar ? "back" : "boss",
+    col:0,
+    size:isGeshar ? "rowBoss" : "boss",
+    footprint:isGeshar ? {rows:1, cols:3} : (b.footprint || {rows:2, cols:3}),
+    maxHp:b.hp,
+    shield:0,
+    status:{},
+    buff:{ivoryBonus:0},
+    planned:null,
+    dead:false
+  });
+}
+
+function startBattle(){
+  const player = selectedTeam.map(s=>cloneChar(s.id,"player",s.row,s.col));
+  let enemies;
+
+  if(mode === "boss"){
+    enemies = [bossCloneV43()];
+    initBattleStateV46(player, enemies, `Boss battle started against ${enemies[0].name}.`);
+  } else {
+    enemies = typeof selectRegularEnemiesV45 === "function"
+      ? selectRegularEnemiesV45()
+      : (() => {
+          let ids=ENEMY_PRESETS.find(p=>!p.some(id=>chosenIds.includes(id)))||ENEMY_PRESETS[0],
+            pos=[["front",0],["front",2],["back",1]];
+          return ids.map((id,i)=>cloneChar(id,"enemy",pos[i][0],pos[i][1]));
+        })();
+    initBattleStateV46(player, enemies, "Battle started. Enemy team uses role-based placement.");
+  }
+}
+
+function plan(target){
+  if(!state.plans) state.plans = [];
+  if(typeof state.planSeq !== "number") state.planSeq = 0;
+
+  let c=unit(selectedId), a=pendingAbility;
+  if(!c || !a || state.phase !== "planning" || state.actionsLeft < a.cost) return;
+
+  state.actionsLeft -= a.cost;
+  state.plans.push(makePlan(c,a,target,"player"));
+  log(`${c.name} queued ${a.name}.`);
+  selectedId=null;
+  pendingAbility=null;
+  renderBattle();
+}
+
+function renderBattle(){
+  if(!state)return;
+
+  const boss = state.units.find(u=>u.side==="enemy" && (u.size==="boss" || u.size==="rowBoss" || u.footprint));
+  $("enemyName").textContent = mode==="boss" ? (boss?.name || "Boss") : "Enemy Squad";
+  $("phaseText").textContent = state.phase==="planning" ? "Plan" : "Resolve";
+  $("roundText").textContent = state.round;
+  $("actionsText").textContent = `${state.actionsLeft}/${state.actionsMax || 3}`;
+  $("resolveBtn").disabled = state.phase !== "planning" || !(state.plans || []).some(p=>p.side==="player");
+  $("battle").classList.toggle("resolvingBoard", state.phase==="resolving" && !!state.currentActionKey);
+
+  renderBoard("enemyBoard","enemy");
+  renderBoard("playerBoard","player");
+  renderInfo();
+  $("log").innerHTML=logLines.map(x=>`<div class="logItem">${x}</div>`).join("");
+  renderQueueStrip();
+}
+
+function isLargeUnit(u){
+  return !!(u && (u.size==="boss" || u.size==="rowBoss" || u.footprint));
+}
+
+function renderBoard(id,side){
+  const b=$(id);
+  if(!b || !state) return;
+
+  const large=state.units.find(u=>u.side===side && !u.dead && isLargeUnit(u));
+  b.innerHTML="";
+  b.classList.toggle("bossBoard", !!large);
+  b.classList.toggle("largeUnitBoard", !!large);
+  b.classList.toggle("rowBossBoard", !!large && large.size==="rowBoss");
+
+  if(large && large.size==="rowBoss"){
+    // Geshar: show empty front row, then a single full-width back-row tile.
+    const order = side==="enemy" ? ["back","front"] : ["front","back"];
+    for(const row of order){
+      const div=document.createElement("div");
+      div.className=`row ${row==="back" ? "rowBossHost" : ""}`;
+      if(row === large.row){
+        const bossTile = tile(large,side);
+        bossTile.classList.add("rowBossTile","largeUnitTile");
+        bossTile.setAttribute("aria-label", `${large.name}, large unit occupying the full ${row} row`);
+        div.appendChild(bossTile);
+      } else {
+        for(let col=0; col<3; col++){
+          div.appendChild(tile(state.units.find(u=>u.side===side && !u.dead && u.row===row && u.col===col),side));
+        }
+      }
+      b.appendChild(div);
+    }
+    return;
+  }
+
+  if(large){
+    const bossTile = tile(large,side);
+    bossTile.classList.add("bossTile","largeUnitTile");
+    bossTile.style.setProperty("--span-rows", large.footprint?.rows || 2);
+    bossTile.style.setProperty("--span-cols", large.footprint?.cols || 3);
+    bossTile.setAttribute("aria-label", `${large.name}, large unit occupying ${(large.footprint?.rows||2)} by ${(large.footprint?.cols||3)} spaces`);
+    b.appendChild(bossTile);
+    return;
+  }
+
+  let order=side==="enemy"?["back","front"]:["front","back"];
+  for(let row of order){
+    let div=document.createElement("div");
+    div.className="row";
+    for(let col=0;col<3;col++){
+      div.appendChild(tile(state.units.find(u=>u.side===side && !u.dead && u.row===row && u.col===col),side));
+    }
+    b.appendChild(div);
+  }
+}
+
+function rowUnits(side,row){
+  const units = alive(side).filter(u=>{
+    if(u.size==="boss") return true;
+    if(u.size==="rowBoss") return u.row === row;
+    return u.row === row;
+  });
+  const seen = new Set();
+  return units.filter(u=>{
+    if(seen.has(u.id)) return false;
+    seen.add(u.id);
+    return true;
+  });
+}
+
+function frontBlocked(side){
+  return alive(side).some(u=>u.row==="front" || u.size==="boss");
+}
+
+function targets(c,a){
+  let allies=alive(c.side), enemies=alive(other(c.side));
+  switch(a.effect){
+    case"protect":case"ward":case"poisonHands":case"allyPain":case"allyBleed":return allies;
+    case"dodge":case"selfCounter":case"spirit":case"absoluteZero":case"allStatus":case"allDamageStatus":case"frontHypno":return [];
+    case"rowStatus":case"rowDamageStatus":case"rowMultiStatus":case"gesharRowExhaust":return enemies;
+    default:
+      return enemies.filter(t=>{
+        if(a.range!=="melee") return true;
+        if(t.row==="front" || t.size==="boss") return true;
+        return !frontBlocked(t.side);
+      });
+  }
+}
+
+
+/* ===== v47 Geshar Soul Dominion revive animation =====
+   Adds a purple summon/takeover animation when Geshar revives a defeated player unit:
+   - purple soul line from Geshar to the corpse
+   - smoke burst at revived unit
+   - takeover ring
+   - temporary glow/pulse on the converted unit
+*/
+
+function getGesharV47(){
+  return (state?.units || []).find(u => u.id === "geshar_boss" && u.side === "enemy" && !u.dead);
+}
+
+function spawnGesharSoulBeamV47(fromUnit, toUnit){
+  const a = tileEl?.(fromUnit?.id);
+  const b = tileEl?.(toUnit?.id);
+  const fx = fxLayer?.();
+  if(!a || !b || !fx) return;
+
+  const p1 = centerOf(a);
+  const p2 = centerOf(b);
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const len = Math.max(24, Math.hypot(dx, dy));
+  const ang = Math.atan2(dy, dx) * 180 / Math.PI;
+
+  const beam = document.createElement("div");
+  beam.className = "gesharSoulBeam";
+  beam.style.left = p1.x + "px";
+  beam.style.top = p1.y + "px";
+  beam.style.width = len + "px";
+  beam.style.transform = `rotate(${ang}deg)`;
+  fx.appendChild(beam);
+  setTimeout(()=>beam.remove(), 1900);
+}
+
+function spawnGesharReviveBurstV47(unitObj){
+  const el = tileEl?.(unitObj?.id);
+  const fx = fxLayer?.();
+  if(!el || !fx) return;
+
+  const c = centerOf(el);
+
+  const burst = document.createElement("div");
+  burst.className = "gesharReviveBurst";
+  burst.style.left = c.x + "px";
+  burst.style.top = c.y + "px";
+  fx.appendChild(burst);
+
+  const text = document.createElement("div");
+  text.className = "gesharReviveText";
+  text.textContent = "Soul Dominion";
+  text.style.left = c.x + "px";
+  text.style.top = (c.y - c.h * 0.42) + "px";
+  fx.appendChild(text);
+
+  for(let i=0;i<10;i++){
+    const mote = document.createElement("div");
+    mote.className = "gesharSoulMote";
+    const angle = (Math.PI * 2 * i) / 10;
+    const dist = 26 + Math.random() * 42;
+    mote.style.left = c.x + "px";
+    mote.style.top = c.y + "px";
+    mote.style.setProperty("--mx", Math.cos(angle) * dist + "px");
+    mote.style.setProperty("--my", Math.sin(angle) * dist + "px");
+    mote.style.animationDelay = (i * 35) + "ms";
+    fx.appendChild(mote);
+    setTimeout(()=>mote.remove(), 1600);
+  }
+
+  setTimeout(()=>burst.remove(), 1700);
+  setTimeout(()=>text.remove(), 2200);
+}
+
+function markSoulDominionUnitV47(unitObj){
+  if(!unitObj) return;
+  unitObj.soulDominionUntil = Date.now() + 2600;
+}
+
+// Override tile to include Geshar takeover glow.
+const tileBeforeGesharAnimV47 = tile;
+tile = function(u, side){
+  const t = tileBeforeGesharAnimV47(u, side);
+  if(u && u.soulDominionUntil && u.soulDominionUntil > Date.now()){
+    t.classList.add("soulDominionRevived");
+    const label = document.createElement("div");
+    label.className = "soulDominionBadge";
+    label.textContent = "Controlled";
+    t.appendChild(label);
+  }
+  return t;
+};
+
+// Safer full override of Geshar passive trigger with animations.
+// This replaces previous trigger behavior while preserving the same mechanics.
+function triggerGesharSoulDominionV44(){
+  const geshar = getGesharV47();
+  if(!geshar) return;
+
+  const fallen = (state?.units || []).filter(u =>
+    u.side === "player" &&
+    u.dead &&
+    !u.gesharConverted &&
+    u.id !== "geshar_boss"
+  );
+
+  for(const u of fallen){
+    u.gesharConverted = true;
+
+    // Place first so tile exists after render; animation plays after render.
+    u.side = "enemy";
+    u.dead = false;
+    u.hp = 3;
+    u.shield = 0;
+    u.status = {};
+    u.buff = {};
+    u.planned = null;
+    u.row = "front";
+    u.col = firstFreeEnemyFrontColV44 ? firstFreeEnemyFrontColV44() : 1;
+    markSoulDominionUnitV47(u);
+
+    markPassive?.(geshar, "Soul Dominion");
+    pushActionEvent?.("passive", `Geshar returned ${u.name} to life under his control with 3 HP`, u);
+    log(`Geshar's Soul Dominion returns ${u.name} to life under his control with 3 HP.`);
+
+    // Render first so the revived tile exists, then play the cinematic.
+    renderBattle?.();
+    setTimeout(()=>{
+      spawnGesharSoulBeamV47(geshar, u);
+      spawnGesharReviveBurstV47(u);
+      spawnFloatingText?.(u, "Returned with 3 HP", "status");
+    }, 80);
+
+    // Keep glow refreshed while animation plays.
+    setTimeout(()=>renderBattle?.(), 700);
+    setTimeout(()=>renderBattle?.(), 1600);
+    setTimeout(()=>renderBattle?.(), 2700);
+  }
+}
+
+// Also call the animation if a player dies inside normal damage paths but conversion happens shortly after render.
+const checkWinBeforeSoulAnimV47 = checkWin;
+checkWin = function(){
+  triggerGesharSoulDominionV44?.();
+  return checkWinBeforeSoulAnimV47();
+};
+
+
+/* ===== v48 Geshar back-row layout fix =====
+   The old rowBoss render used the normal .row layout, so Geshar was squeezed into one tile
+   and the remaining empty slots looked stacked beside him.
+   This render makes a rowBoss tile truly span the entire row.
+*/
+
+function renderBoard(id,side){
+  const b=$(id);
+  if(!b || !state) return;
+
+  const large=state.units.find(u=>u.side===side && !u.dead && isLargeUnit(u));
+  b.innerHTML="";
+  b.classList.toggle("bossBoard", !!large);
+  b.classList.toggle("largeUnitBoard", !!large);
+  b.classList.toggle("rowBossBoard", !!large && large.size==="rowBoss");
+
+  if(large && large.size==="rowBoss"){
+    const order = side==="enemy" ? ["back","front"] : ["front","back"];
+
+    for(const row of order){
+      const div=document.createElement("div");
+      div.className=`row ${row==="back" ? "rowBossHost" : ""}`;
+
+      if(row === large.row){
+        // One tile, full-width. No extra empty slots.
+        const bossTile = tile(large,side);
+        bossTile.classList.add("rowBossTile","largeUnitTile");
+        bossTile.setAttribute("aria-label", `${large.name}, large unit occupying the full ${row} row`);
+        div.appendChild(bossTile);
+      } else {
+        for(let col=0; col<3; col++){
+          const occupant = state.units.find(u=>
+            u.side===side &&
+            !u.dead &&
+            !isLargeUnit(u) &&
+            u.row===row &&
+            u.col===col
+          );
+          div.appendChild(tile(occupant,side));
+        }
+      }
+      b.appendChild(div);
+    }
+    return;
+  }
+
+  if(large){
+    const bossTile = tile(large,side);
+    bossTile.classList.add("bossTile","largeUnitTile");
+    bossTile.style.setProperty("--span-rows", large.footprint?.rows || 2);
+    bossTile.style.setProperty("--span-cols", large.footprint?.cols || 3);
+    bossTile.setAttribute("aria-label", `${large.name}, large unit occupying ${(large.footprint?.rows||2)} by ${(large.footprint?.cols||3)} spaces`);
+    b.appendChild(bossTile);
+    return;
+  }
+
+  let order=side==="enemy"?["back","front"]:["front","back"];
+  for(let row of order){
+    let div=document.createElement("div");
+    div.className="row";
+    for(let col=0;col<3;col++){
+      div.appendChild(tile(state.units.find(u=>u.side===side && !u.dead && u.row===row && u.col===col),side));
+    }
+    b.appendChild(div);
+  }
+}
+
+
+/* ===== v49 Geshar mobile full-row fix =====
+   Previous fixes were overridden by mobile .row/.tile sizing rules.
+   This version renders Geshar in a dedicated full-width boss row, not in the normal 3-slot row.
+*/
+
+function renderBoard(id,side){
+  const b=$(id);
+  if(!b || !state) return;
+
+  const large=state.units.find(u=>u.side===side && !u.dead && isLargeUnit(u));
+  b.innerHTML="";
+  b.classList.toggle("bossBoard", !!large && large.size!=="rowBoss");
+  b.classList.toggle("largeUnitBoard", !!large);
+  b.classList.toggle("rowBossBoard", !!large && large.size==="rowBoss");
+
+  if(large && large.size==="rowBoss"){
+    const order = side==="enemy" ? ["back","front"] : ["front","back"];
+
+    for(const row of order){
+      if(row === large.row){
+        const div=document.createElement("div");
+        div.className="rowBossFullRow";
+        const bossTile = tile(large,side);
+        bossTile.classList.add("rowBossTile","largeUnitTile");
+        bossTile.setAttribute("aria-label", `${large.name}, large unit occupying the full ${row} row`);
+        div.appendChild(bossTile);
+        b.appendChild(div);
+      } else {
+        const div=document.createElement("div");
+        div.className="row";
+        for(let col=0; col<3; col++){
+          const occupant = state.units.find(u=>
+            u.side===side &&
+            !u.dead &&
+            !isLargeUnit(u) &&
+            u.row===row &&
+            u.col===col
+          );
+          div.appendChild(tile(occupant,side));
+        }
+        b.appendChild(div);
+      }
+    }
+    return;
+  }
+
+  if(large){
+    const bossTile = tile(large,side);
+    bossTile.classList.add("bossTile","largeUnitTile");
+    bossTile.style.setProperty("--span-rows", large.footprint?.rows || 2);
+    bossTile.style.setProperty("--span-cols", large.footprint?.cols || 3);
+    bossTile.setAttribute("aria-label", `${large.name}, large unit occupying ${(large.footprint?.rows||2)} by ${(large.footprint?.cols||3)} spaces`);
+    b.appendChild(bossTile);
+    return;
+  }
+
+  let order=side==="enemy"?["back","front"]:["front","back"];
+  for(let row of order){
+    let div=document.createElement("div");
+    div.className="row";
+    for(let col=0;col<3;col++){
+      div.appendChild(tile(state.units.find(u=>u.side===side && !u.dead && u.row===row && u.col===col),side));
+    }
+    b.appendChild(div);
+  }
+}
+
 $("nextBtn").onclick=()=>{if(builderStep==="choose"){if(chosenIds.length!==3)return;builderStep="arrange";arrangeSelectedId=chosenIds[0];renderBuilder()}else startBattle()}
 $("backBtn").onclick=()=>{builderStep="choose";renderBuilder()}
 $("randomBtn").onclick=randomTeam;$("classFilter").onchange=renderBuilder;$("squadMode").onclick=()=>{mode="squad";$("squadMode").classList.add("active");$("bossMode").classList.remove("active")};$("bossMode").onclick=()=>{mode="boss";$("bossMode").classList.add("active");$("squadMode").classList.remove("active")};$("homeBtn").onclick=()=>{$("battle").classList.add("hidden");$("builder").classList.remove("hidden");renderBuilder()};$("resetBtn").onclick=()=>startBattle();$("resolveBtn").onclick=resolveRound;$("radialClose").onclick=()=>{$("radial").classList.add("hidden");$("abilityTooltip")?.classList.add("hidden");};renderBuilder();

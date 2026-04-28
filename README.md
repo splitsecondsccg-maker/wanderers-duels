@@ -244,3 +244,129 @@ witchcraft.png
 - Fixed `ReferenceError: goHome is not defined`.
 - Random battle music no longer assumes a home-navigation function exists.
 - Added a safe fallback `goHome()` for builds that did not define it.
+
+## v38 precise rules text + minimal info panel
+- Rewrote keyword/status descriptions to be exact and rules-like.
+- Exhausted is now explicit: next non-Guard action has -2 Speed and deals -2 damage, then Exhausted is removed.
+- Rewrote all character passives and active ability descriptions to clarify timing, numbers, targets, and whether Armor/Shield interact.
+- Character info panel is now minimal:
+  - name
+  - proficiencies
+  - HP
+  - Armor
+  - Speed
+  - current statuses
+  - passive
+- Character info no longer lists all active abilities.
+
+## v39 tactical resolve + arrows + bugfix
+- Fixed `effectiveArmorForHit is not defined`.
+- Added/ensured Tactical Resolution controls:
+  - Tactical Off: actions auto-advance quickly.
+  - Tactical On: each action pauses on its result until Continue is clicked.
+- Added animated arrows from the acting character to target(s) during resolution.
+- Row/all effects now fire arrows to multiple affected targets.
+- Implemented Exhausted Option A mechanically:
+  - next non-Guard action has -2 Speed and deals -2 damage, then Exhausted is removed.
+
+## v40 shipped-feeling mobile radial menu
+- Kept the radial menu on mobile, but rebuilt its sizing and interaction for touch.
+- Mobile wheel is now large, stable, and thumb-friendly.
+- Ability buttons are much larger with readable names, AP, and speed.
+- Proficiency icons are now large faint backgrounds inside ability buttons.
+- Bottom ability description sheet is larger and more readable.
+- First tap previews an ability; second tap chooses it.
+- Tap outside closes the wheel.
+
+## v41 resolution polish and icon fixes
+- Tactical Continue is now the actual button inside the resolution card, replacing the hidden/covered “Press Continue” hint.
+- Replaced janky animated arrows with static readable beams from actor to target.
+- Floating combat text is larger and stays visible much longer.
+- Fixed ability icon mapping with explicit overrides:
+  - Protect Ally uses warrior.
+  - Frostbite uses icecraft.
+  - Guard actions no longer inherit unrelated status icons just because their text mentions a status.
+
+## v42 icecraft, Dread, and payoff changes
+- Frost Armor now gives +2 Armor and makes melee attackers gain 1 Freeze until end of round.
+- Shatter Shot now removes all Freeze and gains +2 damage per removed Freeze stack.
+- Ice Needle is now melee and deals 3 damage.
+- Shadow Mark now uses the darkness icon and applies Exposed + Dread.
+- Added Dread: disables one random non-Guard ability until end of round; disabled ability is greyed out with an X.
+- Mesmer Roar is now a Hypnosis payoff: deal 3, or remove Hypnosis to deal +5.
+- Vampire Kiss is now melee, ignores Armor, and no longer has Pierce.
+
+## v43 Ivory Fairy boss
+- Added a second boss: The Ivory Fairy.
+- Boss identity: divinity / bloodcraft / darkness.
+- Design role: protective, healing, single-target damage.
+- Passive: Ivory Benediction — whenever she heals, her next damaging attack gains +2 damage. This stacks until used.
+- Abilities:
+  - Ivory Salve: heal self for 8 and store +2 damage.
+  - Ivory Aegis: Guard, gain 8 Shield, attackers gain 1 Bleed.
+  - Dark Edict: apply Dread and 2 Bleed to one enemy.
+  - Ivory Spear: 6 damage, Pierce 2, apply 2 Bleed, consumes stored Benediction bonus.
+- Added a boss selector shown when Boss Fight mode is selected.
+
+### Ivory Fairy asset
+Place her image here:
+
+`assets/ivory_fairy.png`
+
+Keep the exact filename and location. The code expects:
+`assets/ivory_fairy.png`
+
+World Toad still uses:
+`assets/boss_toad.png`
+
+## v44 Geshar boss
+- Added Geshar, a one-tile boss who starts alone in the enemy back row.
+- Identity: spirit / divinity / darkness.
+- Passive: Soul Dominion — whenever an enemy character is defeated, Geshar returns it to life under his control with 3 HP in his front row.
+- Abilities:
+  - Soul Mend: heal Geshar and all living allies for 4.
+  - Spirit Veil: Guard; gain 5 Shield and Dodge.
+  - Soul Lance: single-target direct HP loss; enemy loses 5 HP ignoring Armor and Shield.
+  - Grave Pressure: target a row, deal 3 damage, and apply Exhausted to damaged enemies.
+- Added Geshar to the Boss Fight selector.
+
+### Geshar asset
+Place his image here:
+
+`assets/geshar.png`
+
+## v45 enemy placement and AI
+- Regular non-boss enemy teams now use role-aware placement:
+  - Brutes and Warriors prefer the front row.
+  - Assassins and Sorcerers prefer the back row.
+  - The enemy team always tries to include at least one frontliner when possible.
+- AI is now weighted and non-deterministic instead of pure random/deterministic.
+- AI prefers setup actions when payoff conditions are not ready.
+- AI deprioritizes payoff actions if the required status/setup is missing.
+- AI prioritizes low-HP targets and potential kills.
+- AI still includes randomness so it does not become perfectly predictable.
+
+## v46 boss/action queue fix
+- Fixed boss battles not initializing `state.plans` / `planSeq`.
+- Queued actions now appear in the queue strip in boss fights.
+- Resolve Round now becomes enabled correctly after queuing player actions.
+- Boss battle header now shows the selected boss name instead of always “World Toad”.
+- Geshar now occupies the full enemy back row as a 1x3 row boss.
+
+## v47 Geshar revive animation
+- Added a Soul Dominion revive animation:
+  - purple soul beam from Geshar to the revived unit
+  - purple smoke/ring burst on the revived unit
+  - floating “Soul Dominion” text
+  - temporary purple takeover glow on the converted unit
+- Converted units show a temporary “Controlled” badge.
+
+## v48 Geshar back-row layout fix
+- Fixed Geshar row-boss layout.
+- Geshar now renders as one full-width tile across the entire enemy back row.
+- Removed the visual issue where empty tiles appeared stacked to the right.
+
+## v49 Geshar mobile full-row fix
+- Fixed Geshar still rendering like a normal tile on mobile.
+- Geshar now renders in a dedicated full-width row container.
+- Added hard CSS overrides so mobile tile sizing cannot squeeze him into one slot.

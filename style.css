@@ -2830,3 +2830,822 @@ body.forceMobile .topActions {
   .resolveDesc{font-size:12px;}
   .keywordText{font-size:15px;}
 }
+
+/* ===== v38 minimal character info ===== */
+.miniInfoCard{
+  display:grid;
+  gap:8px;
+  border-radius:18px;
+  padding:12px;
+  background:rgba(255,255,255,.72);
+  box-shadow:inset 0 0 0 1px rgba(40,31,22,.08);
+  color:#342d27;
+  line-height:1.35;
+}
+.miniInfoCard b{
+  color:#201b17;
+}
+@media(max-width:700px){
+  .miniInfoCard{
+    gap:7px;
+    padding:10px;
+    font-size:13px;
+  }
+}
+
+/* ===== v39 tactical controls + animated action arrows ===== */
+.tacticalToggleBtn{
+  min-width:120px;
+  margin-left:8px;
+  background:rgba(255,255,255,.92);
+}
+.tacticalToggleBtn.active{
+  background:#211d19!important;
+  color:#fff!important;
+}
+.continueResolveBtn{
+  min-width:150px;
+  margin-left:8px;
+  background:linear-gradient(180deg,#65b76f,#3c9950)!important;
+}
+.continueResolveBtn.hidden{display:none!important;}
+
+.actionArrow{
+  position:fixed;
+  z-index:10060;
+  height:5px;
+  border-radius:999px;
+  transform-origin:0 50%;
+  pointer-events:none;
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.95) 18%, rgba(89,158,230,.98) 70%, rgba(89,158,230,0));
+  box-shadow:0 0 14px rgba(89,158,230,.65);
+  animation:arrowShootV39 .9s ease-out forwards;
+}
+.actionArrow::after{
+  content:"";
+  position:absolute;
+  right:-2px;
+  top:50%;
+  transform:translateY(-50%) rotate(45deg);
+  width:14px;
+  height:14px;
+  border-top:5px solid rgba(89,158,230,.98);
+  border-right:5px solid rgba(89,158,230,.98);
+  filter:drop-shadow(0 0 7px rgba(89,158,230,.65));
+}
+.actionArrow.attack{
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.95) 18%, rgba(232,78,65,.98) 70%, rgba(232,78,65,0));
+  box-shadow:0 0 14px rgba(232,78,65,.62);
+}
+.actionArrow.attack::after{border-color:rgba(232,78,65,.98);}
+.actionArrow.status,.actionArrow.aoe{
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.95) 18%, rgba(142,88,238,.98) 70%, rgba(142,88,238,0));
+  box-shadow:0 0 14px rgba(142,88,238,.62);
+}
+.actionArrow.status::after,.actionArrow.aoe::after{border-color:rgba(142,88,238,.98);}
+.actionArrow.support,.actionArrow.guard{
+  background:linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.95) 18%, rgba(71,177,96,.98) 70%, rgba(71,177,96,0));
+  box-shadow:0 0 14px rgba(71,177,96,.62);
+}
+.actionArrow.support::after,.actionArrow.guard::after{border-color:rgba(71,177,96,.98);}
+
+@keyframes arrowShootV39{
+  0%{clip-path:inset(0 100% 0 0); opacity:0; transform:var(--base-transform) scaleX(.96);}
+  12%{opacity:1;}
+  55%{clip-path:inset(0 0 0 0); opacity:1;}
+  100%{clip-path:inset(0 0 0 70%); opacity:0;}
+}
+
+@media(max-width:700px){
+  .tacticalToggleBtn,.continueResolveBtn{
+    margin-left:0;
+    width:100%;
+    min-width:0;
+  }
+  .actionArrow{height:4px;}
+  .actionArrow::after{width:11px;height:11px;border-width:4px;}
+}
+
+/* ===== v40 shipped-feeling mobile radial menu ===== */
+@media(max-width:760px), (pointer:coarse){
+  #radial.mobileRadialMode {
+    backdrop-filter: blur(7px);
+    background: rgba(16, 14, 13, .30);
+  }
+
+  #radial.mobileRadialMode #wheel,
+  #radial.mobileRadialMode .wheel {
+    position: fixed !important;
+    transform: translate(-50%, -50%) !important;
+    border-radius: 999px !important;
+    background:
+      radial-gradient(circle at center, rgba(22,18,15,.94) 0 19%, rgba(22,18,15,.72) 20% 34%, rgba(255,255,255,.13) 35%, rgba(255,255,255,.04) 68%, rgba(22,18,15,.52) 69% 100%) !important;
+    box-shadow:
+      0 26px 80px rgba(0,0,0,.42),
+      inset 0 0 0 2px rgba(255,255,255,.08),
+      inset 0 0 45px rgba(255,255,255,.08) !important;
+    animation: mobileWheelPopV40 .18s cubic-bezier(.2,1.1,.25,1) both;
+  }
+
+  #radial.mobileRadialMode #wheelCenter,
+  #radial.mobileRadialMode .wheelCenter {
+    width: 104px !important;
+    height: 104px !important;
+    border-radius: 999px !important;
+    background: rgba(25,21,18,.96) !important;
+    color: white !important;
+    box-shadow: 0 12px 34px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.08) !important;
+    display: grid !important;
+    place-items: center !important;
+    text-align: center !important;
+    padding: 10px !important;
+    z-index: 5 !important;
+  }
+
+  #radial.mobileRadialMode .miniCenterName {
+    font-size: 17px !important;
+    font-weight: 1000 !important;
+    line-height: 1.05 !important;
+    max-width: 82px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #radial.mobileRadialMode .miniCenterHint {
+    margin-top: 3px;
+    font-size: 10px;
+    color: rgba(255,255,255,.66);
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-weight: 1000;
+  }
+
+  #radial.mobileRadialMode .wheelBtn {
+    width: clamp(104px, 28vw, 132px) !important;
+    height: clamp(76px, 20vw, 96px) !important;
+    border-radius: 22px !important;
+    padding: 10px 9px !important;
+    overflow: hidden !important;
+    background: rgba(255,255,255,.95) !important;
+    color: #211d19 !important;
+    box-shadow:
+      0 12px 30px rgba(0,0,0,.26),
+      inset 0 0 0 1px rgba(255,255,255,.85) !important;
+    display: grid !important;
+    place-content: center !important;
+    gap: 4px !important;
+    transform-origin: center !important;
+  }
+
+  #radial.mobileRadialMode .wheelBtn::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    z-index: 0;
+    background-image: var(--prof-icon);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 82%;
+    opacity: .16;
+    filter: saturate(1.12) contrast(1.08);
+    pointer-events: none;
+  }
+
+  #radial.mobileRadialMode .wheelBtnTitle,
+  #radial.mobileRadialMode .wheelBtnMeta {
+    position: relative;
+    z-index: 1;
+    display: block;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255,255,255,.75);
+  }
+
+  #radial.mobileRadialMode .wheelBtnTitle {
+    font-size: clamp(13px, 3.35vw, 16px) !important;
+    font-weight: 1000 !important;
+    line-height: 1.04 !important;
+    letter-spacing: -.02em !important;
+    white-space: normal !important;
+    max-width: 100% !important;
+  }
+
+  #radial.mobileRadialMode .wheelBtnMeta {
+    font-size: clamp(11px, 2.9vw, 14px) !important;
+    font-weight: 1000 !important;
+    color: rgba(32,27,23,.82) !important;
+    line-height: 1.05 !important;
+  }
+
+  #radial.mobileRadialMode .wheelBtn.previewing {
+    transform: scale(1.08) !important;
+    outline: 4px solid rgba(77,157,230,.72) !important;
+    box-shadow:
+      0 0 0 7px rgba(77,157,230,.20),
+      0 18px 40px rgba(35,94,160,.36),
+      inset 0 0 0 1px rgba(255,255,255,.9) !important;
+  }
+
+  #radial.mobileRadialMode .wheelBtn:disabled {
+    opacity: .45 !important;
+    filter: grayscale(.45) !important;
+  }
+
+  /* Four-point radial layout tuned for fingers */
+  #radial.mobileRadialMode .wheelBtn.w0 {
+    left: 50% !important;
+    top: 9% !important;
+    transform: translate(-50%, 0) !important;
+  }
+  #radial.mobileRadialMode .wheelBtn.w1 {
+    right: 2% !important;
+    top: 50% !important;
+    transform: translate(0, -50%) !important;
+  }
+  #radial.mobileRadialMode .wheelBtn.w2 {
+    left: 50% !important;
+    bottom: 9% !important;
+    transform: translate(-50%, 0) !important;
+  }
+  #radial.mobileRadialMode .wheelBtn.w3 {
+    left: 2% !important;
+    top: 50% !important;
+    transform: translate(0, -50%) !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet {
+    position: fixed !important;
+    z-index: 10120 !important;
+    border-radius: 24px !important;
+    padding: 14px 14px calc(14px + env(safe-area-inset-bottom)) !important;
+    background: rgba(255,255,255,.98) !important;
+    box-shadow: 0 -18px 60px rgba(0,0,0,.30), inset 0 0 0 1px rgba(255,255,255,.8) !important;
+    max-height: 31dvh !important;
+    overflow: auto !important;
+    pointer-events: auto !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .tipTop {
+    grid-template-columns: 44px 1fr !important;
+    gap: 10px !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .tipIcon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 14px !important;
+    background-size: 34px !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet b {
+    font-size: 18px !important;
+    line-height: 1.05 !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet small {
+    font-size: 13px !important;
+    font-weight: 1000 !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .abilityDescText {
+    margin-top: 10px !important;
+    font-size: 15px !important;
+    line-height: 1.38 !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .rulesClarifier {
+    font-size: 12.5px !important;
+    line-height: 1.3 !important;
+    padding: 8px 10px !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .tipTags {
+    margin-top: 10px !important;
+    gap: 7px !important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .tipTags span {
+    font-size: 11px !important;
+    padding: 5px 8px !important;
+    border-radius: 999px !important;
+  }
+
+  .keywordLink {
+    min-height: 26px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@media(max-width:390px){
+  #radial.mobileRadialMode .wheelBtn {
+    width: 102px !important;
+    height: 72px !important;
+    border-radius: 20px !important;
+  }
+
+  #radial.mobileRadialMode #wheelCenter,
+  #radial.mobileRadialMode .wheelCenter {
+    width: 92px !important;
+    height: 92px !important;
+  }
+
+  #radial.mobileRadialMode .miniCenterName {
+    font-size: 15px !important;
+  }
+}
+
+@keyframes mobileWheelPopV40 {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(.88); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ===== v41 resolution polish ===== */
+.inlineContinueResolveBtn{
+  width:100%;
+  margin-top:12px;
+  border:0;
+  border-radius:999px;
+  min-height:48px;
+  background:linear-gradient(180deg,#66bd70,#3a9950);
+  color:white;
+  font-weight:1000;
+  font-size:16px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  box-shadow:0 12px 26px rgba(59,142,73,.30);
+}
+.inlineContinueResolveBtn:active{transform:translateY(1px) scale(.995);}
+
+.breakContinueHint{display:none!important;}
+
+.actionArrow{display:none!important;}
+
+.actionBeam{
+  position:fixed;
+  z-index:10060;
+  height:7px;
+  border-radius:999px;
+  transform-origin:0 50%;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(90deg, rgba(255,255,255,.15), rgba(89,158,230,.96), rgba(255,255,255,.18));
+  box-shadow:0 0 18px rgba(89,158,230,.75), 0 0 4px rgba(255,255,255,.85);
+  animation:beamHoldV41 1.65s ease-out forwards;
+}
+.actionBeam::before,.actionBeam::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(255,255,255,.95);
+  box-shadow:0 0 14px currentColor;
+}
+.actionBeam::before{left:0;}
+.actionBeam::after{left:100%;}
+.actionBeam.attack{color:#e84e41;background:linear-gradient(90deg, rgba(255,255,255,.12), rgba(232,78,65,.96), rgba(255,255,255,.14));box-shadow:0 0 18px rgba(232,78,65,.72);}
+.actionBeam.status,.actionBeam.aoe{color:#8e58ee;background:linear-gradient(90deg, rgba(255,255,255,.12), rgba(142,88,238,.96), rgba(255,255,255,.14));box-shadow:0 0 18px rgba(142,88,238,.72);}
+.actionBeam.support,.actionBeam.guard{color:#47b160;background:linear-gradient(90deg, rgba(255,255,255,.12), rgba(71,177,96,.96), rgba(255,255,255,.14));box-shadow:0 0 18px rgba(71,177,96,.72);}
+
+@keyframes beamHoldV41{
+  0%{opacity:0; filter:brightness(1.4);}
+  12%{opacity:1;}
+  78%{opacity:1;}
+  100%{opacity:0;}
+}
+
+.floatText{
+  font-size:18px!important;
+  padding:9px 13px!important;
+  animation:floatReadableV41 3s ease-out forwards!important;
+  z-index:10100!important;
+}
+@keyframes floatReadableV41{
+  0%{opacity:0; transform:translate(-50%, 8px) scale(.82);}
+  10%{opacity:1; transform:translate(-50%, 0) scale(1.04);}
+  25%{opacity:1; transform:translate(-50%, -10px) scale(1);}
+  78%{opacity:1; transform:translate(-50%, -20px) scale(1);}
+  100%{opacity:0; transform:translate(-50%, -34px) scale(.96);}
+}
+
+@media(max-width:700px){
+  .inlineContinueResolveBtn{min-height:52px;font-size:17px;}
+  .actionBeam{height:6px;}
+  .actionBeam::before,.actionBeam::after{width:15px;height:15px;}
+  .floatText{font-size:20px!important;padding:10px 14px!important;}
+}
+
+/* ===== v42 Dread disabled ability visual ===== */
+.wheelBtn.dreadDisabled{
+  opacity:.48!important;
+  filter:grayscale(.88)!important;
+  background:rgba(205,205,205,.92)!important;
+  color:rgba(40,35,30,.68)!important;
+}
+.wheelBtn.dreadDisabled .dreadX{
+  position:absolute;
+  z-index:3;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:72px;
+  line-height:1;
+  font-weight:1000;
+  color:rgba(30,28,28,.50);
+  text-shadow:0 2px 0 rgba(255,255,255,.22);
+  pointer-events:none;
+}
+.wheelBtn.dreadDisabled::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:8%;
+  right:8%;
+  top:50%;
+  height:6px;
+  border-radius:999px;
+  background:rgba(25,23,22,.42);
+  transform:rotate(-18deg);
+  pointer-events:none;
+}
+.statusChip.dread,.chip.dread{
+  background:rgba(90,90,90,.18);
+  color:#333;
+}
+
+/* ===== v43 boss selector ===== */
+.bossSelectorV43{
+  margin-top:12px;
+  display:grid;
+  gap:8px;
+}
+.bossSelectorV43.hidden{display:none!important;}
+.bossSelectTitle{
+  margin-top:4px;
+}
+.bossChoice{
+  border:0;
+  border-radius:18px;
+  padding:8px;
+  display:grid;
+  grid-template-columns:54px 1fr;
+  align-items:center;
+  gap:10px;
+  text-align:left;
+  background:rgba(255,255,255,.82);
+  color:#211d19;
+  box-shadow:inset 0 0 0 1px rgba(40,31,22,.08);
+  cursor:pointer;
+}
+.bossChoice.active{
+  outline:3px solid rgba(74,145,217,.85);
+  background:rgba(255,255,255,.96);
+}
+.bossChoiceArt{
+  width:54px;
+  height:54px;
+  border-radius:15px;
+  background-size:cover!important;
+  background-position:center!important;
+  box-shadow:0 8px 18px rgba(0,0,0,.18);
+}
+.bossChoice b{
+  display:block;
+  font-size:15px;
+  font-weight:1000;
+}
+.bossChoice small{
+  display:block;
+  margin-top:2px;
+  color:#756b60;
+  font-weight:800;
+}
+@media(max-width:700px){
+  .bossSelectorV43{
+    grid-template-columns:1fr 1fr;
+  }
+  .bossSelectTitle{
+    grid-column:1 / -1;
+  }
+  .bossChoice{
+    grid-template-columns:42px 1fr;
+    gap:7px;
+    padding:7px;
+  }
+  .bossChoiceArt{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+  }
+  .bossChoice b{font-size:12px;}
+  .bossChoice small{font-size:10px;}
+}
+
+/* ===== v44 Geshar boss selector layout ===== */
+@media(max-width:700px){
+  .bossSelectorV43{
+    grid-template-columns:1fr;
+  }
+}
+
+/* ===== v46 Geshar full back-row footprint ===== */
+.rowBossBoard .rowBossHost{
+  display:grid;
+  grid-template-columns:1fr;
+}
+.rowBossTile{
+  width:100%;
+  min-height:220px;
+  grid-column:1 / -1;
+}
+.rowBossTile .art{
+  background-size:cover!important;
+  background-position:center!important;
+}
+@media(max-width:700px){
+  .rowBossTile{
+    min-height:150px;
+  }
+}
+
+/* ===== v47 Geshar Soul Dominion animation ===== */
+.gesharSoulBeam{
+  position:fixed;
+  z-index:10110;
+  height:9px;
+  border-radius:999px;
+  transform-origin:0 50%;
+  pointer-events:none;
+  opacity:0;
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,0),
+      rgba(226,192,255,.92) 14%,
+      rgba(137,65,255,.98) 48%,
+      rgba(40,12,82,.95) 78%,
+      rgba(255,255,255,0));
+  box-shadow:
+    0 0 18px rgba(145,70,255,.95),
+    0 0 34px rgba(99,41,190,.62);
+  animation:gesharSoulBeamV47 1.75s ease-out forwards;
+}
+.gesharSoulBeam::before,
+.gesharSoulBeam::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(255,255,255,.95), rgba(163,85,255,.72), rgba(58,12,99,0));
+  box-shadow:0 0 24px rgba(171,92,255,.9);
+}
+.gesharSoulBeam::before{left:0;}
+.gesharSoulBeam::after{left:100%;}
+
+@keyframes gesharSoulBeamV47{
+  0%{opacity:0; clip-path:inset(0 100% 0 0); filter:brightness(1.4);}
+  12%{opacity:1;}
+  48%{clip-path:inset(0 0 0 0); opacity:1;}
+  78%{clip-path:inset(0 0 0 0); opacity:1;}
+  100%{clip-path:inset(0 0 0 86%); opacity:0;}
+}
+
+.gesharReviveBurst{
+  position:fixed;
+  z-index:10120;
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  background:radial-gradient(circle, rgba(255,255,255,.98), rgba(188,112,255,.86), rgba(55,13,91,.25), rgba(55,13,91,0));
+  box-shadow:
+    0 0 30px rgba(176,90,255,.95),
+    0 0 70px rgba(110,41,212,.62);
+  animation:gesharBurstV47 1.55s ease-out forwards;
+}
+.gesharReviveBurst::before{
+  content:"";
+  position:absolute;
+  inset:-34px;
+  border-radius:999px;
+  border:4px solid rgba(171,92,255,.72);
+  box-shadow:0 0 24px rgba(171,92,255,.5), inset 0 0 18px rgba(171,92,255,.35);
+  animation:gesharRingV47 1.55s ease-out forwards;
+}
+.gesharReviveBurst::after{
+  content:"";
+  position:absolute;
+  inset:-58px;
+  border-radius:999px;
+  background:
+    radial-gradient(circle, rgba(163,85,255,.22), rgba(68,20,110,.12), rgba(68,20,110,0) 68%);
+  animation:gesharSmokeV47 1.55s ease-out forwards;
+}
+
+@keyframes gesharBurstV47{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(.35);}
+  18%{opacity:1; transform:translate(-50%,-50%) scale(1.1);}
+  70%{opacity:.9;}
+  100%{opacity:0; transform:translate(-50%,-50%) scale(2.4);}
+}
+@keyframes gesharRingV47{
+  0%{opacity:0; transform:scale(.35) rotate(0deg);}
+  20%{opacity:1;}
+  100%{opacity:0; transform:scale(1.55) rotate(18deg);}
+}
+@keyframes gesharSmokeV47{
+  0%{opacity:0; transform:scale(.55);}
+  20%{opacity:.9;}
+  100%{opacity:0; transform:scale(1.7);}
+}
+
+.gesharSoulMote{
+  position:fixed;
+  z-index:10122;
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  background:rgba(218,184,255,.95);
+  box-shadow:0 0 14px rgba(166,87,255,.9);
+  animation:gesharMoteV47 1.25s ease-out forwards;
+}
+@keyframes gesharMoteV47{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(.3);}
+  18%{opacity:1;}
+  100%{opacity:0; transform:translate(calc(-50% + var(--mx)), calc(-50% + var(--my))) scale(1.1);}
+}
+
+.gesharReviveText{
+  position:fixed;
+  z-index:10130;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  border-radius:999px;
+  padding:8px 13px;
+  background:rgba(36,16,54,.88);
+  color:#f2e6ff;
+  font-weight:1000;
+  font-size:15px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  box-shadow:0 12px 34px rgba(52,18,82,.42), 0 0 20px rgba(163,85,255,.45);
+  animation:gesharTextV47 2s ease-out forwards;
+}
+@keyframes gesharTextV47{
+  0%{opacity:0; transform:translate(-50%, 4px) scale(.88);}
+  16%{opacity:1; transform:translate(-50%, -4px) scale(1);}
+  76%{opacity:1; transform:translate(-50%, -12px) scale(1);}
+  100%{opacity:0; transform:translate(-50%, -24px) scale(.96);}
+}
+
+.tile.soulDominionRevived{
+  outline:4px solid rgba(166,87,255,.95)!important;
+  box-shadow:
+    0 0 0 7px rgba(166,87,255,.22),
+    0 0 42px rgba(166,87,255,.76),
+    inset 0 0 36px rgba(111,41,190,.32)!important;
+  animation:soulDominionTilePulseV47 1.15s ease-in-out infinite alternate;
+}
+.tile.soulDominionRevived .art{
+  filter:saturate(1.18) contrast(1.06) brightness(.88) hue-rotate(238deg);
+}
+.soulDominionBadge{
+  position:absolute;
+  z-index:7;
+  left:10px;
+  top:10px;
+  border-radius:999px;
+  padding:5px 9px;
+  background:rgba(42,18,60,.88);
+  color:#f2e6ff;
+  font-size:11px;
+  font-weight:1000;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  box-shadow:0 0 16px rgba(166,87,255,.45);
+}
+@keyframes soulDominionTilePulseV47{
+  from{filter:brightness(.96);}
+  to{filter:brightness(1.12);}
+}
+
+@media(max-width:700px){
+  .gesharSoulBeam{height:7px;}
+  .gesharSoulBeam::before,.gesharSoulBeam::after{width:17px;height:17px;}
+  .gesharReviveText{font-size:12px;padding:7px 10px;}
+}
+
+/* ===== v48 Geshar full back-row layout fix ===== */
+.rowBossBoard .row{
+  width:100%;
+}
+
+.rowBossBoard .rowBossHost{
+  display:block !important;
+  width:100%;
+}
+
+.rowBossBoard .rowBossHost .rowBossTile{
+  width:100% !important;
+  max-width:none !important;
+  height:100%;
+  min-height:240px;
+  display:block;
+}
+
+.rowBossTile{
+  grid-column:1 / -1 !important;
+  flex:1 1 100% !important;
+}
+
+.rowBossTile .art{
+  width:100%;
+  height:100%;
+  background-size:cover!important;
+  background-position:center!important;
+}
+
+/* On desktop, make Geshar feel like a banner boss, not a stretched card. */
+.enemySide.rowBossTile{
+  aspect-ratio: 3 / 1;
+}
+
+@media(max-width:700px){
+  .rowBossBoard .rowBossHost .rowBossTile{
+    min-height:150px;
+  }
+  .enemySide.rowBossTile{
+    aspect-ratio: 2.25 / 1;
+  }
+}
+
+/* ===== v49 hard override: Geshar full-width row on mobile and desktop ===== */
+.rowBossBoard {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.rowBossBoard .rowBossFullRow {
+  display: block !important;
+  width: 100% !important;
+  flex: 0 0 auto !important;
+}
+
+.rowBossBoard .rowBossFullRow > .tile.rowBossTile,
+.rowBossBoard .rowBossFullRow > button.tile.rowBossTile {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  flex: 0 0 100% !important;
+  grid-column: 1 / -1 !important;
+  align-self: stretch !important;
+  aspect-ratio: 3 / 1 !important;
+  min-height: 210px !important;
+}
+
+.rowBossBoard .rowBossFullRow > .tile.rowBossTile .art {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+/* Make sure the normal empty slot rules never apply to Geshar. */
+.rowBossBoard .rowBossTile.empty {
+  display: none !important;
+}
+
+@media(max-width:700px), (pointer:coarse){
+  .rowBossBoard {
+    gap: 8px !important;
+  }
+
+  .rowBossBoard .rowBossFullRow > .tile.rowBossTile,
+  .rowBossBoard .rowBossFullRow > button.tile.rowBossTile {
+    width: 100% !important;
+    max-width: none !important;
+    flex-basis: 100% !important;
+    aspect-ratio: 2.2 / 1 !important;
+    min-height: 145px !important;
+    height: auto !important;
+  }
+
+  .rowBossBoard .rowBossFullRow > .tile.rowBossTile .name {
+    font-size: 18px !important;
+  }
+
+  .rowBossBoard .rowBossFullRow > .tile.rowBossTile .hp {
+    font-size: 24px !important;
+  }
+}
