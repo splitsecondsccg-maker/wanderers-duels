@@ -1,0 +1,26 @@
+# Split Seconds v10 — Code Only
+
+## Assets
+Put images directly in `/assets` with these exact filenames:
+
+- archer.png — Smithen
+- blade.png — Dravain
+- blood.png — Yaura
+- golem.png — K'ku
+- kahro.png — Kahro
+- maoja.png — Maoja
+- paleaya.png — Paleya
+- pom.png — Poom
+- shaman.png — Shaman
+- spell.png — Lady Eva
+- hyafrost.png — Hyafrost
+- bakub.png — Bakub
+- boss_toad.png — World Toad
+
+## What's new
+- Fighting-game style character select grid.
+- Choose exactly 3 characters.
+- Separate formation screen.
+- Desktop drag/drop and mobile tap-to-place.
+- Hidden planning combat.
+- Guard priority and Speed-based resolution.

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Split Seconds v10</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <section id="builder" class="screen">
+      <header class="top">
+        <div>
+          <div class="eyebrow">Squad Builder</div>
+          <h1 id="builderTitle">Choose 3 characters</h1>
+        </div>
+        <div class="topActions">
+          <button id="mobileModeBtn" class="pill" type="button">📱 Mobile View</button>
+          <button id="randomBtn" class="pill">Random</button>
+          <button id="backBtn" class="pill hidden">Back</button>
+          <button id="nextBtn" class="primary">Arrange Team</button>
+        </div>
+      </header>
+
+      <section id="chooseStep">
+        <div class="toolbar">
+          <div id="countText">Selected 0/3</div>
+          <select id="classFilter">
+            <option value="all">All classes</option>
+            <option value="warrior">Warrior</option>
+            <option value="brute">Brute</option>
+            <option value="assassin">Assassin</option>
+            <option value="sorcerer">Sorcerer</option>
+          </select>
+        </div>
+        <div id="chosenStrip" class="chosenStrip"></div>
+        <div id="fighterGrid" class="fighterGrid"></div>
+      </section>
+
+      <section id="arrangeStep" class="hidden">
+        <div class="hint">Drag a fighter to a slot, or tap fighter then tap slot.</div>
+        <div class="arrangeLayout">
+          <div class="formation">
+            <div class="rowLabel">Front Row</div>
+            <div class="slotRow">
+              <button class="slot" data-row="front" data-col="0"></button>
+              <button class="slot" data-row="front" data-col="1"></button>
+              <button class="slot" data-row="front" data-col="2"></button>
+            </div>
+            <div class="rowLabel">Back Row</div>
+            <div class="slotRow">
+              <button class="slot" data-row="back" data-col="0"></button>
+              <button class="slot" data-row="back" data-col="1"></button>
+              <button class="slot" data-row="back" data-col="2"></button>
+            </div>
+          </div>
+          <aside class="bench">
+            <div class="panelTitle">Your Fighters</div>
+            <div id="benchList"></div>
+            <div class="modeButtons">
+              <button id="squadMode" class="pill active">Squad Fight</button>
+              <button id="bossMode" class="pill">Boss Fight</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </section>
+
+    <section id="battle" class="battle hidden">
+      <header class="battleTop">
+        <div><div class="eyebrow">Enemy</div><h1 id="enemyName">Enemy Squad</h1></div>
+        <div class="statBox"><span>Phase</span><b id="phaseText">Plan</b></div>
+        <div class="statBox"><span>Round</span><b id="roundText">1</b></div>
+        <button id="homeBtn" class="icon">⌂</button>
+        <button id="resetBtn" class="icon">↻</button>
+      </header>
+      <div class="resource">
+        <div class="actions">Actions <b id="actionsText">3/3</b></div>
+        <button id="resolveBtn" class="primary">Resolve Round</button>
+      </div>
+      <div id="queueStrip" class="queueStrip"></div>
+      <div id="banner" class="banner hidden"></div>
+      <section id="enemyBoard" class="board enemy"></section>
+      <section id="playerBoard" class="board player"></section>
+      <nav id="mobilePanelControls" class="mobilePanelControls">
+        <button id="mobileInfoBtn" type="button">Info</button>
+        <button id="mobileLogBtn" type="button">Log</button>
+        <button id="mobileClosePanelBtn" type="button">Close</button>
+      </nav>
+      <section id="infoPanelSheet" class="info">
+        <div id="infoColumn">
+          <div id="infoTitle" class="panelTitle">Plan hidden actions</div>
+          <div id="infoBody"></div>
+        </div>
+        <div id="logColumn">
+          <div class="panelTitle">Log</div>
+          <div id="log" class="log"></div>
+        </div>
+      </section>
+    </section>
+
+    <div id="radial" class="radialOverlay hidden">
+      <div id="radialClose" class="shade"></div>
+      <div id="wheel" class="wheel">
+        <div id="wheelButtons"></div>
+        <div id="wheelCenter" class="wheelCenter"></div>
+      </div>
+      <div id="abilityTooltip" class="abilityTooltip hidden"></div>
+    </div>
+
+  <div id="resolutionOverlay" class="resolutionOverlay hidden"></div>
+  <div id="keywordPopup" class="keywordPopup hidden"></div>
+  <div id="fxLayer" class="fxLayer"></div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
