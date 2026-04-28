@@ -370,3 +370,8 @@ Place his image here:
 - Fixed Geshar still rendering like a normal tile on mobile.
 - Geshar now renders in a dedicated full-width row container.
 - Added hard CSS overrides so mobile tile sizing cannot squeeze him into one slot.
+
+## v50 Geshar full-row actual fix
+- Fixed the root cause: rowBossBoard was also getting largeUnitBoard, which kept the board in the old 3-column boss grid.
+- Row bosses now use their own dedicated flex layout.
+- Geshar now truly spans the full back row on desktop and mobile.

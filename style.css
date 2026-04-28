@@ -3649,3 +3649,76 @@ body.forceMobile .topActions {
     font-size: 24px !important;
   }
 }
+
+/* ===== v50 real row-boss board layout ===== */
+.board.rowBossBoard,
+#enemyBoard.rowBossBoard,
+#playerBoard.rowBossBoard {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  gap: 10px !important;
+}
+
+.board.rowBossBoard > .rowBossFullRow,
+#enemyBoard.rowBossBoard > .rowBossFullRow,
+#playerBoard.rowBossBoard > .rowBossFullRow {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 auto !important;
+}
+
+.board.rowBossBoard > .rowBossFullRow > .tile.rowBossTile,
+#enemyBoard.rowBossBoard > .rowBossFullRow > .tile.rowBossTile,
+#playerBoard.rowBossBoard > .rowBossFullRow > .tile.rowBossTile {
+  display: block !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+  aspect-ratio: 3 / 1 !important;
+  min-height: 230px !important;
+  height: auto !important;
+}
+
+.board.rowBossBoard > .rowBossFullRow > .tile.rowBossTile .art,
+#enemyBoard.rowBossBoard > .rowBossFullRow > .tile.rowBossTile .art,
+#playerBoard.rowBossBoard > .rowBossFullRow > .tile.rowBossTile .art {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-size: cover !important;
+  background-position: center center !important;
+}
+
+/* Keep the other row as a normal 3-slot row. */
+.board.rowBossBoard > .row,
+#enemyBoard.rowBossBoard > .row,
+#playerBoard.rowBossBoard > .row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+@media(max-width:700px), (pointer:coarse){
+  .board.rowBossBoard,
+  #enemyBoard.rowBossBoard,
+  #playerBoard.rowBossBoard {
+    gap: 8px !important;
+  }
+
+  .board.rowBossBoard > .rowBossFullRow > .tile.rowBossTile,
+  #enemyBoard.rowBossBoard > .rowBossFullRow > .tile.rowBossTile,
+  #playerBoard.rowBossBoard > .rowBossFullRow > .tile.rowBossTile {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    aspect-ratio: 2.3 / 1 !important;
+    min-height: 155px !important;
+  }
+}

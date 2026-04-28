@@ -7711,6 +7711,77 @@ function renderBoard(id,side){
   }
 }
 
+
+/* ===== v50 Geshar true full-row fix =====
+   The problem was that rowBossBoard also had largeUnitBoard,
+   so the parent board stayed in the old 3-column boss grid.
+   This version removes largeUnitBoard for rowBoss and uses a dedicated layout.
+*/
+
+function renderBoard(id,side){
+  const b=$(id);
+  if(!b || !state) return;
+
+  const large=state.units.find(u=>u.side===side && !u.dead && isLargeUnit(u));
+  const isRowBoss = !!large && large.size==="rowBoss";
+
+  b.innerHTML="";
+  b.classList.toggle("bossBoard", !!large && !isRowBoss);
+  b.classList.toggle("largeUnitBoard", !!large && !isRowBoss);
+  b.classList.toggle("rowBossBoard", isRowBoss);
+
+  if(isRowBoss){
+    const order = side==="enemy" ? ["back","front"] : ["front","back"];
+
+    for(const row of order){
+      if(row === large.row){
+        const div=document.createElement("div");
+        div.className="rowBossFullRow";
+        const bossTile = tile(large,side);
+        bossTile.classList.add("rowBossTile");
+        bossTile.setAttribute("aria-label", `${large.name}, large unit occupying the full ${row} row`);
+        div.appendChild(bossTile);
+        b.appendChild(div);
+      } else {
+        const div=document.createElement("div");
+        div.className="row";
+        for(let col=0; col<3; col++){
+          const occupant = state.units.find(u=>
+            u.side===side &&
+            !u.dead &&
+            !isLargeUnit(u) &&
+            u.row===row &&
+            u.col===col
+          );
+          div.appendChild(tile(occupant,side));
+        }
+        b.appendChild(div);
+      }
+    }
+    return;
+  }
+
+  if(large){
+    const bossTile = tile(large,side);
+    bossTile.classList.add("bossTile","largeUnitTile");
+    bossTile.style.setProperty("--span-rows", large.footprint?.rows || 2);
+    bossTile.style.setProperty("--span-cols", large.footprint?.cols || 3);
+    bossTile.setAttribute("aria-label", `${large.name}, large unit occupying ${(large.footprint?.rows||2)} by ${(large.footprint?.cols||3)} spaces`);
+    b.appendChild(bossTile);
+    return;
+  }
+
+  let order=side==="enemy"?["back","front"]:["front","back"];
+  for(let row of order){
+    let div=document.createElement("div");
+    div.className="row";
+    for(let col=0;col<3;col++){
+      div.appendChild(tile(state.units.find(u=>u.side===side && !u.dead && u.row===row && u.col===col),side));
+    }
+    b.appendChild(div);
+  }
+}
+
 $("nextBtn").onclick=()=>{if(builderStep==="choose"){if(chosenIds.length!==3)return;builderStep="arrange";arrangeSelectedId=chosenIds[0];renderBuilder()}else startBattle()}
 $("backBtn").onclick=()=>{builderStep="choose";renderBuilder()}
 $("randomBtn").onclick=randomTeam;$("classFilter").onchange=renderBuilder;$("squadMode").onclick=()=>{mode="squad";$("squadMode").classList.add("active");$("bossMode").classList.remove("active")};$("bossMode").onclick=()=>{mode="boss";$("bossMode").classList.add("active");$("squadMode").classList.remove("active")};$("homeBtn").onclick=()=>{$("battle").classList.add("hidden");$("builder").classList.remove("hidden");renderBuilder()};$("resetBtn").onclick=()=>startBattle();$("resolveBtn").onclick=resolveRound;$("radialClose").onclick=()=>{$("radial").classList.add("hidden");$("abilityTooltip")?.classList.add("hidden");};renderBuilder();
