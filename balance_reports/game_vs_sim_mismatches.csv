@@ -1,0 +1,74 @@
+character,ability,field,game,sim
+bakub,fog,range,ranged,
+dravain,bash,ability_missing_in_sim,Shield Bash,
+dravain,slash,ability_extra_or_renamed_in_sim,,Blood Slash
+dravain,protect,range,ally,
+eva,kiss,ability_missing_in_sim,Vampire Kiss,
+eva,mist,ability_missing_in_sim,Mist Step,
+eva,stab,ability_missing_in_sim,Crimson Stab,
+eva,bat,ability_extra_or_renamed_in_sim,,Bat Form
+eva,dash,ability_extra_or_renamed_in_sim,,Blood Dash
+eva,fangs,ability_extra_or_renamed_in_sim,,Crimson Fangs
+eva,bite,pierce,1,
+hyafrost,,hp,21,22
+hyafrost,armor,ability_missing_in_sim,Frost Armor,
+hyafrost,frostbite,ability_missing_in_sim,Frostbite,
+hyafrost,blast,ability_extra_or_renamed_in_sim,,Ice Blast
+hyafrost,spirit,ability_extra_or_renamed_in_sim,,Spirit Form
+hyafrost,field,spd,0,-2
+hyafrost,field,range,ranged,
+hyafrost,zero,dmg,3,0
+hyafrost,zero,mult,1.5,2
+kahro,needle,ability_missing_in_sim,Shadow Needle,
+kahro,vanish,ability_missing_in_sim,Vanish,
+kahro,punish,ability_extra_or_renamed_in_sim,,Punish Guard
+kahro,quick,ability_extra_or_renamed_in_sim,,Quick Slash
+kku,,hp,29,30
+kku,slam,spd,0,-1
+kku,slam,status,freeze,
+kku,slam,stacks,1,
+maoja,breath,spd,-1,-2
+maoja,breath,range,ranged,
+maoja,breath,dmg,,1
+maoja,breath,stacks,4,3
+maoja,burst,bonus,0,
+maoja,grip,name,Corrosive Grip,Toxic Grip
+maoja,hands,spd,2,0
+maoja,hands,range,ally,
+paleya,lance,ability_missing_in_sim,Mind Lance,
+paleya,mass,ability_missing_in_sim,Mass Suggestion,
+paleya,mesmer,ability_missing_in_sim,Mesmerize,
+paleya,mirror,ability_missing_in_sim,Mirror Guard,
+paleya,break,ability_extra_or_renamed_in_sim,,Mind Break
+paleya,fog,ability_extra_or_renamed_in_sim,,Dream Fog
+paleya,predict,ability_extra_or_renamed_in_sim,,Mind Lock
+paleya,stare,ability_extra_or_renamed_in_sim,,Hypnosis Stare
+poom,bodyguard,ability_missing_in_sim,Revenge Body,
+poom,revenge,ability_extra_or_renamed_in_sim,,Revenge Body
+poom,guard,range,self,
+poom,guard,stacks,0,
+shaman,proliferate,ability_missing_in_sim,Dark Proliferation,
+shaman,pact,ability_extra_or_renamed_in_sim,,Blood Pact
+shaman,mark,spd,2,0
+shaman,plague,range,ranged,
+shaman,rupture,stacks,2,
+shaman,rupture,bonus,1,2
+smithen,flash,ability_missing_in_sim,Whiteout Step,
+smithen,pin,ability_missing_in_sim,Frost Pin,
+smithen,vanish,ability_extra_or_renamed_in_sim,,Vanish
+smithen,whiteout,ability_extra_or_renamed_in_sim,,Whiteout
+smithen,iceNeedle,status,freeze,
+smithen,iceNeedle,stacks,1,
+yaura,bolt,spd,0,1
+yaura,bolt,range,ally,
+yaura,bolt,dmg,0,
+yaura,bolt,status,bleed,
+yaura,bolt,stacks,2,
+yaura,bolt,bonus,3,2
+yaura,bolt,ignoreArmor,False,
+yaura,price,spd,0,-1
+yaura,price,range,ally,
+yaura,price,ignoreArmor,True,
+yaura,ward,range,ally,
+yaura,ward,stacks,2,
+yaura,ward,bleed,,2

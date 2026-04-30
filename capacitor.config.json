@@ -1,0 +1,8 @@
+{
+  "appId": "com.wanderers.duels",
+  "appName": "Wanderers Duels",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

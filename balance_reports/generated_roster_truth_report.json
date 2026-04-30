@@ -1,0 +1,6 @@
+{
+  "ok": true,
+  "problemCount": 0,
+  "problems": [],
+  "note": "Generated simulator roster uses game.js character/ability identities; numeric conflicts are resolved by balanced-pass overlay and logged in roster_sync_report.json"
+}

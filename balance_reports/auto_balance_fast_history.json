@@ -1,0 +1,215 @@
+{
+  "stopReason": "Reached requested iteration count",
+  "history": [
+    {
+      "iteration": 0,
+      "games": 80,
+      "top": {
+        "character": "Lady Eva",
+        "winRate": 59.2,
+        "avgDamage": 16.12,
+        "avgTaken": 16.28,
+        "avgGuards": 0.96
+      },
+      "bottom": {
+        "character": "Kahro",
+        "winRate": 34.2,
+        "avgDamage": 17.03,
+        "avgTaken": 17.09,
+        "avgGuards": 0
+      },
+      "rows": [
+        {
+          "character": "Lady Eva",
+          "winRate": 59.2,
+          "avgDamage": 16.12,
+          "avgTaken": 16.28,
+          "avgGuards": 0.96
+        },
+        {
+          "character": "Paleya",
+          "winRate": 58.7,
+          "avgDamage": 26.2,
+          "avgTaken": 19.82,
+          "avgGuards": 0.87
+        },
+        {
+          "character": "Smithen",
+          "winRate": 56.1,
+          "avgDamage": 23.41,
+          "avgTaken": 14.56,
+          "avgGuards": 1.1
+        },
+        {
+          "character": "Bakub",
+          "winRate": 55.8,
+          "avgDamage": 13.42,
+          "avgTaken": 18.74,
+          "avgGuards": 1.67
+        },
+        {
+          "character": "Dravain",
+          "winRate": 55,
+          "avgDamage": 12.75,
+          "avgTaken": 20.21,
+          "avgGuards": 3.8
+        },
+        {
+          "character": "Poom",
+          "winRate": 51.2,
+          "avgDamage": 30.12,
+          "avgTaken": 29.32,
+          "avgGuards": 1.2
+        },
+        {
+          "character": "K'ku",
+          "winRate": 48.6,
+          "avgDamage": 21.31,
+          "avgTaken": 29.2,
+          "avgGuards": 1.8
+        },
+        {
+          "character": "Yaura",
+          "winRate": 48.3,
+          "avgDamage": 28.34,
+          "avgTaken": 23.97,
+          "avgGuards": 2.59
+        },
+        {
+          "character": "Maoja",
+          "winRate": 47.2,
+          "avgDamage": 15.72,
+          "avgTaken": 27.03,
+          "avgGuards": 0
+        },
+        {
+          "character": "Bahl",
+          "winRate": 44.4,
+          "avgDamage": 16.24,
+          "avgTaken": 21.6,
+          "avgGuards": 0
+        },
+        {
+          "character": "Hyafrost",
+          "winRate": 35.1,
+          "avgDamage": 15.01,
+          "avgTaken": 21.96,
+          "avgGuards": 0.51
+        },
+        {
+          "character": "Kahro",
+          "winRate": 34.2,
+          "avgDamage": 17.03,
+          "avgTaken": 17.09,
+          "avgGuards": 0
+        }
+      ],
+      "reasons": [
+        "Hyafrost low: restore Absolute Zero without Armor-ignore / small HP."
+      ],
+      "replacementsApplied": 2,
+      "surgicalFlags": [
+        {
+          "type": "dead-ability",
+          "item": "Kahro — Punish Guard",
+          "note": "only 11 uses"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Bakub — Nightmare Vial",
+          "note": "avg value 1.22, used 65, win 46.2%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Paleya — Hypnosis Stare",
+          "note": "avg value 1.12, used 89, win 68.5%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Kahro — Shadow Mark",
+          "note": "avg value 1.09, used 138, win 42.8%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Maoja — Caustic Breath",
+          "note": "avg value 0.99, used 62, win 40.3%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Paleya — Dream Fog",
+          "note": "avg value 0.71, used 63, win 57.1%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Smithen — Whiteout",
+          "note": "avg value 0.65, used 85, win 64.7%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Kahro — Quick Slash",
+          "note": "avg value 0.58, used 12, win 75%"
+        },
+        {
+          "type": "dead-ability",
+          "item": "Kahro — Quick Slash",
+          "note": "only 12 uses"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Maoja — Poison Hands",
+          "note": "avg value 0, used 52, win 44.2%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Bakub — False Future",
+          "note": "avg value 0, used 72, win 30.6%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Poom — Mesmeric Taunt",
+          "note": "avg value 0, used 49, win 26.5%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Dravain — Protect Ally",
+          "note": "avg value 0, used 152, win 49.3%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "K'ku — Ice Guard",
+          "note": "avg value 0, used 63, win 38.1%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Paleya — Mind Lock",
+          "note": "avg value 0, used 40, win 55%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Smithen — Vanish",
+          "note": "avg value 0, used 45, win 64.4%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Hyafrost — Spirit Form",
+          "note": "avg value 0, used 19, win 10.5%"
+        },
+        {
+          "type": "dead-ability",
+          "item": "Hyafrost — Spirit Form",
+          "note": "only 19 uses"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Lady Eva — Bat Form",
+          "note": "avg value 0, used 47, win 40.4%"
+        },
+        {
+          "type": "ability-too-weak",
+          "item": "Yaura — Blood Ward",
+          "note": "avg value 0, used 75, win 42.7%"
+        }
+      ]
+    }
+  ]
+}

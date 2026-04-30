@@ -11,6 +11,125 @@
   pointer-events: auto;
 }
 
+/* v101: closeable overlays and an explicit battle log drawer. */
+.overlayCloseBtn{
+  position:absolute!important;
+  top:10px!important;
+  right:10px!important;
+  z-index:5!important;
+  width:40px!important;
+  height:40px!important;
+  border:0!important;
+  border-radius:50%!important;
+  display:grid!important;
+  place-items:center!important;
+  background:rgba(24,20,17,.92)!important;
+  color:#fff!important;
+  font-size:24px!important;
+  line-height:1!important;
+  font-weight:1000!important;
+  box-shadow:0 8px 22px rgba(24,20,17,.22)!important;
+  cursor:pointer!important;
+}
+
+.abilityTooltip,
+.resolveCard{
+  position:relative!important;
+}
+
+.abilityTooltipClose{
+  top:8px!important;
+  right:8px!important;
+  width:34px!important;
+  height:34px!important;
+  font-size:21px!important;
+}
+
+.abilityTooltip .tipTop,
+.abilityTooltip .abilityDescText,
+.abilityTooltip .rulesClarifier,
+.abilityTooltip .tipTags{
+  padding-right:38px;
+}
+
+.battleLogToggleBtn{
+  min-width:76px;
+  justify-self:end;
+}
+
+.info.panelClosedV101{
+  display:none!important;
+}
+
+.info.showLogV101{
+  display:block!important;
+}
+
+.info.showLogV101 #infoColumn{
+  display:none!important;
+}
+
+.info.showLogV101 #logColumn{
+  display:block!important;
+  max-width:760px;
+  margin:0 auto;
+}
+
+.info.showInfoV101 #infoColumn{
+  display:block!important;
+}
+
+.info.showInfoV101 #logColumn{
+  display:none!important;
+}
+
+.info.showLogV101 .log{
+  max-height:min(48dvh,420px)!important;
+  overflow:auto!important;
+}
+
+@media(max-width:900px), (pointer:coarse){
+  .overlayCloseBtn{
+    width:44px!important;
+    height:44px!important;
+    top:8px!important;
+    right:8px!important;
+  }
+
+  .battleLogToggleBtn{
+    min-height:48px!important;
+    min-width:64px!important;
+    padding:8px 12px!important;
+    font-size:14px!important;
+  }
+
+  .info.showLogV101,
+  .info.showInfoV101{
+    position:fixed!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:max(8px, env(safe-area-inset-bottom))!important;
+    z-index:18!important;
+    max-height:min(44dvh,430px)!important;
+    overflow:auto!important;
+    border-radius:20px!important;
+    box-shadow:0 18px 46px rgba(24,20,17,.24)!important;
+  }
+
+  .info.showLogV101 #logColumn,
+  .info.showInfoV101 #infoColumn{
+    border-radius:20px!important;
+  }
+
+  .resolutionOverlay .resolveCard{
+    padding-top:46px!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet{
+    padding-top:48px!important;
+  }
+}
+
 .radialOverlay.hidden {
   display: none !important;
 }
@@ -3720,5 +3839,2047 @@ body.forceMobile .topActions {
     max-width: 100% !important;
     aspect-ratio: 2.3 / 1 !important;
     min-height: 155px !important;
+  }
+}
+
+/* ===== v51 mobile playable/responsive pass ===== */
+@media(max-width:760px), (pointer:coarse){
+  html, body{
+    width:100%;
+    height:100%;
+    overflow:hidden!important;
+    overscroll-behavior:none;
+    touch-action:manipulation;
+  }
+
+  body{
+    position:fixed;
+    inset:0;
+  }
+
+  .app{
+    width:100vw!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+    padding:0!important;
+  }
+
+  .screen{
+    width:100vw!important;
+    max-width:none!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    border-radius:0!important;
+    padding:10px!important;
+    overflow:hidden!important;
+    display:flex;
+    flex-direction:column;
+  }
+
+  #builder{
+    overflow:hidden!important;
+  }
+
+  #chooseStep,
+  #arrangeStep{
+    min-height:0!important;
+    overflow:hidden!important;
+    display:flex;
+    flex-direction:column;
+  }
+
+  #chooseStep.hidden,
+  #arrangeStep.hidden{
+    display:none!important;
+  }
+
+  #fighterGrid{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch;
+    padding:4px 4px 90px!important;
+    grid-template-columns:repeat(2, minmax(0, 1fr))!important;
+    gap:10px!important;
+  }
+
+  .fighterCard{
+    border-radius:18px!important;
+  }
+
+  .fighterCard .portrait{
+    height:128px!important;
+  }
+
+  .fighterName{
+    font-size:14px!important;
+    padding:8px 8px 1px!important;
+  }
+
+  .fighterMeta{
+    font-size:10px!important;
+    padding:0 8px!important;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .fighterStats{
+    font-size:11px!important;
+    padding:5px 8px 8px!important;
+  }
+
+  .chosenStrip{
+    flex:0 0 auto!important;
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch;
+    white-space:nowrap;
+    padding-bottom:4px;
+  }
+
+  .battle{
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    max-width:none!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    border-radius:0!important;
+    padding:8px!important;
+    overflow:hidden!important;
+    display:flex!important;
+    flex-direction:column!important;
+  }
+
+  .battleTop{
+    flex:0 0 auto!important;
+    margin-bottom:5px!important;
+  }
+
+  .battleTop h1{
+    font-size:15px!important;
+  }
+
+  .resourceBar{
+    flex:0 0 auto!important;
+    gap:6px!important;
+    margin-bottom:5px!important;
+  }
+
+  #queueStrip{
+    flex:0 0 auto!important;
+    max-height:64px!important;
+    min-height:48px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    -webkit-overflow-scrolling:touch;
+    padding:6px!important;
+    border-radius:16px!important;
+  }
+
+  .queueEmpty{
+    font-size:12px!important;
+    padding:8px!important;
+  }
+
+  .queueItems{
+    display:flex!important;
+    gap:6px!important;
+  }
+
+  .queueCard{
+    min-width:128px!important;
+    height:42px!important;
+    padding:5px!important;
+  }
+
+  .queueIcon{
+    width:30px!important;
+    height:30px!important;
+    border-radius:10px!important;
+  }
+
+  .queueText b{font-size:11px!important;}
+  .queueText small{font-size:10px!important;}
+
+  .board{
+    flex:1 1 0!important;
+    min-height:0!important;
+    padding:8px!important;
+    margin-bottom:6px!important;
+    gap:7px!important;
+    overflow:hidden!important;
+  }
+
+  .row{
+    min-height:0!important;
+    gap:7px!important;
+  }
+
+  .tile{
+    min-height:0!important;
+    border-radius:16px!important;
+    box-shadow:0 7px 16px rgba(40,31,22,.13)!important;
+  }
+
+  .badge{
+    width:30px!important;
+    height:30px!important;
+    border-radius:11px!important;
+    font-size:16px!important;
+  }
+
+  .unitInfoBtn{
+    width:32px!important;
+    height:32px!important;
+    font-size:19px!important;
+  }
+
+  .chips{
+    top:5px!important;
+    right:5px!important;
+    gap:3px!important;
+  }
+
+  .statusChip{
+    min-width:28px!important;
+    height:28px!important;
+    font-size:13px!important;
+  }
+
+  .armor,.hp{
+    left:7px!important;
+  }
+
+  .armor{font-size:12px!important;bottom:34px!important;}
+  .hp{font-size:14px!important;bottom:12px!important;}
+  .name{font-size:10px!important;right:7px!important;bottom:8px!important;}
+
+  #info{
+    flex:0 0 auto!important;
+    max-height:28dvh!important;
+    overflow:auto!important;
+    border-radius:18px!important;
+    position:relative!important;
+    padding-top:12px!important;
+  }
+
+  #info.hasSelection{
+    position:fixed!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:max(8px, env(safe-area-inset-bottom))!important;
+    z-index:10020!important;
+    max-height:38dvh!important;
+    background:rgba(255,255,255,.97)!important;
+    box-shadow:0 -18px 60px rgba(0,0,0,.28)!important;
+  }
+
+  .closeInfoBtn.mobileVisibleClose{
+    display:grid!important;
+    place-items:center!important;
+    position:sticky!important;
+    float:right!important;
+    top:0!important;
+    margin-left:auto!important;
+    width:40px!important;
+    height:40px!important;
+    border-radius:999px!important;
+    border:0!important;
+    background:#211d19!important;
+    color:#fff!important;
+    font-size:26px!important;
+    font-weight:1000!important;
+    z-index:10021!important;
+  }
+
+  /* Compact resolving card; it must not cover the whole board. */
+  .resolutionOverlay{
+    top:6px!important;
+    left:6px!important;
+    right:6px!important;
+    width:auto!important;
+    transform:none!important;
+    z-index:10100!important;
+  }
+
+  .resolveCard{
+    border-radius:18px!important;
+    padding:9px 10px!important;
+    max-height:30dvh!important;
+    overflow:auto!important;
+  }
+
+  .resolveTop{
+    grid-template-columns:36px 1fr!important;
+    gap:8px!important;
+  }
+
+  .resolveIcon{
+    width:36px!important;
+    height:36px!important;
+    border-radius:12px!important;
+    background-size:28px!important;
+  }
+
+  .resolveTitle{
+    font-size:15px!important;
+    line-height:1.05!important;
+  }
+
+  .resolveMeta,.resolveStage{
+    font-size:9px!important;
+  }
+
+  .resolveDesc{
+    font-size:12px!important;
+    margin-top:6px!important;
+    line-height:1.25!important;
+  }
+
+  .resolveEventList{
+    margin-top:6px!important;
+    gap:4px!important;
+  }
+
+  .resolveEvent{
+    padding:4px 6px!important;
+    font-size:10px!important;
+  }
+
+  .inlineContinueResolveBtn{
+    min-height:40px!important;
+    margin-top:7px!important;
+    font-size:14px!important;
+  }
+
+  /* Less intrusive targeting beams / arrows. */
+  .actionBeam,
+  .gesharSoulBeam{
+    height:3px!important;
+    opacity:.72!important;
+    box-shadow:0 0 8px rgba(89,158,230,.45)!important;
+  }
+
+  .actionBeam::before,
+  .actionBeam::after,
+  .gesharSoulBeam::before,
+  .gesharSoulBeam::after{
+    width:9px!important;
+    height:9px!important;
+    opacity:.78!important;
+  }
+
+  .floatText{
+    font-size:15px!important;
+    padding:7px 10px!important;
+    max-width:70vw!important;
+    white-space:nowrap!important;
+  }
+
+  /* Ability wheel: larger buttons, moved high enough so bottom button is playable. */
+  #radial.mobileRadialMode .wheelBtn{
+    width:clamp(126px, 34vw, 152px)!important;
+    height:clamp(88px, 23vw, 110px)!important;
+    border-radius:24px!important;
+    padding:10px!important;
+  }
+
+  #radial.mobileRadialMode .wheelBtnTitle{
+    font-size:clamp(15px, 4vw, 18px)!important;
+  }
+
+  #radial.mobileRadialMode .wheelBtnMeta{
+    font-size:clamp(13px, 3.4vw, 15px)!important;
+  }
+
+  #radial.mobileRadialMode #wheelCenter,
+  #radial.mobileRadialMode .wheelCenter{
+    width:98px!important;
+    height:98px!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet{
+    max-height:22dvh!important;
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom))!important;
+    border-radius:20px!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet b{
+    font-size:16px!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet small{
+    font-size:12px!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .abilityDescText{
+    font-size:13px!important;
+    line-height:1.28!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .tipIcon{
+    width:36px!important;
+    height:36px!important;
+    background-size:28px!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet .tipTop{
+    grid-template-columns:36px 1fr!important;
+  }
+
+  .keywordPopup.mobileKeywordPopup .keywordPopupCard{
+    max-height:42dvh!important;
+    overflow:auto!important;
+  }
+}
+
+@media(max-width:390px), (max-height:720px){
+  @media(max-width:760px), (pointer:coarse){
+    #radial.mobileRadialMode .wheelBtn{
+      width:118px!important;
+      height:82px!important;
+    }
+    #radial.mobileRadialMode .wheelBtnTitle{
+      font-size:14px!important;
+    }
+    #abilityTooltip.mobileAbilitySheet{
+      max-height:20dvh!important;
+    }
+    .resolveCard{
+      max-height:28dvh!important;
+    }
+  }
+}
+
+/* ===== v53 Mobile QA workflow ===== */
+.qaPanelV53{position:fixed;left:8px;bottom:calc(8px + env(safe-area-inset-bottom));z-index:40000;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.qaToggleV53{border:0;border-radius:999px;padding:10px 14px;background:#14110f;color:#fff;font-weight:1000;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.qaBodyV53{display:none;width:min(360px,calc(100vw - 16px));max-height:65dvh;overflow:auto;margin-bottom:8px;border-radius:20px;padding:12px;background:rgba(255,255,255,.97);color:#211d19;box-shadow:0 18px 70px rgba(0,0,0,.32)}
+.qaPanelOpenV53 .qaBodyV53{display:block}
+.qaTitleV53{font-weight:1000;font-size:18px;margin-bottom:3px}
+.qaTitleSmallV53{font-size:11px;font-weight:1000;text-transform:uppercase;letter-spacing:.12em;color:#756b60;margin:12px 0 6px}
+.qaMetaV53{font-size:12px;color:#756b60;font-weight:800;margin-bottom:10px}
+.qaRowV53{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.qaRowV53 button,.qaPresetListV53 button{min-height:44px;border:0;border-radius:13px;background:rgba(31,27,23,.08);font-weight:900}
+.qaRowV53 button.active{background:#211d19;color:#fff}
+.qaPresetListV53{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.qaPresetListV53 b,.qaPresetListV53 small{display:block}.qaPresetListV53 small{color:#756b60;margin-top:2px}
+.qaHintV53{margin-top:8px;font-size:11px;color:#756b60;line-height:1.25}
+.qaTouchTargetsV53 button,.qaTouchTargetsV53 .unitInfoBtn,.qaTouchTargetsV53 .statusChip,.qaTouchTargetsV53 .keywordLink{outline:2px dashed rgba(255,66,66,.75)!important;outline-offset:2px!important}
+.qaSafeAreaV53::before{content:"";position:fixed;inset:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);z-index:39000;pointer-events:none;border:3px solid rgba(42,148,255,.65);box-shadow:inset 0 0 0 9999px rgba(42,148,255,.04)}
+.qaGridV53::after{content:"";position:fixed;inset:0;z-index:38999;pointer-events:none;background-image:linear-gradient(rgba(255,0,0,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(255,0,0,.10) 1px,transparent 1px);background-size:24px 24px}
+.qaSlowV53 *{animation-duration:calc(var(--qa-duration,1s)*1.8)!important;transition-duration:.45s!important}
+@media(max-width:760px),(pointer:coarse){.qaPanelV53{bottom:calc(74px + env(safe-area-inset-bottom))}.qaPanelOpenV53 .mobileControlBarV52{opacity:.25;pointer-events:none}}
+
+/* ===== v88 mobile/tablet stability fixes =====
+   Keep card rows from overlapping in forced-mobile/tablet QA captures and
+   keep resolution card below the top HUD.
+*/
+body.forceMobile .battle{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+
+body.forceMobile .board{
+  flex:0 0 auto!important;
+  min-height:0!important;
+  grid-template-rows:auto auto!important;
+  overflow:visible!important;
+}
+
+body.forceMobile .row{
+  min-height:auto!important;
+  overflow:visible!important;
+}
+
+body.forceMobile .tile{
+  min-height:158px!important;
+  aspect-ratio:.82/1!important;
+}
+
+body.forceMobile .resolutionOverlay{
+  top:calc(env(safe-area-inset-top) + 84px)!important;
+  left:8px!important;
+  right:8px!important;
+  width:auto!important;
+  transform:none!important;
+}
+
+@media (max-width: 900px){
+  .resolutionOverlay{
+    top:calc(env(safe-area-inset-top) + 84px)!important;
+    left:8px!important;
+    right:8px!important;
+    width:auto!important;
+    transform:none!important;
+  }
+}
+
+@media (max-width:760px), (pointer:coarse){
+  .battle{
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+  }
+
+  .board{
+    flex:0 0 auto!important;
+    grid-template-rows:auto auto!important;
+    overflow:visible!important;
+  }
+
+  .row{
+    min-height:auto!important;
+    align-items:start!important;
+    overflow:visible!important;
+  }
+
+  .tile{
+    min-height:158px!important;
+    height:auto!important;
+    aspect-ratio:.82/1!important;
+  }
+}
+
+.artImg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 22%;
+  pointer-events:none;
+}
+
+/* Final safety: below mobile threshold, never collapse battle tiles. */
+body.mobileLayoutV52 .board{
+  grid-template-rows:auto auto!important;
+  overflow:visible!important;
+}
+
+body.mobileLayoutV52 .row{
+  min-height:auto!important;
+  align-items:start!important;
+  overflow:visible!important;
+}
+
+body.mobileLayoutV52 .tile{
+  min-height:158px!important;
+  height:auto!important;
+  aspect-ratio:.82/1!important;
+}
+
+/* v90 hard guard: never allow icon-only collapsed tiles in forced-mobile states */
+body.forceMobile .board,
+body.mobileLayoutV52 .board{
+  flex:0 0 auto!important;
+  grid-template-rows:auto auto!important;
+  align-content:start!important;
+  overflow:visible!important;
+}
+
+body.forceMobile .row,
+body.mobileLayoutV52 .row{
+  min-height:auto!important;
+  align-items:start!important;
+  overflow:visible!important;
+}
+
+body.forceMobile .tile,
+body.mobileLayoutV52 .tile{
+  display:block!important;
+  min-height:168px!important;
+  height:auto!important;
+  aspect-ratio:.82/1!important;
+  overflow:hidden!important;
+}
+
+body.forceMobile .tile .art,
+body.mobileLayoutV52 .tile .art{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+
+/* ===== v89 mobile readability + radial usability ===== */
+body.mobileLayoutV52,
+body.mobileLayoutV52 .app{
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+  overflow:hidden!important;
+}
+
+body.mobileLayoutV52 .battle{
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-height:100dvh!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+
+body.mobileLayoutV52 .statusChip,
+body.mobileLayoutV52 .chip{
+  min-width:34px!important;
+  min-height:34px!important;
+  font-size:16px!important;
+  padding:4px 7px!important;
+  border-radius:11px!important;
+}
+
+body.mobileLayoutV52 .chips{
+  gap:4px!important;
+}
+
+#radial.mobileRadialMode #wheel,
+#radial.mobileRadialMode .wheel{
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:min(94vw, 430px)!important;
+  height:min(94vw, 430px)!important;
+}
+
+#radial.mobileRadialMode #wheelCenter,
+#radial.mobileRadialMode .wheelCenter{
+  display:none!important;
+}
+
+#radial.mobileRadialMode .wheelBtn{
+  width:clamp(132px, 34vw, 168px)!important;
+  height:clamp(92px, 24vw, 118px)!important;
+}
+
+/* v91: retire the old icon-only compact battle mode. Mobile can scroll, but cards must remain cards. */
+body.forceMobile .app,
+body.forceMobile.mobileLayoutV52 .app,
+body.mobileLayoutV52 .app{
+  display:block!important;
+  min-height:100dvh!important;
+  height:auto!important;
+  max-height:none!important;
+  overflow:visible!important;
+}
+
+body.forceMobile .battle,
+body.forceMobile.mobileLayoutV52 .battle,
+body.mobileLayoutV52 .battle{
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  max-width:none!important;
+  min-height:100dvh!important;
+  height:auto!important;
+  max-height:none!important;
+  padding:12px!important;
+  overflow:visible!important;
+}
+
+body.forceMobile .mobilePanelControls,
+body.mobileLayoutV52 .mobilePanelControls{
+  display:none!important;
+}
+
+body.forceMobile .board,
+body.forceMobile.mobileLayoutV52 .board,
+body.mobileLayoutV52 .board{
+  display:grid!important;
+  grid-template-rows:auto auto!important;
+  flex:none!important;
+  min-height:auto!important;
+  overflow:visible!important;
+  gap:10px!important;
+}
+
+body.forceMobile .row,
+body.forceMobile.mobileLayoutV52 .row,
+body.mobileLayoutV52 .row{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  min-height:auto!important;
+  gap:10px!important;
+}
+
+body.forceMobile .tile,
+body.forceMobile.mobileLayoutV52 .tile,
+body.mobileLayoutV52 .tile{
+  display:block!important;
+  position:relative!important;
+  min-height:clamp(168px, 45vw, 260px)!important;
+  height:auto!important;
+  aspect-ratio:.82/1!important;
+  overflow:hidden!important;
+}
+
+body.forceMobile .tile .art,
+body.forceMobile .tile .artImg,
+body.forceMobile.mobileLayoutV52 .tile .art,
+body.forceMobile.mobileLayoutV52 .tile .artImg,
+body.mobileLayoutV52 .tile .art,
+body.mobileLayoutV52 .tile .artImg{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+}
+
+body.forceMobile .statusChip,
+body.forceMobile .chip,
+body.mobileLayoutV52 .statusChip,
+body.mobileLayoutV52 .chip{
+  min-width:38px!important;
+  min-height:38px!important;
+  padding:6px 9px!important;
+  font-size:18px!important;
+  line-height:1!important;
+  border-radius:14px!important;
+}
+
+body.forceMobile .chips,
+body.mobileLayoutV52 .chips{
+  gap:5px!important;
+  max-width:82%!important;
+}
+
+@media(max-width:900px), (pointer:coarse){
+  .actionBeam,
+  .gesharSoulBeam,
+  .targetLine{
+    display:none!important;
+  }
+}
+
+/* ===== v92 polished mobile app shell ===== */
+@media(max-width:900px), (pointer:coarse){
+  :root{
+    --app-bg:#17130f;
+    --app-paper:#f4eee6;
+    --app-panel:#fffaf3;
+    --app-line:rgba(49,38,28,.12);
+    --app-shadow:0 14px 34px rgba(28,21,14,.16);
+    --tap:48px;
+  }
+
+  html{
+    min-height:100%;
+    background:var(--app-bg);
+  }
+
+  body{
+    min-height:100%;
+    background:var(--app-bg)!important;
+    color:#211d19;
+    overflow-x:hidden!important;
+    overscroll-behavior-y:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  .app{
+    display:block!important;
+    width:100%!important;
+    min-height:100dvh!important;
+    padding:0!important;
+    background:linear-gradient(180deg,#fffaf3 0,#f2eadf 54%,#e6dac8 100%);
+  }
+
+  .screen,
+  .battle{
+    width:100%!important;
+    max-width:none!important;
+    min-height:100dvh!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    padding:calc(10px + env(safe-area-inset-top)) 10px calc(18px + env(safe-area-inset-bottom))!important;
+    background:
+      radial-gradient(circle at 50% -10%,rgba(255,255,255,.95),rgba(255,255,255,0) 34%),
+      linear-gradient(180deg,#fffaf3 0,#f2eadf 58%,#e7dbc9 100%)!important;
+  }
+
+  button,
+  select{
+    touch-action:manipulation;
+  }
+
+  .pill,
+  .primary,
+  .icon,
+  .actions,
+  select{
+    min-height:var(--tap)!important;
+    border-radius:18px!important;
+  }
+
+  .top,
+  .battleTop{
+    position:sticky!important;
+    top:0!important;
+    z-index:80!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto auto auto auto!important;
+    gap:8px!important;
+    align-items:center!important;
+    margin:-2px -2px 10px!important;
+    padding:8px 2px!important;
+    background:linear-gradient(180deg,rgba(255,250,243,.98),rgba(255,250,243,.82))!important;
+    backdrop-filter:blur(14px);
+  }
+
+  .top{
+    grid-template-columns:minmax(0,1fr)!important;
+    align-items:start!important;
+  }
+
+  .topActions{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+
+  #mobileModeBtn{
+    display:none!important;
+  }
+
+  .top h1,
+  .battleTop h1{
+    font-size:clamp(20px,5vw,28px)!important;
+    line-height:1.05!important;
+    letter-spacing:0!important;
+  }
+
+  .battleTop h1{
+    font-size:18px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    max-width:36vw!important;
+  }
+
+  .eyebrow{
+    font-size:10px!important;
+    letter-spacing:.14em!important;
+  }
+
+  .statBox{
+    min-width:62px!important;
+    padding:7px 9px!important;
+    border-radius:16px!important;
+    background:rgba(255,255,255,.78)!important;
+  }
+
+  .statBox span{
+    font-size:9px!important;
+  }
+
+  .statBox b{
+    font-size:18px!important;
+  }
+
+  .icon{
+    width:var(--tap)!important;
+    height:var(--tap)!important;
+    padding:0!important;
+    display:grid!important;
+    place-items:center!important;
+    font-size:20px!important;
+  }
+
+  .toolbar{
+    position:sticky;
+    top:calc(80px + env(safe-area-inset-top));
+    z-index:60;
+    margin:0 -2px 12px!important;
+    padding:10px!important;
+    border-radius:20px!important;
+    background:rgba(255,250,243,.9)!important;
+    backdrop-filter:blur(12px);
+  }
+
+  .fighterGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+    padding-bottom:20px!important;
+  }
+
+  .fighterCard{
+    border-radius:18px!important;
+    box-shadow:0 10px 22px rgba(40,31,22,.12)!important;
+    background:#fffaf4!important;
+  }
+
+  .fighterCard .portrait,
+  .portrait{
+    height:clamp(132px,36vw,178px)!important;
+    background-position:center 20%!important;
+  }
+
+  .fighterName{
+    font-size:15px!important;
+    padding:9px 9px 2px!important;
+  }
+
+  .fighterMeta{
+    font-size:11px!important;
+    padding:0 9px!important;
+  }
+
+  .fighterStats{
+    font-size:12px!important;
+    padding:7px 9px 10px!important;
+  }
+
+  .classIcon,
+  .check{
+    width:38px!important;
+    height:38px!important;
+    border-radius:13px!important;
+  }
+
+  .chosenStrip{
+    gap:8px!important;
+    overflow-x:auto!important;
+    flex-wrap:nowrap!important;
+    padding:2px 0 8px!important;
+  }
+
+  .chosenToken{
+    min-height:var(--tap)!important;
+    flex:0 0 auto!important;
+  }
+
+  .arrangeLayout{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:12px!important;
+  }
+
+  .formation,
+  .bench,
+  .info>div{
+    border-radius:20px!important;
+    background:rgba(255,250,243,.78)!important;
+    box-shadow:var(--app-shadow)!important;
+  }
+
+  .slotRow{
+    gap:8px!important;
+  }
+
+  .slot{
+    min-height:clamp(112px,30vw,160px)!important;
+    border-radius:18px!important;
+  }
+
+  .benchList,
+  #benchList{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+
+  .benchFighter{
+    grid-template-columns:1fr!important;
+    min-height:var(--tap)!important;
+    border-radius:16px!important;
+    text-align:center!important;
+  }
+
+  .benchThumb{
+    height:78px!important;
+  }
+
+  .battle{
+    display:flex!important;
+    flex-direction:column!important;
+    gap:8px!important;
+  }
+
+  .resource{
+    display:grid!important;
+    grid-template-columns:minmax(78px,auto) minmax(0,1fr) auto!important;
+    gap:8px!important;
+    align-items:center!important;
+    margin:0 0 4px!important;
+  }
+
+  .resource .primary{
+    grid-column:auto!important;
+    justify-self:stretch!important;
+    width:100%!important;
+    min-width:0!important;
+    padding:12px 10px!important;
+    font-size:14px!important;
+  }
+
+  .actions{
+    padding:8px 10px!important;
+    font-size:13px!important;
+    display:grid!important;
+    place-items:center!important;
+    background:#fffaf4!important;
+  }
+
+  .tacticalToggleBtn{
+    min-width:58px!important;
+    width:58px!important;
+    height:var(--tap)!important;
+    padding:0!important;
+    overflow:hidden!important;
+    font-size:0!important;
+  }
+
+  .tacticalToggleBtn::before{
+    content:"!";
+    font-size:20px;
+  }
+
+  .tacticalToggleBtn.active::before{
+    content:"✓";
+  }
+
+  .queueStrip{
+    min-height:54px!important;
+    max-height:80px!important;
+    padding:8px!important;
+    border-radius:18px!important;
+    background:rgba(255,250,243,.82)!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+  }
+
+  .queueEmpty{
+    min-height:38px!important;
+    display:grid!important;
+    place-items:center!important;
+    font-size:12px!important;
+  }
+
+  .board{
+    padding:8px!important;
+    margin:0!important;
+    border-radius:20px!important;
+    gap:8px!important;
+    background:rgba(255,250,243,.44)!important;
+  }
+
+  .row{
+    gap:8px!important;
+  }
+
+  .tile{
+    min-height:clamp(112px,31vw,168px)!important;
+    aspect-ratio:1.02/1!important;
+    border-radius:18px!important;
+    box-shadow:0 9px 20px rgba(40,31,22,.14)!important;
+  }
+
+  .tile.empty{
+    min-height:clamp(112px,31vw,168px)!important;
+    opacity:.22!important;
+  }
+
+  .tile .art,
+  .tile .artImg{
+    background-position:center 20%!important;
+    object-position:center 20%!important;
+  }
+
+  .badge,
+  .unitInfoBtn{
+    width:34px!important;
+    height:34px!important;
+    border-radius:12px!important;
+    font-size:17px!important;
+  }
+
+  .unitInfoBtn{
+    top:44px!important;
+    left:6px!important;
+  }
+
+  .chips{
+    top:6px!important;
+    right:6px!important;
+    gap:4px!important;
+    max-width:calc(100% - 12px)!important;
+  }
+
+  .chip,
+  .statusChip{
+    min-width:32px!important;
+    min-height:32px!important;
+    padding:4px 7px!important;
+    border-radius:12px!important;
+    font-size:15px!important;
+  }
+
+  .hp{
+    left:8px!important;
+    bottom:8px!important;
+    font-size:18px!important;
+  }
+
+  .armor{
+    left:8px!important;
+    bottom:35px!important;
+    font-size:12px!important;
+  }
+
+  .name{
+    right:8px!important;
+    bottom:9px!important;
+    max-width:70%!important;
+    font-size:10px!important;
+  }
+
+  .info{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    margin-top:2px!important;
+  }
+
+  .info>div{
+    padding:12px!important;
+    max-height:28dvh!important;
+    overflow:auto!important;
+  }
+
+  .panelTitle{
+    font-size:11px!important;
+    margin:0 0 8px!important;
+  }
+
+  .log{
+    max-height:18dvh!important;
+  }
+
+  .resolutionOverlay{
+    position:fixed!important;
+    top:calc(8px + env(safe-area-inset-top))!important;
+    left:8px!important;
+    right:8px!important;
+    width:auto!important;
+    transform:none!important;
+    z-index:10150!important;
+  }
+
+  .resolveCard{
+    max-height:62dvh!important;
+    overflow:auto!important;
+    border-radius:20px!important;
+    padding:12px!important;
+  }
+
+  .inlineContinueResolveBtn,
+  .continueResolveBtn{
+    min-height:var(--tap)!important;
+  }
+
+  #radial.mobileRadialMode #wheel,
+  #radial.mobileRadialMode .wheel{
+    width:min(92vw,390px)!important;
+    height:min(92vw,390px)!important;
+  }
+
+  #radial.mobileRadialMode .wheelBtn{
+    width:clamp(122px,34vw,158px)!important;
+    height:clamp(88px,24vw,110px)!important;
+    border-radius:22px!important;
+  }
+
+  #abilityTooltip.mobileAbilitySheet{
+    max-height:30dvh!important;
+  }
+}
+
+@media(max-width:430px){
+  .battleTop{
+    grid-template-columns:minmax(0,1fr) auto auto auto auto!important;
+    gap:6px!important;
+  }
+
+  .statBox{
+    min-width:56px!important;
+    padding:6px 7px!important;
+  }
+
+  .icon{
+    width:44px!important;
+    height:44px!important;
+  }
+
+  .resource{
+    grid-template-columns:78px minmax(0,1fr) 52px!important;
+  }
+
+  .board{
+    padding:7px!important;
+    gap:7px!important;
+  }
+
+  .row{
+    gap:7px!important;
+  }
+
+  .tile,
+  .tile.empty{
+    min-height:clamp(106px,30vw,142px)!important;
+    border-radius:16px!important;
+  }
+
+  .chip,
+  .statusChip{
+    min-width:30px!important;
+    min-height:30px!important;
+    font-size:14px!important;
+    padding:3px 6px!important;
+  }
+
+  .badge,
+  .unitInfoBtn{
+    width:32px!important;
+    height:32px!important;
+  }
+
+  .unitInfoBtn{
+    top:42px!important;
+    left:6px!important;
+  }
+}
+
+/* v93: high-specificity mobile board sizing, placed last so old rules cannot win. */
+@media(max-width:900px), (pointer:coarse){
+  body.forceMobile .board,
+  body.forceMobile.mobileLayoutV52 .board,
+  body.mobileLayoutV52 .board,
+  body.tabletLayoutV52 .board{
+    width:100%!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    padding:7px!important;
+    gap:7px!important;
+  }
+
+  body.forceMobile .row,
+  body.forceMobile.mobileLayoutV52 .row,
+  body.mobileLayoutV52 .row,
+  body.tabletLayoutV52 .row{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:7px!important;
+  }
+
+  body.forceMobile .tile,
+  body.forceMobile.mobileLayoutV52 .tile,
+  body.mobileLayoutV52 .tile,
+  body.tabletLayoutV52 .tile,
+  body.forceMobile .tile.empty,
+  body.forceMobile.mobileLayoutV52 .tile.empty,
+  body.mobileLayoutV52 .tile.empty,
+  body.tabletLayoutV52 .tile.empty{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:clamp(126px,32vw,150px)!important;
+    aspect-ratio:1.06/1!important;
+    border-radius:16px!important;
+  }
+
+  body.forceMobile .tile .art,
+  body.forceMobile .tile .artImg,
+  body.mobileLayoutV52 .tile .art,
+  body.mobileLayoutV52 .tile .artImg,
+  body.tabletLayoutV52 .tile .art,
+  body.tabletLayoutV52 .tile .artImg{
+    object-position:center 19%!important;
+    background-position:center 19%!important;
+  }
+
+  body.forceMobile .chips,
+  body.mobileLayoutV52 .chips,
+  body.tabletLayoutV52 .chips{
+    max-width:calc(100% - 10px)!important;
+  }
+
+  #radial.mobileRadialMode .wheel::before,
+  #radial.mobileRadialMode #wheel::before{
+    display:none!important;
+    content:none!important;
+  }
+
+  #radial.mobileRadialMode .wheel,
+  #radial.mobileRadialMode #wheel{
+    background:rgba(30,42,54,.38)!important;
+    box-shadow:0 20px 54px rgba(0,0,0,.28), inset 0 0 0 2px rgba(255,255,255,.12)!important;
+  }
+
+  .resolutionOverlay .resolveCard{
+    max-height:58dvh!important;
+    overflow:auto!important;
+    padding:12px 13px!important;
+  }
+
+  .resolutionOverlay .resolveTop{
+    grid-template-columns:42px minmax(0,1fr)!important;
+    gap:9px!important;
+  }
+
+  .resolutionOverlay .resolveIcon{
+    width:42px!important;
+    height:42px!important;
+    border-radius:14px!important;
+  }
+
+  .resolutionOverlay .resolveTitle{
+    font-size:18px!important;
+    line-height:1.08!important;
+  }
+
+  .resolutionOverlay .resolveMeta{
+    font-size:11px!important;
+    line-height:1.25!important;
+  }
+
+  .resolutionOverlay .resolveDesc{
+    font-size:13px!important;
+    line-height:1.62!important;
+    margin-top:9px!important;
+  }
+
+  .resolutionOverlay .resolveEventList{
+    gap:6px!important;
+    margin-top:9px!important;
+  }
+
+  .resolutionOverlay .resolveEvent{
+    font-size:12px!important;
+    line-height:1.55!important;
+    white-space:normal!important;
+    min-height:34px!important;
+    padding:8px 9px!important;
+    display:block!important;
+    overflow:visible!important;
+  }
+
+  .resolutionOverlay .keywordLink{
+    display:inline-flex!important;
+    align-items:center!important;
+    min-height:0!important;
+    padding:2px 6px!important;
+    line-height:1.15!important;
+    vertical-align:middle!important;
+  }
+
+  .resolutionOverlay .resolveEvent .keywordLink{
+    margin:1px 2px!important;
+  }
+}
+
+/* v94: phone result sheet + narrow-board hardening. */
+@media(max-width:900px), (pointer:coarse){
+  body.forceMobile .tile .art,
+  body.mobileLayoutV52 .tile .art,
+  body.tabletLayoutV52 .tile .art,
+  body.forceMobile .tile .artImg,
+  body.mobileLayoutV52 .tile .artImg,
+  body.tabletLayoutV52 .tile .artImg{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    min-height:100%!important;
+  }
+
+  body.forceMobile .statusChip,
+  body.mobileLayoutV52 .statusChip,
+  body.tabletLayoutV52 .statusChip{
+    min-width:34px!important;
+    min-height:34px!important;
+    padding:5px 8px!important;
+    font-size:15px!important;
+    line-height:1!important;
+  }
+
+  body.forceMobile .actionBeam,
+  body.mobileLayoutV52 .actionBeam,
+  body.tabletLayoutV52 .actionBeam,
+  body.forceMobile .targetLine,
+  body.mobileLayoutV52 .targetLine,
+  body.tabletLayoutV52 .targetLine,
+  body.forceMobile .gesharSoulBeam,
+  body.mobileLayoutV52 .gesharSoulBeam,
+  body.tabletLayoutV52 .gesharSoulBeam{
+    display:none!important;
+  }
+
+  body.forceMobile .resolutionOverlay,
+  body.mobileLayoutV52 .resolutionOverlay,
+  body.tabletLayoutV52 .resolutionOverlay,
+  .resolutionOverlay{
+    position:fixed!important;
+    top:auto!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    width:auto!important;
+    max-width:none!important;
+    transform:none!important;
+    z-index:10150!important;
+  }
+
+  body.forceMobile .resolutionOverlay .resolveCard,
+  body.mobileLayoutV52 .resolutionOverlay .resolveCard,
+  body.tabletLayoutV52 .resolutionOverlay .resolveCard,
+  .resolutionOverlay .resolveCard{
+    display:block!important;
+    max-height:min(54dvh,470px)!important;
+    min-height:240px!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    padding:15px!important;
+    border-radius:24px!important;
+    background:rgba(255,255,255,.98)!important;
+    box-shadow:0 -20px 56px rgba(28,22,16,.24), inset 0 0 0 1px rgba(255,255,255,.72)!important;
+  }
+
+  .resolutionOverlay .resolveTop{
+    grid-template-columns:44px minmax(0,1fr)!important;
+    align-items:center!important;
+    gap:10px!important;
+  }
+
+  .resolutionOverlay .resolveIcon{
+    width:44px!important;
+    height:44px!important;
+    border-radius:15px!important;
+  }
+
+  .resolutionOverlay .resolveTitle{
+    font-size:18px!important;
+    line-height:1.12!important;
+  }
+
+  .resolutionOverlay .resolveMeta{
+    font-size:11px!important;
+    line-height:1.35!important;
+  }
+
+  .resolutionOverlay .resolveDesc{
+    display:block!important;
+    margin-top:11px!important;
+    font-size:13px!important;
+    line-height:1.75!important;
+  }
+
+  .resolutionOverlay .resolveEventList{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    margin-top:11px!important;
+  }
+
+  .resolutionOverlay .resolveEvent{
+    display:block!important;
+    position:static!important;
+    inset:auto!important;
+    min-height:auto!important;
+    height:auto!important;
+    padding:9px 10px!important;
+    font-size:12px!important;
+    line-height:1.55!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    word-break:normal!important;
+    text-shadow:none!important;
+  }
+
+  .resolutionOverlay .keywordLink{
+    display:inline!important;
+    min-width:0!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:2px 6px!important;
+    line-height:1.2!important;
+    vertical-align:baseline!important;
+    white-space:normal!important;
+  }
+
+  .resolutionOverlay .inlineContinueResolveBtn,
+  .resolutionOverlay .continueResolveBtn{
+    position:sticky!important;
+    bottom:0!important;
+    min-height:52px!important;
+    margin-top:12px!important;
+    font-size:17px!important;
+  }
+
+  .qaPanelV53{
+    z-index:10020!important;
+  }
+}
+
+/* v98: mobile builder is a single app screen with its own roster scroll. */
+@media(max-width:900px), (pointer:coarse){
+  body.forceMobile,
+  body.mobileLayoutV52,
+  body.tabletLayoutV52{
+    overflow:hidden!important;
+  }
+
+  body.forceMobile .app,
+  body.mobileLayoutV52 .app,
+  body.tabletLayoutV52 .app{
+    width:100vw!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+    padding:0!important;
+  }
+
+  body.forceMobile #builder.screen,
+  body.mobileLayoutV52 #builder.screen,
+  body.tabletLayoutV52 #builder.screen{
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    padding:8px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+
+  body.inBattleV98 #builder{
+    display:none!important;
+  }
+
+  body:not(.inBattleV98) #battle{
+    display:none!important;
+  }
+
+  body.forceMobile #builder .top,
+  body.mobileLayoutV52 #builder .top,
+  body.tabletLayoutV52 #builder .top{
+    flex:0 0 auto!important;
+    position:relative!important;
+    top:auto!important;
+    z-index:20!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(118px,34vw)!important;
+    gap:8px!important;
+    align-items:end!important;
+    margin:0 0 8px!important;
+    padding:2px 0 8px!important;
+    background:linear-gradient(180deg,rgba(255,250,243,.98),rgba(255,250,243,.78))!important;
+  }
+
+  body.forceMobile #builder .topActions,
+  body.mobileLayoutV52 #builder .topActions,
+  body.tabletLayoutV52 #builder .topActions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+    width:100%!important;
+  }
+
+  body.forceMobile #builder #randomBtn,
+  body.mobileLayoutV52 #builder #randomBtn,
+  body.tabletLayoutV52 #builder #randomBtn,
+  body.forceMobile #builder #nextBtn,
+  body.mobileLayoutV52 #builder #nextBtn,
+  body.tabletLayoutV52 #builder #nextBtn{
+    grid-column:auto!important;
+    width:100%!important;
+    min-height:42px!important;
+    padding:8px 10px!important;
+    border-radius:999px!important;
+    font-size:13px!important;
+  }
+
+  body.forceMobile #builder #backBtn,
+  body.mobileLayoutV52 #builder #backBtn,
+  body.tabletLayoutV52 #builder #backBtn{
+    min-height:38px!important;
+    padding:7px 10px!important;
+  }
+
+  body.forceMobile #builder .eyebrow,
+  body.mobileLayoutV52 #builder .eyebrow,
+  body.tabletLayoutV52 #builder .eyebrow{
+    font-size:10px!important;
+  }
+
+  body.forceMobile #builder h1,
+  body.mobileLayoutV52 #builder h1,
+  body.tabletLayoutV52 #builder h1{
+    font-size:clamp(23px,6vw,34px)!important;
+    line-height:1.02!important;
+  }
+
+  body.forceMobile #chooseStep,
+  body.mobileLayoutV52 #chooseStep,
+  body.tabletLayoutV52 #chooseStep{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    display:grid!important;
+    grid-template-rows:auto auto minmax(0,1fr)!important;
+    overflow:hidden!important;
+  }
+
+  body.forceMobile #chooseStep.hidden,
+  body.mobileLayoutV52 #chooseStep.hidden,
+  body.tabletLayoutV52 #chooseStep.hidden{
+    display:none!important;
+  }
+
+  body.forceMobile #chooseStep .toolbar,
+  body.mobileLayoutV52 #chooseStep .toolbar,
+  body.tabletLayoutV52 #chooseStep .toolbar{
+    position:relative!important;
+    top:auto!important;
+    z-index:10!important;
+    min-height:48px!important;
+    margin:0 0 6px!important;
+    padding:6px 8px!important;
+    border-radius:18px!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(128px,36vw)!important;
+    gap:8px!important;
+    align-items:center!important;
+  }
+
+  body.forceMobile #classFilter,
+  body.mobileLayoutV52 #classFilter,
+  body.tabletLayoutV52 #classFilter{
+    width:100%!important;
+    min-height:40px!important;
+    padding:7px 10px!important;
+    font-size:13px!important;
+  }
+
+  body.forceMobile #chosenStrip,
+  body.mobileLayoutV52 #chosenStrip,
+  body.tabletLayoutV52 #chosenStrip{
+    flex:0 0 auto!important;
+    min-height:42px!important;
+    max-height:48px!important;
+    margin:0 0 6px!important;
+    padding:0 0 4px!important;
+    display:flex!important;
+    gap:6px!important;
+    flex-wrap:nowrap!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+  }
+
+  body.forceMobile #fighterGrid,
+  body.mobileLayoutV52 #fighterGrid,
+  body.tabletLayoutV52 #fighterGrid{
+    min-height:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain!important;
+    -webkit-overflow-scrolling:touch;
+    padding:2px 2px calc(18px + env(safe-area-inset-bottom))!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    align-content:start!important;
+  }
+
+  body.forceMobile .fighterStats,
+  body.mobileLayoutV52 .fighterStats,
+  body.tabletLayoutV52 .fighterStats{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    gap:3px 6px!important;
+    font-size:11px!important;
+    line-height:1.15!important;
+  }
+
+  body.forceMobile .fighterStats span,
+  body.mobileLayoutV52 .fighterStats span,
+  body.tabletLayoutV52 .fighterStats span{
+    white-space:nowrap!important;
+  }
+}
+
+/* v99: roster cards keep readable identity inside the internal mobile scroll. */
+@media(max-width:900px), (pointer:coarse){
+  body.forceMobile #fighterGrid,
+  body.mobileLayoutV52 #fighterGrid,
+  body.tabletLayoutV52 #fighterGrid{
+    grid-auto-rows:max-content!important;
+    align-items:start!important;
+    align-content:start!important;
+  }
+
+  body.forceMobile #fighterGrid .fighterCard,
+  body.mobileLayoutV52 #fighterGrid .fighterCard,
+  body.tabletLayoutV52 #fighterGrid .fighterCard{
+    align-self:start!important;
+    height:auto!important;
+    min-height:0!important;
+    display:block!important;
+    background:#fffaf4!important;
+  }
+
+  body.forceMobile #fighterGrid .fighterCard .portrait,
+  body.mobileLayoutV52 #fighterGrid .fighterCard .portrait,
+  body.tabletLayoutV52 #fighterGrid .fighterCard .portrait{
+    height:clamp(108px,24vw,148px)!important;
+  }
+
+  body.forceMobile #fighterGrid .fighterName,
+  body.mobileLayoutV52 #fighterGrid .fighterName,
+  body.tabletLayoutV52 #fighterGrid .fighterName{
+    display:block!important;
+    padding:8px 9px 1px!important;
+    font-size:14px!important;
+    line-height:1.1!important;
+    color:#14110f!important;
+  }
+
+  body.forceMobile #fighterGrid .fighterMeta,
+  body.mobileLayoutV52 #fighterGrid .fighterMeta,
+  body.tabletLayoutV52 #fighterGrid .fighterMeta{
+    display:block!important;
+    padding:0 9px!important;
+    font-size:10px!important;
+    line-height:1.2!important;
+    color:#5f554c!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+
+  body.forceMobile #fighterGrid .fighterStats,
+  body.mobileLayoutV52 #fighterGrid .fighterStats,
+  body.tabletLayoutV52 #fighterGrid .fighterStats{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    padding:5px 9px 9px!important;
+    gap:4px 7px!important;
+    font-size:10px!important;
+    line-height:1.2!important;
+    color:#14110f!important;
+  }
+}
+
+/* v100: hard mobile app shell - no page-scroll handoff between builder and battle. */
+@media(max-width:900px), (pointer:coarse){
+  html,
+  body{
+    width:100%!important;
+    height:100%!important;
+    min-height:100%!important;
+    overflow:hidden!important;
+    overscroll-behavior:none!important;
+  }
+
+  .app{
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+    padding:0!important;
+    display:block!important;
+  }
+
+  body:not(.inBattleV98) #builder.screen,
+  body.inBattleV98 #battle.battle{
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    max-width:none!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    margin:0!important;
+    border-radius:0!important;
+  }
+
+  body:not(.inBattleV98) #builder.screen{
+    display:flex!important;
+    overflow:hidden!important;
+  }
+
+  body.inBattleV98 #battle.battle{
+    display:flex!important;
+    flex-direction:column!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain!important;
+  }
+
+  body:not(.inBattleV98) #chosenStrip:empty{
+    display:none!important;
+    min-height:0!important;
+    max-height:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .chip.statusChip,
+  .statusChip{
+    min-width:38px!important;
+    min-height:36px!important;
+    padding:6px 9px!important;
+    font-size:16px!important;
+  }
+}
+
+/* v101 final placement: closeable overlays and explicit battle log drawer. */
+.overlayCloseBtn{
+  position:absolute!important;
+  top:10px!important;
+  right:10px!important;
+  z-index:30!important;
+  width:40px!important;
+  height:40px!important;
+  border:0!important;
+  border-radius:50%!important;
+  display:grid!important;
+  place-items:center!important;
+  background:rgba(24,20,17,.92)!important;
+  color:#fff!important;
+  font-size:24px!important;
+  line-height:1!important;
+  font-weight:1000!important;
+  box-shadow:0 8px 22px rgba(24,20,17,.22)!important;
+  cursor:pointer!important;
+}
+
+.abilityTooltip,
+.resolveCard{position:relative!important;}
+
+.abilityTooltipClose{
+  top:8px!important;
+  right:8px!important;
+  width:34px!important;
+  height:34px!important;
+  font-size:21px!important;
+}
+
+.abilityTooltip .tipTop,
+.abilityTooltip .abilityDescText,
+.abilityTooltip .rulesClarifier,
+.abilityTooltip .tipTags{padding-right:38px;}
+
+.battleLogToggleBtn{
+  min-width:76px!important;
+  justify-self:end!important;
+}
+
+.info.panelClosedV101{display:none!important;}
+.info.showLogV101{display:block!important;}
+.info.showLogV101 #infoColumn{display:none!important;}
+.info.showLogV101 #logColumn{
+  display:block!important;
+  max-width:760px!important;
+  margin:0 auto!important;
+}
+.info.showInfoV101 #infoColumn{display:block!important;}
+.info.showInfoV101 #logColumn{display:none!important;}
+.info.showLogV101 .log{
+  max-height:min(48dvh,420px)!important;
+  overflow:auto!important;
+}
+
+@media(max-width:900px), (pointer:coarse){
+  .overlayCloseBtn{
+    width:44px!important;
+    height:44px!important;
+    top:8px!important;
+    right:8px!important;
+  }
+
+  .battleLogToggleBtn{
+    min-height:48px!important;
+    min-width:64px!important;
+    padding:8px 12px!important;
+    font-size:14px!important;
+  }
+
+  .info.showLogV101,
+  .info.showInfoV101{
+    position:fixed!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:max(8px, env(safe-area-inset-bottom))!important;
+    z-index:18!important;
+    max-height:min(44dvh,430px)!important;
+    overflow:auto!important;
+    border-radius:20px!important;
+    box-shadow:0 18px 46px rgba(24,20,17,.24)!important;
+  }
+
+  .info.showLogV101 #logColumn,
+  .info.showInfoV101 #infoColumn{border-radius:20px!important;}
+
+  .resolutionOverlay .resolveCard{padding-top:46px!important;}
+  #abilityTooltip.mobileAbilitySheet{padding-top:48px!important;}
+}
+
+/* ===== v103 character inspect artwork ===== */
+.inspectArtworkV103{
+  margin:0 0 12px;
+  padding:10px;
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(245,239,230,.76));
+  border:1px solid rgba(72,57,42,.10);
+  box-shadow:0 12px 28px rgba(45,35,24,.10);
+}
+
+.inspectArtworkV103 img{
+  display:block;
+  width:100%;
+  height:clamp(180px, 28dvh, 320px);
+  object-fit:contain;
+  object-position:center;
+  border-radius:14px;
+  background:rgba(27,22,18,.08);
+}
+
+.inspectArtworkV103 figcaption{
+  margin-top:8px;
+  color:rgba(31,27,23,.72);
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.miniInfoCardWithArtV103{
+  grid-template-columns:minmax(0, 1fr) minmax(168px, 32%);
+  align-items:stretch;
+  gap:12px 16px;
+}
+
+.miniInfoCardWithArtV103 .miniInfoStatsV103{
+  display:grid;
+  align-content:start;
+  gap:8px;
+  min-width:0;
+}
+
+.miniInfoCardWithArtV103 .inspectArtworkV103{
+  grid-column:2;
+  grid-row:1;
+  margin:0;
+  min-height:100%;
+}
+
+.miniInfoCardWithArtV103 .inspectArtworkV103 img{
+  height:100%;
+  min-height:180px;
+  max-height:310px;
+}
+
+@media(max-width:900px), (pointer:coarse){
+  .inspectArtworkV103{
+    margin-bottom:10px!important;
+    padding:8px!important;
+    border-radius:16px!important;
+  }
+
+  .inspectArtworkV103 img{
+    height:clamp(170px, 24dvh, 260px)!important;
+    border-radius:12px!important;
+  }
+
+  .miniInfoCardWithArtV103{
+    grid-template-columns:minmax(0, 1fr) minmax(150px, 34%)!important;
+    gap:10px 12px!important;
+  }
+
+  .miniInfoCardWithArtV103 .inspectArtworkV103{
+    grid-column:2!important;
+    grid-row:1!important;
+    margin:0!important;
+  }
+
+  .miniInfoCardWithArtV103 .inspectArtworkV103 img{
+    height:100%!important;
+    min-height:160px!important;
+    max-height:230px!important;
+  }
+}
+
+@media(max-width:520px){
+  .miniInfoCardWithArtV103{
+    grid-template-columns:1fr!important;
+  }
+
+  .miniInfoCardWithArtV103 .inspectArtworkV103{
+    grid-column:1!important;
+    grid-row:2!important;
+  }
+
+  .miniInfoCardWithArtV103 .inspectArtworkV103 img{
+    height:clamp(160px, 26dvh, 220px)!important;
+  }
+}
+
+/* ===== v104 life-loss rumble ===== */
+.tile.lifeLossRumbleV104{
+  animation: lifeLossRumbleV104 .58s cubic-bezier(.22,1,.36,1) both !important;
+  will-change: transform, filter;
+}
+
+.tile.lifeLossRumbleV104 .art,
+.tile.lifeLossRumbleV104 .artImg{
+  animation: lifeLossFlashV104 .58s ease-out both !important;
+}
+
+.tile.lifeLossRumbleV104::after{
+  content:"";
+  position:absolute;
+  inset:8px;
+  z-index:6;
+  pointer-events:none;
+  border-radius:inherit;
+  border:3px solid rgba(255,74,74,.82);
+  box-shadow:0 0 0 999px rgba(190,31,31,.08) inset, 0 0 26px rgba(255,58,58,.35);
+  animation: lifeLossRingV104 .58s ease-out both;
+}
+
+@keyframes lifeLossRumbleV104{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(1);filter:brightness(1)}
+  12%{transform:translate3d(calc(-7px * var(--life-loss-intensity,1)),2px,0) rotate(-1.4deg) scale(1.012);filter:brightness(1.25) saturate(1.25)}
+  24%{transform:translate3d(calc(6px * var(--life-loss-intensity,1)),calc(-4px * var(--life-loss-intensity,1)),0) rotate(1.2deg)}
+  36%{transform:translate3d(calc(-5px * var(--life-loss-intensity,1)),calc(3px * var(--life-loss-intensity,1)),0) rotate(-1deg)}
+  50%{transform:translate3d(calc(4px * var(--life-loss-intensity,1)),1px,0) rotate(.75deg)}
+  64%{transform:translate3d(calc(-2px * var(--life-loss-intensity,1)),calc(-1px * var(--life-loss-intensity,1)),0) rotate(-.35deg)}
+  100%{transform:translate3d(0,0,0) rotate(0deg) scale(1);filter:brightness(1)}
+}
+
+@keyframes lifeLossFlashV104{
+  0%{filter:brightness(1) saturate(1)}
+  20%{filter:brightness(1.32) saturate(1.45) contrast(1.06)}
+  38%{filter:brightness(.82) saturate(1.25) contrast(1.08)}
+  100%{filter:brightness(1) saturate(1)}
+}
+
+@keyframes lifeLossRingV104{
+  0%{opacity:0;transform:scale(.94)}
+  18%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.055)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tile.lifeLossRumbleV104,
+  .tile.lifeLossRumbleV104 .art,
+  .tile.lifeLossRumbleV104 .artImg,
+  .tile.lifeLossRumbleV104::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
   }
 }

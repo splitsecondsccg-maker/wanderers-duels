@@ -1,0 +1,5951 @@
+{
+  "meta": {
+    "games": 3000,
+    "seed": 2831459711,
+    "avgRounds": 15.45,
+    "generatedAt": "2026-04-30T17:31:36.016Z"
+  },
+  "notes": [
+    "This is a headless approximation, not a replacement for human playtesting.",
+    "It is useful for finding obvious overperformers, underperformers, overused guards, and dead abilities.",
+    "AI-vs-AI results are biased by the AI heuristic."
+  ],
+  "flags": [
+    {
+      "type": "overperformer",
+      "item": "Kahro",
+      "note": "60.6% win rate"
+    },
+    {
+      "type": "overperformer",
+      "item": "Bahl",
+      "note": "60.4% win rate"
+    },
+    {
+      "type": "guard-heavy",
+      "item": "Hope",
+      "note": "10.07 guards/game"
+    },
+    {
+      "type": "guard-heavy",
+      "item": "Dravain",
+      "note": "7.83 guards/game"
+    },
+    {
+      "type": "underperformer",
+      "item": "Lady Eva",
+      "note": "41.2% win rate"
+    },
+    {
+      "type": "underperformer",
+      "item": "Yaura",
+      "note": "40.7% win rate"
+    },
+    {
+      "type": "guard-heavy",
+      "item": "Yaura",
+      "note": "5.96 guards/game"
+    },
+    {
+      "type": "underperformer",
+      "item": "K'ku",
+      "note": "38.1% win rate"
+    },
+    {
+      "type": "guard-heavy",
+      "item": "K'ku",
+      "note": "3.01 guards/game"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Bahl — Demon Rupture",
+      "note": "used 7304 times, 65.4% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Dravain — Shield Bash",
+      "note": "used 5441 times, 59.4% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Bahl — Infect Mark",
+      "note": "used 4955 times, 65.4% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Kahro — Assassinate",
+      "note": "used 4841 times, 66.5% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Kahro — Shadow Mark",
+      "note": "used 4743 times, 61.4% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Hope — Mend Wounds",
+      "note": "used 4541 times, 59.5% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Hope — Delayed Judgement",
+      "note": "used 3116 times, 62.6% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Bakub — Mind Toxin",
+      "note": "used 2216 times, 71% winner-side use"
+    },
+    {
+      "type": "ability-high-impact",
+      "item": "Kahro — Shadow Needle",
+      "note": "used 1651 times, 75.3% winner-side use"
+    },
+    {
+      "type": "ability-low-use",
+      "item": "Bahl — Dark Proliferation",
+      "note": "used 56 times"
+    },
+    {
+      "type": "proficiency-outlier-high",
+      "item": "darkness",
+      "note": "60.6% win rate; chars: Kahro"
+    },
+    {
+      "type": "proficiency-outlier-high",
+      "item": "demon",
+      "note": "57.5% win rate; chars: Bahl, Bakub"
+    }
+  ],
+  "characterSummary": [
+    {
+      "id": "kahro",
+      "name": "Kahro",
+      "cls": "assassin",
+      "prof": "darkness",
+      "baseHp": 17,
+      "baseArmor": 2,
+      "picks": 1300,
+      "winRate": 60.6,
+      "avgDamage": 25.04,
+      "avgTaken": 15.08,
+      "avgHealing": 0.33,
+      "avgStatusApplied": 7.32,
+      "avgGuards": 1.12,
+      "avgRounds": 14.34,
+      "damageTakenRatio": 1.66
+    },
+    {
+      "id": "shaman",
+      "name": "Bahl",
+      "cls": "sorcerer",
+      "prof": "bloodcraft demon",
+      "baseHp": 23,
+      "baseArmor": 1,
+      "picks": 1259,
+      "winRate": 60.4,
+      "avgDamage": 27.97,
+      "avgTaken": 20.83,
+      "avgHealing": 0.29,
+      "avgStatusApplied": 12.97,
+      "avgGuards": 0,
+      "avgRounds": 14.58,
+      "damageTakenRatio": 1.34
+    },
+    {
+      "id": "maoja",
+      "name": "Maoja",
+      "cls": "brute",
+      "prof": "witchcraft",
+      "baseHp": 29,
+      "baseArmor": 1,
+      "picks": 1336,
+      "winRate": 56.2,
+      "avgDamage": 9.76,
+      "avgTaken": 26.68,
+      "avgHealing": 0.87,
+      "avgStatusApplied": 18.95,
+      "avgGuards": 0,
+      "avgRounds": 15.65,
+      "damageTakenRatio": 0.37
+    },
+    {
+      "id": "hope",
+      "name": "Hope",
+      "cls": "warrior",
+      "prof": "divinity",
+      "baseHp": 22,
+      "baseArmor": 2,
+      "picks": 1272,
+      "winRate": 55.3,
+      "avgDamage": 11.47,
+      "avgTaken": 21.56,
+      "avgHealing": 4.73,
+      "avgStatusApplied": 0.12,
+      "avgGuards": 10.07,
+      "avgRounds": 17.85,
+      "damageTakenRatio": 0.53
+    },
+    {
+      "id": "paleya",
+      "name": "Paleya",
+      "cls": "sorcerer",
+      "prof": "hypnotic",
+      "baseHp": 20,
+      "baseArmor": 1,
+      "picks": 1245,
+      "winRate": 54.9,
+      "avgDamage": 22.7,
+      "avgTaken": 19.44,
+      "avgHealing": 0.43,
+      "avgStatusApplied": 11.27,
+      "avgGuards": 1.11,
+      "avgRounds": 14.61,
+      "damageTakenRatio": 1.17
+    },
+    {
+      "id": "bakub",
+      "name": "Bakub",
+      "cls": "sorcerer",
+      "prof": "witchcraft hypnotic demon",
+      "baseHp": 21,
+      "baseArmor": 1,
+      "picks": 1264,
+      "winRate": 54.5,
+      "avgDamage": 6.19,
+      "avgTaken": 19.4,
+      "avgHealing": 0.41,
+      "avgStatusApplied": 27.16,
+      "avgGuards": 1.51,
+      "avgRounds": 14.91,
+      "damageTakenRatio": 0.32
+    },
+    {
+      "id": "poom",
+      "name": "Poom",
+      "cls": "brute",
+      "prof": "hypnotic",
+      "baseHp": 30,
+      "baseArmor": 1,
+      "picks": 1320,
+      "winRate": 52.3,
+      "avgDamage": 29.99,
+      "avgTaken": 28.81,
+      "avgHealing": 0.83,
+      "avgStatusApplied": 2.25,
+      "avgGuards": 1.59,
+      "avgRounds": 15.29,
+      "damageTakenRatio": 1.04
+    },
+    {
+      "id": "dravain",
+      "name": "Dravain",
+      "cls": "warrior",
+      "prof": "vampire",
+      "baseHp": 22,
+      "baseArmor": 3,
+      "picks": 1323,
+      "winRate": 50.2,
+      "avgDamage": 15.87,
+      "avgTaken": 19.83,
+      "avgHealing": 1.2,
+      "avgStatusApplied": 0.4,
+      "avgGuards": 7.83,
+      "avgRounds": 16.63,
+      "damageTakenRatio": 0.8
+    },
+    {
+      "id": "hyafrost",
+      "name": "Hyafrost",
+      "cls": "sorcerer",
+      "prof": "icecraft spirit",
+      "baseHp": 22,
+      "baseArmor": 1,
+      "picks": 1234,
+      "winRate": 49.2,
+      "avgDamage": 27.46,
+      "avgTaken": 21.4,
+      "avgHealing": 0.45,
+      "avgStatusApplied": 21.92,
+      "avgGuards": 0,
+      "avgRounds": 15.15,
+      "damageTakenRatio": 1.28
+    },
+    {
+      "id": "zahria",
+      "name": "Zahria",
+      "cls": "sorcerer",
+      "prof": "bloodcraft",
+      "baseHp": 20,
+      "baseArmor": 1,
+      "picks": 1278,
+      "winRate": 43.5,
+      "avgDamage": 11.04,
+      "avgTaken": 20.91,
+      "avgHealing": 2.03,
+      "avgStatusApplied": 11.13,
+      "avgGuards": 0,
+      "avgRounds": 15.15,
+      "damageTakenRatio": 0.53
+    },
+    {
+      "id": "smithen",
+      "name": "Smithen",
+      "cls": "assassin",
+      "prof": "icecraft",
+      "baseHp": 16,
+      "baseArmor": 2,
+      "picks": 1350,
+      "winRate": 43.1,
+      "avgDamage": 21.08,
+      "avgTaken": 15.99,
+      "avgHealing": 0.33,
+      "avgStatusApplied": 5.41,
+      "avgGuards": 1.46,
+      "avgRounds": 15.23,
+      "damageTakenRatio": 1.32
+    },
+    {
+      "id": "eva",
+      "name": "Lady Eva",
+      "cls": "assassin",
+      "prof": "vampire",
+      "baseHp": 16,
+      "baseArmor": 2,
+      "picks": 1261,
+      "winRate": 41.2,
+      "avgDamage": 18.05,
+      "avgTaken": 17.4,
+      "avgHealing": 2.35,
+      "avgStatusApplied": 5.93,
+      "avgGuards": 2.04,
+      "avgRounds": 15.58,
+      "damageTakenRatio": 1.04
+    },
+    {
+      "id": "yaura",
+      "name": "Yaura",
+      "cls": "warrior",
+      "prof": "bloodcraft",
+      "baseHp": 22,
+      "baseArmor": 3,
+      "picks": 1257,
+      "winRate": 40.7,
+      "avgDamage": 19.14,
+      "avgTaken": 21.69,
+      "avgHealing": 0.6,
+      "avgStatusApplied": 12.5,
+      "avgGuards": 5.96,
+      "avgRounds": 14.89,
+      "damageTakenRatio": 0.88
+    },
+    {
+      "id": "kku",
+      "name": "K'ku",
+      "cls": "brute",
+      "prof": "icecraft",
+      "baseHp": 29,
+      "baseArmor": 1,
+      "picks": 1301,
+      "winRate": 38.1,
+      "avgDamage": 13.29,
+      "avgTaken": 27.78,
+      "avgHealing": 0.82,
+      "avgStatusApplied": 17.5,
+      "avgGuards": 3.01,
+      "avgRounds": 16.43,
+      "damageTakenRatio": 0.48
+    }
+  ],
+  "abilitySummary": [
+    {
+      "key": "hope:shield",
+      "character": "Hope",
+      "ability": "Blessing Shield",
+      "kind": "grantShield",
+      "cost": 1,
+      "uses": 12807,
+      "usesPerPick": 10.07,
+      "winShareWhenUsed": 50.5
+    },
+    {
+      "key": "dravain:protect",
+      "character": "Dravain",
+      "ability": "Protect Ally",
+      "kind": "protect",
+      "cost": 1,
+      "uses": 10354,
+      "usesPerPick": 7.83,
+      "winShareWhenUsed": 44.8
+    },
+    {
+      "key": "yaura:ward",
+      "character": "Yaura",
+      "ability": "Blood Ward",
+      "kind": "bloodWard",
+      "cost": 1,
+      "uses": 7490,
+      "usesPerPick": 5.96,
+      "winShareWhenUsed": 32
+    },
+    {
+      "key": "shaman:rupture",
+      "character": "Bahl",
+      "ability": "Demon Rupture",
+      "kind": "demonRupture",
+      "cost": 2,
+      "uses": 7304,
+      "usesPerPick": 5.8,
+      "winShareWhenUsed": 65.4
+    },
+    {
+      "key": "zahria:mist",
+      "character": "Zahria",
+      "ability": "Blood Mist",
+      "kind": "rowBleedAmplify",
+      "cost": 1,
+      "uses": 6746,
+      "usesPerPick": 5.28,
+      "winShareWhenUsed": 42.2
+    },
+    {
+      "key": "paleya:lance",
+      "character": "Paleya",
+      "ability": "Mind Lance",
+      "kind": "hypnosisDamagePayoff",
+      "cost": 1,
+      "uses": 6604,
+      "usesPerPick": 5.3,
+      "winShareWhenUsed": 57
+    },
+    {
+      "key": "maoja:breath",
+      "character": "Maoja",
+      "ability": "Caustic Breath",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 5927,
+      "usesPerPick": 4.44,
+      "winShareWhenUsed": 55.5
+    },
+    {
+      "key": "hyafrost:frostbite",
+      "character": "Hyafrost",
+      "ability": "Frostbite",
+      "kind": "whiteout",
+      "cost": 1,
+      "uses": 5619,
+      "usesPerPick": 4.55,
+      "winShareWhenUsed": 46
+    },
+    {
+      "key": "poom:bash",
+      "character": "Poom",
+      "ability": "Bash",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 5463,
+      "usesPerPick": 4.14,
+      "winShareWhenUsed": 52.3
+    },
+    {
+      "key": "dravain:bash",
+      "character": "Dravain",
+      "ability": "Shield Bash",
+      "kind": "armorStrike",
+      "cost": 1,
+      "uses": 5441,
+      "usesPerPick": 4.11,
+      "winShareWhenUsed": 59.4
+    },
+    {
+      "key": "bakub:fog",
+      "character": "Bakub",
+      "ability": "Demon Fog",
+      "kind": "rowMultiStatus",
+      "cost": 2,
+      "uses": 5184,
+      "usesPerPick": 4.1,
+      "winShareWhenUsed": 54.1
+    },
+    {
+      "key": "kku:slam",
+      "character": "K'ku",
+      "ability": "Frost Slam",
+      "kind": "damageStatusOnHit",
+      "cost": 1,
+      "uses": 5040,
+      "usesPerPick": 3.87,
+      "winShareWhenUsed": 37.4
+    },
+    {
+      "key": "shaman:mark",
+      "character": "Bahl",
+      "ability": "Infect Mark",
+      "kind": "multiStatus",
+      "cost": 1,
+      "uses": 4955,
+      "usesPerPick": 3.94,
+      "winShareWhenUsed": 65.4
+    },
+    {
+      "key": "paleya:mass",
+      "character": "Paleya",
+      "ability": "Mass Suggestion",
+      "kind": "frontHypno",
+      "cost": 1,
+      "uses": 4924,
+      "usesPerPick": 3.96,
+      "winShareWhenUsed": 53.2
+    },
+    {
+      "key": "yaura:bolt",
+      "character": "Yaura",
+      "ability": "Blood Infusion",
+      "kind": "empowerNextAttack",
+      "cost": 1,
+      "uses": 4865,
+      "usesPerPick": 3.87,
+      "winShareWhenUsed": 38
+    },
+    {
+      "key": "kahro:assassinate",
+      "character": "Kahro",
+      "ability": "Assassinate",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 4841,
+      "usesPerPick": 3.72,
+      "winShareWhenUsed": 66.5
+    },
+    {
+      "key": "kahro:mark",
+      "character": "Kahro",
+      "ability": "Shadow Mark",
+      "kind": "multiStatus",
+      "cost": 1,
+      "uses": 4743,
+      "usesPerPick": 3.65,
+      "winShareWhenUsed": 61.4
+    },
+    {
+      "key": "smithen:shatter",
+      "character": "Smithen",
+      "ability": "Shatter Shot",
+      "kind": "freezePayoff",
+      "cost": 2,
+      "uses": 4639,
+      "usesPerPick": 3.44,
+      "winShareWhenUsed": 46.1
+    },
+    {
+      "key": "maoja:grip",
+      "character": "Maoja",
+      "ability": "Corrosive Grip",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 4554,
+      "usesPerPick": 3.41,
+      "winShareWhenUsed": 55.7
+    },
+    {
+      "key": "hope:mend",
+      "character": "Hope",
+      "ability": "Mend Wounds",
+      "kind": "singleHeal",
+      "cost": 1,
+      "uses": 4541,
+      "usesPerPick": 3.57,
+      "winShareWhenUsed": 59.5
+    },
+    {
+      "key": "eva:stab",
+      "character": "Lady Eva",
+      "ability": "Crimson Stab",
+      "kind": "bloodDash",
+      "cost": 1,
+      "uses": 4319,
+      "usesPerPick": 3.43,
+      "winShareWhenUsed": 45.1
+    },
+    {
+      "key": "smithen:iceNeedle",
+      "character": "Smithen",
+      "ability": "Ice Needle",
+      "kind": "damageStatusOnHit",
+      "cost": 1,
+      "uses": 4233,
+      "usesPerPick": 3.14,
+      "winShareWhenUsed": 45.6
+    },
+    {
+      "key": "kku:guard",
+      "character": "K'ku",
+      "ability": "Ice Guard",
+      "kind": "selfCounter",
+      "cost": 1,
+      "uses": 3918,
+      "usesPerPick": 3.01,
+      "winShareWhenUsed": 29.4
+    },
+    {
+      "key": "poom:bodyguard",
+      "character": "Poom",
+      "ability": "Revenge Body",
+      "kind": "revenge",
+      "cost": 2,
+      "uses": 3764,
+      "usesPerPick": 2.85,
+      "winShareWhenUsed": 47.8
+    },
+    {
+      "key": "kku:roar",
+      "character": "K'ku",
+      "ability": "Blizzard Roar",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 3679,
+      "usesPerPick": 2.83,
+      "winShareWhenUsed": 34.7
+    },
+    {
+      "key": "hyafrost:field",
+      "character": "Hyafrost",
+      "ability": "Frozen Field",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 3634,
+      "usesPerPick": 2.94,
+      "winShareWhenUsed": 49.1
+    },
+    {
+      "key": "hyafrost:zero",
+      "character": "Hyafrost",
+      "ability": "Absolute Zero",
+      "kind": "absoluteZeroConsume",
+      "cost": 2,
+      "uses": 3590,
+      "usesPerPick": 2.91,
+      "winShareWhenUsed": 50.3
+    },
+    {
+      "key": "bakub:vial",
+      "character": "Bakub",
+      "ability": "Nightmare Vial",
+      "kind": "multiStatus",
+      "cost": 1,
+      "uses": 3556,
+      "usesPerPick": 2.81,
+      "winShareWhenUsed": 57.8
+    },
+    {
+      "key": "eva:kiss",
+      "character": "Lady Eva",
+      "ability": "Vampire Kiss",
+      "kind": "damageStatus",
+      "cost": 2,
+      "uses": 3468,
+      "usesPerPick": 2.75,
+      "winShareWhenUsed": 43.2
+    },
+    {
+      "key": "hope:judgement",
+      "character": "Hope",
+      "ability": "Delayed Judgement",
+      "kind": "delayedAttack",
+      "cost": 2,
+      "uses": 3116,
+      "usesPerPick": 2.45,
+      "winShareWhenUsed": 62.6
+    },
+    {
+      "key": "smithen:pin",
+      "character": "Smithen",
+      "ability": "Frost Pin",
+      "kind": "whiteout",
+      "cost": 1,
+      "uses": 2959,
+      "usesPerPick": 2.19,
+      "winShareWhenUsed": 48.3
+    },
+    {
+      "key": "zahria:rain",
+      "character": "Zahria",
+      "ability": "Red Rain",
+      "kind": "allStatus",
+      "cost": 1,
+      "uses": 2826,
+      "usesPerPick": 2.21,
+      "winShareWhenUsed": 43.6
+    },
+    {
+      "key": "eva:bite",
+      "character": "Lady Eva",
+      "ability": "Final Bite",
+      "kind": "bleedPayoff",
+      "cost": 2,
+      "uses": 2726,
+      "usesPerPick": 2.16,
+      "winShareWhenUsed": 34.1
+    },
+    {
+      "key": "kku:break",
+      "character": "K'ku",
+      "ability": "Glacier Break",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 2723,
+      "usesPerPick": 2.09,
+      "winShareWhenUsed": 38.8
+    },
+    {
+      "key": "eva:mist",
+      "character": "Lady Eva",
+      "ability": "Mist Step",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 2575,
+      "usesPerPick": 2.04,
+      "winShareWhenUsed": 35.8
+    },
+    {
+      "key": "yaura:price",
+      "character": "Yaura",
+      "ability": "Blood Price",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 2336,
+      "usesPerPick": 1.86,
+      "winShareWhenUsed": 45.5
+    },
+    {
+      "key": "zahria:blade",
+      "character": "Zahria",
+      "ability": "Blood Blade",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 2251,
+      "usesPerPick": 1.76,
+      "winShareWhenUsed": 49.7
+    },
+    {
+      "key": "bakub:toxin",
+      "character": "Bakub",
+      "ability": "Mind Toxin",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 2216,
+      "usesPerPick": 1.75,
+      "winShareWhenUsed": 71
+    },
+    {
+      "key": "poom:guard",
+      "character": "Poom",
+      "ability": "Mesmeric Taunt",
+      "kind": "poomMassGuardMind",
+      "cost": 1,
+      "uses": 2097,
+      "usesPerPick": 1.59,
+      "winShareWhenUsed": 44
+    },
+    {
+      "key": "smithen:flash",
+      "character": "Smithen",
+      "ability": "Whiteout Step",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 1977,
+      "usesPerPick": 1.46,
+      "winShareWhenUsed": 38.6
+    },
+    {
+      "key": "yaura:rain",
+      "character": "Yaura",
+      "ability": "Red Rain",
+      "kind": "allStatus",
+      "cost": 1,
+      "uses": 1954,
+      "usesPerPick": 1.55,
+      "winShareWhenUsed": 37.2
+    },
+    {
+      "key": "bakub:future",
+      "character": "Bakub",
+      "ability": "False Future",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 1904,
+      "usesPerPick": 1.51,
+      "winShareWhenUsed": 45.4
+    },
+    {
+      "key": "maoja:burst",
+      "character": "Maoja",
+      "ability": "Rot Burst",
+      "kind": "poisonPayoff",
+      "cost": 2,
+      "uses": 1868,
+      "usesPerPick": 1.4,
+      "winShareWhenUsed": 56.5
+    },
+    {
+      "key": "kahro:needle",
+      "character": "Kahro",
+      "ability": "Shadow Needle",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 1651,
+      "usesPerPick": 1.27,
+      "winShareWhenUsed": 75.3
+    },
+    {
+      "key": "kahro:vanish",
+      "character": "Kahro",
+      "ability": "Vanish",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 1454,
+      "usesPerPick": 1.12,
+      "winShareWhenUsed": 49.8
+    },
+    {
+      "key": "paleya:mirror",
+      "character": "Paleya",
+      "ability": "Mirror Guard",
+      "kind": "hypnosisCancelPayoff",
+      "cost": 1,
+      "uses": 1385,
+      "usesPerPick": 1.11,
+      "winShareWhenUsed": 46.9
+    },
+    {
+      "key": "poom:roar",
+      "character": "Poom",
+      "ability": "Mesmer Roar",
+      "kind": "mesmerPayoff",
+      "cost": 2,
+      "uses": 1316,
+      "usesPerPick": 1,
+      "winShareWhenUsed": 54.6
+    },
+    {
+      "key": "paleya:mesmer",
+      "character": "Paleya",
+      "ability": "Mesmerize",
+      "kind": "status",
+      "cost": 1,
+      "uses": 1245,
+      "usesPerPick": 1,
+      "winShareWhenUsed": 50.1
+    },
+    {
+      "key": "dravain:claim",
+      "character": "Dravain",
+      "ability": "Blood Claim",
+      "kind": "bleedPayoff",
+      "cost": 2,
+      "uses": 1232,
+      "usesPerPick": 0.93,
+      "winShareWhenUsed": 42.5
+    },
+    {
+      "key": "maoja:hands",
+      "character": "Maoja",
+      "ability": "Poison Hands",
+      "kind": "utility",
+      "cost": 1,
+      "uses": 1180,
+      "usesPerPick": 0.88,
+      "winShareWhenUsed": 53.4
+    },
+    {
+      "key": "dravain:drain",
+      "character": "Dravain",
+      "ability": "Vampiric Thrust",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 936,
+      "usesPerPick": 0.71,
+      "winShareWhenUsed": 57.8
+    },
+    {
+      "key": "shaman:plague",
+      "character": "Bahl",
+      "ability": "Plague Wave",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 512,
+      "usesPerPick": 0.41,
+      "winShareWhenUsed": 70.9
+    },
+    {
+      "key": "hope:strike",
+      "character": "Hope",
+      "ability": "Hopeful Strike",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 507,
+      "usesPerPick": 0.4,
+      "winShareWhenUsed": 66.9
+    },
+    {
+      "key": "zahria:mass",
+      "character": "Zahria",
+      "ability": "Mass Drain",
+      "kind": "massDrainBleed",
+      "cost": 2,
+      "uses": 320,
+      "usesPerPick": 0.25,
+      "winShareWhenUsed": 41.9
+    },
+    {
+      "key": "hyafrost:armor",
+      "character": "Hyafrost",
+      "ability": "Frost Armor",
+      "kind": "frostArmorRetaliate",
+      "cost": 1,
+      "uses": 189,
+      "usesPerPick": 0.15,
+      "winShareWhenUsed": 57.1
+    },
+    {
+      "key": "shaman:proliferate",
+      "character": "Bahl",
+      "ability": "Dark Proliferation",
+      "kind": "proliferate",
+      "cost": 2,
+      "uses": 56,
+      "usesPerPick": 0.04,
+      "winShareWhenUsed": 73.2
+    }
+  ],
+  "classSummary": [
+    {
+      "class": "sorcerer",
+      "picks": 6280,
+      "winRate": 52.5,
+      "characters": "Paleya, Bahl, Hyafrost, Bakub, Zahria"
+    },
+    {
+      "class": "brute",
+      "picks": 3957,
+      "winRate": 49,
+      "characters": "K'ku, Maoja, Poom"
+    },
+    {
+      "class": "warrior",
+      "picks": 3852,
+      "winRate": 48.8,
+      "characters": "Dravain, Yaura, Hope"
+    },
+    {
+      "class": "assassin",
+      "picks": 3911,
+      "winRate": 48.3,
+      "characters": "Smithen, Kahro, Lady Eva"
+    }
+  ],
+  "proficiencySummary": [
+    {
+      "proficiency": "darkness",
+      "picks": 1300,
+      "winRate": 60.6,
+      "characters": "Kahro"
+    },
+    {
+      "proficiency": "demon",
+      "picks": 2523,
+      "winRate": 57.5,
+      "characters": "Bahl, Bakub"
+    },
+    {
+      "proficiency": "witchcraft",
+      "picks": 2600,
+      "winRate": 55.4,
+      "characters": "Maoja, Bakub"
+    },
+    {
+      "proficiency": "divinity",
+      "picks": 1272,
+      "winRate": 55.3,
+      "characters": "Hope"
+    },
+    {
+      "proficiency": "hypnotic",
+      "picks": 3829,
+      "winRate": 53.9,
+      "characters": "Paleya, Poom, Bakub"
+    },
+    {
+      "proficiency": "spirit",
+      "picks": 1234,
+      "winRate": 49.2,
+      "characters": "Hyafrost"
+    },
+    {
+      "proficiency": "bloodcraft",
+      "picks": 3794,
+      "winRate": 48.2,
+      "characters": "Yaura, Bahl, Zahria"
+    },
+    {
+      "proficiency": "vampire",
+      "picks": 2584,
+      "winRate": 45.8,
+      "characters": "Dravain, Lady Eva"
+    },
+    {
+      "proficiency": "icecraft",
+      "picks": 3885,
+      "winRate": 43.4,
+      "characters": "Smithen, K'ku, Hyafrost"
+    }
+  ],
+  "armorSummary": [
+    {
+      "armor": "1",
+      "picks": 10237,
+      "winRate": 51.1,
+      "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub, Zahria"
+    },
+    {
+      "armor": "2",
+      "picks": 5183,
+      "winRate": 50,
+      "characters": "Smithen, Kahro, Lady Eva, Hope"
+    },
+    {
+      "armor": "3",
+      "picks": 2580,
+      "winRate": 45.5,
+      "characters": "Dravain, Yaura"
+    }
+  ],
+  "pairSummary": [
+    {
+      "pair": "hope+kahro",
+      "picks": 199,
+      "winRate": 72.9
+    },
+    {
+      "pair": "bakub+shaman",
+      "picks": 195,
+      "winRate": 71.3
+    },
+    {
+      "pair": "kahro+shaman",
+      "picks": 186,
+      "winRate": 71
+    },
+    {
+      "pair": "kahro+paleya",
+      "picks": 193,
+      "winRate": 71
+    },
+    {
+      "pair": "dravain+kahro",
+      "picks": 203,
+      "winRate": 67.5
+    },
+    {
+      "pair": "paleya+shaman",
+      "picks": 197,
+      "winRate": 67
+    },
+    {
+      "pair": "hope+paleya",
+      "picks": 211,
+      "winRate": 66.8
+    },
+    {
+      "pair": "maoja+shaman",
+      "picks": 215,
+      "winRate": 66.5
+    },
+    {
+      "pair": "bakub+paleya",
+      "picks": 191,
+      "winRate": 65.4
+    },
+    {
+      "pair": "hope+poom",
+      "picks": 183,
+      "winRate": 65
+    },
+    {
+      "pair": "poom+shaman",
+      "picks": 207,
+      "winRate": 64.7
+    },
+    {
+      "pair": "hope+maoja",
+      "picks": 209,
+      "winRate": 64.6
+    },
+    {
+      "pair": "hyafrost+kahro",
+      "picks": 198,
+      "winRate": 63.6
+    },
+    {
+      "pair": "kahro+maoja",
+      "picks": 211,
+      "winRate": 63.5
+    },
+    {
+      "pair": "bakub+kahro",
+      "picks": 204,
+      "winRate": 63.2
+    },
+    {
+      "pair": "dravain+shaman",
+      "picks": 210,
+      "winRate": 62.4
+    },
+    {
+      "pair": "maoja+paleya",
+      "picks": 204,
+      "winRate": 62.3
+    },
+    {
+      "pair": "maoja+poom",
+      "picks": 210,
+      "winRate": 61.4
+    },
+    {
+      "pair": "shaman+yaura",
+      "picks": 167,
+      "winRate": 61.1
+    },
+    {
+      "pair": "shaman+zahria",
+      "picks": 192,
+      "winRate": 60.9
+    },
+    {
+      "pair": "bakub+poom",
+      "picks": 204,
+      "winRate": 60.3
+    },
+    {
+      "pair": "kahro+poom",
+      "picks": 203,
+      "winRate": 59.6
+    },
+    {
+      "pair": "hope+hyafrost",
+      "picks": 195,
+      "winRate": 59.5
+    },
+    {
+      "pair": "dravain+maoja",
+      "picks": 229,
+      "winRate": 59
+    },
+    {
+      "pair": "dravain+paleya",
+      "picks": 204,
+      "winRate": 58.8
+    },
+    {
+      "pair": "hyafrost+maoja",
+      "picks": 185,
+      "winRate": 58.4
+    },
+    {
+      "pair": "hope+shaman",
+      "picks": 160,
+      "winRate": 58.1
+    },
+    {
+      "pair": "kahro+zahria",
+      "picks": 181,
+      "winRate": 58
+    },
+    {
+      "pair": "bakub+maoja",
+      "picks": 202,
+      "winRate": 57.4
+    },
+    {
+      "pair": "bakub+hope",
+      "picks": 170,
+      "winRate": 55.9
+    },
+    {
+      "pair": "maoja+zahria",
+      "picks": 198,
+      "winRate": 55.1
+    },
+    {
+      "pair": "kahro+smithen",
+      "picks": 233,
+      "winRate": 54.5
+    },
+    {
+      "pair": "paleya+poom",
+      "picks": 180,
+      "winRate": 54.4
+    },
+    {
+      "pair": "eva+kahro",
+      "picks": 201,
+      "winRate": 53.7
+    },
+    {
+      "pair": "dravain+hope",
+      "picks": 214,
+      "winRate": 53.3
+    },
+    {
+      "pair": "bakub+dravain",
+      "picks": 197,
+      "winRate": 53.3
+    },
+    {
+      "pair": "bakub+hyafrost",
+      "picks": 192,
+      "winRate": 53.1
+    },
+    {
+      "pair": "dravain+poom",
+      "picks": 214,
+      "winRate": 52.8
+    },
+    {
+      "pair": "hyafrost+poom",
+      "picks": 215,
+      "winRate": 51.2
+    },
+    {
+      "pair": "eva+shaman",
+      "picks": 186,
+      "winRate": 51.1
+    },
+    {
+      "pair": "kku+shaman",
+      "picks": 208,
+      "winRate": 51
+    },
+    {
+      "pair": "hyafrost+shaman",
+      "picks": 173,
+      "winRate": 50.9
+    },
+    {
+      "pair": "poom+yaura",
+      "picks": 195,
+      "winRate": 50.8
+    },
+    {
+      "pair": "eva+maoja",
+      "picks": 174,
+      "winRate": 50.6
+    },
+    {
+      "pair": "dravain+hyafrost",
+      "picks": 170,
+      "winRate": 50.6
+    },
+    {
+      "pair": "maoja+smithen",
+      "picks": 222,
+      "winRate": 49.5
+    },
+    {
+      "pair": "shaman+smithen",
+      "picks": 222,
+      "winRate": 49.5
+    },
+    {
+      "pair": "bakub+smithen",
+      "picks": 203,
+      "winRate": 49.3
+    },
+    {
+      "pair": "hope+zahria",
+      "picks": 211,
+      "winRate": 48.8
+    },
+    {
+      "pair": "bakub+zahria",
+      "picks": 183,
+      "winRate": 48.6
+    },
+    {
+      "pair": "eva+poom",
+      "picks": 206,
+      "winRate": 48.5
+    },
+    {
+      "pair": "hope+smithen",
+      "picks": 200,
+      "winRate": 47.5
+    },
+    {
+      "pair": "paleya+smithen",
+      "picks": 188,
+      "winRate": 46.8
+    },
+    {
+      "pair": "kahro+kku",
+      "picks": 211,
+      "winRate": 46.4
+    },
+    {
+      "pair": "maoja+yaura",
+      "picks": 216,
+      "winRate": 46.3
+    },
+    {
+      "pair": "bakub+eva",
+      "picks": 180,
+      "winRate": 46.1
+    },
+    {
+      "pair": "bakub+yaura",
+      "picks": 220,
+      "winRate": 45.5
+    },
+    {
+      "pair": "eva+hope",
+      "picks": 200,
+      "winRate": 45.5
+    },
+    {
+      "pair": "hyafrost+zahria",
+      "picks": 194,
+      "winRate": 44.8
+    },
+    {
+      "pair": "paleya+yaura",
+      "picks": 186,
+      "winRate": 44.6
+    },
+    {
+      "pair": "hyafrost+yaura",
+      "picks": 187,
+      "winRate": 44.4
+    },
+    {
+      "pair": "kku+paleya",
+      "picks": 178,
+      "winRate": 44.4
+    },
+    {
+      "pair": "hyafrost+kku",
+      "picks": 201,
+      "winRate": 43.8
+    },
+    {
+      "pair": "paleya+zahria",
+      "picks": 185,
+      "winRate": 43.8
+    },
+    {
+      "pair": "kahro+yaura",
+      "picks": 177,
+      "winRate": 43.5
+    },
+    {
+      "pair": "dravain+smithen",
+      "picks": 215,
+      "winRate": 43.3
+    },
+    {
+      "pair": "dravain+eva",
+      "picks": 193,
+      "winRate": 42.5
+    },
+    {
+      "pair": "hope+kku",
+      "picks": 201,
+      "winRate": 42.3
+    },
+    {
+      "pair": "poom+zahria",
+      "picks": 206,
+      "winRate": 42.2
+    },
+    {
+      "pair": "hyafrost+paleya",
+      "picks": 173,
+      "winRate": 42.2
+    },
+    {
+      "pair": "kku+smithen",
+      "picks": 214,
+      "winRate": 41.1
+    },
+    {
+      "pair": "eva+paleya",
+      "picks": 200,
+      "winRate": 41
+    },
+    {
+      "pair": "hope+yaura",
+      "picks": 191,
+      "winRate": 38.7
+    },
+    {
+      "pair": "bakub+kku",
+      "picks": 187,
+      "winRate": 38.5
+    },
+    {
+      "pair": "hyafrost+smithen",
+      "picks": 175,
+      "winRate": 38.3
+    },
+    {
+      "pair": "eva+hyafrost",
+      "picks": 210,
+      "winRate": 38.1
+    },
+    {
+      "pair": "smithen+zahria",
+      "picks": 216,
+      "winRate": 38
+    },
+    {
+      "pair": "dravain+zahria",
+      "picks": 206,
+      "winRate": 36.9
+    },
+    {
+      "pair": "dravain+kku",
+      "picks": 203,
+      "winRate": 36.5
+    },
+    {
+      "pair": "kku+poom",
+      "picks": 212,
+      "winRate": 35.8
+    },
+    {
+      "pair": "yaura+zahria",
+      "picks": 194,
+      "winRate": 35.1
+    },
+    {
+      "pair": "poom+smithen",
+      "picks": 205,
+      "winRate": 34.6
+    },
+    {
+      "pair": "kku+maoja",
+      "picks": 197,
+      "winRate": 34.5
+    },
+    {
+      "pair": "smithen+yaura",
+      "picks": 207,
+      "winRate": 33.3
+    },
+    {
+      "pair": "dravain+yaura",
+      "picks": 188,
+      "winRate": 33
+    },
+    {
+      "pair": "eva+yaura",
+      "picks": 185,
+      "winRate": 33
+    },
+    {
+      "pair": "eva+smithen",
+      "picks": 200,
+      "winRate": 32
+    },
+    {
+      "pair": "kku+zahria",
+      "picks": 196,
+      "winRate": 30.1
+    },
+    {
+      "pair": "eva+kku",
+      "picks": 193,
+      "winRate": 28.5
+    },
+    {
+      "pair": "eva+zahria",
+      "picks": 194,
+      "winRate": 25.3
+    },
+    {
+      "pair": "kku+yaura",
+      "picks": 201,
+      "winRate": 21.9
+    }
+  ],
+  "teamSummary": [
+    {
+      "team": "bakub+maoja+shaman",
+      "picks": 9,
+      "winRate": 100
+    },
+    {
+      "team": "hope+kahro+paleya",
+      "picks": 17,
+      "winRate": 94.1
+    },
+    {
+      "team": "bakub+kahro+paleya",
+      "picks": 15,
+      "winRate": 93.3
+    },
+    {
+      "team": "bakub+dravain+kahro",
+      "picks": 13,
+      "winRate": 92.3
+    },
+    {
+      "team": "maoja+shaman+yaura",
+      "picks": 12,
+      "winRate": 91.7
+    },
+    {
+      "team": "kahro+poom+shaman",
+      "picks": 12,
+      "winRate": 91.7
+    },
+    {
+      "team": "kahro+paleya+shaman",
+      "picks": 22,
+      "winRate": 90.9
+    },
+    {
+      "team": "dravain+kahro+shaman",
+      "picks": 18,
+      "winRate": 88.9
+    },
+    {
+      "team": "bakub+paleya+shaman",
+      "picks": 15,
+      "winRate": 86.7
+    },
+    {
+      "team": "hope+kahro+poom",
+      "picks": 14,
+      "winRate": 85.7
+    },
+    {
+      "team": "hyafrost+kahro+maoja",
+      "picks": 14,
+      "winRate": 85.7
+    },
+    {
+      "team": "hope+maoja+paleya",
+      "picks": 21,
+      "winRate": 85.7
+    },
+    {
+      "team": "hope+hyafrost+maoja",
+      "picks": 20,
+      "winRate": 85
+    },
+    {
+      "team": "bakub+poom+shaman",
+      "picks": 13,
+      "winRate": 84.6
+    },
+    {
+      "team": "bakub+hope+kahro",
+      "picks": 19,
+      "winRate": 84.2
+    },
+    {
+      "team": "kahro+maoja+zahria",
+      "picks": 12,
+      "winRate": 83.3
+    },
+    {
+      "team": "kahro+shaman+yaura",
+      "picks": 6,
+      "winRate": 83.3
+    },
+    {
+      "team": "eva+kahro+shaman",
+      "picks": 11,
+      "winRate": 81.8
+    },
+    {
+      "team": "bakub+hope+poom",
+      "picks": 11,
+      "winRate": 81.8
+    },
+    {
+      "team": "bakub+paleya+yaura",
+      "picks": 16,
+      "winRate": 81.3
+    },
+    {
+      "team": "hope+maoja+poom",
+      "picks": 16,
+      "winRate": 81.3
+    },
+    {
+      "team": "bakub+maoja+poom",
+      "picks": 16,
+      "winRate": 81.3
+    },
+    {
+      "team": "maoja+poom+shaman",
+      "picks": 16,
+      "winRate": 81.3
+    },
+    {
+      "team": "bakub+maoja+paleya",
+      "picks": 21,
+      "winRate": 81
+    },
+    {
+      "team": "bakub+shaman+yaura",
+      "picks": 20,
+      "winRate": 80
+    },
+    {
+      "team": "dravain+kahro+maoja",
+      "picks": 10,
+      "winRate": 80
+    },
+    {
+      "team": "bakub+kahro+shaman",
+      "picks": 10,
+      "winRate": 80
+    },
+    {
+      "team": "bakub+hope+paleya",
+      "picks": 10,
+      "winRate": 80
+    },
+    {
+      "team": "dravain+paleya+shaman",
+      "picks": 15,
+      "winRate": 80
+    },
+    {
+      "team": "paleya+shaman+zahria",
+      "picks": 14,
+      "winRate": 78.6
+    },
+    {
+      "team": "dravain+hope+kahro",
+      "picks": 23,
+      "winRate": 78.3
+    },
+    {
+      "team": "hope+paleya+poom",
+      "picks": 18,
+      "winRate": 77.8
+    },
+    {
+      "team": "kahro+maoja+shaman",
+      "picks": 22,
+      "winRate": 77.3
+    },
+    {
+      "team": "hope+maoja+shaman",
+      "picks": 13,
+      "winRate": 76.9
+    },
+    {
+      "team": "kahro+shaman+zahria",
+      "picks": 13,
+      "winRate": 76.9
+    },
+    {
+      "team": "hope+kahro+smithen",
+      "picks": 17,
+      "winRate": 76.5
+    },
+    {
+      "team": "dravain+kahro+paleya",
+      "picks": 20,
+      "winRate": 75
+    },
+    {
+      "team": "kahro+maoja+paleya",
+      "picks": 16,
+      "winRate": 75
+    },
+    {
+      "team": "bakub+dravain+shaman",
+      "picks": 16,
+      "winRate": 75
+    },
+    {
+      "team": "bakub+shaman+zahria",
+      "picks": 20,
+      "winRate": 75
+    },
+    {
+      "team": "eva+kahro+maoja",
+      "picks": 20,
+      "winRate": 75
+    },
+    {
+      "team": "maoja+poom+zahria",
+      "picks": 19,
+      "winRate": 73.7
+    },
+    {
+      "team": "hope+hyafrost+kahro",
+      "picks": 19,
+      "winRate": 73.7
+    },
+    {
+      "team": "bakub+hope+maoja",
+      "picks": 15,
+      "winRate": 73.3
+    },
+    {
+      "team": "eva+maoja+shaman",
+      "picks": 15,
+      "winRate": 73.3
+    },
+    {
+      "team": "eva+hope+poom",
+      "picks": 15,
+      "winRate": 73.3
+    },
+    {
+      "team": "dravain+eva+poom",
+      "picks": 15,
+      "winRate": 73.3
+    },
+    {
+      "team": "hope+kahro+zahria",
+      "picks": 15,
+      "winRate": 73.3
+    },
+    {
+      "team": "kahro+kku+smithen",
+      "picks": 22,
+      "winRate": 72.7
+    },
+    {
+      "team": "maoja+shaman+zahria",
+      "picks": 18,
+      "winRate": 72.2
+    },
+    {
+      "team": "hope+poom+shaman",
+      "picks": 18,
+      "winRate": 72.2
+    },
+    {
+      "team": "dravain+hope+paleya",
+      "picks": 18,
+      "winRate": 72.2
+    },
+    {
+      "team": "hyafrost+kahro+poom",
+      "picks": 14,
+      "winRate": 71.4
+    },
+    {
+      "team": "hope+kahro+maoja",
+      "picks": 17,
+      "winRate": 70.6
+    },
+    {
+      "team": "dravain+maoja+poom",
+      "picks": 17,
+      "winRate": 70.6
+    },
+    {
+      "team": "dravain+paleya+poom",
+      "picks": 17,
+      "winRate": 70.6
+    },
+    {
+      "team": "eva+hope+kahro",
+      "picks": 17,
+      "winRate": 70.6
+    },
+    {
+      "team": "bakub+hyafrost+zahria",
+      "picks": 10,
+      "winRate": 70
+    },
+    {
+      "team": "paleya+poom+shaman",
+      "picks": 20,
+      "winRate": 70
+    },
+    {
+      "team": "bakub+kahro+poom",
+      "picks": 20,
+      "winRate": 70
+    },
+    {
+      "team": "dravain+eva+hope",
+      "picks": 10,
+      "winRate": 70
+    },
+    {
+      "team": "kahro+paleya+zahria",
+      "picks": 20,
+      "winRate": 70
+    },
+    {
+      "team": "bakub+dravain+paleya",
+      "picks": 23,
+      "winRate": 69.6
+    },
+    {
+      "team": "maoja+poom+yaura",
+      "picks": 23,
+      "winRate": 69.6
+    },
+    {
+      "team": "dravain+maoja+smithen",
+      "picks": 23,
+      "winRate": 69.6
+    },
+    {
+      "team": "bakub+paleya+smithen",
+      "picks": 13,
+      "winRate": 69.2
+    },
+    {
+      "team": "kahro+kku+paleya",
+      "picks": 13,
+      "winRate": 69.2
+    },
+    {
+      "team": "hope+hyafrost+paleya",
+      "picks": 13,
+      "winRate": 69.2
+    },
+    {
+      "team": "dravain+kahro+zahria",
+      "picks": 13,
+      "winRate": 69.2
+    },
+    {
+      "team": "hyafrost+kahro+kku",
+      "picks": 16,
+      "winRate": 68.8
+    },
+    {
+      "team": "bakub+hyafrost+kahro",
+      "picks": 19,
+      "winRate": 68.4
+    },
+    {
+      "team": "bakub+hyafrost+maoja",
+      "picks": 19,
+      "winRate": 68.4
+    },
+    {
+      "team": "eva+poom+shaman",
+      "picks": 18,
+      "winRate": 66.7
+    },
+    {
+      "team": "kku+paleya+shaman",
+      "picks": 15,
+      "winRate": 66.7
+    },
+    {
+      "team": "dravain+shaman+yaura",
+      "picks": 12,
+      "winRate": 66.7
+    },
+    {
+      "team": "dravain+hope+maoja",
+      "picks": 24,
+      "winRate": 66.7
+    },
+    {
+      "team": "hyafrost+kahro+shaman",
+      "picks": 18,
+      "winRate": 66.7
+    },
+    {
+      "team": "hope+hyafrost+poom",
+      "picks": 12,
+      "winRate": 66.7
+    },
+    {
+      "team": "eva+paleya+shaman",
+      "picks": 15,
+      "winRate": 66.7
+    },
+    {
+      "team": "bakub+maoja+zahria",
+      "picks": 12,
+      "winRate": 66.7
+    },
+    {
+      "team": "eva+maoja+paleya",
+      "picks": 18,
+      "winRate": 66.7
+    },
+    {
+      "team": "hope+kku+paleya",
+      "picks": 21,
+      "winRate": 66.7
+    },
+    {
+      "team": "hope+hyafrost+kku",
+      "picks": 18,
+      "winRate": 66.7
+    },
+    {
+      "team": "dravain+hyafrost+kahro",
+      "picks": 18,
+      "winRate": 66.7
+    },
+    {
+      "team": "kahro+poom+zahria",
+      "picks": 15,
+      "winRate": 66.7
+    },
+    {
+      "team": "hope+shaman+zahria",
+      "picks": 12,
+      "winRate": 66.7
+    },
+    {
+      "team": "poom+shaman+yaura",
+      "picks": 18,
+      "winRate": 66.7
+    },
+    {
+      "team": "kahro+maoja+smithen",
+      "picks": 23,
+      "winRate": 65.2
+    },
+    {
+      "team": "dravain+hyafrost+maoja",
+      "picks": 17,
+      "winRate": 64.7
+    },
+    {
+      "team": "hyafrost+kahro+yaura",
+      "picks": 17,
+      "winRate": 64.7
+    },
+    {
+      "team": "bakub+hope+shaman",
+      "picks": 17,
+      "winRate": 64.7
+    },
+    {
+      "team": "dravain+kku+shaman",
+      "picks": 17,
+      "winRate": 64.7
+    },
+    {
+      "team": "kku+shaman+smithen",
+      "picks": 17,
+      "winRate": 64.7
+    },
+    {
+      "team": "hyafrost+shaman+zahria",
+      "picks": 14,
+      "winRate": 64.3
+    },
+    {
+      "team": "hyafrost+maoja+poom",
+      "picks": 14,
+      "winRate": 64.3
+    },
+    {
+      "team": "dravain+maoja+paleya",
+      "picks": 25,
+      "winRate": 64
+    },
+    {
+      "team": "dravain+maoja+shaman",
+      "picks": 25,
+      "winRate": 64
+    },
+    {
+      "team": "bakub+eva+shaman",
+      "picks": 22,
+      "winRate": 63.6
+    },
+    {
+      "team": "hope+paleya+smithen",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "hope+paleya+zahria",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "bakub+poom+yaura",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "maoja+paleya+shaman",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "kahro+maoja+poom",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "bakub+shaman+smithen",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "bakub+kahro+yaura",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "hope+hyafrost+zahria",
+      "picks": 19,
+      "winRate": 63.2
+    },
+    {
+      "team": "hope+shaman+yaura",
+      "picks": 8,
+      "winRate": 62.5
+    },
+    {
+      "team": "dravain+hyafrost+paleya",
+      "picks": 13,
+      "winRate": 61.5
+    },
+    {
+      "team": "bakub+eva+maoja",
+      "picks": 13,
+      "winRate": 61.5
+    },
+    {
+      "team": "dravain+hyafrost+poom",
+      "picks": 18,
+      "winRate": 61.1
+    },
+    {
+      "team": "shaman+yaura+zahria",
+      "picks": 18,
+      "winRate": 61.1
+    },
+    {
+      "team": "bakub+eva+poom",
+      "picks": 18,
+      "winRate": 61.1
+    },
+    {
+      "team": "hyafrost+poom+yaura",
+      "picks": 15,
+      "winRate": 60
+    },
+    {
+      "team": "hyafrost+maoja+paleya",
+      "picks": 10,
+      "winRate": 60
+    },
+    {
+      "team": "dravain+hope+hyafrost",
+      "picks": 10,
+      "winRate": 60
+    },
+    {
+      "team": "hyafrost+kku+shaman",
+      "picks": 15,
+      "winRate": 60
+    },
+    {
+      "team": "bakub+dravain+poom",
+      "picks": 15,
+      "winRate": 60
+    },
+    {
+      "team": "kahro+paleya+yaura",
+      "picks": 15,
+      "winRate": 60
+    },
+    {
+      "team": "bakub+kku+smithen",
+      "picks": 15,
+      "winRate": 60
+    },
+    {
+      "team": "hope+kahro+shaman",
+      "picks": 15,
+      "winRate": 60
+    },
+    {
+      "team": "dravain+shaman+zahria",
+      "picks": 20,
+      "winRate": 60
+    },
+    {
+      "team": "hyafrost+paleya+poom",
+      "picks": 15,
+      "winRate": 60
+    },
+    {
+      "team": "maoja+smithen+zahria",
+      "picks": 17,
+      "winRate": 58.8
+    },
+    {
+      "team": "bakub+dravain+hyafrost",
+      "picks": 17,
+      "winRate": 58.8
+    },
+    {
+      "team": "bakub+dravain+eva",
+      "picks": 12,
+      "winRate": 58.3
+    },
+    {
+      "team": "dravain+hope+shaman",
+      "picks": 12,
+      "winRate": 58.3
+    },
+    {
+      "team": "eva+hope+maoja",
+      "picks": 12,
+      "winRate": 58.3
+    },
+    {
+      "team": "hope+poom+zahria",
+      "picks": 19,
+      "winRate": 57.9
+    },
+    {
+      "team": "dravain+kahro+poom",
+      "picks": 21,
+      "winRate": 57.1
+    },
+    {
+      "team": "bakub+dravain+smithen",
+      "picks": 14,
+      "winRate": 57.1
+    },
+    {
+      "team": "bakub+hyafrost+kku",
+      "picks": 14,
+      "winRate": 57.1
+    },
+    {
+      "team": "hope+kku+poom",
+      "picks": 14,
+      "winRate": 57.1
+    },
+    {
+      "team": "bakub+dravain+zahria",
+      "picks": 14,
+      "winRate": 57.1
+    },
+    {
+      "team": "poom+shaman+zahria",
+      "picks": 16,
+      "winRate": 56.3
+    },
+    {
+      "team": "kahro+paleya+smithen",
+      "picks": 16,
+      "winRate": 56.3
+    },
+    {
+      "team": "bakub+dravain+maoja",
+      "picks": 25,
+      "winRate": 56
+    },
+    {
+      "team": "kahro+smithen+zahria",
+      "picks": 25,
+      "winRate": 56
+    },
+    {
+      "team": "dravain+paleya+smithen",
+      "picks": 18,
+      "winRate": 55.6
+    },
+    {
+      "team": "dravain+eva+kahro",
+      "picks": 18,
+      "winRate": 55.6
+    },
+    {
+      "team": "eva+hyafrost+yaura",
+      "picks": 18,
+      "winRate": 55.6
+    },
+    {
+      "team": "poom+yaura+zahria",
+      "picks": 18,
+      "winRate": 55.6
+    },
+    {
+      "team": "dravain+hyafrost+shaman",
+      "picks": 9,
+      "winRate": 55.6
+    },
+    {
+      "team": "dravain+poom+shaman",
+      "picks": 20,
+      "winRate": 55
+    },
+    {
+      "team": "eva+kahro+kku",
+      "picks": 11,
+      "winRate": 54.5
+    },
+    {
+      "team": "bakub+hope+smithen",
+      "picks": 11,
+      "winRate": 54.5
+    },
+    {
+      "team": "bakub+kku+shaman",
+      "picks": 22,
+      "winRate": 54.5
+    },
+    {
+      "team": "hyafrost+kahro+paleya",
+      "picks": 13,
+      "winRate": 53.8
+    },
+    {
+      "team": "kahro+paleya+poom",
+      "picks": 13,
+      "winRate": 53.8
+    },
+    {
+      "team": "maoja+paleya+poom",
+      "picks": 13,
+      "winRate": 53.8
+    },
+    {
+      "team": "dravain+kahro+kku",
+      "picks": 15,
+      "winRate": 53.3
+    },
+    {
+      "team": "maoja+paleya+smithen",
+      "picks": 15,
+      "winRate": 53.3
+    },
+    {
+      "team": "hope+kahro+kku",
+      "picks": 17,
+      "winRate": 52.9
+    },
+    {
+      "team": "kku+poom+shaman",
+      "picks": 17,
+      "winRate": 52.9
+    },
+    {
+      "team": "eva+hope+shaman",
+      "picks": 17,
+      "winRate": 52.9
+    },
+    {
+      "team": "hope+maoja+zahria",
+      "picks": 19,
+      "winRate": 52.6
+    },
+    {
+      "team": "dravain+hope+poom",
+      "picks": 19,
+      "winRate": 52.6
+    },
+    {
+      "team": "hope+hyafrost+yaura",
+      "picks": 19,
+      "winRate": 52.6
+    },
+    {
+      "team": "hope+maoja+smithen",
+      "picks": 21,
+      "winRate": 52.4
+    },
+    {
+      "team": "paleya+shaman+yaura",
+      "picks": 21,
+      "winRate": 52.4
+    },
+    {
+      "team": "kahro+poom+smithen",
+      "picks": 23,
+      "winRate": 52.2
+    },
+    {
+      "team": "maoja+shaman+smithen",
+      "picks": 25,
+      "winRate": 52
+    },
+    {
+      "team": "hyafrost+kku+maoja",
+      "picks": 14,
+      "winRate": 50
+    },
+    {
+      "team": "dravain+shaman+smithen",
+      "picks": 28,
+      "winRate": 50
+    },
+    {
+      "team": "dravain+maoja+zahria",
+      "picks": 18,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+paleya+zahria",
+      "picks": 16,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+paleya+poom",
+      "picks": 16,
+      "winRate": 50
+    },
+    {
+      "team": "paleya+shaman+smithen",
+      "picks": 16,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+smithen+yaura",
+      "picks": 28,
+      "winRate": 50
+    },
+    {
+      "team": "hope+paleya+yaura",
+      "picks": 22,
+      "winRate": 50
+    },
+    {
+      "team": "hyafrost+poom+shaman",
+      "picks": 16,
+      "winRate": 50
+    },
+    {
+      "team": "hyafrost+shaman+smithen",
+      "picks": 22,
+      "winRate": 50
+    },
+    {
+      "team": "hyafrost+maoja+zahria",
+      "picks": 18,
+      "winRate": 50
+    },
+    {
+      "team": "dravain+kahro+smithen",
+      "picks": 18,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+hyafrost+poom",
+      "picks": 28,
+      "winRate": 50
+    },
+    {
+      "team": "dravain+eva+maoja",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+kku+paleya",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "paleya+poom+yaura",
+      "picks": 14,
+      "winRate": 50
+    },
+    {
+      "team": "hope+shaman+smithen",
+      "picks": 14,
+      "winRate": 50
+    },
+    {
+      "team": "hope+paleya+shaman",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "shaman+smithen+yaura",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+poom+smithen",
+      "picks": 16,
+      "winRate": 50
+    },
+    {
+      "team": "hyafrost+poom+smithen",
+      "picks": 10,
+      "winRate": 50
+    },
+    {
+      "team": "dravain+poom+smithen",
+      "picks": 10,
+      "winRate": 50
+    },
+    {
+      "team": "dravain+kahro+yaura",
+      "picks": 16,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+kahro+zahria",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "maoja+smithen+yaura",
+      "picks": 20,
+      "winRate": 50
+    },
+    {
+      "team": "bakub+hyafrost+shaman",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "hyafrost+kahro+zahria",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "paleya+poom+zahria",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "eva+paleya+poom",
+      "picks": 12,
+      "winRate": 50
+    },
+    {
+      "team": "hope+poom+yaura",
+      "picks": 14,
+      "winRate": 50
+    },
+    {
+      "team": "eva+kahro+poom",
+      "picks": 29,
+      "winRate": 48.3
+    },
+    {
+      "team": "poom+shaman+smithen",
+      "picks": 23,
+      "winRate": 47.8
+    },
+    {
+      "team": "maoja+yaura+zahria",
+      "picks": 23,
+      "winRate": 47.8
+    },
+    {
+      "team": "hyafrost+kku+zahria",
+      "picks": 21,
+      "winRate": 47.6
+    },
+    {
+      "team": "eva+kahro+yaura",
+      "picks": 19,
+      "winRate": 47.4
+    },
+    {
+      "team": "hyafrost+kahro+smithen",
+      "picks": 19,
+      "winRate": 47.4
+    },
+    {
+      "team": "eva+kku+paleya",
+      "picks": 19,
+      "winRate": 47.4
+    },
+    {
+      "team": "eva+hyafrost+kahro",
+      "picks": 19,
+      "winRate": 47.4
+    },
+    {
+      "team": "kku+shaman+yaura",
+      "picks": 17,
+      "winRate": 47.1
+    },
+    {
+      "team": "hyafrost+maoja+yaura",
+      "picks": 17,
+      "winRate": 47.1
+    },
+    {
+      "team": "bakub+poom+zahria",
+      "picks": 17,
+      "winRate": 47.1
+    },
+    {
+      "team": "eva+kahro+smithen",
+      "picks": 17,
+      "winRate": 47.1
+    },
+    {
+      "team": "bakub+hope+hyafrost",
+      "picks": 17,
+      "winRate": 47.1
+    },
+    {
+      "team": "kku+shaman+zahria",
+      "picks": 15,
+      "winRate": 46.7
+    },
+    {
+      "team": "shaman+smithen+zahria",
+      "picks": 15,
+      "winRate": 46.7
+    },
+    {
+      "team": "kku+poom+yaura",
+      "picks": 13,
+      "winRate": 46.2
+    },
+    {
+      "team": "hope+yaura+zahria",
+      "picks": 13,
+      "winRate": 46.2
+    },
+    {
+      "team": "bakub+eva+kahro",
+      "picks": 13,
+      "winRate": 46.2
+    },
+    {
+      "team": "hyafrost+shaman+yaura",
+      "picks": 13,
+      "winRate": 46.2
+    },
+    {
+      "team": "bakub+eva+hope",
+      "picks": 13,
+      "winRate": 46.2
+    },
+    {
+      "team": "bakub+kahro+smithen",
+      "picks": 24,
+      "winRate": 45.8
+    },
+    {
+      "team": "bakub+hyafrost+smithen",
+      "picks": 11,
+      "winRate": 45.5
+    },
+    {
+      "team": "kku+maoja+shaman",
+      "picks": 22,
+      "winRate": 45.5
+    },
+    {
+      "team": "eva+hyafrost+poom",
+      "picks": 22,
+      "winRate": 45.5
+    },
+    {
+      "team": "hope+smithen+zahria",
+      "picks": 22,
+      "winRate": 45.5
+    },
+    {
+      "team": "dravain+eva+hyafrost",
+      "picks": 22,
+      "winRate": 45.5
+    },
+    {
+      "team": "maoja+paleya+zahria",
+      "picks": 11,
+      "winRate": 45.5
+    },
+    {
+      "team": "dravain+kku+poom",
+      "picks": 20,
+      "winRate": 45
+    },
+    {
+      "team": "paleya+smithen+zahria",
+      "picks": 20,
+      "winRate": 45
+    },
+    {
+      "team": "bakub+kahro+kku",
+      "picks": 20,
+      "winRate": 45
+    },
+    {
+      "team": "eva+maoja+yaura",
+      "picks": 20,
+      "winRate": 45
+    },
+    {
+      "team": "hope+kku+smithen",
+      "picks": 18,
+      "winRate": 44.4
+    },
+    {
+      "team": "paleya+smithen+yaura",
+      "picks": 9,
+      "winRate": 44.4
+    },
+    {
+      "team": "dravain+hyafrost+yaura",
+      "picks": 9,
+      "winRate": 44.4
+    },
+    {
+      "team": "eva+hope+kku",
+      "picks": 18,
+      "winRate": 44.4
+    },
+    {
+      "team": "dravain+kku+zahria",
+      "picks": 16,
+      "winRate": 43.8
+    },
+    {
+      "team": "bakub+hope+zahria",
+      "picks": 16,
+      "winRate": 43.8
+    },
+    {
+      "team": "bakub+eva+smithen",
+      "picks": 16,
+      "winRate": 43.8
+    },
+    {
+      "team": "eva+hope+smithen",
+      "picks": 14,
+      "winRate": 42.9
+    },
+    {
+      "team": "bakub+hyafrost+yaura",
+      "picks": 14,
+      "winRate": 42.9
+    },
+    {
+      "team": "hope+hyafrost+smithen",
+      "picks": 14,
+      "winRate": 42.9
+    },
+    {
+      "team": "hope+maoja+yaura",
+      "picks": 14,
+      "winRate": 42.9
+    },
+    {
+      "team": "kahro+smithen+yaura",
+      "picks": 14,
+      "winRate": 42.9
+    },
+    {
+      "team": "hyafrost+maoja+shaman",
+      "picks": 19,
+      "winRate": 42.1
+    },
+    {
+      "team": "kahro+kku+shaman",
+      "picks": 24,
+      "winRate": 41.7
+    },
+    {
+      "team": "eva+hope+hyafrost",
+      "picks": 24,
+      "winRate": 41.7
+    },
+    {
+      "team": "eva+hyafrost+shaman",
+      "picks": 12,
+      "winRate": 41.7
+    },
+    {
+      "team": "bakub+eva+hyafrost",
+      "picks": 12,
+      "winRate": 41.7
+    },
+    {
+      "team": "dravain+eva+paleya",
+      "picks": 12,
+      "winRate": 41.7
+    },
+    {
+      "team": "kku+smithen+zahria",
+      "picks": 17,
+      "winRate": 41.2
+    },
+    {
+      "team": "bakub+eva+paleya",
+      "picks": 15,
+      "winRate": 40
+    },
+    {
+      "team": "kku+maoja+smithen",
+      "picks": 10,
+      "winRate": 40
+    },
+    {
+      "team": "eva+maoja+poom",
+      "picks": 15,
+      "winRate": 40
+    },
+    {
+      "team": "hope+hyafrost+shaman",
+      "picks": 10,
+      "winRate": 40
+    },
+    {
+      "team": "hyafrost+kku+smithen",
+      "picks": 15,
+      "winRate": 40
+    },
+    {
+      "team": "eva+poom+yaura",
+      "picks": 10,
+      "winRate": 40
+    },
+    {
+      "team": "maoja+paleya+yaura",
+      "picks": 20,
+      "winRate": 40
+    },
+    {
+      "team": "bakub+kku+poom",
+      "picks": 15,
+      "winRate": 40
+    },
+    {
+      "team": "hyafrost+yaura+zahria",
+      "picks": 15,
+      "winRate": 40
+    },
+    {
+      "team": "kku+maoja+paleya",
+      "picks": 15,
+      "winRate": 40
+    },
+    {
+      "team": "bakub+kahro+maoja",
+      "picks": 20,
+      "winRate": 40
+    },
+    {
+      "team": "dravain+hope+yaura",
+      "picks": 20,
+      "winRate": 40
+    },
+    {
+      "team": "kahro+kku+maoja",
+      "picks": 23,
+      "winRate": 39.1
+    },
+    {
+      "team": "dravain+hope+zahria",
+      "picks": 23,
+      "winRate": 39.1
+    },
+    {
+      "team": "dravain+hope+kku",
+      "picks": 23,
+      "winRate": 39.1
+    },
+    {
+      "team": "dravain+eva+shaman",
+      "picks": 18,
+      "winRate": 38.9
+    },
+    {
+      "team": "dravain+kku+paleya",
+      "picks": 18,
+      "winRate": 38.9
+    },
+    {
+      "team": "bakub+kku+zahria",
+      "picks": 18,
+      "winRate": 38.9
+    },
+    {
+      "team": "hyafrost+maoja+smithen",
+      "picks": 13,
+      "winRate": 38.5
+    },
+    {
+      "team": "hyafrost+paleya+shaman",
+      "picks": 13,
+      "winRate": 38.5
+    },
+    {
+      "team": "eva+kahro+paleya",
+      "picks": 13,
+      "winRate": 38.5
+    },
+    {
+      "team": "eva+hope+paleya",
+      "picks": 21,
+      "winRate": 38.1
+    },
+    {
+      "team": "kku+paleya+yaura",
+      "picks": 8,
+      "winRate": 37.5
+    },
+    {
+      "team": "dravain+hope+smithen",
+      "picks": 19,
+      "winRate": 36.8
+    },
+    {
+      "team": "bakub+hyafrost+paleya",
+      "picks": 19,
+      "winRate": 36.8
+    },
+    {
+      "team": "hyafrost+smithen+zahria",
+      "picks": 19,
+      "winRate": 36.8
+    },
+    {
+      "team": "dravain+poom+yaura",
+      "picks": 22,
+      "winRate": 36.4
+    },
+    {
+      "team": "maoja+poom+smithen",
+      "picks": 22,
+      "winRate": 36.4
+    },
+    {
+      "team": "dravain+kku+smithen",
+      "picks": 22,
+      "winRate": 36.4
+    },
+    {
+      "team": "eva+maoja+smithen",
+      "picks": 11,
+      "winRate": 36.4
+    },
+    {
+      "team": "hyafrost+smithen+yaura",
+      "picks": 14,
+      "winRate": 35.7
+    },
+    {
+      "team": "bakub+smithen+zahria",
+      "picks": 14,
+      "winRate": 35.7
+    },
+    {
+      "team": "eva+kahro+zahria",
+      "picks": 14,
+      "winRate": 35.7
+    },
+    {
+      "team": "hyafrost+kku+poom",
+      "picks": 31,
+      "winRate": 35.5
+    },
+    {
+      "team": "dravain+maoja+yaura",
+      "picks": 17,
+      "winRate": 35.3
+    },
+    {
+      "team": "bakub+yaura+zahria",
+      "picks": 17,
+      "winRate": 35.3
+    },
+    {
+      "team": "bakub+hope+yaura",
+      "picks": 17,
+      "winRate": 35.3
+    },
+    {
+      "team": "kahro+shaman+smithen",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "hope+kku+shaman",
+      "picks": 12,
+      "winRate": 33.3
+    },
+    {
+      "team": "hyafrost+paleya+zahria",
+      "picks": 12,
+      "winRate": 33.3
+    },
+    {
+      "team": "hope+smithen+yaura",
+      "picks": 18,
+      "winRate": 33.3
+    },
+    {
+      "team": "kku+paleya+smithen",
+      "picks": 18,
+      "winRate": 33.3
+    },
+    {
+      "team": "dravain+hyafrost+zahria",
+      "picks": 18,
+      "winRate": 33.3
+    },
+    {
+      "team": "eva+kku+shaman",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "kahro+kku+zahria",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "eva+poom+zahria",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "hyafrost+kku+paleya",
+      "picks": 12,
+      "winRate": 33.3
+    },
+    {
+      "team": "kku+maoja+yaura",
+      "picks": 18,
+      "winRate": 33.3
+    },
+    {
+      "team": "kahro+yaura+zahria",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "eva+maoja+zahria",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "bakub+eva+yaura",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "eva+paleya+smithen",
+      "picks": 15,
+      "winRate": 33.3
+    },
+    {
+      "team": "hope+kahro+yaura",
+      "picks": 9,
+      "winRate": 33.3
+    },
+    {
+      "team": "dravain+eva+yaura",
+      "picks": 18,
+      "winRate": 33.3
+    },
+    {
+      "team": "dravain+paleya+yaura",
+      "picks": 9,
+      "winRate": 33.3
+    },
+    {
+      "team": "dravain+kku+maoja",
+      "picks": 16,
+      "winRate": 31.3
+    },
+    {
+      "team": "kku+maoja+zahria",
+      "picks": 16,
+      "winRate": 31.3
+    },
+    {
+      "team": "dravain+smithen+zahria",
+      "picks": 16,
+      "winRate": 31.3
+    },
+    {
+      "team": "eva+shaman+smithen",
+      "picks": 16,
+      "winRate": 31.3
+    },
+    {
+      "team": "eva+hyafrost+zahria",
+      "picks": 16,
+      "winRate": 31.3
+    },
+    {
+      "team": "kahro+kku+poom",
+      "picks": 13,
+      "winRate": 30.8
+    },
+    {
+      "team": "hyafrost+paleya+smithen",
+      "picks": 13,
+      "winRate": 30.8
+    },
+    {
+      "team": "bakub+dravain+hope",
+      "picks": 13,
+      "winRate": 30.8
+    },
+    {
+      "team": "bakub+kku+maoja",
+      "picks": 13,
+      "winRate": 30.8
+    },
+    {
+      "team": "eva+hyafrost+maoja",
+      "picks": 10,
+      "winRate": 30
+    },
+    {
+      "team": "kahro+poom+yaura",
+      "picks": 10,
+      "winRate": 30
+    },
+    {
+      "team": "hyafrost+poom+zahria",
+      "picks": 20,
+      "winRate": 30
+    },
+    {
+      "team": "kku+maoja+poom",
+      "picks": 20,
+      "winRate": 30
+    },
+    {
+      "team": "eva+paleya+yaura",
+      "picks": 20,
+      "winRate": 30
+    },
+    {
+      "team": "dravain+smithen+yaura",
+      "picks": 20,
+      "winRate": 30
+    },
+    {
+      "team": "eva+shaman+yaura",
+      "picks": 10,
+      "winRate": 30
+    },
+    {
+      "team": "dravain+hyafrost+kku",
+      "picks": 10,
+      "winRate": 30
+    },
+    {
+      "team": "eva+shaman+zahria",
+      "picks": 17,
+      "winRate": 29.4
+    },
+    {
+      "team": "paleya+yaura+zahria",
+      "picks": 17,
+      "winRate": 29.4
+    },
+    {
+      "team": "eva+smithen+zahria",
+      "picks": 17,
+      "winRate": 29.4
+    },
+    {
+      "team": "bakub+maoja+yaura",
+      "picks": 17,
+      "winRate": 29.4
+    },
+    {
+      "team": "eva+kku+smithen",
+      "picks": 24,
+      "winRate": 29.2
+    },
+    {
+      "team": "kku+paleya+poom",
+      "picks": 14,
+      "winRate": 28.6
+    },
+    {
+      "team": "bakub+eva+kku",
+      "picks": 14,
+      "winRate": 28.6
+    },
+    {
+      "team": "eva+hyafrost+paleya",
+      "picks": 25,
+      "winRate": 28
+    },
+    {
+      "team": "dravain+eva+smithen",
+      "picks": 18,
+      "winRate": 27.8
+    },
+    {
+      "team": "eva+kku+poom",
+      "picks": 18,
+      "winRate": 27.8
+    },
+    {
+      "team": "bakub+maoja+smithen",
+      "picks": 22,
+      "winRate": 27.3
+    },
+    {
+      "team": "bakub+hope+kku",
+      "picks": 11,
+      "winRate": 27.3
+    },
+    {
+      "team": "kahro+maoja+yaura",
+      "picks": 15,
+      "winRate": 26.7
+    },
+    {
+      "team": "eva+poom+smithen",
+      "picks": 19,
+      "winRate": 26.3
+    },
+    {
+      "team": "poom+smithen+yaura",
+      "picks": 19,
+      "winRate": 26.3
+    },
+    {
+      "team": "paleya+poom+smithen",
+      "picks": 16,
+      "winRate": 25
+    },
+    {
+      "team": "eva+hyafrost+smithen",
+      "picks": 16,
+      "winRate": 25
+    },
+    {
+      "team": "hyafrost+kku+yaura",
+      "picks": 21,
+      "winRate": 23.8
+    },
+    {
+      "team": "hope+kku+maoja",
+      "picks": 17,
+      "winRate": 23.5
+    },
+    {
+      "team": "bakub+eva+zahria",
+      "picks": 17,
+      "winRate": 23.5
+    },
+    {
+      "team": "hope+poom+smithen",
+      "picks": 13,
+      "winRate": 23.1
+    },
+    {
+      "team": "kku+poom+smithen",
+      "picks": 18,
+      "winRate": 22.2
+    },
+    {
+      "team": "dravain+eva+kku",
+      "picks": 18,
+      "winRate": 22.2
+    },
+    {
+      "team": "eva+yaura+zahria",
+      "picks": 9,
+      "winRate": 22.2
+    },
+    {
+      "team": "eva+hope+zahria",
+      "picks": 23,
+      "winRate": 21.7
+    },
+    {
+      "team": "kku+poom+zahria",
+      "picks": 19,
+      "winRate": 21.1
+    },
+    {
+      "team": "hyafrost+paleya+yaura",
+      "picks": 15,
+      "winRate": 20
+    },
+    {
+      "team": "eva+paleya+zahria",
+      "picks": 15,
+      "winRate": 20
+    },
+    {
+      "team": "dravain+eva+zahria",
+      "picks": 20,
+      "winRate": 20
+    },
+    {
+      "team": "hope+kku+yaura",
+      "picks": 21,
+      "winRate": 19
+    },
+    {
+      "team": "dravain+paleya+zahria",
+      "picks": 16,
+      "winRate": 18.8
+    },
+    {
+      "team": "hope+kku+zahria",
+      "picks": 11,
+      "winRate": 18.2
+    },
+    {
+      "team": "eva+smithen+yaura",
+      "picks": 17,
+      "winRate": 17.6
+    },
+    {
+      "team": "kku+yaura+zahria",
+      "picks": 19,
+      "winRate": 15.8
+    },
+    {
+      "team": "eva+kku+yaura",
+      "picks": 13,
+      "winRate": 15.4
+    },
+    {
+      "team": "eva+kku+maoja",
+      "picks": 13,
+      "winRate": 15.4
+    },
+    {
+      "team": "dravain+poom+zahria",
+      "picks": 20,
+      "winRate": 15
+    },
+    {
+      "team": "bakub+dravain+yaura",
+      "picks": 20,
+      "winRate": 15
+    },
+    {
+      "team": "eva+hyafrost+kku",
+      "picks": 14,
+      "winRate": 14.3
+    },
+    {
+      "team": "bakub+dravain+kku",
+      "picks": 15,
+      "winRate": 13.3
+    },
+    {
+      "team": "eva+hope+yaura",
+      "picks": 16,
+      "winRate": 12.5
+    },
+    {
+      "team": "smithen+yaura+zahria",
+      "picks": 18,
+      "winRate": 11.1
+    },
+    {
+      "team": "kku+smithen+yaura",
+      "picks": 18,
+      "winRate": 11.1
+    },
+    {
+      "team": "bakub+kku+yaura",
+      "picks": 18,
+      "winRate": 11.1
+    },
+    {
+      "team": "kahro+kku+yaura",
+      "picks": 22,
+      "winRate": 9.1
+    },
+    {
+      "team": "dravain+yaura+zahria",
+      "picks": 12,
+      "winRate": 8.3
+    },
+    {
+      "team": "dravain+kku+yaura",
+      "picks": 13,
+      "winRate": 7.7
+    },
+    {
+      "team": "kku+paleya+zahria",
+      "picks": 13,
+      "winRate": 7.7
+    },
+    {
+      "team": "eva+kku+zahria",
+      "picks": 16,
+      "winRate": 6.3
+    },
+    {
+      "team": "poom+smithen+zahria",
+      "picks": 16,
+      "winRate": 6.3
+    },
+    {
+      "team": "dravain+hyafrost+smithen",
+      "picks": 9,
+      "winRate": 0
+    }
+  ],
+  "abilityPrecisionSummary": [
+    {
+      "key": "zahria:mass",
+      "character": "Zahria",
+      "ability": "Mass Drain",
+      "kind": "massDrainBleed",
+      "cost": 2,
+      "uses": 314,
+      "winRateWhenUsed": 42.7,
+      "avgDamage": 10.54,
+      "avgHealing": 6.43,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 15.04,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 269
+    },
+    {
+      "key": "hyafrost:zero",
+      "character": "Hyafrost",
+      "ability": "Absolute Zero",
+      "kind": "absoluteZeroConsume",
+      "cost": 2,
+      "uses": 3541,
+      "winRateWhenUsed": 51,
+      "avgDamage": 9.14,
+      "avgHealing": 0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 9.15,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2014
+    },
+    {
+      "key": "kahro:assassinate",
+      "character": "Kahro",
+      "ability": "Assassinate",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 4802,
+      "winRateWhenUsed": 67.1,
+      "avgDamage": 5.3,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 5.3,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2514
+    },
+    {
+      "key": "smithen:shatter",
+      "character": "Smithen",
+      "ability": "Shatter Shot",
+      "kind": "freezePayoff",
+      "cost": 2,
+      "uses": 4576,
+      "winRateWhenUsed": 46.7,
+      "avgDamage": 5.01,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 5.01,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 3076
+    },
+    {
+      "key": "poom:roar",
+      "character": "Poom",
+      "ability": "Mesmer Roar",
+      "kind": "mesmerPayoff",
+      "cost": 2,
+      "uses": 1279,
+      "winRateWhenUsed": 56.1,
+      "avgDamage": 4.88,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 4.88,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 485
+    },
+    {
+      "key": "yaura:price",
+      "character": "Yaura",
+      "ability": "Blood Price",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 2305,
+      "winRateWhenUsed": 46.1,
+      "avgDamage": 4.35,
+      "avgHealing": 0,
+      "avgStatus": 0.31,
+      "avgKills": 0,
+      "avgValue": 4.55,
+      "deathRateAfterUse": 6.7,
+      "usedWhenBehind": 1051
+    },
+    {
+      "key": "shaman:rupture",
+      "character": "Bahl",
+      "ability": "Demon Rupture",
+      "kind": "demonRupture",
+      "cost": 2,
+      "uses": 7223,
+      "winRateWhenUsed": 66.1,
+      "avgDamage": 4.43,
+      "avgHealing": 0,
+      "avgStatus": 0.03,
+      "avgKills": 0,
+      "avgValue": 4.45,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 3296
+    },
+    {
+      "key": "zahria:blade",
+      "character": "Zahria",
+      "ability": "Blood Blade",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 2231,
+      "winRateWhenUsed": 50.1,
+      "avgDamage": 4.21,
+      "avgHealing": 0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 4.21,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1116
+    },
+    {
+      "key": "paleya:lance",
+      "character": "Paleya",
+      "ability": "Mind Lance",
+      "kind": "hypnosisDamagePayoff",
+      "cost": 1,
+      "uses": 6552,
+      "winRateWhenUsed": 57.5,
+      "avgDamage": 4,
+      "avgHealing": 0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 4.01,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2724
+    },
+    {
+      "key": "kku:break",
+      "character": "K'ku",
+      "ability": "Glacier Break",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 2663,
+      "winRateWhenUsed": 39.7,
+      "avgDamage": 3.26,
+      "avgHealing": 0,
+      "avgStatus": 0.03,
+      "avgKills": 0,
+      "avgValue": 3.28,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1393
+    },
+    {
+      "key": "poom:bodyguard",
+      "character": "Poom",
+      "ability": "Revenge Body",
+      "kind": "revenge",
+      "cost": 2,
+      "uses": 3696,
+      "winRateWhenUsed": 48.7,
+      "avgDamage": 3.19,
+      "avgHealing": 0,
+      "avgStatus": 0.06,
+      "avgKills": 0,
+      "avgValue": 3.23,
+      "deathRateAfterUse": 3.1,
+      "usedWhenBehind": 1301
+    },
+    {
+      "key": "eva:kiss",
+      "character": "Lady Eva",
+      "ability": "Vampire Kiss",
+      "kind": "damageStatus",
+      "cost": 2,
+      "uses": 3441,
+      "winRateWhenUsed": 43.5,
+      "avgDamage": 2.07,
+      "avgHealing": 0,
+      "avgStatus": 1.76,
+      "avgKills": 0,
+      "avgValue": 3.21,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2123
+    },
+    {
+      "key": "dravain:bash",
+      "character": "Dravain",
+      "ability": "Shield Bash",
+      "kind": "armorStrike",
+      "cost": 1,
+      "uses": 5333,
+      "winRateWhenUsed": 60.6,
+      "avgDamage": 3.05,
+      "avgHealing": 0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 3.05,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2023
+    },
+    {
+      "key": "bakub:toxin",
+      "character": "Bakub",
+      "ability": "Mind Toxin",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 2195,
+      "winRateWhenUsed": 71.7,
+      "avgDamage": 3.01,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 3.01,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 827
+    },
+    {
+      "key": "eva:bite",
+      "character": "Lady Eva",
+      "ability": "Final Bite",
+      "kind": "bleedPayoff",
+      "cost": 2,
+      "uses": 2694,
+      "winRateWhenUsed": 34.5,
+      "avgDamage": 2.26,
+      "avgHealing": 0.95,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 2.93,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2027
+    },
+    {
+      "key": "kahro:needle",
+      "character": "Kahro",
+      "ability": "Shadow Needle",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 1638,
+      "winRateWhenUsed": 75.9,
+      "avgDamage": 2.87,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 2.87,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 525
+    },
+    {
+      "key": "maoja:breath",
+      "character": "Maoja",
+      "ability": "Caustic Breath",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 5815,
+      "winRateWhenUsed": 56.5,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 4.29,
+      "avgKills": 0,
+      "avgValue": 2.79,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2274
+    },
+    {
+      "key": "hyafrost:field",
+      "character": "Hyafrost",
+      "ability": "Frozen Field",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 3596,
+      "winRateWhenUsed": 49.6,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 4.17,
+      "avgKills": 0,
+      "avgValue": 2.71,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1665
+    },
+    {
+      "key": "dravain:claim",
+      "character": "Dravain",
+      "ability": "Blood Claim",
+      "kind": "bleedPayoff",
+      "cost": 2,
+      "uses": 1207,
+      "winRateWhenUsed": 43.3,
+      "avgDamage": 2.2,
+      "avgHealing": 0.56,
+      "avgStatus": 0.1,
+      "avgKills": 0,
+      "avgValue": 2.65,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 723
+    },
+    {
+      "key": "maoja:burst",
+      "character": "Maoja",
+      "ability": "Rot Burst",
+      "kind": "poisonPayoff",
+      "cost": 2,
+      "uses": 1837,
+      "winRateWhenUsed": 57.5,
+      "avgDamage": 2.45,
+      "avgHealing": 0,
+      "avgStatus": 0.02,
+      "avgKills": 0,
+      "avgValue": 2.47,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 730
+    },
+    {
+      "key": "poom:bash",
+      "character": "Poom",
+      "ability": "Bash",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 5346,
+      "winRateWhenUsed": 53.4,
+      "avgDamage": 2.4,
+      "avgHealing": 0,
+      "avgStatus": 0.02,
+      "avgKills": 0,
+      "avgValue": 2.42,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1788
+    },
+    {
+      "key": "bakub:fog",
+      "character": "Bakub",
+      "ability": "Demon Fog",
+      "kind": "rowMultiStatus",
+      "cost": 2,
+      "uses": 5141,
+      "winRateWhenUsed": 54.5,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 3.63,
+      "avgKills": 0,
+      "avgValue": 2.36,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 3160
+    },
+    {
+      "key": "kku:roar",
+      "character": "K'ku",
+      "ability": "Blizzard Roar",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 3605,
+      "winRateWhenUsed": 35.4,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 3.59,
+      "avgKills": 0,
+      "avgValue": 2.33,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1691
+    },
+    {
+      "key": "hope:mend",
+      "character": "Hope",
+      "ability": "Mend Wounds",
+      "kind": "singleHeal",
+      "cost": 1,
+      "uses": 4471,
+      "winRateWhenUsed": 60.4,
+      "avgDamage": 0,
+      "avgHealing": 3.32,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 2.32,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1842
+    },
+    {
+      "key": "eva:stab",
+      "character": "Lady Eva",
+      "ability": "Crimson Stab",
+      "kind": "bloodDash",
+      "cost": 1,
+      "uses": 4254,
+      "winRateWhenUsed": 45.8,
+      "avgDamage": 2.09,
+      "avgHealing": 0,
+      "avgStatus": 0.02,
+      "avgKills": 0,
+      "avgValue": 2.1,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2541
+    },
+    {
+      "key": "kku:slam",
+      "character": "K'ku",
+      "ability": "Frost Slam",
+      "kind": "damageStatusOnHit",
+      "cost": 1,
+      "uses": 4932,
+      "winRateWhenUsed": 38.2,
+      "avgDamage": 1.61,
+      "avgHealing": 0,
+      "avgStatus": 0.53,
+      "avgKills": 0,
+      "avgValue": 1.95,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2171
+    },
+    {
+      "key": "shaman:mark",
+      "character": "Bahl",
+      "ability": "Infect Mark",
+      "kind": "multiStatus",
+      "cost": 1,
+      "uses": 4915,
+      "winRateWhenUsed": 65.9,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 3,
+      "avgKills": 0,
+      "avgValue": 1.95,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1993
+    },
+    {
+      "key": "maoja:grip",
+      "character": "Maoja",
+      "ability": "Corrosive Grip",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 4476,
+      "winRateWhenUsed": 56.6,
+      "avgDamage": 1.79,
+      "avgHealing": 0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 1.8,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1608
+    },
+    {
+      "key": "yaura:rain",
+      "character": "Yaura",
+      "ability": "Red Rain",
+      "kind": "allStatus",
+      "cost": 1,
+      "uses": 1936,
+      "winRateWhenUsed": 37.6,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 2.68,
+      "avgKills": 0,
+      "avgValue": 1.74,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1065
+    },
+    {
+      "key": "zahria:rain",
+      "character": "Zahria",
+      "ability": "Red Rain",
+      "kind": "allStatus",
+      "cost": 1,
+      "uses": 2803,
+      "winRateWhenUsed": 44,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 2.55,
+      "avgKills": 0,
+      "avgValue": 1.66,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1718
+    },
+    {
+      "key": "bakub:vial",
+      "character": "Bakub",
+      "ability": "Nightmare Vial",
+      "kind": "multiStatus",
+      "cost": 1,
+      "uses": 3524,
+      "winRateWhenUsed": 58.3,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 2.41,
+      "avgKills": 0,
+      "avgValue": 1.57,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1892
+    },
+    {
+      "key": "smithen:iceNeedle",
+      "character": "Smithen",
+      "ability": "Ice Needle",
+      "kind": "damageStatusOnHit",
+      "cost": 1,
+      "uses": 4193,
+      "winRateWhenUsed": 46.1,
+      "avgDamage": 0.95,
+      "avgHealing": 0,
+      "avgStatus": 0.81,
+      "avgKills": 0,
+      "avgValue": 1.48,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2667
+    },
+    {
+      "key": "shaman:plague",
+      "character": "Bahl",
+      "ability": "Plague Wave",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 505,
+      "winRateWhenUsed": 71.9,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 2.17,
+      "avgKills": 0,
+      "avgValue": 1.41,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 159
+    },
+    {
+      "key": "dravain:drain",
+      "character": "Dravain",
+      "ability": "Vampiric Thrust",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 916,
+      "winRateWhenUsed": 59.1,
+      "avgDamage": 1.31,
+      "avgHealing": 0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 1.32,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 349
+    },
+    {
+      "key": "shaman:proliferate",
+      "character": "Bahl",
+      "ability": "Dark Proliferation",
+      "kind": "proliferate",
+      "cost": 2,
+      "uses": 56,
+      "winRateWhenUsed": 73.2,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 1.96,
+      "avgKills": 0,
+      "avgValue": 1.28,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 12
+    },
+    {
+      "key": "paleya:mass",
+      "character": "Paleya",
+      "ability": "Mass Suggestion",
+      "kind": "frontHypno",
+      "cost": 1,
+      "uses": 4879,
+      "winRateWhenUsed": 53.7,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 1.84,
+      "avgKills": 0,
+      "avgValue": 1.19,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2124
+    },
+    {
+      "key": "kahro:mark",
+      "character": "Kahro",
+      "ability": "Shadow Mark",
+      "kind": "multiStatus",
+      "cost": 1,
+      "uses": 4709,
+      "winRateWhenUsed": 61.8,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 1.72,
+      "avgKills": 0,
+      "avgValue": 1.11,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2578
+    },
+    {
+      "key": "hope:strike",
+      "character": "Hope",
+      "ability": "Hopeful Strike",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 498,
+      "winRateWhenUsed": 68.1,
+      "avgDamage": 0.78,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0.79,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 189
+    },
+    {
+      "key": "zahria:mist",
+      "character": "Zahria",
+      "ability": "Blood Mist",
+      "kind": "rowBleedAmplify",
+      "cost": 1,
+      "uses": 6675,
+      "winRateWhenUsed": 42.6,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 1.03,
+      "avgKills": 0,
+      "avgValue": 0.67,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 4133
+    },
+    {
+      "key": "smithen:pin",
+      "character": "Smithen",
+      "ability": "Frost Pin",
+      "kind": "whiteout",
+      "cost": 1,
+      "uses": 2935,
+      "winRateWhenUsed": 48.7,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0.94,
+      "avgKills": 0,
+      "avgValue": 0.61,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1753
+    },
+    {
+      "key": "hyafrost:frostbite",
+      "character": "Hyafrost",
+      "ability": "Frostbite",
+      "kind": "whiteout",
+      "cost": 1,
+      "uses": 5559,
+      "winRateWhenUsed": 46.5,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0.89,
+      "avgKills": 0,
+      "avgValue": 0.58,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2503
+    },
+    {
+      "key": "yaura:ward",
+      "character": "Yaura",
+      "ability": "Blood Ward",
+      "kind": "bloodWard",
+      "cost": 1,
+      "uses": 7490,
+      "winRateWhenUsed": 32,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0.88,
+      "avgKills": 0,
+      "avgValue": 0.57,
+      "deathRateAfterUse": 3.1,
+      "usedWhenBehind": 4897
+    },
+    {
+      "key": "paleya:mesmer",
+      "character": "Paleya",
+      "ability": "Mesmerize",
+      "kind": "status",
+      "cost": 1,
+      "uses": 1229,
+      "winRateWhenUsed": 50.8,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0.8,
+      "avgKills": 0,
+      "avgValue": 0.52,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 427
+    },
+    {
+      "key": "kahro:vanish",
+      "character": "Kahro",
+      "ability": "Vanish",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 1454,
+      "winRateWhenUsed": 49.8,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 900
+    },
+    {
+      "key": "poom:guard",
+      "character": "Poom",
+      "ability": "Mesmeric Taunt",
+      "kind": "poomMassGuardMind",
+      "cost": 1,
+      "uses": 2097,
+      "winRateWhenUsed": 44,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 985
+    },
+    {
+      "key": "dravain:protect",
+      "character": "Dravain",
+      "ability": "Protect Ally",
+      "kind": "protect",
+      "cost": 1,
+      "uses": 10354,
+      "winRateWhenUsed": 44.8,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 5413
+    },
+    {
+      "key": "eva:mist",
+      "character": "Lady Eva",
+      "ability": "Mist Step",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 2575,
+      "winRateWhenUsed": 35.8,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1872
+    },
+    {
+      "key": "yaura:bolt",
+      "character": "Yaura",
+      "ability": "Blood Infusion",
+      "kind": "empowerNextAttack",
+      "cost": 1,
+      "uses": 4808,
+      "winRateWhenUsed": 38.5,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2671
+    },
+    {
+      "key": "kku:guard",
+      "character": "K'ku",
+      "ability": "Ice Guard",
+      "kind": "selfCounter",
+      "cost": 1,
+      "uses": 3918,
+      "winRateWhenUsed": 29.4,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 2394
+    },
+    {
+      "key": "paleya:mirror",
+      "character": "Paleya",
+      "ability": "Mirror Guard",
+      "kind": "hypnosisCancelPayoff",
+      "cost": 1,
+      "uses": 1385,
+      "winRateWhenUsed": 46.9,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 661
+    },
+    {
+      "key": "maoja:hands",
+      "character": "Maoja",
+      "ability": "Poison Hands",
+      "kind": "utility",
+      "cost": 1,
+      "uses": 1153,
+      "winRateWhenUsed": 54.6,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 407
+    },
+    {
+      "key": "hope:judgement",
+      "character": "Hope",
+      "ability": "Delayed Judgement",
+      "kind": "delayedAttack",
+      "cost": 2,
+      "uses": 3049,
+      "winRateWhenUsed": 64,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1151
+    },
+    {
+      "key": "hope:shield",
+      "character": "Hope",
+      "ability": "Blessing Shield",
+      "kind": "grantShield",
+      "cost": 1,
+      "uses": 12807,
+      "winRateWhenUsed": 50.5,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 6782
+    },
+    {
+      "key": "smithen:flash",
+      "character": "Smithen",
+      "ability": "Whiteout Step",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 1977,
+      "winRateWhenUsed": 38.6,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1374
+    },
+    {
+      "key": "bakub:future",
+      "character": "Bakub",
+      "ability": "False Future",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 1904,
+      "winRateWhenUsed": 45.4,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 1237
+    },
+    {
+      "key": "hyafrost:armor",
+      "character": "Hyafrost",
+      "ability": "Frost Armor",
+      "kind": "frostArmorRetaliate",
+      "cost": 1,
+      "uses": 185,
+      "winRateWhenUsed": 58.4,
+      "avgDamage": 0,
+      "avgHealing": 0,
+      "avgStatus": 0,
+      "avgKills": 0,
+      "avgValue": 0,
+      "deathRateAfterUse": 0,
+      "usedWhenBehind": 43
+    }
+  ],
+  "matchupSummary": [
+    {
+      "character": "bakub",
+      "opponent": "eva",
+      "games": 265,
+      "winRate": 68.7
+    },
+    {
+      "character": "bakub",
+      "opponent": "yaura",
+      "games": 281,
+      "winRate": 65.1
+    },
+    {
+      "character": "bakub",
+      "opponent": "kku",
+      "games": 283,
+      "winRate": 64.7
+    },
+    {
+      "character": "bakub",
+      "opponent": "zahria",
+      "games": 272,
+      "winRate": 61.4
+    },
+    {
+      "character": "bakub",
+      "opponent": "smithen",
+      "games": 263,
+      "winRate": 59.3
+    },
+    {
+      "character": "bakub",
+      "opponent": "hyafrost",
+      "games": 257,
+      "winRate": 56.8
+    },
+    {
+      "character": "bakub",
+      "opponent": "dravain",
+      "games": 255,
+      "winRate": 56.5
+    },
+    {
+      "character": "bakub",
+      "opponent": "hope",
+      "games": 286,
+      "winRate": 54.2
+    },
+    {
+      "character": "bakub",
+      "opponent": "bakub",
+      "games": 274,
+      "winRate": 50
+    },
+    {
+      "character": "bakub",
+      "opponent": "paleya",
+      "games": 278,
+      "winRate": 48.6
+    },
+    {
+      "character": "bakub",
+      "opponent": "poom",
+      "games": 265,
+      "winRate": 47.9
+    },
+    {
+      "character": "bakub",
+      "opponent": "kahro",
+      "games": 279,
+      "winRate": 47.3
+    },
+    {
+      "character": "bakub",
+      "opponent": "maoja",
+      "games": 285,
+      "winRate": 43.2
+    },
+    {
+      "character": "bakub",
+      "opponent": "shaman",
+      "games": 249,
+      "winRate": 39
+    },
+    {
+      "character": "dravain",
+      "opponent": "kku",
+      "games": 300,
+      "winRate": 61.7
+    },
+    {
+      "character": "dravain",
+      "opponent": "eva",
+      "games": 277,
+      "winRate": 60.3
+    },
+    {
+      "character": "dravain",
+      "opponent": "yaura",
+      "games": 278,
+      "winRate": 60.1
+    },
+    {
+      "character": "dravain",
+      "opponent": "zahria",
+      "games": 278,
+      "winRate": 58.6
+    },
+    {
+      "character": "dravain",
+      "opponent": "smithen",
+      "games": 324,
+      "winRate": 57.1
+    },
+    {
+      "character": "dravain",
+      "opponent": "hyafrost",
+      "games": 278,
+      "winRate": 50.7
+    },
+    {
+      "character": "dravain",
+      "opponent": "dravain",
+      "games": 290,
+      "winRate": 50
+    },
+    {
+      "character": "dravain",
+      "opponent": "poom",
+      "games": 282,
+      "winRate": 49.6
+    },
+    {
+      "character": "dravain",
+      "opponent": "maoja",
+      "games": 278,
+      "winRate": 48.9
+    },
+    {
+      "character": "dravain",
+      "opponent": "paleya",
+      "games": 285,
+      "winRate": 44.9
+    },
+    {
+      "character": "dravain",
+      "opponent": "bakub",
+      "games": 255,
+      "winRate": 43.5
+    },
+    {
+      "character": "dravain",
+      "opponent": "kahro",
+      "games": 284,
+      "winRate": 39.8
+    },
+    {
+      "character": "dravain",
+      "opponent": "hope",
+      "games": 285,
+      "winRate": 39.3
+    },
+    {
+      "character": "dravain",
+      "opponent": "shaman",
+      "games": 275,
+      "winRate": 36
+    },
+    {
+      "character": "eva",
+      "opponent": "kku",
+      "games": 266,
+      "winRate": 54.9
+    },
+    {
+      "character": "eva",
+      "opponent": "yaura",
+      "games": 263,
+      "winRate": 50.2
+    },
+    {
+      "character": "eva",
+      "opponent": "eva",
+      "games": 276,
+      "winRate": 50
+    },
+    {
+      "character": "eva",
+      "opponent": "hyafrost",
+      "games": 253,
+      "winRate": 45.8
+    },
+    {
+      "character": "eva",
+      "opponent": "zahria",
+      "games": 252,
+      "winRate": 45.2
+    },
+    {
+      "character": "eva",
+      "opponent": "smithen",
+      "games": 281,
+      "winRate": 44.8
+    },
+    {
+      "character": "eva",
+      "opponent": "dravain",
+      "games": 277,
+      "winRate": 39.7
+    },
+    {
+      "character": "eva",
+      "opponent": "paleya",
+      "games": 268,
+      "winRate": 39.2
+    },
+    {
+      "character": "eva",
+      "opponent": "poom",
+      "games": 275,
+      "winRate": 38.9
+    },
+    {
+      "character": "eva",
+      "opponent": "hope",
+      "games": 270,
+      "winRate": 34.8
+    },
+    {
+      "character": "eva",
+      "opponent": "kahro",
+      "games": 282,
+      "winRate": 34.4
+    },
+    {
+      "character": "eva",
+      "opponent": "shaman",
+      "games": 280,
+      "winRate": 34.3
+    },
+    {
+      "character": "eva",
+      "opponent": "maoja",
+      "games": 275,
+      "winRate": 33.8
+    },
+    {
+      "character": "eva",
+      "opponent": "bakub",
+      "games": 265,
+      "winRate": 31.3
+    },
+    {
+      "character": "hope",
+      "opponent": "yaura",
+      "games": 281,
+      "winRate": 68.3
+    },
+    {
+      "character": "hope",
+      "opponent": "eva",
+      "games": 270,
+      "winRate": 65.2
+    },
+    {
+      "character": "hope",
+      "opponent": "smithen",
+      "games": 303,
+      "winRate": 65
+    },
+    {
+      "character": "hope",
+      "opponent": "kku",
+      "games": 275,
+      "winRate": 64.4
+    },
+    {
+      "character": "hope",
+      "opponent": "zahria",
+      "games": 256,
+      "winRate": 60.9
+    },
+    {
+      "character": "hope",
+      "opponent": "dravain",
+      "games": 285,
+      "winRate": 60.7
+    },
+    {
+      "character": "hope",
+      "opponent": "poom",
+      "games": 272,
+      "winRate": 59.6
+    },
+    {
+      "character": "hope",
+      "opponent": "paleya",
+      "games": 260,
+      "winRate": 51.2
+    },
+    {
+      "character": "hope",
+      "opponent": "hyafrost",
+      "games": 271,
+      "winRate": 50.6
+    },
+    {
+      "character": "hope",
+      "opponent": "hope",
+      "games": 262,
+      "winRate": 50
+    },
+    {
+      "character": "hope",
+      "opponent": "kahro",
+      "games": 260,
+      "winRate": 46.5
+    },
+    {
+      "character": "hope",
+      "opponent": "bakub",
+      "games": 286,
+      "winRate": 45.8
+    },
+    {
+      "character": "hope",
+      "opponent": "maoja",
+      "games": 264,
+      "winRate": 43.9
+    },
+    {
+      "character": "hope",
+      "opponent": "shaman",
+      "games": 271,
+      "winRate": 39.5
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "yaura",
+      "games": 229,
+      "winRate": 63.3
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "kku",
+      "games": 271,
+      "winRate": 60.1
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "smithen",
+      "games": 287,
+      "winRate": 56.4
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "zahria",
+      "games": 254,
+      "winRate": 56.3
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "eva",
+      "games": 253,
+      "winRate": 54.2
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "hyafrost",
+      "games": 274,
+      "winRate": 50
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "hope",
+      "games": 271,
+      "winRate": 49.4
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "dravain",
+      "games": 278,
+      "winRate": 49.3
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "poom",
+      "games": 269,
+      "winRate": 44.2
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "bakub",
+      "games": 257,
+      "winRate": 43.2
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "maoja",
+      "games": 279,
+      "winRate": 43
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "kahro",
+      "games": 285,
+      "winRate": 41.8
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "paleya",
+      "games": 253,
+      "winRate": 41.5
+    },
+    {
+      "character": "hyafrost",
+      "opponent": "shaman",
+      "games": 242,
+      "winRate": 36.8
+    },
+    {
+      "character": "kahro",
+      "opponent": "smithen",
+      "games": 272,
+      "winRate": 74.3
+    },
+    {
+      "character": "kahro",
+      "opponent": "kku",
+      "games": 283,
+      "winRate": 72.4
+    },
+    {
+      "character": "kahro",
+      "opponent": "zahria",
+      "games": 279,
+      "winRate": 72
+    },
+    {
+      "character": "kahro",
+      "opponent": "yaura",
+      "games": 264,
+      "winRate": 67.4
+    },
+    {
+      "character": "kahro",
+      "opponent": "eva",
+      "games": 282,
+      "winRate": 65.6
+    },
+    {
+      "character": "kahro",
+      "opponent": "poom",
+      "games": 292,
+      "winRate": 62.3
+    },
+    {
+      "character": "kahro",
+      "opponent": "dravain",
+      "games": 284,
+      "winRate": 60.2
+    },
+    {
+      "character": "kahro",
+      "opponent": "hyafrost",
+      "games": 285,
+      "winRate": 58.2
+    },
+    {
+      "character": "kahro",
+      "opponent": "paleya",
+      "games": 264,
+      "winRate": 56.4
+    },
+    {
+      "character": "kahro",
+      "opponent": "hope",
+      "games": 260,
+      "winRate": 53.5
+    },
+    {
+      "character": "kahro",
+      "opponent": "bakub",
+      "games": 279,
+      "winRate": 52.7
+    },
+    {
+      "character": "kahro",
+      "opponent": "maoja",
+      "games": 291,
+      "winRate": 52.6
+    },
+    {
+      "character": "kahro",
+      "opponent": "shaman",
+      "games": 265,
+      "winRate": 51.3
+    },
+    {
+      "character": "kahro",
+      "opponent": "kahro",
+      "games": 300,
+      "winRate": 50
+    },
+    {
+      "character": "kku",
+      "opponent": "kku",
+      "games": 270,
+      "winRate": 50
+    },
+    {
+      "character": "kku",
+      "opponent": "eva",
+      "games": 266,
+      "winRate": 45.1
+    },
+    {
+      "character": "kku",
+      "opponent": "zahria",
+      "games": 282,
+      "winRate": 44.7
+    },
+    {
+      "character": "kku",
+      "opponent": "yaura",
+      "games": 284,
+      "winRate": 44.4
+    },
+    {
+      "character": "kku",
+      "opponent": "smithen",
+      "games": 292,
+      "winRate": 41.1
+    },
+    {
+      "character": "kku",
+      "opponent": "hyafrost",
+      "games": 271,
+      "winRate": 39.9
+    },
+    {
+      "character": "kku",
+      "opponent": "dravain",
+      "games": 300,
+      "winRate": 38.3
+    },
+    {
+      "character": "kku",
+      "opponent": "hope",
+      "games": 275,
+      "winRate": 35.6
+    },
+    {
+      "character": "kku",
+      "opponent": "bakub",
+      "games": 283,
+      "winRate": 35.3
+    },
+    {
+      "character": "kku",
+      "opponent": "poom",
+      "games": 272,
+      "winRate": 35.3
+    },
+    {
+      "character": "kku",
+      "opponent": "paleya",
+      "games": 250,
+      "winRate": 34.8
+    },
+    {
+      "character": "kku",
+      "opponent": "maoja",
+      "games": 287,
+      "winRate": 33.8
+    },
+    {
+      "character": "kku",
+      "opponent": "shaman",
+      "games": 288,
+      "winRate": 28.5
+    },
+    {
+      "character": "kku",
+      "opponent": "kahro",
+      "games": 283,
+      "winRate": 27.6
+    },
+    {
+      "character": "maoja",
+      "opponent": "yaura",
+      "games": 288,
+      "winRate": 70.1
+    },
+    {
+      "character": "maoja",
+      "opponent": "eva",
+      "games": 275,
+      "winRate": 66.2
+    },
+    {
+      "character": "maoja",
+      "opponent": "kku",
+      "games": 287,
+      "winRate": 66.2
+    },
+    {
+      "character": "maoja",
+      "opponent": "zahria",
+      "games": 274,
+      "winRate": 63.5
+    },
+    {
+      "character": "maoja",
+      "opponent": "smithen",
+      "games": 292,
+      "winRate": 62
+    },
+    {
+      "character": "maoja",
+      "opponent": "hyafrost",
+      "games": 279,
+      "winRate": 57
+    },
+    {
+      "character": "maoja",
+      "opponent": "bakub",
+      "games": 285,
+      "winRate": 56.8
+    },
+    {
+      "character": "maoja",
+      "opponent": "hope",
+      "games": 264,
+      "winRate": 56.1
+    },
+    {
+      "character": "maoja",
+      "opponent": "dravain",
+      "games": 278,
+      "winRate": 51.1
+    },
+    {
+      "character": "maoja",
+      "opponent": "poom",
+      "games": 309,
+      "winRate": 50.2
+    },
+    {
+      "character": "maoja",
+      "opponent": "maoja",
+      "games": 332,
+      "winRate": 50
+    },
+    {
+      "character": "maoja",
+      "opponent": "paleya",
+      "games": 263,
+      "winRate": 47.5
+    },
+    {
+      "character": "maoja",
+      "opponent": "kahro",
+      "games": 291,
+      "winRate": 47.4
+    },
+    {
+      "character": "maoja",
+      "opponent": "shaman",
+      "games": 291,
+      "winRate": 44.3
+    },
+    {
+      "character": "paleya",
+      "opponent": "kku",
+      "games": 250,
+      "winRate": 65.2
+    },
+    {
+      "character": "paleya",
+      "opponent": "smithen",
+      "games": 256,
+      "winRate": 61.7
+    },
+    {
+      "character": "paleya",
+      "opponent": "zahria",
+      "games": 286,
+      "winRate": 61.5
+    },
+    {
+      "character": "paleya",
+      "opponent": "yaura",
+      "games": 263,
+      "winRate": 61.2
+    },
+    {
+      "character": "paleya",
+      "opponent": "eva",
+      "games": 268,
+      "winRate": 60.8
+    },
+    {
+      "character": "paleya",
+      "opponent": "hyafrost",
+      "games": 253,
+      "winRate": 58.5
+    },
+    {
+      "character": "paleya",
+      "opponent": "dravain",
+      "games": 285,
+      "winRate": 55.1
+    },
+    {
+      "character": "paleya",
+      "opponent": "maoja",
+      "games": 263,
+      "winRate": 52.5
+    },
+    {
+      "character": "paleya",
+      "opponent": "bakub",
+      "games": 278,
+      "winRate": 51.4
+    },
+    {
+      "character": "paleya",
+      "opponent": "poom",
+      "games": 274,
+      "winRate": 50.4
+    },
+    {
+      "character": "paleya",
+      "opponent": "paleya",
+      "games": 254,
+      "winRate": 50
+    },
+    {
+      "character": "paleya",
+      "opponent": "hope",
+      "games": 260,
+      "winRate": 48.8
+    },
+    {
+      "character": "paleya",
+      "opponent": "shaman",
+      "games": 281,
+      "winRate": 48
+    },
+    {
+      "character": "paleya",
+      "opponent": "kahro",
+      "games": 264,
+      "winRate": 43.6
+    },
+    {
+      "character": "poom",
+      "opponent": "kku",
+      "games": 272,
+      "winRate": 64.7
+    },
+    {
+      "character": "poom",
+      "opponent": "eva",
+      "games": 275,
+      "winRate": 61.1
+    },
+    {
+      "character": "poom",
+      "opponent": "yaura",
+      "games": 282,
+      "winRate": 59.2
+    },
+    {
+      "character": "poom",
+      "opponent": "zahria",
+      "games": 289,
+      "winRate": 59.2
+    },
+    {
+      "character": "poom",
+      "opponent": "smithen",
+      "games": 296,
+      "winRate": 58.8
+    },
+    {
+      "character": "poom",
+      "opponent": "hyafrost",
+      "games": 269,
+      "winRate": 55.8
+    },
+    {
+      "character": "poom",
+      "opponent": "bakub",
+      "games": 265,
+      "winRate": 52.1
+    },
+    {
+      "character": "poom",
+      "opponent": "dravain",
+      "games": 282,
+      "winRate": 50.4
+    },
+    {
+      "character": "poom",
+      "opponent": "poom",
+      "games": 308,
+      "winRate": 50
+    },
+    {
+      "character": "poom",
+      "opponent": "maoja",
+      "games": 309,
+      "winRate": 49.8
+    },
+    {
+      "character": "poom",
+      "opponent": "paleya",
+      "games": 274,
+      "winRate": 49.6
+    },
+    {
+      "character": "poom",
+      "opponent": "shaman",
+      "games": 275,
+      "winRate": 43.6
+    },
+    {
+      "character": "poom",
+      "opponent": "hope",
+      "games": 272,
+      "winRate": 40.4
+    },
+    {
+      "character": "poom",
+      "opponent": "kahro",
+      "games": 292,
+      "winRate": 37.7
+    },
+    {
+      "character": "shaman",
+      "opponent": "kku",
+      "games": 288,
+      "winRate": 71.5
+    },
+    {
+      "character": "shaman",
+      "opponent": "smithen",
+      "games": 272,
+      "winRate": 68.4
+    },
+    {
+      "character": "shaman",
+      "opponent": "yaura",
+      "games": 253,
+      "winRate": 67.2
+    },
+    {
+      "character": "shaman",
+      "opponent": "eva",
+      "games": 280,
+      "winRate": 65.7
+    },
+    {
+      "character": "shaman",
+      "opponent": "dravain",
+      "games": 275,
+      "winRate": 64
+    },
+    {
+      "character": "shaman",
+      "opponent": "hyafrost",
+      "games": 242,
+      "winRate": 63.2
+    },
+    {
+      "character": "shaman",
+      "opponent": "zahria",
+      "games": 283,
+      "winRate": 61.5
+    },
+    {
+      "character": "shaman",
+      "opponent": "bakub",
+      "games": 249,
+      "winRate": 61
+    },
+    {
+      "character": "shaman",
+      "opponent": "hope",
+      "games": 271,
+      "winRate": 60.5
+    },
+    {
+      "character": "shaman",
+      "opponent": "poom",
+      "games": 275,
+      "winRate": 56.4
+    },
+    {
+      "character": "shaman",
+      "opponent": "maoja",
+      "games": 291,
+      "winRate": 55.7
+    },
+    {
+      "character": "shaman",
+      "opponent": "paleya",
+      "games": 281,
+      "winRate": 52
+    },
+    {
+      "character": "shaman",
+      "opponent": "shaman",
+      "games": 252,
+      "winRate": 50
+    },
+    {
+      "character": "shaman",
+      "opponent": "kahro",
+      "games": 265,
+      "winRate": 48.7
+    },
+    {
+      "character": "smithen",
+      "opponent": "kku",
+      "games": 292,
+      "winRate": 58.9
+    },
+    {
+      "character": "smithen",
+      "opponent": "eva",
+      "games": 281,
+      "winRate": 55.2
+    },
+    {
+      "character": "smithen",
+      "opponent": "smithen",
+      "games": 310,
+      "winRate": 50
+    },
+    {
+      "character": "smithen",
+      "opponent": "zahria",
+      "games": 314,
+      "winRate": 50
+    },
+    {
+      "character": "smithen",
+      "opponent": "yaura",
+      "games": 288,
+      "winRate": 49.7
+    },
+    {
+      "character": "smithen",
+      "opponent": "hyafrost",
+      "games": 287,
+      "winRate": 43.6
+    },
+    {
+      "character": "smithen",
+      "opponent": "dravain",
+      "games": 324,
+      "winRate": 42.9
+    },
+    {
+      "character": "smithen",
+      "opponent": "poom",
+      "games": 296,
+      "winRate": 41.2
+    },
+    {
+      "character": "smithen",
+      "opponent": "bakub",
+      "games": 263,
+      "winRate": 40.7
+    },
+    {
+      "character": "smithen",
+      "opponent": "paleya",
+      "games": 256,
+      "winRate": 38.3
+    },
+    {
+      "character": "smithen",
+      "opponent": "maoja",
+      "games": 292,
+      "winRate": 38
+    },
+    {
+      "character": "smithen",
+      "opponent": "hope",
+      "games": 303,
+      "winRate": 35
+    },
+    {
+      "character": "smithen",
+      "opponent": "shaman",
+      "games": 272,
+      "winRate": 31.6
+    },
+    {
+      "character": "smithen",
+      "opponent": "kahro",
+      "games": 272,
+      "winRate": 25.7
+    },
+    {
+      "character": "yaura",
+      "opponent": "kku",
+      "games": 284,
+      "winRate": 55.6
+    },
+    {
+      "character": "yaura",
+      "opponent": "smithen",
+      "games": 288,
+      "winRate": 50.3
+    },
+    {
+      "character": "yaura",
+      "opponent": "yaura",
+      "games": 254,
+      "winRate": 50
+    },
+    {
+      "character": "yaura",
+      "opponent": "eva",
+      "games": 263,
+      "winRate": 49.8
+    },
+    {
+      "character": "yaura",
+      "opponent": "zahria",
+      "games": 263,
+      "winRate": 44.9
+    },
+    {
+      "character": "yaura",
+      "opponent": "poom",
+      "games": 282,
+      "winRate": 40.8
+    },
+    {
+      "character": "yaura",
+      "opponent": "dravain",
+      "games": 278,
+      "winRate": 39.9
+    },
+    {
+      "character": "yaura",
+      "opponent": "paleya",
+      "games": 263,
+      "winRate": 38.8
+    },
+    {
+      "character": "yaura",
+      "opponent": "hyafrost",
+      "games": 229,
+      "winRate": 36.7
+    },
+    {
+      "character": "yaura",
+      "opponent": "bakub",
+      "games": 281,
+      "winRate": 34.9
+    },
+    {
+      "character": "yaura",
+      "opponent": "shaman",
+      "games": 253,
+      "winRate": 32.8
+    },
+    {
+      "character": "yaura",
+      "opponent": "kahro",
+      "games": 264,
+      "winRate": 32.6
+    },
+    {
+      "character": "yaura",
+      "opponent": "hope",
+      "games": 281,
+      "winRate": 31.7
+    },
+    {
+      "character": "yaura",
+      "opponent": "maoja",
+      "games": 288,
+      "winRate": 29.9
+    },
+    {
+      "character": "zahria",
+      "opponent": "kku",
+      "games": 282,
+      "winRate": 55.3
+    },
+    {
+      "character": "zahria",
+      "opponent": "yaura",
+      "games": 263,
+      "winRate": 55.1
+    },
+    {
+      "character": "zahria",
+      "opponent": "eva",
+      "games": 252,
+      "winRate": 54.8
+    },
+    {
+      "character": "zahria",
+      "opponent": "smithen",
+      "games": 314,
+      "winRate": 50
+    },
+    {
+      "character": "zahria",
+      "opponent": "zahria",
+      "games": 252,
+      "winRate": 50
+    },
+    {
+      "character": "zahria",
+      "opponent": "hyafrost",
+      "games": 254,
+      "winRate": 43.7
+    },
+    {
+      "character": "zahria",
+      "opponent": "dravain",
+      "games": 278,
+      "winRate": 41.4
+    },
+    {
+      "character": "zahria",
+      "opponent": "poom",
+      "games": 289,
+      "winRate": 40.8
+    },
+    {
+      "character": "zahria",
+      "opponent": "hope",
+      "games": 256,
+      "winRate": 39.1
+    },
+    {
+      "character": "zahria",
+      "opponent": "bakub",
+      "games": 272,
+      "winRate": 38.6
+    },
+    {
+      "character": "zahria",
+      "opponent": "shaman",
+      "games": 283,
+      "winRate": 38.5
+    },
+    {
+      "character": "zahria",
+      "opponent": "paleya",
+      "games": 286,
+      "winRate": 38.5
+    },
+    {
+      "character": "zahria",
+      "opponent": "maoja",
+      "games": 274,
+      "winRate": 36.5
+    },
+    {
+      "character": "zahria",
+      "opponent": "kahro",
+      "games": 279,
+      "winRate": 28
+    }
+  ],
+  "matchupOutliers": [
+    {
+      "character": "smithen",
+      "opponent": "kahro",
+      "games": 272,
+      "winRate": 25.7
+    },
+    {
+      "character": "kahro",
+      "opponent": "smithen",
+      "games": 272,
+      "winRate": 74.3
+    },
+    {
+      "character": "kahro",
+      "opponent": "kku",
+      "games": 283,
+      "winRate": 72.4
+    },
+    {
+      "character": "kku",
+      "opponent": "kahro",
+      "games": 283,
+      "winRate": 27.6
+    },
+    {
+      "character": "kahro",
+      "opponent": "zahria",
+      "games": 279,
+      "winRate": 72
+    },
+    {
+      "character": "zahria",
+      "opponent": "kahro",
+      "games": 279,
+      "winRate": 28
+    },
+    {
+      "character": "kku",
+      "opponent": "shaman",
+      "games": 288,
+      "winRate": 28.5
+    },
+    {
+      "character": "shaman",
+      "opponent": "kku",
+      "games": 288,
+      "winRate": 71.5
+    },
+    {
+      "character": "yaura",
+      "opponent": "maoja",
+      "games": 288,
+      "winRate": 29.9
+    },
+    {
+      "character": "maoja",
+      "opponent": "yaura",
+      "games": 288,
+      "winRate": 70.1
+    },
+    {
+      "character": "bakub",
+      "opponent": "eva",
+      "games": 265,
+      "winRate": 68.7
+    },
+    {
+      "character": "eva",
+      "opponent": "bakub",
+      "games": 265,
+      "winRate": 31.3
+    },
+    {
+      "character": "shaman",
+      "opponent": "smithen",
+      "games": 272,
+      "winRate": 68.4
+    },
+    {
+      "character": "smithen",
+      "opponent": "shaman",
+      "games": 272,
+      "winRate": 31.6
+    },
+    {
+      "character": "yaura",
+      "opponent": "hope",
+      "games": 281,
+      "winRate": 31.7
+    },
+    {
+      "character": "hope",
+      "opponent": "yaura",
+      "games": 281,
+      "winRate": 68.3
+    },
+    {
+      "character": "kahro",
+      "opponent": "yaura",
+      "games": 264,
+      "winRate": 67.4
+    },
+    {
+      "character": "yaura",
+      "opponent": "kahro",
+      "games": 264,
+      "winRate": 32.6
+    },
+    {
+      "character": "shaman",
+      "opponent": "yaura",
+      "games": 253,
+      "winRate": 67.2
+    },
+    {
+      "character": "yaura",
+      "opponent": "shaman",
+      "games": 253,
+      "winRate": 32.8
+    },
+    {
+      "character": "eva",
+      "opponent": "maoja",
+      "games": 275,
+      "winRate": 33.8
+    },
+    {
+      "character": "kku",
+      "opponent": "maoja",
+      "games": 287,
+      "winRate": 33.8
+    },
+    {
+      "character": "maoja",
+      "opponent": "eva",
+      "games": 275,
+      "winRate": 66.2
+    },
+    {
+      "character": "maoja",
+      "opponent": "kku",
+      "games": 287,
+      "winRate": 66.2
+    },
+    {
+      "character": "eva",
+      "opponent": "shaman",
+      "games": 280,
+      "winRate": 34.3
+    },
+    {
+      "character": "shaman",
+      "opponent": "eva",
+      "games": 280,
+      "winRate": 65.7
+    },
+    {
+      "character": "eva",
+      "opponent": "kahro",
+      "games": 282,
+      "winRate": 34.4
+    },
+    {
+      "character": "kahro",
+      "opponent": "eva",
+      "games": 282,
+      "winRate": 65.6
+    },
+    {
+      "character": "eva",
+      "opponent": "hope",
+      "games": 270,
+      "winRate": 34.8
+    },
+    {
+      "character": "hope",
+      "opponent": "eva",
+      "games": 270,
+      "winRate": 65.2
+    },
+    {
+      "character": "kku",
+      "opponent": "paleya",
+      "games": 250,
+      "winRate": 34.8
+    },
+    {
+      "character": "paleya",
+      "opponent": "kku",
+      "games": 250,
+      "winRate": 65.2
+    },
+    {
+      "character": "yaura",
+      "opponent": "bakub",
+      "games": 281,
+      "winRate": 34.9
+    },
+    {
+      "character": "bakub",
+      "opponent": "yaura",
+      "games": 281,
+      "winRate": 65.1
+    },
+    {
+      "character": "hope",
+      "opponent": "smithen",
+      "games": 303,
+      "winRate": 65
+    },
+    {
+      "character": "smithen",
+      "opponent": "hope",
+      "games": 303,
+      "winRate": 35
+    }
+  ],
+  "teamTraitSummary": [
+    {
+      "trait": "2plus_prof_demon",
+      "picks": 195,
+      "winRate": 71.3
+    },
+    {
+      "trait": "2plus_prof_hypnotic",
+      "picks": 543,
+      "winRate": 60.8
+    },
+    {
+      "trait": "2plus_prof_witchcraft",
+      "picks": 202,
+      "winRate": 57.4
+    },
+    {
+      "trait": "2plus_class_sorcerer",
+      "picks": 1585,
+      "winRate": 54.4
+    },
+    {
+      "trait": "2plus_prof_bloodcraft",
+      "picks": 517,
+      "winRate": 51.3
+    },
+    {
+      "trait": "high_hp_team",
+      "picks": 428,
+      "winRate": 48.4
+    },
+    {
+      "trait": "2plus_class_assassin",
+      "picks": 600,
+      "winRate": 47.2
+    },
+    {
+      "trait": "2plus_class_brute",
+      "picks": 579,
+      "winRate": 45.1
+    },
+    {
+      "trait": "high_armor_team",
+      "picks": 1491,
+      "winRate": 44.7
+    },
+    {
+      "trait": "2plus_prof_vampire",
+      "picks": 193,
+      "winRate": 42.5
+    },
+    {
+      "trait": "2plus_class_warrior",
+      "picks": 553,
+      "winRate": 42.3
+    },
+    {
+      "trait": "2plus_prof_icecraft",
+      "picks": 560,
+      "winRate": 41.3
+    }
+  ],
+  "closeGameSummary": {
+    "avgWinnerHp": 16.9,
+    "avgLoserHp": 1.99,
+    "avgHpMargin": 14.91
+  },
+  "surgicalBalanceFlags": [
+    {
+      "type": "ability-too-efficient",
+      "item": "Hyafrost — Absolute Zero",
+      "note": "avg value 9.15, used 3541, win 51%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Paleya — Mass Suggestion",
+      "note": "avg value 1.19, used 4879, win 53.7%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Kahro — Shadow Mark",
+      "note": "avg value 1.11, used 4709, win 61.8%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Hope — Hopeful Strike",
+      "note": "avg value 0.79, used 498, win 68.1%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Zahria — Blood Mist",
+      "note": "avg value 0.67, used 6675, win 42.6%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Smithen — Frost Pin",
+      "note": "avg value 0.61, used 2935, win 48.7%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Hyafrost — Frostbite",
+      "note": "avg value 0.58, used 5559, win 46.5%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Yaura — Blood Ward",
+      "note": "avg value 0.57, used 7490, win 32%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Paleya — Mesmerize",
+      "note": "avg value 0.52, used 1229, win 50.8%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Kahro — Vanish",
+      "note": "avg value 0, used 1454, win 49.8%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Poom — Mesmeric Taunt",
+      "note": "avg value 0, used 2097, win 44%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Dravain — Protect Ally",
+      "note": "avg value 0, used 10354, win 44.8%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Lady Eva — Mist Step",
+      "note": "avg value 0, used 2575, win 35.8%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Yaura — Blood Infusion",
+      "note": "avg value 0, used 4808, win 38.5%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "K'ku — Ice Guard",
+      "note": "avg value 0, used 3918, win 29.4%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Paleya — Mirror Guard",
+      "note": "avg value 0, used 1385, win 46.9%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Maoja — Poison Hands",
+      "note": "avg value 0, used 1153, win 54.6%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Hope — Delayed Judgement",
+      "note": "avg value 0, used 3049, win 64%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Hope — Blessing Shield",
+      "note": "avg value 0, used 12807, win 50.5%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Smithen — Whiteout Step",
+      "note": "avg value 0, used 1977, win 38.6%"
+    },
+    {
+      "type": "ability-too-weak",
+      "item": "Bakub — False Future",
+      "note": "avg value 0, used 1904, win 45.4%"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "smithen vs kahro",
+      "note": "25.7% over 272 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "kahro vs smithen",
+      "note": "74.3% over 272 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "kahro vs kku",
+      "note": "72.4% over 283 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "kku vs kahro",
+      "note": "27.6% over 283 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "kahro vs zahria",
+      "note": "72% over 279 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "zahria vs kahro",
+      "note": "28% over 279 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "kku vs shaman",
+      "note": "28.5% over 288 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "shaman vs kku",
+      "note": "71.5% over 288 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "yaura vs maoja",
+      "note": "29.9% over 288 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "maoja vs yaura",
+      "note": "70.1% over 288 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "bakub vs eva",
+      "note": "68.7% over 265 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "eva vs bakub",
+      "note": "31.3% over 265 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "shaman vs smithen",
+      "note": "68.4% over 272 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "smithen vs shaman",
+      "note": "31.6% over 272 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "yaura vs hope",
+      "note": "31.7% over 281 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "hope vs yaura",
+      "note": "68.3% over 281 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "kahro vs yaura",
+      "note": "67.4% over 264 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "yaura vs kahro",
+      "note": "32.6% over 264 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "shaman vs yaura",
+      "note": "67.2% over 253 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "yaura vs shaman",
+      "note": "32.8% over 253 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "eva vs maoja",
+      "note": "33.8% over 275 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "kku vs maoja",
+      "note": "33.8% over 287 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "maoja vs eva",
+      "note": "66.2% over 275 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "maoja vs kku",
+      "note": "66.2% over 287 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "eva vs shaman",
+      "note": "34.3% over 280 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "shaman vs eva",
+      "note": "65.7% over 280 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "eva vs kahro",
+      "note": "34.4% over 282 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "kahro vs eva",
+      "note": "65.6% over 282 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "eva vs hope",
+      "note": "34.8% over 270 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "hope vs eva",
+      "note": "65.2% over 270 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "kku vs paleya",
+      "note": "34.8% over 250 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "paleya vs kku",
+      "note": "65.2% over 250 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "yaura vs bakub",
+      "note": "34.9% over 281 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "bakub vs yaura",
+      "note": "65.1% over 281 games"
+    },
+    {
+      "type": "matchup-dominant",
+      "item": "hope vs smithen",
+      "note": "65% over 303 games"
+    },
+    {
+      "type": "matchup-weak",
+      "item": "smithen vs hope",
+      "note": "35% over 303 games"
+    }
+  ]
+}

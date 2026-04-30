@@ -1,0 +1,924 @@
+[
+  {
+    "id": "smithen",
+    "name": "Smithen",
+    "cls": "assassin",
+    "prof": [
+      "icecraft"
+    ],
+    "hp": 16,
+    "armor": 2,
+    "speed": 8,
+    "passive": "Passive — Frost Edge: Smithen's damaging abilities deal +2 damage to targets that currently have any Freeze stacks.",
+    "abilities": [
+      {
+        "id": "iceNeedle",
+        "name": "Ice Needle",
+        "cost": 1,
+        "spd": 2,
+        "desc": "Ranged icecraft attack. Deal 2 damage. If this hit deals HP damage, apply 2 Freeze.",
+        "effect": "damageStatusOnHit",
+        "dmg": 2,
+        "status": "freeze",
+        "stacks": 2,
+        "range": "melee",
+        "iconKey": "icecraft"
+      },
+      {
+        "id": "flash",
+        "name": "Whiteout Step",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard. Smithen gains Dodge. Dodge prevents the next attack targeting Smithen this round, then Dodge is removed.",
+        "effect": "dodge",
+        "guard": true,
+        "range": "self"
+      },
+      {
+        "id": "pin",
+        "name": "Frost Pin",
+        "cost": 1,
+        "spd": 2,
+        "desc": "Ranged status. Apply 2 Freeze to one enemy. If that enemy already had any Freeze before this ability, also apply Exposed.",
+        "effect": "whiteout",
+        "range": "ranged"
+      },
+      {
+        "id": "shatter",
+        "name": "Shatter Shot",
+        "cost": 2,
+        "spd": 0,
+        "desc": "Assassin icecraft payoff. Deal 3 damage with Pierce 2. Can target backline. If the target has Freeze, remove all Freeze and gain +2 damage per removed Freeze.",
+        "effect": "shatterScaling",
+        "range": "ranged",
+        "pierce": 2,
+        "iconKey": "icecraft",
+        "dmg": 3
+      }
+    ]
+  },
+  {
+    "id": "dravain",
+    "name": "Dravain",
+    "cls": "warrior",
+    "prof": [
+      "vampire"
+    ],
+    "hp": 22,
+    "armor": 3,
+    "speed": 5,
+    "passive": "Passive — Blood Guard: when Dravain consumes Bleed with Blood Claim, Dravain restores 1 HP. This is healing from consumed blood, not Shield.",
+    "abilities": [
+      {
+        "id": "protect",
+        "name": "Protect Ally",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard. Choose another ally. Remove 1 negative status from that ally. The first attack targeting that ally this round targets Dravain instead.",
+        "effect": "protect",
+        "guard": true,
+        "range": "ally",
+        "iconKey": "warrior",
+        "damageOnly": true,
+        "armor": 0,
+        "cleanse": 1,
+        "kind": "protect"
+      },
+      {
+        "id": "bash",
+        "name": "Shield Bash",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Melee warrior attack. Deal damage equal to 2 plus Dravain's current Armor.",
+        "effect": "armorStrike",
+        "range": "melee",
+        "dmg": 2
+      },
+      {
+        "id": "drain",
+        "name": "Vampiric Thrust",
+        "cost": 2,
+        "spd": -1,
+        "desc": "Melee vampire attack. Deal 3 damage. If this deals HP damage, Dravain restores 2 HP.",
+        "effect": "drain",
+        "dmg": 3,
+        "heal": 2,
+        "range": "melee"
+      },
+      {
+        "id": "claim",
+        "name": "Blood Claim",
+        "cost": 2,
+        "spd": -2,
+        "desc": "Bleed payoff. Remove all Bleed from one enemy. Deal removed Bleed +2 damage. If any Bleed was removed, Dravain restores 1 HP.",
+        "effect": "consumeBleed",
+        "bonus": 2,
+        "heal": 1,
+        "range": "ranged",
+        "iconKey": "vampire",
+        "mult": 1
+      }
+    ]
+  },
+  {
+    "id": "yaura",
+    "name": "Yaura",
+    "cls": "warrior",
+    "prof": [
+      "bloodcraft"
+    ],
+    "hp": 22,
+    "armor": 3,
+    "speed": 5,
+    "passive": "Passive — Blood Echo: once per round, when one of your own abilities makes an ally lose HP, apply 1 Bleed to each enemy in the front row.",
+    "abilities": [
+      {
+        "id": "ward",
+        "name": "Blood Ward",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard. Choose an ally. That ally loses 1 HP and gains +1 Armor this round. If that ally is attacked this round, the attacker gains 2 Bleed.",
+        "effect": "bloodWard",
+        "guard": true,
+        "range": "ally",
+        "shield": 5,
+        "self": 1,
+        "stacks": 2,
+        "iconKey": "bloodcraft",
+        "armor": 1,
+        "kind": "bloodWard"
+      },
+      {
+        "id": "bolt",
+        "name": "Blood Infusion",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Setup. Choose an ally. That ally's next attack this round deals +3 damage. If that attack deals HP damage, apply 3 Bleed.",
+        "effect": "bloodInfusion",
+        "dmg": 0,
+        "status": "bleed",
+        "stacks": 2,
+        "range": "ally",
+        "ignoreArmor": false,
+        "iconKey": "bloodcraft",
+        "bonus": 3,
+        "bleed": 3,
+        "kind": "empowerNextAttack"
+      },
+      {
+        "id": "price",
+        "name": "Blood Price",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Bloodcraft attack. Yaura loses 2 HP, then attacks one enemy for 6 damage.",
+        "effect": "bloodPrice",
+        "range": "ranged",
+        "dmg": 6,
+        "self": 2,
+        "ignoreArmor": false,
+        "bonus": 0,
+        "kind": "attack"
+      },
+      {
+        "id": "rain",
+        "name": "Red Rain",
+        "cost": 1,
+        "spd": -2,
+        "desc": "Bloodcraft area setup. Apply 1 Bleed to every enemy.",
+        "effect": "allStatus",
+        "status": "bleed",
+        "stacks": 1,
+        "self": 0,
+        "iconKey": "bloodcraft",
+        "kind": "allStatus",
+        "range": "self"
+      }
+    ]
+  },
+  {
+    "id": "kku",
+    "name": "K'ku",
+    "cls": "brute",
+    "prof": [
+      "icecraft"
+    ],
+    "hp": 29,
+    "armor": 1,
+    "speed": 2,
+    "passive": "Passive — Cold Hide: after an enemy hits K'ku with a melee attack, that enemy gains 1 Freeze.",
+    "abilities": [
+      {
+        "id": "guard",
+        "name": "Ice Guard",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard. If K'ku is hit this round, the attacker gains 2 Freeze and K'ku gains +1 Armor until end of round.",
+        "effect": "selfCounter",
+        "guard": true,
+        "status": "freeze",
+        "stacks": 2,
+        "shield": 0,
+        "iconKey": "icecraft",
+        "armor": 1,
+        "range": "self"
+      },
+      {
+        "id": "slam",
+        "name": "Frost Slam",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Front-line brute attack. Deal 3 damage. If this hit deals HP damage, apply 1 Freeze.",
+        "effect": "damageStatusOnHit",
+        "dmg": 3,
+        "status": "freeze",
+        "stacks": 1,
+        "range": "melee",
+        "sunder": 1
+      },
+      {
+        "id": "break",
+        "name": "Glacier Break",
+        "cost": 2,
+        "spd": -2,
+        "desc": "Front-line brute payoff. Deal 5 damage. If the target has Freeze, deal +2 damage.",
+        "effect": "glacier",
+        "range": "melee",
+        "sunder": 2,
+        "bonus": 2,
+        "iconKey": "brute",
+        "dmg": 5
+      },
+      {
+        "id": "roar",
+        "name": "Blizzard Roar",
+        "cost": 2,
+        "spd": -3,
+        "desc": "Front-row setup. Apply 2 Freeze and Exhausted to enemies in the front row.",
+        "effect": "rowStatus",
+        "status": "freeze",
+        "stacks": 2,
+        "row": "front",
+        "exhausted": 1,
+        "range": "melee"
+      }
+    ]
+  },
+  {
+    "id": "kahro",
+    "name": "Kahro",
+    "cls": "assassin",
+    "prof": [
+      "darkness"
+    ],
+    "hp": 17,
+    "armor": 2,
+    "speed": 8,
+    "passive": "Passive — Opportunist: Kahro's damaging abilities deal +1 damage to targets that currently have any negative status.",
+    "abilities": [
+      {
+        "id": "needle",
+        "name": "Shadow Needle",
+        "cost": 1,
+        "spd": 4,
+        "desc": "Assassin precision. Deal 3 damage with Pierce 2. Can target backline.",
+        "effect": "damage",
+        "dmg": 3,
+        "range": "ranged",
+        "pierce": 2
+      },
+      {
+        "id": "mark",
+        "name": "Shadow Mark",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Ranged setup. Apply Exposed and Dread to one enemy. Dread disables one random non-Guard ability until end of round.",
+        "effect": "multiStatus",
+        "statuses": [
+          [
+            "exposed",
+            1
+          ],
+          [
+            "dread",
+            1
+          ]
+        ],
+        "range": "ranged",
+        "iconKey": "darkness"
+      },
+      {
+        "id": "assassinate",
+        "name": "Assassinate",
+        "cost": 2,
+        "spd": 1,
+        "desc": "Assassin precision. Deal 5 damage with Pierce 2. Can target backline. If the target is in the back row and the front row is empty, deal +3 damage.",
+        "effect": "assassinate",
+        "range": "ranged",
+        "pierce": 2,
+        "bonus": 3,
+        "iconKey": "assassin",
+        "dmg": 5
+      },
+      {
+        "id": "vanish",
+        "name": "Vanish",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard. Kahro gains Dodge. Dodge prevents the next attack targeting Kahro this round, then Dodge is removed.",
+        "effect": "dodge",
+        "guard": true,
+        "range": "self"
+      }
+    ]
+  },
+  {
+    "id": "maoja",
+    "name": "Maoja",
+    "cls": "brute",
+    "prof": [
+      "witchcraft"
+    ],
+    "hp": 29,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Toxic Momentum: Maoja's damaging abilities deal +1 damage to targets that currently have Poison.",
+    "abilities": [
+      {
+        "id": "hands",
+        "name": "Poison Hands",
+        "cost": 1,
+        "spd": 2,
+        "desc": "Ally buff. Choose an ally. Until end of next round, each damaging hit by that ally also applies 2 Poison to its target.",
+        "effect": "poisonHands",
+        "range": "ally"
+      },
+      {
+        "id": "grip",
+        "name": "Corrosive Grip",
+        "cost": 1,
+        "spd": -1,
+        "desc": "Front-line brute attack. Deal 3 damage and apply 1 Poison. If the target already had Poison, also apply Exhausted.",
+        "effect": "toxicGrip",
+        "range": "melee",
+        "sunder": 1,
+        "iconKey": "witchcraft",
+        "dmg": 3,
+        "poison": 1
+      },
+      {
+        "id": "breath",
+        "name": "Caustic Breath",
+        "cost": 2,
+        "spd": -1,
+        "desc": "Row status. Choose an enemy row. Apply 3 Poison to each enemy in that row.",
+        "effect": "rowStatus",
+        "status": "poison",
+        "stacks": 3,
+        "range": "ranged"
+      },
+      {
+        "id": "burst",
+        "name": "Rot Burst",
+        "cost": 2,
+        "spd": -3,
+        "desc": "Front-line witchcraft payoff. Remove all Poison. Deal removed Poison x2 damage, ignoring Armor.",
+        "effect": "poisonBurst",
+        "range": "melee",
+        "ignoreArmor": true,
+        "iconKey": "witchcraft",
+        "bonus": 0,
+        "mult": 2
+      }
+    ]
+  },
+  {
+    "id": "paleya",
+    "name": "Paleya",
+    "cls": "sorcerer",
+    "prof": [
+      "hypnotic"
+    ],
+    "hp": 20,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Mind Weaver: the first time each round Paleya consumes Hypnosis with Mind Lance, gain +1 Action next round.",
+    "abilities": [
+      {
+        "id": "lance",
+        "name": "Mind Lance",
+        "cost": 1,
+        "spd": 1,
+        "desc": "Magic attack. Deal 2 damage. If the target has Hypnosis, remove Hypnosis and deal 8 damage instead.",
+        "effect": "mindBreak",
+        "range": "ranged",
+        "ignoreArmor": false,
+        "dmg": 2,
+        "payoffDmg": 8
+      },
+      {
+        "id": "mesmer",
+        "name": "Mesmerize",
+        "cost": 1,
+        "spd": 2,
+        "desc": "Ranged control. Apply Hypnosis to one enemy. Hypnosis is non-stackable and does nothing until another ability uses it.",
+        "effect": "status",
+        "status": "hypnosis",
+        "stacks": 1,
+        "range": "ranged"
+      },
+      {
+        "id": "mirror",
+        "name": "Mirror Guard",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard prediction. Choose an enemy. If it uses a damaging attack this round, cancel that action and apply Hypnosis and Exposed to it.",
+        "effect": "predict",
+        "guard": true,
+        "range": "ranged",
+        "exposed": 1,
+        "shield": 3
+      },
+      {
+        "id": "mass",
+        "name": "Mass Suggestion",
+        "cost": 1,
+        "spd": 1,
+        "desc": "Front-row control. Apply Hypnosis and Exposed to each enemy in the front row. This ability deals no immediate damage.",
+        "effect": "frontHypno",
+        "range": "ranged",
+        "stacks": 2,
+        "status": "hypnosis"
+      }
+    ]
+  },
+  {
+    "id": "poom",
+    "name": "Poom",
+    "cls": "brute",
+    "prof": [
+      "hypnotic"
+    ],
+    "hp": 30,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Purple Blood: Poom's blood is hypnotic. After an enemy hits Poom with a melee attack that deals HP damage, that enemy gains Hypnosis.",
+    "abilities": [
+      {
+        "id": "guard",
+        "name": "Mesmeric Taunt",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard payoff. Consume Hypnosis from all enemies. For each enemy that lost Hypnosis this way, offensive actions they use this turn are redirected to Poom. Poom gains +1 Armor, plus +1 Armor for each Hypnosis consumed.",
+        "effect": "poomMassGuardMind",
+        "guard": true,
+        "status": null,
+        "stacks": 0,
+        "shield": 0,
+        "iconKey": "hypnotic",
+        "range": "self",
+        "minArmor": 2
+      },
+      {
+        "id": "bash",
+        "name": "Bash",
+        "cost": 1,
+        "spd": -1,
+        "desc": "Front-line brute attack. Deal 4 damage.",
+        "effect": "damage",
+        "dmg": 4,
+        "range": "melee",
+        "sunder": 1,
+        "iconKey": "brute",
+        "stacks": 2
+      },
+      {
+        "id": "roar",
+        "name": "Mesmer Roar",
+        "cost": 2,
+        "spd": -1,
+        "desc": "Front-line hypnotic payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis and deal +6 damage.",
+        "effect": "mesmerPayoff",
+        "range": "melee",
+        "dmg": 3,
+        "bonus": 6,
+        "iconKey": "hypnotic"
+      },
+      {
+        "id": "bodyguard",
+        "name": "Revenge Body",
+        "cost": 2,
+        "spd": -1,
+        "desc": "Front-line brute attack. Poom loses 2 HP, ignoring Armor and Shield. Then deal 5 damage. If Poom already lost HP this round, deal +3 damage.",
+        "effect": "revenge",
+        "dmg": 5,
+        "self": 2,
+        "range": "melee",
+        "sunder": 1,
+        "bonus": 3
+      }
+    ]
+  },
+  {
+    "id": "shaman",
+    "name": "Bahl",
+    "cls": "sorcerer",
+    "prof": [
+      "bloodcraft",
+      "demon"
+    ],
+    "hp": 23,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Demon Infection: when Bahl applies Poison with an ability, each enemy in the front row also gains 1 Bleed. When Bahl applies Bleed with an ability, each enemy in the front row also gains 1 Poison.",
+    "abilities": [
+      {
+        "id": "mark",
+        "name": "Infect Mark",
+        "cost": 1,
+        "spd": 2,
+        "desc": "Ranged demon setup. Apply 2 Poison and 1 Bleed to one enemy.",
+        "effect": "multiStatus",
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "bleed",
+            1
+          ]
+        ],
+        "range": "ranged"
+      },
+      {
+        "id": "proliferate",
+        "name": "Dark Proliferation",
+        "cost": 2,
+        "spd": 1,
+        "desc": "Ranged payoff. Choose an enemy. Double that enemy's current Poison, Bleed, and Freeze stacks. If it has Hypnosis, also apply Exposed. This ability deals no immediate damage.",
+        "effect": "proliferate",
+        "range": "ranged"
+      },
+      {
+        "id": "plague",
+        "name": "Plague Wave",
+        "cost": 2,
+        "spd": -2,
+        "desc": "AoE demon setup. Choose an enemy row. Apply 2 Poison to each enemy in that row.",
+        "effect": "rowStatus",
+        "status": "poison",
+        "stacks": 2,
+        "range": "ranged",
+        "iconKey": "demon",
+        "dmg": 1
+      },
+      {
+        "id": "rupture",
+        "name": "Demon Rupture",
+        "cost": 2,
+        "spd": -1,
+        "desc": "Demon payoff. Remove all Poison and Bleed from one enemy. Deal removed counters x2 +3 damage, ignoring Armor.",
+        "effect": "demonRupture",
+        "guard": false,
+        "range": "ranged",
+        "shield": 5,
+        "self": 1,
+        "stacks": 2,
+        "iconKey": "demon",
+        "mult": 2,
+        "ignoreArmor": true,
+        "bonus": 3
+      }
+    ]
+  },
+  {
+    "id": "eva",
+    "name": "Lady Eva",
+    "cls": "assassin",
+    "prof": [
+      "vampire"
+    ],
+    "hp": 16,
+    "armor": 2,
+    "speed": 8,
+    "passive": "Passive — Crimson Hunger: when Lady Eva hits a target that had Bleed before the hit, Lady Eva restores 1 HP.",
+    "abilities": [
+      {
+        "id": "stab",
+        "name": "Crimson Stab",
+        "cost": 1,
+        "spd": 4,
+        "desc": "Melee precision attack. Deal 2 damage with Pierce 2. If the target had Bleed before the hit, Lady Eva restores 1 HP.",
+        "effect": "bloodDash",
+        "range": "melee",
+        "pierce": 2,
+        "dmg": 2,
+        "status": "bleed",
+        "stacks": 1
+      },
+      {
+        "id": "mist",
+        "name": "Mist Step",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard. Lady Eva gains Dodge. Dodge prevents the next attack targeting Lady Eva this round, then Dodge is removed.",
+        "effect": "dodge",
+        "guard": true,
+        "range": "self"
+      },
+      {
+        "id": "kiss",
+        "name": "Vampire Kiss",
+        "cost": 2,
+        "spd": 1,
+        "desc": "Vampire setup. Deal 2 damage ignoring Armor, then apply 2 Bleed.",
+        "effect": "damageStatus",
+        "dmg": 2,
+        "status": "bleed",
+        "stacks": 2,
+        "range": "melee",
+        "ignoreArmor": true,
+        "iconKey": "vampire",
+        "bleed": 2
+      },
+      {
+        "id": "bite",
+        "name": "Final Bite",
+        "cost": 2,
+        "spd": 0,
+        "desc": "Assassin/vampire payoff. Can target backline. Remove all Bleed. Deal Bleed x2 +1 damage. If any Bleed was removed, Lady Eva restores 2 HP.",
+        "effect": "consumeBleed",
+        "bonus": 1,
+        "heal": 2,
+        "range": "ranged",
+        "pierce": 1,
+        "iconKey": "vampire",
+        "mult": 2
+      }
+    ]
+  },
+  {
+    "id": "hyafrost",
+    "name": "Hyafrost",
+    "cls": "sorcerer",
+    "prof": [
+      "icecraft",
+      "spirit"
+    ],
+    "hp": 22,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Deep Winter: when Hyafrost applies Freeze to an enemy, Hyafrost gains +1 Armor until end of round. No Shield.",
+    "abilities": [
+      {
+        "id": "frostbite",
+        "name": "Frostbite",
+        "cost": 1,
+        "spd": 1,
+        "desc": "Icecraft setup. Apply 2 Freeze. If the target already had Freeze before this ability, also deal 2 damage ignoring Armor.",
+        "effect": "whiteout",
+        "range": "ranged",
+        "ignoreArmor": true,
+        "iconKey": "icecraft",
+        "stacks": 2,
+        "dmg": 2
+      },
+      {
+        "id": "armor",
+        "name": "Frost Armor",
+        "cost": 1,
+        "spd": 2,
+        "desc": "Ally support. Choose an ally. That ally gains +3 Armor until end of round. Until end of round, enemies that hit that ally with melee gain 1 Freeze.",
+        "effect": "frostArmorRetaliate",
+        "range": "ally",
+        "armor": 3,
+        "iconKey": "icecraft",
+        "shield": 0
+      },
+      {
+        "id": "field",
+        "name": "Frozen Field",
+        "cost": 2,
+        "spd": 0,
+        "desc": "AoE icecraft control. Choose an enemy row. Apply 3 Freeze to each enemy in that row.",
+        "effect": "rowStatus",
+        "status": "freeze",
+        "stacks": 3,
+        "range": "ranged"
+      },
+      {
+        "id": "zero",
+        "name": "Absolute Zero",
+        "cost": 2,
+        "spd": -3,
+        "desc": "AoE Freeze payoff. For each enemy with Freeze, remove all Freeze, deal removed Freeze x2 damage ignoring Armor, and apply Exhausted.",
+        "effect": "absoluteZeroConsume",
+        "dmg": 3,
+        "ignoreArmor": true,
+        "mult": 2,
+        "range": "melee"
+      }
+    ]
+  },
+  {
+    "id": "bakub",
+    "name": "Bakub",
+    "cls": "sorcerer",
+    "prof": [
+      "witchcraft",
+      "hypnotic",
+      "demon"
+    ],
+    "hp": 21,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Nightmare Brew: Bakub's damaging abilities deal +2 damage to targets that currently have both Poison and Hypnosis.",
+    "abilities": [
+      {
+        "id": "vial",
+        "name": "Nightmare Vial",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Ranged setup. Apply 2 Poison and Hypnosis to one enemy. This sets up Poison and Hypnosis payoffs.",
+        "effect": "multiStatus",
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "hypnosis",
+            1
+          ]
+        ],
+        "range": "ranged",
+        "iconKey": "hypnotic"
+      },
+      {
+        "id": "toxin",
+        "name": "Mind Toxin",
+        "cost": 1,
+        "spd": -1,
+        "desc": "Ranged hypnotic/witchcraft payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis, deal 5 damage ignoring Armor instead, and apply 2 Poison.",
+        "effect": "mindToxinConsume",
+        "range": "ranged",
+        "ignoreArmor": true,
+        "dmg": 3,
+        "poison": 2,
+        "iconKey": "witchcraft",
+        "payoffDmg": 5
+      },
+      {
+        "id": "fog",
+        "name": "Demon Fog",
+        "cost": 2,
+        "spd": -2,
+        "desc": "AoE demon setup. Choose an enemy row. Apply 2 Poison and Hypnosis to each enemy in that row.",
+        "effect": "rowMultiStatus",
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "hypnosis",
+            1
+          ]
+        ],
+        "range": "ranged",
+        "iconKey": "hypnotic"
+      },
+      {
+        "id": "future",
+        "name": "False Future",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard payoff. Choose an enemy with Hypnosis. Remove Hypnosis now. If that enemy uses a damage attack this round, cancel that action and apply 2 Poison. If it does not attack, nothing else happens.",
+        "effect": "consumeHypnosisPoisonPredict",
+        "guard": true,
+        "range": "ranged",
+        "iconKey": "hypnotic"
+      }
+    ]
+  },
+  {
+    "id": "hope",
+    "name": "Hope",
+    "cls": "warrior",
+    "prof": [
+      "divinity"
+    ],
+    "hp": 22,
+    "armor": 2,
+    "speed": 4,
+    "passive": "Passive - Rising Grace: Hope gets +1 damage until end of round for each unique ally that gained life this round.",
+    "abilities": [
+      {
+        "id": "mend",
+        "name": "Mend Wounds",
+        "cost": 1,
+        "spd": 1,
+        "desc": "Divinity support. Restore 5 HP to one ally.",
+        "effect": "hopeHeal",
+        "kind": "singleHeal",
+        "heal": 5,
+        "range": "ally"
+      },
+      {
+        "id": "strike",
+        "name": "Hopeful Strike",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Low damage melee attack. Deal 2 damage to one enemy in the front row.",
+        "effect": "damage",
+        "kind": "attack",
+        "dmg": 2,
+        "range": "melee"
+      },
+      {
+        "id": "shield",
+        "name": "Blessing Shield",
+        "cost": 1,
+        "spd": 99,
+        "desc": "Guard. Choose one ally. That ally gains 4 Shield before attacks resolve.",
+        "effect": "hopeShield",
+        "kind": "grantShield",
+        "guard": true,
+        "shield": 4,
+        "range": "ally"
+      },
+      {
+        "id": "judgement",
+        "name": "Delayed Judgement",
+        "cost": 2,
+        "spd": -2,
+        "desc": "Delayed ranged attack. Choose one enemy. At the start of next round, deal 6 damage.",
+        "effect": "hopeDelayedAttack",
+        "kind": "delayedAttack",
+        "dmg": 6,
+        "range": "ranged",
+        "delay": 1
+      }
+    ]
+  },
+  {
+    "id": "zahria",
+    "name": "Zahria",
+    "cls": "sorcerer",
+    "prof": [
+      "bloodcraft"
+    ],
+    "hp": 20,
+    "armor": 1,
+    "speed": 4,
+    "passive": "Passive - Sanguine Aegis: Zahria gains +1 Armor until end of round for each unique enemy that lost life from Bleed this round.",
+    "abilities": [
+      {
+        "id": "mist",
+        "name": "Blood Mist",
+        "cost": 1,
+        "spd": 0,
+        "desc": "Bloodcraft row setup. Choose an enemy row. Each enemy in that row with Bleed gains 2 more Bleed.",
+        "effect": "zahriaBloodMist",
+        "kind": "rowBleedAmplify",
+        "status": "bleed",
+        "stacks": 2,
+        "range": "ranged"
+      },
+      {
+        "id": "rain",
+        "name": "Red Rain",
+        "cost": 1,
+        "spd": -2,
+        "desc": "Bloodcraft area setup. Apply 1 Bleed to every enemy.",
+        "effect": "allStatus",
+        "kind": "allStatus",
+        "status": "bleed",
+        "stacks": 1,
+        "range": "self",
+        "self": 0
+      },
+      {
+        "id": "mass",
+        "name": "Mass Drain",
+        "cost": 2,
+        "spd": -2,
+        "desc": "Bloodcraft payoff. Each enemy with Bleed loses HP equal to its Bleed, then removes that Bleed. Zahria heals for the total HP lost this way.",
+        "effect": "zahriaMassDrain",
+        "kind": "massDrainBleed",
+        "range": "self"
+      },
+      {
+        "id": "blade",
+        "name": "Blood Blade",
+        "cost": 2,
+        "spd": 0,
+        "desc": "Ranged attack. Deal 6 damage to one enemy.",
+        "effect": "damage",
+        "kind": "attack",
+        "dmg": 6,
+        "range": "ranged"
+      }
+    ]
+  }
+]

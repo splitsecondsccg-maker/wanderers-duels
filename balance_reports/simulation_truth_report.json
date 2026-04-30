@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "checkedSimulator": "tools/simulate_balance_smart_ai_only.js",
+  "gameCharacters": 14,
+  "simCharacters": 14,
+  "mismatchCount": 0,
+  "mismatches": [],
+  "generatedAt": "2026-04-30T17:29:00.874Z"
+}

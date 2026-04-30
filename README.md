@@ -375,3 +375,457 @@ Place his image here:
 - Fixed the root cause: rowBossBoard was also getting largeUnitBoard, which kept the board in the old 3-column boss grid.
 - Row bosses now use their own dedicated flex layout.
 - Geshar now truly spans the full back row on desktop and mobile.
+
+## v51 mobile playable / responsive pass
+- Locked battle UI to the mobile viewport to prevent clunky page scrolling.
+- Character select grid is now internally scrollable on mobile, so all characters are selectable.
+- Mobile character info panel has a visible close X.
+- Ability wheel is moved upward and buttons are larger.
+- Bottom wheel ability is no longer covered by its description sheet.
+- Ability description sheet is shorter and scrollable.
+- Resolution card is compact on mobile.
+- Target beams/arrows are thinner and less screen-covering.
+- Floating combat text is readable but less intrusive.
+- Status/info buttons are larger for touch.
+
+## v53 mobile QA workflow
+- Built-in QA panel with `?qa=1`.
+- Debug flags: `?mobile=1`, `?debug=1`, `?touch=1`, `?safe=1`, `?grid=1`, `?slow=1`.
+- State helpers: `window.qaOpenBattle()`, `window.qaOpenRadial()`, `window.qaOpenResolution()`.
+- Added Playwright screenshot workflow and `MOBILE_QA.md`.
+- Added starter `manifest.json` for future PWA/app workflow.
+
+## v56 balance + proficiency identity pass
+- Guard/shield pass:
+  - Shield is now rare and mostly Divinity-only.
+  - Non-Divinity guards no longer give large Shield packages.
+  - K'ku, Poom, Hyafrost, Yaura, Bahl/Shaman defenses were rewritten to use counter-status, Dodge, redirect, Armor, or HP cost instead of free Shield.
+- Bleed/status fairness:
+  - Attacks that apply Bleed/Freeze through `damageStatusOnHit` only apply the status if the hit dealt HP damage.
+  - Bloodcraft protection now costs HP or consumes Bleed.
+- Identity cleanup:
+  - Assassins keep self-evasion/precision instead of ally defense.
+  - Sorcerers focus on ranged/status/control.
+  - Brutes focus on pressure/disruption, not heavy armor/shield.
+  - Divinity remains the main source of Shield.
+- Specific tuning:
+  - Dravain Blood Guard no longer grants Shield; it restores HP only after consuming Bleed.
+  - Yaura Blood Ward and Bahl Demon Ward now cost ally HP and apply Bleed to attackers, no Shield.
+  - K'ku Ice Guard no longer gives Shield.
+  - Poom Guard Mind no longer protects allies or gives Shield.
+  - Hyafrost Spirit Form is Dodge instead of Shield; Deep Winter gives temporary Armor instead of Shield.
+  - Ivory Fairy and Geshar keep reduced Divinity Shield.
+  - Bleed payoff values slightly reduced where needed.
+
+## v57 hypnotic identity pass
+- Hypnotic abilities now separate setup and payoff:
+  - Setup actions apply Hypnosis.
+  - Strong damage/control consumes Hypnosis.
+- Removed bad “payoff + setup” design from prediction effects:
+  - Paleya's former Predict is now Mind Lock: consumes Hypnosis to set up a cancel; it does not apply Hypnosis.
+  - Bakub's False Future consumes Hypnosis; if the target attacks, it is canceled and gains Poison.
+- Poom Guard Mind is now setup only:
+  - If Poom is hit, the attacker gains Hypnosis. It does not cancel the hit and gives no Shield.
+- Poom Mesmer Roar remains a payoff and consumes Hypnosis for bonus damage.
+- Bakub Mind Toxin now consumes Hypnosis to apply extra Poison.
+- AI payoff detection was updated so it avoids using hypnotic payoff abilities when Hypnosis is missing.
+
+## v58 Poom Purple Blood
+- Renamed Poom's passive to **Purple Blood**.
+- Passive text now matches lore: Poom's blood is hypnotic, so enemies that hit him with melee and deal HP damage gain Hypnosis.
+- Reworked Guard Mind so it no longer duplicates the passive:
+  - Guard Mind is now a Hypnosis payoff.
+  - Choose an enemy with Hypnosis.
+  - Remove Hypnosis.
+  - If that enemy attacks Poom this round, cancel that attack.
+- AI payoff logic was updated so Guard Mind is treated as a payoff and should only be used when Hypnosis is available.
+
+## v59 Poom Guard Mind redesign
+- Guard Mind now does exactly:
+  - Consume Hypnosis from all enemies.
+  - For each enemy whose Hypnosis was consumed, all offensive actions they use this turn are redirected to Poom.
+  - Poom gains +1 Armor until end of round for each Hypnosis consumed.
+- Broad/row/all enemy actions caught by Guard Mind are converted into a single redirected effect on Poom, so the rest of Poom's team is protected.
+- AI treats Guard Mind as a Hypnosis payoff.
+
+## v60 Poom ability rename
+- Renamed Poom's former **Guard Mind** to **Mesmeric Taunt**.
+- The name now better matches the effect:
+  - consumes Hypnosis from enemies,
+  - forces their offensive actions onto Poom,
+  - gives Poom Armor for each consumed Hypnosis.
+
+## v61 headless balance simulator
+- Added `tools/simulate_balance.js`.
+- Run:
+  - `node tools/simulate_balance.js --games 5000 --seed 1337`
+  - or `npm run sim:balance`
+- Outputs:
+  - `balance_reports/latest.json`
+  - `balance_reports/character_summary.csv`
+  - `balance_reports/ability_summary.csv`
+- The simulator is UI-free and uses an approximate AI-vs-AI model to find obvious balance issues.
+
+## v62 advanced balance analytics
+- Extended the headless simulator with:
+  - armor bucket win rates,
+  - class win rates,
+  - proficiency win rates,
+  - pair/team synergy win rates,
+  - damage/taken ratios,
+  - ability use-per-pick.
+- New reports:
+  - `class_summary.csv`
+  - `proficiency_summary.csv`
+  - `armor_summary.csv`
+  - `pair_summary.csv`
+  - `team_summary.csv`
+
+## v63 balance patch after analytics
+Changes applied based on the 10k-game analytics:
+- Dravain:
+  - Armor 4 → 3.
+  - Blood Slash 4 → 3 damage.
+  - Vampiric Thrust 5/heal 3 → 4/heal 2.
+- K'ku:
+  - HP 31 → 29.
+  - Glacier Break Freeze bonus +4 → +3.
+- Paleya:
+  - Armor 0 → 1.
+  - Mind Break no-Hypnosis damage 2 → 3.
+  - Dream Fog now applies Hypnosis + Exposed to a row.
+- Hyafrost:
+  - HP 20 → 22.
+  - Ice Blast 2 → 3 damage.
+  - Absolute Zero now consumes Freeze for 3 + removed Freeze damage and Exhausted.
+- Bahl:
+  - Replaced Demon Ward with Demon Rupture, a Poison/Bleed payoff.
+- Maoja:
+  - Toxic Grip damage 3 → 4.
+  - Poison Burst gains +2 damage.
+
+## v64 five-iteration balance pass
+- Ran five simulate → identify → adjust loops.
+- Kept all abilities at cost 1+; no 0-cost actions were added.
+- Changed counter payoffs to multiplication where buildup should matter: Poison/Bleed payoffs now scale by counters, not just flat addition.
+
+### Iteration summary
+- **baseline v63**: top Dravain 70.7%, Smithen 57%, K'ku 56.4%; low Lady Eva 42.9%, Bahl 42.5%, Paleya 36.2%; avg rounds 14.5.
+- **iteration 1 armor/guard nerf**: top K'ku 62%, Dravain 61.4%, Smithen 60.5%; low Bakub 46.3%, Bahl 40.8%, Paleya 33.2%; avg rounds 13.71.
+- **iteration 2 multiplicative counter payoffs**: top Dravain 61.4%, K'ku 59.7%, Smithen 59.4%; low Hyafrost 47.4%, Bahl 37.7%, Paleya 33.9%; avg rounds 13.7.
+- **iteration 3 Paleya payoff buff + Dravain sustain nerf**: top Smithen 61.8%, K'ku 61%, Poom 55%; low Lady Eva 47.2%, Bahl 39.6%, Paleya 39.3%; avg rounds 13.52.
+- **iteration 4 ice trim + Eva multiplicative bleed**: top Smithen 60.9%, K'ku 60.5%, Dravain 55.4%; low Maoja 47.2%, Paleya 38.2%, Bahl 36.8%; avg rounds 13.45.
+- **iteration 5 final targeted correction: Paleya HP 18→20, Bahl Plague Wave Poison 3→4**: top Smithen 59.8%, K'ku 59.2%, Dravain 56%; low Maoja 46.9%, Paleya 42.7%, Bahl 40.4%; avg rounds 13.54.
+
+### Final notable changes
+- Dravain: Armor 3→2, Protect cost 1→2, Blood Slash 3→2, Vampiric Thrust heal 2→1.
+- Yaura: Armor 3→2, Blood Ward cost 1→2.
+- Paleya: HP 18→20, Mind Break payoff 6→8, Dream Fog applies Hypnosis + Exposed.
+- Bahl: Infect Mark applies 2 Poison + 1 Bleed, Plague Wave applies 4 Poison, Demon Rupture deals 2× removed Poison/Bleed.
+- Maoja: Rot Burst deals 3× removed Poison; Toxic Grip damage 4.
+- Eva: Crimson Fangs damage 4; Final Bite deals 2× Bleed +1.
+- Smithen: Shatter Shot base 4→3; K'ku HP 31→29 and Glacier Break bonus +3.
+
+## v65 class identity + sorcerer DPS pass
+Class identity direction:
+- Warrior: resilient/protective, but lower damage.
+- Brute: most HP, low Armor, strongest front-line single-target attacks.
+- Assassin: strong single-target damage, can reach backline, Pierce/armor-bypass tools.
+- Sorcerer: least resilient, but high DPS through AoE, Armor-ignore, and control.
+
+Applied:
+- Warriors: Dravain/Yaura damage reduced; protection remains their strength.
+- Brutes: K'ku/Maoja/Poom front-line damage increased, but damaging attacks are front-line constrained.
+- Assassins: Kahro/Smithen/Eva got more Pierce/backline reach.
+- Sorcerers: Paleya/Bahl/Hyafrost/Bakub remain fragile but got stronger AoE, control, and Armor-ignore payoffs.
+
+## v66 six more balance iterations
+Ran six additional simulator iterations after the v65 class identity pass.
+Important constraints kept:
+- No 0-cost abilities.
+- Counter payoffs use multiplication to reward buildup.
+- Warriors are protective/resilient with lower damage.
+- Brutes are high-HP, low-Armor, front-line single-target hitters.
+- Assassins have single-target/backline/Pierce tools.
+- Sorcerers are fragile but use AoE, control, and Armor-ignore payoff damage.
+
+Final sim after iteration 6 was 5,000 games. Included reports:
+- `balance_reports/six_iteration_summary.json`
+- updated `balance_reports/latest.json`
+- updated CSV summaries.
+
+## v67 precision balance metrics
+Added more surgical simulator metrics so one ability can be identified as the balance problem.
+
+New reports:
+- `ability_precision_summary.csv`
+  - ability uses, win rate when used, avg damage, avg healing, avg status added, avg kills, avg value, death rate after use.
+- `matchup_summary.csv`
+  - character-vs-character win rates.
+- `matchup_outliers.csv`
+  - extreme matchup problems only.
+- `team_trait_summary.csv`
+  - team construction traits such as 2+ Icecraft, 2+ Sorcerer, high-armor team.
+- `surgical_balance_flags.csv`
+  - ability-too-efficient, ability-too-weak, dead-ability, self-punishing-ability, matchup-dominant/weak.
+- `latest.json` now includes all the above plus `closeGameSummary`.
+
+These metrics are meant to identify precise issues like:
+- one ability carrying a character,
+- a dead ability never being picked,
+- a payoff being too weak despite the character looking okay,
+- specific matchups that are unwinnable,
+- team traits/proficiencies that are warping results.
+
+## v69 AI policy comparison
+Added simulator variants that keep the same v67 characters/abilities and change only the AI policy:
+- `tools/simulate_balance_old_ai.js`
+- `tools/simulate_balance_smart_ai_only.js`
+- `tools/simulate_balance_smart_vs_old.js`
+- `tools/simulate_balance_old_vs_smart.js`
+
+Reports:
+- `balance_reports/old_ai_same_balance.json`
+- `balance_reports/smart_ai_same_balance.json`
+- `balance_reports/ai_policy_comparison_summary.json`
+- `balance_reports/ai_policy_character_comparison.csv`
+
+Run:
+- `npm run sim:old-ai`
+- `npm run sim:smart-ai-only`
+- `npm run sim:smart-vs-old`
+
+## v70 old AI vs smart AI head-to-head
+Added side-policy win-rate reports:
+- `balance_reports/smart_A_vs_old_B_side_stats.json`
+- `balance_reports/old_A_vs_smart_B_side_stats.json`
+- `balance_reports/ai_head_to_head_side_winrate_summary.json`
+
+This keeps characters and abilities unchanged from v67 and changes only the AI policy.
+
+## v71 skill-curve balance metrics and 5 iterations
+Added:
+- `tools/compare_skill_curve.js`
+- `balance_reports/skill_curve_summary_final.json`
+- `balance_reports/skill_curve_summary_final.csv`
+- `balance_reports/v71_five_iteration_skill_curve_summary.json`
+
+Goal:
+- Skill-intensive characters should not already be strong under bad AI.
+- Healthy skill-reward target: old AI around 40-45%, smart AI around 55-58%.
+- If a character is 55%+ under old AI and 60%+ under smart AI, it is likely too good rather than merely skill intensive.
+
+## v72 2x2 skill-matrix balance pass
+Added:
+- `tools/simulate_balance_policy_matrix.js`
+- `tools/compare_skill_matrix.js`
+- `balance_reports/skill_matrix_summary.json`
+- `balance_reports/skill_matrix_summary.csv`
+- `balance_reports/v72_five_iteration_skill_matrix_summary.json`
+
+The matrix separates:
+- old vs old: bad/noob baseline
+- smart vs smart: optimized meta strength
+- smart pilot vs old opponent: how hard the character farms bad opponents
+- old pilot vs smart opponent: how punishable/counterable it is
+
+This avoids misreading lower smart-vs-smart win rate as “not skill based”; it may instead mean smart opponents counter the character well.
+
+## v73 surgical balance pass
+Applied one surgical pass based on v72 data:
+- Yaura Blood Bolt -> Blood Infusion: no easy Armor-ignore; enhances the next attack.
+- Poom raw damage down; Mesmeric Taunt gains at least +1 Armor when used.
+- Hyafrost Absolute Zero spike reduced.
+- Dravain Protect Ally gains cleanse + Armor; Blood Slash damage improved.
+- Bahl Blood Pact gives Bahl +1 Armor this round.
+- K'ku Ice Guard gives +1 Armor; Blizzard Roar also applies Exhausted.
+
+Reports:
+- `balance_reports/v73_after_surgical_skill_matrix.json`
+- `balance_reports/v73_before_after_skill_matrix_comparison.json`
+- `balance_reports/v73_before_after_skill_matrix_comparison.csv`
+
+## v75 fast automatic balance runner
+Added:
+- `tools/auto_balance_fast.js`
+- `npm run sim:auto-balance-fast`
+
+This runner is optimized for the requested workflow:
+1. Run smart-vs-smart games.
+2. Identify outliers from compact metrics.
+3. Apply one surgical patch.
+4. Repeat.
+5. Run a final 2x2 skill matrix validation.
+
+Default:
+- 10 iterations
+- 5000 smart-vs-smart games each
+- final 1500-game-per-config skill matrix
+
+Outputs:
+- `balance_reports/auto_balance_fast_history.json`
+- `balance_reports/auto_balance_fast_final_smart.json`
+- `balance_reports/auto_balance_fast_final_matrix.json`
+
+Important:
+This script is designed to run locally or in a longer-running Node process. In this ChatGPT execution environment, the full 10×5000 loop may exceed the time window, but the code now supports the exact workflow automatically.
+
+## v76 simulation truth validation
+Added a hard validation step before auto-balancing:
+- `tools/validate_sim_true_to_game.js`
+- `npm run sim:validate-truth`
+
+The validator executes `game.js` in a DOM-stubbed VM, extracts the final browser-game `ROSTER`
+after tuning blocks, extracts the simulator `ROSTER`, and compares:
+- character ids, names, class/proficiencies, HP, Armor, Speed
+- ability ids/names
+- cost, speed, range, damage, status/stacks, pierce, ignoreArmor, multipliers, etc.
+
+Outputs:
+- `balance_reports/simulation_truth_report.json`
+- `balance_reports/simulation_truth_mismatches.csv`
+- `balance_reports/extracted_game_roster.json`
+- `balance_reports/extracted_sim_roster.json`
+
+`tools/auto_balance_fast.js` now refuses to run if the simulator is not true-to-game.
+
+## v77 game roster as simulator source of truth
+Implemented the agreed fix:
+- Simulator roster is generated from the real `game.js` roster.
+- Character and ability identities come from `game.js`.
+- If a balance-pass value conflicts with `game.js`, the balanced-pass value wins and is logged.
+
+New files:
+- `tools/extract_game_roster.js`
+- `tools/sync_sim_from_game_roster.js`
+- `tools/generated_roster_from_game.js`
+- `tools/validate_generated_roster_truth.js`
+
+New commands:
+- `npm run sim:sync-roster`
+- `npm run sim:validate-generated-roster`
+- `npm run sim:auto-balance-fast`
+
+Reports:
+- `balance_reports/game_roster_source.json`
+- `balance_reports/sim_roster_synced_from_game.json`
+- `balance_reports/roster_sync_report.json`
+- `balance_reports/generated_roster_truth_report.json`
+
+## v78 rules parity validation
+Added:
+- `tools/validate_rules_parity.js`
+- `npm run sim:validate-rules`
+
+This executes scripted micro-scenarios against both:
+1. the real `game.js` rule functions in a DOM-stubbed VM
+2. the simulator rule functions
+
+It compares final HP, shield, statuses, buffs, death state, armor/tempArmor, etc.
+
+Covered scenarios:
+- armor damage
+- armor + shield
+- exposed
+- freeze threshold
+- poison end-round tick
+- Poom melee passive
+- bleed-on-attack behavior
+- Blood Infusion next attack
+
+`auto_balance_fast.js` is now gated by rules parity too.
+If rules parity fails, automatic balance must not run.
+
+## v79 mobile layout + ally-targeting hotfix
+Fixes:
+- `applyLayoutModeV52 is not defined` on mobile/QA layout refresh.
+- Enemy AI selecting player characters for abilities that say `ally`.
+
+Rule added:
+- Any ability with `range: "ally"` can only target living units on the caster's own side.
+
+Validation:
+- `npm run test:v79-target-layout`
+
+## v81 two-iteration balance run
+Ran the requested true-to-game balance pass:
+- Sync simulator roster from `game.js`
+- Validate generated roster identity
+- Validate rules parity
+- Iteration 0: 500 smart-vs-smart games, diagnose, patch
+- Iteration 1: 500 smart-vs-smart games, diagnose, patch
+- Final: 500 smart-vs-smart games and 500-game/config 2x2 skill matrix
+
+Report:
+- `balance_reports/v81_two_iteration_balance_summary.json`
+- `balance_reports/iter0_before_smart_vs_smart.json`
+- `balance_reports/iter1_after_patch_smart_vs_smart.json`
+- `balance_reports/iter2_final_smart_vs_smart.json`
+- `balance_reports/iter2_final_skill_matrix.json`
+
+## v82 ability-metric balance pass
+Completed 5 smart-vs-smart iterations with 1000 games per iteration, using ability precision metrics.
+Important foundation changes before balancing:
+- Expanded simulator mapping for real `game.js` effects that were previously classified as utility/incorrectly simulated.
+- Added support for real effects including damageStatus, damageStatusOnHit, armorStrike, bloodDash, whiteout, frontHypno, frostArmorRetaliate, proliferate, and more.
+- Kept generated roster identity validation and rules parity validation active.
+
+Reports:
+- `balance_reports/v82_ability_metric_5iter_summary.json`
+- `balance_reports/iter0_smart.json` ... `iter4_smart.json`
+- `balance_reports/iter*_ability_precision_summary.csv`
+- `balance_reports/final_skill_matrix.json`
+
+## v83 surgical follow-up
+Applied the next data-driven surgical pass from v82:
+- Dravain Shield Bash cost 1 -> 2.
+- Yaura Blood Ward now costs 1, grants +1 Armor, and applies 3 Bleed when triggered.
+- Paleya Mirror Guard applies Exposed on successful prediction; Mass Suggestion speed improved.
+- Poom Revenge Body self-cost trimmed where applicable.
+
+Reports:
+- `balance_reports/v83_after_patch_smart.json`
+- `balance_reports/v83_after_patch_ability_precision_summary.csv`
+- `balance_reports/v83_skill_matrix.json`
+- `balance_reports/v83_surgical_followup_summary.json`
+
+## v84 iterative balance pass
+Ran as many iterative ability-metric passes as fit in the chat execution window, with a hard maximum of 20.
+Uses exact character/ability ID patches via `balance_reports/v84_balance_patch.json`, then writes the same final patch into `game.js`.
+
+Reports:
+- `balance_reports/v84_until_healthy_summary.json`
+- `balance_reports/v84_balance_patch.json`
+- per-iteration smart/ability reports
+
+## v85 continuation: 3 more iterations
+Continued the v84/v83 balance loop for 3 more iterations.
+
+Validation:
+- sync simulator roster from game.js
+- generated roster identity validation
+- rules parity validation
+before and after each iteration.
+
+Reports:
+- `balance_reports/v85_continue_3iter_summary.json`
+- `balance_reports/final_after_3_more_smart.json`
+- `balance_reports/v85_final_skill_matrix.json` if matrix completed
+
+## v86 Yaura redesign
+Option B: redesigned Yaura as setup -> Bleed payoff rather than repeated HP-tax damage.
+
+Validation:
+- synced simulator from `game.js`
+- generated roster identity validation
+- rules parity validation
+before and after each iteration.
+
+Simulation:
+- 3 iterations
+- 500 smart-vs-smart games per iteration
+- final smart-vs-smart run
+- final small 2x2 skill matrix if time allowed
+
+Report:
+- `balance_reports/v86_yaura_redesign_summary.json`

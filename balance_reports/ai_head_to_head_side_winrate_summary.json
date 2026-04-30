@@ -1,0 +1,29 @@
+{
+  "same_characters_and_abilities": true,
+  "games_per_orientation": 5000,
+  "total_games": 10000,
+  "smart_ai": {
+    "wins": 6978,
+    "games": 10000,
+    "winRate": 69.78
+  },
+  "old_ai": {
+    "wins": 3022,
+    "games": 10000,
+    "winRate": 30.22
+  },
+  "orientation_results": {
+    "smart_A_vs_old_B": {
+      "smart_A_winRate": 69.7,
+      "old_B_winRate": 30.3,
+      "smart_A_wins": 3487,
+      "old_B_wins": 1513
+    },
+    "old_A_vs_smart_B": {
+      "old_A_winRate": 30.2,
+      "smart_B_winRate": 69.8,
+      "old_A_wins": 1509,
+      "smart_B_wins": 3491
+    }
+  }
+}

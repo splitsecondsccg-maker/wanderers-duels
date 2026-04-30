@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Split Seconds v10</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#17130f" />
+  <meta name="color-scheme" content="light" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Wanderers Duels" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Wanderers Duels</title>
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
+  <script>
+    // Avoid file:// manifest CORS errors when opening index.html directly.
+    if (location.protocol !== "http:" && location.protocol !== "https:") {
+      document.write("");
+    } else {
+      document.write('<link rel="manifest" href="manifest.json">');
+    }
+  </script>
 </head>
 <body>
   <main class="app">

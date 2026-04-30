@@ -1,0 +1,659 @@
+{
+  "ok": true,
+  "passed": 11,
+  "total": 11,
+  "cases": [
+    {
+      "name": "damage: 3 attack into 2 armor deals 1",
+      "pass": true,
+      "game": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 9,
+          "armor": 2,
+          "baseArmor": 2,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 9,
+          "armor": 2,
+          "baseArmor": 2,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "basicArmor"
+    },
+    {
+      "name": "damage: armor then shield",
+      "pass": true,
+      "game": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 8,
+          "armor": 1,
+          "baseArmor": 1,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 8,
+          "armor": 1,
+          "baseArmor": 1,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "shield"
+    },
+    {
+      "name": "status: exposed adds +2 and clears",
+      "pass": true,
+      "game": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 6,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 6,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "exposed"
+    },
+    {
+      "name": "status: freeze threshold creates frozen",
+      "pass": true,
+      "game": [
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "frozen": 1
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "frozen": 1
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "freeze"
+    },
+    {
+      "name": "endRound: poison halves rounded up",
+      "pass": true,
+      "game": [
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 8,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "poison": 1
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 8,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "poison": 1
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "poison"
+    },
+    {
+      "name": "passive: melee hit on Poom applies hypnosis to attacker",
+      "pass": true,
+      "game": [
+        {
+          "id": "poom",
+          "side": "enemy",
+          "hp": 8,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "hypnosis": 1
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "poom",
+          "side": "enemy",
+          "hp": 8,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "hypnosis": 1
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "poom"
+    },
+    {
+      "name": "status: bleed behavior on attack",
+      "pass": true,
+      "game": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 6,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 6,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "bleed"
+    },
+    {
+      "name": "buff: Blood Infusion next attack",
+      "pass": true,
+      "game": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {
+            "bloodInfusion": null
+          },
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 5,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "bleed": 2
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "src",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {
+            "bloodInfusion": null
+          },
+          "dead": false
+        },
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 5,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "bleed": 2
+          },
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "bloodInfusion"
+    },
+    {
+      "name": "buff: Blood Ward protects and bleeds attacker",
+      "pass": true,
+      "game": [
+        {
+          "id": "ally",
+          "side": "player",
+          "hp": 7,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 1,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "atk",
+          "side": "enemy",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "bleed": 3
+          },
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "yaura",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "ally",
+          "side": "player",
+          "hp": 7,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 1,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "atk",
+          "side": "enemy",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {
+            "bleed": 3
+          },
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "yaura",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "bloodWard"
+    },
+    {
+      "name": "guard: Protect Ally redirects first attack",
+      "pass": true,
+      "game": [
+        {
+          "id": "ally",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "atk",
+          "side": "enemy",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "dravain",
+          "side": "player",
+          "hp": 8,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "ally",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "atk",
+          "side": "enemy",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "dravain",
+          "side": "player",
+          "hp": 8,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "protectRedirect"
+    },
+    {
+      "name": "ability: Blood Price loses 2 HP and deals 6 damage",
+      "pass": true,
+      "game": [
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 5,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "yaura",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "sim": [
+        {
+          "id": "tgt",
+          "side": "enemy",
+          "hp": 5,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        },
+        {
+          "id": "yaura",
+          "side": "player",
+          "hp": 10,
+          "armor": 0,
+          "baseArmor": 0,
+          "tempArmor": 0,
+          "shield": 0,
+          "status": {},
+          "buff": {},
+          "dead": false
+        }
+      ],
+      "note": "bloodPrice"
+    }
+  ],
+  "generatedAt": "2026-04-30T17:29:02.525Z"
+}

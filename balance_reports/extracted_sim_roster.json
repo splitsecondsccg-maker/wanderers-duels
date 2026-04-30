@@ -1,0 +1,879 @@
+[
+  {
+    "id": "smithen",
+    "name": "Smithen",
+    "cls": "assassin",
+    "prof": [
+      "icecraft"
+    ],
+    "hp": 16,
+    "armor": 2,
+    "speed": 8,
+    "passive": "Passive — Frost Edge: Smithen's damaging abilities deal +2 damage to targets that currently have any Freeze stacks.",
+    "abilities": [
+      {
+        "id": "iceNeedle",
+        "name": "Ice Needle",
+        "cost": 1,
+        "spd": 2,
+        "range": "melee",
+        "kind": "damageStatusOnHit",
+        "dmg": 2,
+        "status": "freeze",
+        "stacks": 2,
+        "effect": "damageStatusOnHit"
+      },
+      {
+        "id": "flash",
+        "name": "Whiteout Step",
+        "cost": 1,
+        "spd": 99,
+        "range": "self",
+        "kind": "dodge",
+        "guard": true,
+        "effect": "dodge"
+      },
+      {
+        "id": "pin",
+        "name": "Frost Pin",
+        "cost": 1,
+        "spd": 2,
+        "range": "ranged",
+        "kind": "whiteout",
+        "effect": "whiteout"
+      },
+      {
+        "id": "shatter",
+        "name": "Shatter Shot",
+        "cost": 2,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "freezePayoff",
+        "dmg": 3,
+        "pierce": 2,
+        "effect": "shatterScaling"
+      }
+    ]
+  },
+  {
+    "id": "dravain",
+    "name": "Dravain",
+    "cls": "warrior",
+    "prof": [
+      "vampire"
+    ],
+    "hp": 22,
+    "armor": 3,
+    "speed": 5,
+    "passive": "Passive — Blood Guard: when Dravain consumes Bleed with Blood Claim, Dravain restores 1 HP. This is healing from consumed blood, not Shield.",
+    "abilities": [
+      {
+        "id": "protect",
+        "name": "Protect Ally",
+        "cost": 1,
+        "spd": 99,
+        "range": "ally",
+        "kind": "protect",
+        "armor": 0,
+        "cleanse": 1,
+        "guard": true,
+        "effect": "protect"
+      },
+      {
+        "id": "bash",
+        "name": "Shield Bash",
+        "cost": 1,
+        "spd": 0,
+        "range": "melee",
+        "kind": "armorStrike",
+        "dmg": 2,
+        "effect": "armorStrike"
+      },
+      {
+        "id": "drain",
+        "name": "Vampiric Thrust",
+        "cost": 2,
+        "spd": -1,
+        "range": "melee",
+        "kind": "attack",
+        "dmg": 3,
+        "heal": 2,
+        "effect": "drain"
+      },
+      {
+        "id": "claim",
+        "name": "Blood Claim",
+        "cost": 2,
+        "spd": -2,
+        "range": "ranged",
+        "kind": "bleedPayoff",
+        "bonus": 2,
+        "mult": 1,
+        "heal": 1,
+        "effect": "consumeBleed"
+      }
+    ]
+  },
+  {
+    "id": "yaura",
+    "name": "Yaura",
+    "cls": "warrior",
+    "prof": [
+      "bloodcraft"
+    ],
+    "hp": 22,
+    "armor": 3,
+    "speed": 5,
+    "passive": "Passive — Blood Echo: once per round, when one of your own abilities makes an ally lose HP, apply 1 Bleed to each enemy in the front row.",
+    "abilities": [
+      {
+        "id": "ward",
+        "name": "Blood Ward",
+        "cost": 1,
+        "spd": 99,
+        "range": "ally",
+        "kind": "bloodWard",
+        "stacks": 2,
+        "armor": 1,
+        "guard": true,
+        "self": 1,
+        "shield": 5,
+        "effect": "bloodWard"
+      },
+      {
+        "id": "bolt",
+        "name": "Blood Infusion",
+        "cost": 1,
+        "spd": 0,
+        "range": "ally",
+        "kind": "empowerNextAttack",
+        "dmg": 0,
+        "status": "bleed",
+        "stacks": 2,
+        "bonus": 3,
+        "bleed": 3,
+        "ignoreArmor": false,
+        "effect": "bloodInfusion"
+      },
+      {
+        "id": "price",
+        "name": "Blood Price",
+        "cost": 1,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "attack",
+        "dmg": 6,
+        "bonus": 0,
+        "ignoreArmor": false,
+        "self": 2,
+        "effect": "bloodPrice"
+      },
+      {
+        "id": "rain",
+        "name": "Red Rain",
+        "cost": 1,
+        "spd": -2,
+        "range": "self",
+        "kind": "allStatus",
+        "status": "bleed",
+        "stacks": 1,
+        "self": 0,
+        "effect": "allStatus"
+      }
+    ]
+  },
+  {
+    "id": "kku",
+    "name": "K'ku",
+    "cls": "brute",
+    "prof": [
+      "icecraft"
+    ],
+    "hp": 29,
+    "armor": 1,
+    "speed": 2,
+    "passive": "Passive — Cold Hide: after an enemy hits K'ku with a melee attack, that enemy gains 1 Freeze.",
+    "abilities": [
+      {
+        "id": "guard",
+        "name": "Ice Guard",
+        "cost": 1,
+        "spd": 99,
+        "range": "self",
+        "kind": "selfCounter",
+        "status": "freeze",
+        "stacks": 2,
+        "armor": 1,
+        "guard": true,
+        "shield": 0,
+        "effect": "selfCounter"
+      },
+      {
+        "id": "slam",
+        "name": "Frost Slam",
+        "cost": 1,
+        "spd": 0,
+        "range": "melee",
+        "kind": "damageStatusOnHit",
+        "dmg": 3,
+        "status": "freeze",
+        "stacks": 1,
+        "effect": "damageStatusOnHit"
+      },
+      {
+        "id": "break",
+        "name": "Glacier Break",
+        "cost": 2,
+        "spd": -2,
+        "range": "melee",
+        "kind": "attack",
+        "dmg": 5,
+        "bonus": 2,
+        "effect": "glacier"
+      },
+      {
+        "id": "roar",
+        "name": "Blizzard Roar",
+        "cost": 2,
+        "spd": -3,
+        "range": "melee",
+        "kind": "rowStatus",
+        "status": "freeze",
+        "stacks": 2,
+        "exhausted": 1,
+        "row": "front",
+        "effect": "rowStatus"
+      }
+    ]
+  },
+  {
+    "id": "kahro",
+    "name": "Kahro",
+    "cls": "assassin",
+    "prof": [
+      "darkness"
+    ],
+    "hp": 17,
+    "armor": 2,
+    "speed": 8,
+    "passive": "Passive — Opportunist: Kahro's damaging abilities deal +1 damage to targets that currently have any negative status.",
+    "abilities": [
+      {
+        "id": "needle",
+        "name": "Shadow Needle",
+        "cost": 1,
+        "spd": 4,
+        "range": "ranged",
+        "kind": "attack",
+        "dmg": 3,
+        "pierce": 2,
+        "effect": "damage"
+      },
+      {
+        "id": "mark",
+        "name": "Shadow Mark",
+        "cost": 1,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "multiStatus",
+        "statuses": [
+          [
+            "dread",
+            1
+          ],
+          [
+            "exposed",
+            1
+          ]
+        ],
+        "effect": "multiStatus"
+      },
+      {
+        "id": "assassinate",
+        "name": "Assassinate",
+        "cost": 2,
+        "spd": 1,
+        "range": "ranged",
+        "kind": "attack",
+        "dmg": 5,
+        "bonus": 3,
+        "pierce": 2,
+        "effect": "assassinate"
+      },
+      {
+        "id": "vanish",
+        "name": "Vanish",
+        "cost": 1,
+        "spd": 99,
+        "range": "self",
+        "kind": "dodge",
+        "guard": true,
+        "effect": "dodge"
+      }
+    ]
+  },
+  {
+    "id": "maoja",
+    "name": "Maoja",
+    "cls": "brute",
+    "prof": [
+      "witchcraft"
+    ],
+    "hp": 29,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Toxic Momentum: Maoja's damaging abilities deal +1 damage to targets that currently have Poison.",
+    "abilities": [
+      {
+        "id": "hands",
+        "name": "Poison Hands",
+        "cost": 1,
+        "spd": 2,
+        "range": "ally",
+        "kind": "utility",
+        "effect": "poisonHands"
+      },
+      {
+        "id": "grip",
+        "name": "Corrosive Grip",
+        "cost": 1,
+        "spd": -1,
+        "range": "melee",
+        "kind": "attack",
+        "dmg": 3,
+        "poison": 1,
+        "effect": "toxicGrip"
+      },
+      {
+        "id": "breath",
+        "name": "Caustic Breath",
+        "cost": 2,
+        "spd": -1,
+        "range": "ranged",
+        "kind": "rowStatus",
+        "status": "poison",
+        "stacks": 3,
+        "effect": "rowStatus"
+      },
+      {
+        "id": "burst",
+        "name": "Rot Burst",
+        "cost": 2,
+        "spd": -3,
+        "range": "melee",
+        "kind": "poisonPayoff",
+        "bonus": 0,
+        "ignoreArmor": true,
+        "mult": 2,
+        "effect": "poisonBurst"
+      }
+    ]
+  },
+  {
+    "id": "paleya",
+    "name": "Paleya",
+    "cls": "sorcerer",
+    "prof": [
+      "hypnotic"
+    ],
+    "hp": 20,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Mind Weaver: the first time each round Paleya consumes Hypnosis with Mind Lance, gain +1 Action next round.",
+    "abilities": [
+      {
+        "id": "lance",
+        "name": "Mind Lance",
+        "cost": 1,
+        "spd": 1,
+        "range": "ranged",
+        "kind": "hypnosisDamagePayoff",
+        "dmg": 2,
+        "ignoreArmor": false,
+        "payoffDmg": 8,
+        "effect": "mindBreak"
+      },
+      {
+        "id": "mesmer",
+        "name": "Mesmerize",
+        "cost": 1,
+        "spd": 2,
+        "range": "ranged",
+        "kind": "status",
+        "status": "hypnosis",
+        "stacks": 1,
+        "effect": "status"
+      },
+      {
+        "id": "mirror",
+        "name": "Mirror Guard",
+        "cost": 1,
+        "spd": 99,
+        "range": "ranged",
+        "kind": "hypnosisCancelPayoff",
+        "guard": true,
+        "shield": 3,
+        "effect": "predict",
+        "exposed": 1
+      },
+      {
+        "id": "mass",
+        "name": "Mass Suggestion",
+        "cost": 1,
+        "spd": 1,
+        "range": "ranged",
+        "kind": "frontHypno",
+        "status": "hypnosis",
+        "stacks": 2,
+        "effect": "frontHypno"
+      }
+    ]
+  },
+  {
+    "id": "poom",
+    "name": "Poom",
+    "cls": "brute",
+    "prof": [
+      "hypnotic"
+    ],
+    "hp": 30,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Purple Blood: Poom's blood is hypnotic. After an enemy hits Poom with a melee attack that deals HP damage, that enemy gains Hypnosis.",
+    "abilities": [
+      {
+        "id": "guard",
+        "name": "Mesmeric Taunt",
+        "cost": 1,
+        "spd": 99,
+        "range": "self",
+        "kind": "poomMassGuardMind",
+        "status": null,
+        "stacks": 0,
+        "guard": true,
+        "minArmor": 2,
+        "shield": 0,
+        "effect": "poomMassGuardMind"
+      },
+      {
+        "id": "bash",
+        "name": "Bash",
+        "cost": 1,
+        "spd": -1,
+        "range": "melee",
+        "kind": "attack",
+        "dmg": 4,
+        "stacks": 2,
+        "effect": "damage"
+      },
+      {
+        "id": "roar",
+        "name": "Mesmer Roar",
+        "cost": 2,
+        "spd": -1,
+        "range": "melee",
+        "kind": "mesmerPayoff",
+        "dmg": 3,
+        "bonus": 6,
+        "effect": "mesmerPayoff"
+      },
+      {
+        "id": "bodyguard",
+        "name": "Revenge Body",
+        "cost": 2,
+        "spd": -1,
+        "range": "melee",
+        "kind": "revenge",
+        "dmg": 5,
+        "bonus": 3,
+        "self": 2,
+        "effect": "revenge"
+      }
+    ]
+  },
+  {
+    "id": "shaman",
+    "name": "Bahl",
+    "cls": "sorcerer",
+    "prof": [
+      "bloodcraft",
+      "demon"
+    ],
+    "hp": 23,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Demon Infection: when Bahl applies Poison with an ability, each enemy in the front row also gains 1 Bleed. When Bahl applies Bleed with an ability, each enemy in the front row also gains 1 Poison.",
+    "abilities": [
+      {
+        "id": "mark",
+        "name": "Infect Mark",
+        "cost": 1,
+        "spd": 2,
+        "range": "ranged",
+        "kind": "multiStatus",
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "bleed",
+            1
+          ]
+        ],
+        "effect": "multiStatus"
+      },
+      {
+        "id": "proliferate",
+        "name": "Dark Proliferation",
+        "cost": 2,
+        "spd": 1,
+        "range": "ranged",
+        "kind": "proliferate",
+        "effect": "proliferate"
+      },
+      {
+        "id": "plague",
+        "name": "Plague Wave",
+        "cost": 2,
+        "spd": -2,
+        "range": "ranged",
+        "kind": "rowStatus",
+        "dmg": 1,
+        "status": "poison",
+        "stacks": 2,
+        "effect": "rowStatus"
+      },
+      {
+        "id": "rupture",
+        "name": "Demon Rupture",
+        "cost": 2,
+        "spd": -1,
+        "range": "ranged",
+        "kind": "demonRupture",
+        "stacks": 2,
+        "bonus": 3,
+        "ignoreArmor": true,
+        "mult": 2,
+        "guard": false,
+        "self": 1,
+        "shield": 5,
+        "effect": "demonRupture"
+      }
+    ]
+  },
+  {
+    "id": "eva",
+    "name": "Lady Eva",
+    "cls": "assassin",
+    "prof": [
+      "vampire"
+    ],
+    "hp": 16,
+    "armor": 2,
+    "speed": 8,
+    "passive": "Passive — Crimson Hunger: when Lady Eva hits a target that had Bleed before the hit, Lady Eva restores 1 HP.",
+    "abilities": [
+      {
+        "id": "stab",
+        "name": "Crimson Stab",
+        "cost": 1,
+        "spd": 4,
+        "range": "melee",
+        "kind": "bloodDash",
+        "dmg": 2,
+        "status": "bleed",
+        "stacks": 1,
+        "pierce": 2,
+        "effect": "bloodDash"
+      },
+      {
+        "id": "mist",
+        "name": "Mist Step",
+        "cost": 1,
+        "spd": 99,
+        "range": "self",
+        "kind": "dodge",
+        "guard": true,
+        "effect": "dodge"
+      },
+      {
+        "id": "kiss",
+        "name": "Vampire Kiss",
+        "cost": 2,
+        "spd": 1,
+        "range": "melee",
+        "kind": "damageStatus",
+        "dmg": 2,
+        "status": "bleed",
+        "stacks": 2,
+        "bleed": 2,
+        "ignoreArmor": true,
+        "effect": "damageStatus"
+      },
+      {
+        "id": "bite",
+        "name": "Final Bite",
+        "cost": 2,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "bleedPayoff",
+        "bonus": 1,
+        "mult": 2,
+        "pierce": 1,
+        "heal": 2,
+        "effect": "consumeBleed"
+      }
+    ]
+  },
+  {
+    "id": "hyafrost",
+    "name": "Hyafrost",
+    "cls": "sorcerer",
+    "prof": [
+      "icecraft",
+      "spirit"
+    ],
+    "hp": 22,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Deep Winter: when Hyafrost applies Freeze to an enemy, Hyafrost gains +1 Armor until end of round. No Shield.",
+    "abilities": [
+      {
+        "id": "frostbite",
+        "name": "Frostbite",
+        "cost": 1,
+        "spd": 1,
+        "range": "ranged",
+        "kind": "whiteout",
+        "dmg": 2,
+        "stacks": 2,
+        "ignoreArmor": true,
+        "effect": "whiteout"
+      },
+      {
+        "id": "armor",
+        "name": "Frost Armor",
+        "cost": 1,
+        "spd": 2,
+        "range": "ally",
+        "kind": "frostArmorRetaliate",
+        "armor": 3,
+        "shield": 0,
+        "effect": "frostArmorRetaliate"
+      },
+      {
+        "id": "field",
+        "name": "Frozen Field",
+        "cost": 2,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "rowStatus",
+        "status": "freeze",
+        "stacks": 3,
+        "effect": "rowStatus"
+      },
+      {
+        "id": "zero",
+        "name": "Absolute Zero",
+        "cost": 2,
+        "spd": -3,
+        "range": "melee",
+        "kind": "absoluteZeroConsume",
+        "dmg": 3,
+        "ignoreArmor": true,
+        "mult": 2,
+        "effect": "absoluteZeroConsume"
+      }
+    ]
+  },
+  {
+    "id": "bakub",
+    "name": "Bakub",
+    "cls": "sorcerer",
+    "prof": [
+      "witchcraft",
+      "hypnotic",
+      "demon"
+    ],
+    "hp": 21,
+    "armor": 1,
+    "speed": 3,
+    "passive": "Passive — Nightmare Brew: Bakub's damaging abilities deal +2 damage to targets that currently have both Poison and Hypnosis.",
+    "abilities": [
+      {
+        "id": "vial",
+        "name": "Nightmare Vial",
+        "cost": 1,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "multiStatus",
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "hypnosis",
+            1
+          ]
+        ],
+        "effect": "multiStatus"
+      },
+      {
+        "id": "toxin",
+        "name": "Mind Toxin",
+        "cost": 1,
+        "spd": -1,
+        "range": "ranged",
+        "kind": "attack",
+        "dmg": 3,
+        "ignoreArmor": true,
+        "payoffDmg": 5,
+        "poison": 2,
+        "effect": "mindToxinConsume"
+      },
+      {
+        "id": "fog",
+        "name": "Demon Fog",
+        "cost": 2,
+        "spd": -2,
+        "range": "ranged",
+        "kind": "rowMultiStatus",
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "hypnosis",
+            1
+          ]
+        ],
+        "effect": "rowMultiStatus"
+      },
+      {
+        "id": "future",
+        "name": "False Future",
+        "cost": 1,
+        "spd": 99,
+        "range": "ranged",
+        "kind": "dodge",
+        "guard": true,
+        "effect": "consumeHypnosisPoisonPredict"
+      }
+    ]
+  },
+  {
+    "id": "hope",
+    "name": "Hope",
+    "cls": "warrior",
+    "prof": [
+      "divinity"
+    ],
+    "hp": 22,
+    "armor": 2,
+    "speed": 4,
+    "passive": "Passive - Rising Grace: Hope gets +1 damage until end of round for each unique ally that gained life this round.",
+    "abilities": [
+      {
+        "id": "mend",
+        "name": "Mend Wounds",
+        "cost": 1,
+        "spd": 1,
+        "range": "ally",
+        "kind": "singleHeal",
+        "heal": 5,
+        "effect": "hopeHeal"
+      },
+      {
+        "id": "strike",
+        "name": "Hopeful Strike",
+        "cost": 1,
+        "spd": 0,
+        "range": "melee",
+        "kind": "attack",
+        "dmg": 2,
+        "effect": "damage"
+      },
+      {
+        "id": "shield",
+        "name": "Blessing Shield",
+        "cost": 1,
+        "spd": 99,
+        "range": "ally",
+        "kind": "grantShield",
+        "guard": true,
+        "shield": 4,
+        "effect": "hopeShield"
+      },
+      {
+        "id": "judgement",
+        "name": "Delayed Judgement",
+        "cost": 2,
+        "spd": -2,
+        "range": "ranged",
+        "kind": "delayedAttack",
+        "dmg": 6,
+        "delay": 1,
+        "effect": "hopeDelayedAttack"
+      }
+    ]
+  },
+  {
+    "id": "zahria",
+    "name": "Zahria",
+    "cls": "sorcerer",
+    "prof": [
+      "bloodcraft"
+    ],
+    "hp": 20,
+    "armor": 1,
+    "speed": 4,
+    "passive": "Passive - Sanguine Aegis: Zahria gains +1 Armor until end of round for each unique enemy that lost life from Bleed this round.",
+    "abilities": [
+      {
+        "id": "mist",
+        "name": "Blood Mist",
+        "cost": 1,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "rowBleedAmplify",
+        "status": "bleed",
+        "stacks": 2,
+        "effect": "zahriaBloodMist"
+      },
+      {
+        "id": "rain",
+        "name": "Red Rain",
+        "cost": 1,
+        "spd": -2,
+        "range": "self",
+        "kind": "allStatus",
+        "status": "bleed",
+        "stacks": 1,
+        "self": 0,
+        "effect": "allStatus"
+      },
+      {
+        "id": "mass",
+        "name": "Mass Drain",
+        "cost": 2,
+        "spd": -2,
+        "range": "self",
+        "kind": "massDrainBleed",
+        "effect": "zahriaMassDrain"
+      },
+      {
+        "id": "blade",
+        "name": "Blood Blade",
+        "cost": 2,
+        "spd": 0,
+        "range": "ranged",
+        "kind": "attack",
+        "dmg": 6,
+        "effect": "damage"
+      }
+    ]
+  }
+]

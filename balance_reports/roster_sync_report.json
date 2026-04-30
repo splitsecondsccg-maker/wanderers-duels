@@ -1,0 +1,810 @@
+{
+  "generatedAt": "2026-04-30T17:31:30.246Z",
+  "gameCharacters": 14,
+  "syncedCharacters": 14,
+  "conflictPolicy": "game.js identities + balanced-pass overlay for conflicts",
+  "overlayChanges": [
+    {
+      "character": "dravain",
+      "ability": "protect",
+      "field": "cost",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 2
+    },
+    {
+      "character": "dravain",
+      "ability": "protect",
+      "field": "cleanse",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "dravain",
+      "ability": "protect",
+      "field": "armor",
+      "source": "balanced-pass-overlay",
+      "game": 0
+    },
+    {
+      "character": "dravain",
+      "ability": "bash",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "dravain",
+      "ability": "drain",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "dravain",
+      "ability": "drain",
+      "field": "heal",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "dravain",
+      "ability": "claim",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "dravain",
+      "ability": "claim",
+      "field": "mult",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "dravain",
+      "ability": "claim",
+      "field": "heal",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "dravain",
+      "ability": "",
+      "field": "hp",
+      "source": "balanced-pass-overlay",
+      "game": 22,
+      "chosen": 23
+    },
+    {
+      "character": "dravain",
+      "ability": "",
+      "field": "armor",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "yaura",
+      "ability": "ward",
+      "field": "cost",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "yaura",
+      "ability": "ward",
+      "field": "armor",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "yaura",
+      "ability": "ward",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 3
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "name",
+      "source": "balanced-pass-overlay",
+      "game": "Blood Infusion",
+      "chosen": "Blood Infusion"
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "effect",
+      "source": "balanced-pass-overlay",
+      "game": "bloodInfusion",
+      "chosen": "bloodInfusion"
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "kind",
+      "source": "balanced-pass-overlay",
+      "game": "empowerNextAttack",
+      "chosen": "empowerNextAttack"
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "range",
+      "source": "balanced-pass-overlay",
+      "game": "ally",
+      "chosen": "ally"
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 0,
+      "chosen": 0
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "ignoreArmor",
+      "source": "balanced-pass-overlay",
+      "game": false,
+      "chosen": false
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "yaura",
+      "ability": "bolt",
+      "field": "bleed",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 2
+    },
+    {
+      "character": "yaura",
+      "ability": "price",
+      "field": "effect",
+      "source": "balanced-pass-overlay",
+      "game": "bloodPrice",
+      "chosen": "bloodPrice"
+    },
+    {
+      "character": "yaura",
+      "ability": "price",
+      "field": "kind",
+      "source": "balanced-pass-overlay",
+      "game": "attack",
+      "chosen": "attack"
+    },
+    {
+      "character": "yaura",
+      "ability": "price",
+      "field": "range",
+      "source": "balanced-pass-overlay",
+      "game": "ranged",
+      "chosen": "ranged"
+    },
+    {
+      "character": "yaura",
+      "ability": "price",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 6,
+      "chosen": 6
+    },
+    {
+      "character": "yaura",
+      "ability": "price",
+      "field": "self",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "yaura",
+      "ability": "price",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 0,
+      "chosen": 0
+    },
+    {
+      "character": "yaura",
+      "ability": "price",
+      "field": "ignoreArmor",
+      "source": "balanced-pass-overlay",
+      "game": false,
+      "chosen": false
+    },
+    {
+      "character": "yaura",
+      "ability": "rain",
+      "field": "cost",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "yaura",
+      "ability": "rain",
+      "field": "effect",
+      "source": "balanced-pass-overlay",
+      "game": "allStatus",
+      "chosen": "allStatus"
+    },
+    {
+      "character": "yaura",
+      "ability": "rain",
+      "field": "kind",
+      "source": "balanced-pass-overlay",
+      "game": "allStatus",
+      "chosen": "allStatus"
+    },
+    {
+      "character": "yaura",
+      "ability": "rain",
+      "field": "range",
+      "source": "balanced-pass-overlay",
+      "game": "self",
+      "chosen": "self"
+    },
+    {
+      "character": "yaura",
+      "ability": "rain",
+      "field": "status",
+      "source": "balanced-pass-overlay",
+      "game": "bleed",
+      "chosen": "bleed"
+    },
+    {
+      "character": "yaura",
+      "ability": "rain",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "yaura",
+      "ability": "rain",
+      "field": "self",
+      "source": "balanced-pass-overlay",
+      "game": 0,
+      "chosen": 0
+    },
+    {
+      "character": "kku",
+      "ability": "guard",
+      "field": "armor",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "kku",
+      "ability": "slam",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "kku",
+      "ability": "break",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 5,
+      "chosen": 5
+    },
+    {
+      "character": "kku",
+      "ability": "break",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "kku",
+      "ability": "roar",
+      "field": "exhausted",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "kku",
+      "ability": "",
+      "field": "hp",
+      "source": "balanced-pass-overlay",
+      "game": 29,
+      "chosen": 29
+    },
+    {
+      "character": "kahro",
+      "ability": "needle",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "kahro",
+      "ability": "mark",
+      "field": "statuses",
+      "source": "balanced-pass-overlay",
+      "game": [
+        [
+          "exposed",
+          1
+        ],
+        [
+          "dread",
+          1
+        ]
+      ],
+      "chosen": [
+        [
+          "dread",
+          1
+        ],
+        [
+          "exposed",
+          1
+        ]
+      ]
+    },
+    {
+      "character": "kahro",
+      "ability": "assassinate",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 5,
+      "chosen": 5
+    },
+    {
+      "character": "kahro",
+      "ability": "assassinate",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "maoja",
+      "ability": "grip",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "maoja",
+      "ability": "grip",
+      "field": "poison",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "maoja",
+      "ability": "breath",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "maoja",
+      "ability": "burst",
+      "field": "mult",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "maoja",
+      "ability": "burst",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 0,
+      "chosen": 0
+    },
+    {
+      "character": "paleya",
+      "ability": "lance",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "paleya",
+      "ability": "lance",
+      "field": "payoffDmg",
+      "source": "balanced-pass-overlay",
+      "game": 8,
+      "chosen": 8
+    },
+    {
+      "character": "paleya",
+      "ability": "lance",
+      "field": "ignoreArmor",
+      "source": "balanced-pass-overlay",
+      "game": false,
+      "chosen": false
+    },
+    {
+      "character": "paleya",
+      "ability": "mesmer",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "paleya",
+      "ability": "mirror",
+      "field": "exposed",
+      "source": "balanced-pass-overlay",
+      "chosen": 1
+    },
+    {
+      "character": "paleya",
+      "ability": "mass",
+      "field": "status",
+      "source": "balanced-pass-overlay",
+      "game": "hypnosis",
+      "chosen": "hypnosis"
+    },
+    {
+      "character": "paleya",
+      "ability": "mass",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 1
+    },
+    {
+      "character": "paleya",
+      "ability": "mass",
+      "field": "spd",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "paleya",
+      "ability": "",
+      "field": "hp",
+      "source": "balanced-pass-overlay",
+      "game": 20,
+      "chosen": 20
+    },
+    {
+      "character": "poom",
+      "ability": "guard",
+      "field": "minArmor",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "poom",
+      "ability": "bash",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 4,
+      "chosen": 4
+    },
+    {
+      "character": "poom",
+      "ability": "bash",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "poom",
+      "ability": "roar",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "poom",
+      "ability": "roar",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 6,
+      "chosen": 6
+    },
+    {
+      "character": "poom",
+      "ability": "bodyguard",
+      "field": "kind",
+      "source": "balanced-pass-overlay",
+      "game": "attack",
+      "chosen": "revenge"
+    },
+    {
+      "character": "poom",
+      "ability": "bodyguard",
+      "field": "effect",
+      "source": "balanced-pass-overlay",
+      "game": "revenge",
+      "chosen": "revenge"
+    },
+    {
+      "character": "poom",
+      "ability": "bodyguard",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 5,
+      "chosen": 5
+    },
+    {
+      "character": "poom",
+      "ability": "bodyguard",
+      "field": "self",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "poom",
+      "ability": "bodyguard",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "shaman",
+      "ability": "plague",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "shaman",
+      "ability": "plague",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "shaman",
+      "ability": "rupture",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "shaman",
+      "ability": "",
+      "field": "hp",
+      "source": "balanced-pass-overlay",
+      "game": 23,
+      "chosen": 23
+    },
+    {
+      "character": "eva",
+      "ability": "stab",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 3
+    },
+    {
+      "character": "eva",
+      "ability": "stab",
+      "field": "status",
+      "source": "balanced-pass-overlay",
+      "game": "bleed",
+      "chosen": "bleed"
+    },
+    {
+      "character": "eva",
+      "ability": "stab",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "eva",
+      "ability": "kiss",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "eva",
+      "ability": "kiss",
+      "field": "status",
+      "source": "balanced-pass-overlay",
+      "game": "bleed",
+      "chosen": "bleed"
+    },
+    {
+      "character": "eva",
+      "ability": "kiss",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "eva",
+      "ability": "kiss",
+      "field": "bleed",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "eva",
+      "ability": "kiss",
+      "field": "ignoreArmor",
+      "source": "balanced-pass-overlay",
+      "game": true,
+      "chosen": true
+    },
+    {
+      "character": "eva",
+      "ability": "bite",
+      "field": "bonus",
+      "source": "balanced-pass-overlay",
+      "game": 1,
+      "chosen": 1
+    },
+    {
+      "character": "eva",
+      "ability": "bite",
+      "field": "mult",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "eva",
+      "ability": "bite",
+      "field": "heal",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "hyafrost",
+      "ability": "armor",
+      "field": "armor",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "hyafrost",
+      "ability": "field",
+      "field": "stacks",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "hyafrost",
+      "ability": "zero",
+      "field": "mult",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "hyafrost",
+      "ability": "zero",
+      "field": "ignoreArmor",
+      "source": "balanced-pass-overlay",
+      "game": true,
+      "chosen": true
+    },
+    {
+      "character": "hyafrost",
+      "ability": "zero",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "hyafrost",
+      "ability": "",
+      "field": "hp",
+      "source": "balanced-pass-overlay",
+      "game": 22,
+      "chosen": 22
+    },
+    {
+      "character": "bakub",
+      "ability": "vial",
+      "field": "statuses",
+      "source": "balanced-pass-overlay",
+      "game": [
+        [
+          "poison",
+          2
+        ],
+        [
+          "hypnosis",
+          1
+        ]
+      ],
+      "chosen": [
+        [
+          "poison",
+          1
+        ],
+        [
+          "hypnosis",
+          1
+        ]
+      ]
+    },
+    {
+      "character": "bakub",
+      "ability": "toxin",
+      "field": "dmg",
+      "source": "balanced-pass-overlay",
+      "game": 3,
+      "chosen": 3
+    },
+    {
+      "character": "bakub",
+      "ability": "toxin",
+      "field": "payoffDmg",
+      "source": "balanced-pass-overlay",
+      "game": 5,
+      "chosen": 5
+    },
+    {
+      "character": "bakub",
+      "ability": "toxin",
+      "field": "poison",
+      "source": "balanced-pass-overlay",
+      "game": 2,
+      "chosen": 2
+    },
+    {
+      "character": "bakub",
+      "ability": "toxin",
+      "field": "ignoreArmor",
+      "source": "balanced-pass-overlay",
+      "game": true,
+      "chosen": true
+    }
+  ]
+}

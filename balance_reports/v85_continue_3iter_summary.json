@@ -1,0 +1,3234 @@
+{
+  "run": {
+    "continuedIterations": 3,
+    "gamesPerIteration": 500,
+    "finalSmartGames": 700,
+    "finalMatrixGamesPerConfig": 300,
+    "elapsedSeconds": 28.7,
+    "validation": "generated roster identity and rules parity passed before and after each iteration",
+    "matrixStatus": "completed"
+  },
+  "finalPatch": {
+    "dravain": {
+      "abilities": {
+        "bash": {
+          "cost": 1
+        },
+        "protect": {
+          "cost": 1,
+          "cleanse": 1,
+          "armor": 0
+        }
+      },
+      "hp": 22
+    },
+    "yaura": {
+      "abilities": {
+        "price": {
+          "self": 0,
+          "dmg": 4
+        },
+        "ward": {
+          "cost": 1,
+          "self": 0,
+          "armor": 4,
+          "stacks": 3
+        },
+        "bolt": {
+          "bonus": 3,
+          "bleed": 4,
+          "range": "ally",
+          "ignoreArmor": false
+        }
+      },
+      "hp": 24
+    },
+    "poom": {
+      "abilities": {
+        "bodyguard": {
+          "dmg": 3,
+          "self": 6
+        },
+        "roar": {
+          "bonus": 4
+        }
+      }
+    },
+    "eva": {
+      "abilities": {
+        "stab": {
+          "dmg": 2
+        },
+        "bite": {
+          "bonus": 4,
+          "heal": 1
+        },
+        "kiss": {
+          "dmg": 2
+        }
+      }
+    },
+    "kahro": {
+      "abilities": {
+        "assassinate": {
+          "dmg": 4,
+          "bonus": 1
+        },
+        "needle": {
+          "dmg": 2
+        }
+      }
+    },
+    "paleya": {
+      "abilities": {
+        "mirror": {
+          "exposed": 1,
+          "shield": 3
+        },
+        "mass": {
+          "spd": 1,
+          "stacks": 2
+        }
+      }
+    },
+    "bakub": {
+      "abilities": {
+        "vial": {
+          "statuses": [
+            [
+              "poison",
+              2
+            ],
+            [
+              "hypnosis",
+              1
+            ]
+          ]
+        }
+      },
+      "hp": 21
+    }
+  },
+  "history": [
+    {
+      "iteration": 0,
+      "smartSummary": [
+        {
+          "id": "dravain",
+          "name": "Dravain",
+          "cls": "warrior",
+          "prof": "vampire",
+          "baseHp": 22,
+          "baseArmor": 3,
+          "picks": 237,
+          "winRate": 57.4,
+          "avgDamage": 14.2,
+          "avgTaken": 20.43,
+          "avgHealing": 0.24,
+          "avgStatusApplied": 0.05,
+          "avgGuards": 5.43,
+          "avgRounds": 15.57,
+          "damageTakenRatio": 0.7
+        },
+        {
+          "id": "smithen",
+          "name": "Smithen",
+          "cls": "assassin",
+          "prof": "icecraft",
+          "baseHp": 16,
+          "baseArmor": 2,
+          "picks": 247,
+          "winRate": 55.5,
+          "avgDamage": 22.39,
+          "avgTaken": 15.34,
+          "avgHealing": 0,
+          "avgStatusApplied": 3.9,
+          "avgGuards": 1.06,
+          "avgRounds": 13.38,
+          "damageTakenRatio": 1.46
+        },
+        {
+          "id": "kahro",
+          "name": "Kahro",
+          "cls": "assassin",
+          "prof": "darkness",
+          "baseHp": 17,
+          "baseArmor": 2,
+          "picks": 244,
+          "winRate": 53.3,
+          "avgDamage": 13.88,
+          "avgTaken": 16.13,
+          "avgHealing": 0,
+          "avgStatusApplied": 10.49,
+          "avgGuards": 1.02,
+          "avgRounds": 13.76,
+          "damageTakenRatio": 0.86
+        },
+        {
+          "id": "maoja",
+          "name": "Maoja",
+          "cls": "brute",
+          "prof": "witchcraft",
+          "baseHp": 29,
+          "baseArmor": 1,
+          "picks": 233,
+          "winRate": 53.2,
+          "avgDamage": 8,
+          "avgTaken": 26.62,
+          "avgHealing": 0,
+          "avgStatusApplied": 16.16,
+          "avgGuards": 0,
+          "avgRounds": 14.61,
+          "damageTakenRatio": 0.3
+        },
+        {
+          "id": "poom",
+          "name": "Poom",
+          "cls": "brute",
+          "prof": "hypnotic",
+          "baseHp": 30,
+          "baseArmor": 1,
+          "picks": 277,
+          "winRate": 52.7,
+          "avgDamage": 18.67,
+          "avgTaken": 27.78,
+          "avgHealing": 0,
+          "avgStatusApplied": 2.96,
+          "avgGuards": 2.29,
+          "avgRounds": 15.07,
+          "damageTakenRatio": 0.67
+        },
+        {
+          "id": "shaman",
+          "name": "Bahl",
+          "cls": "sorcerer",
+          "prof": "bloodcraft demon",
+          "baseHp": 23,
+          "baseArmor": 1,
+          "picks": 235,
+          "winRate": 51.1,
+          "avgDamage": 20.3,
+          "avgTaken": 21.57,
+          "avgHealing": 0,
+          "avgStatusApplied": 13.6,
+          "avgGuards": 0,
+          "avgRounds": 13.81,
+          "damageTakenRatio": 0.94
+        },
+        {
+          "id": "eva",
+          "name": "Lady Eva",
+          "cls": "assassin",
+          "prof": "vampire",
+          "baseHp": 16,
+          "baseArmor": 2,
+          "picks": 287,
+          "winRate": 50.9,
+          "avgDamage": 18.25,
+          "avgTaken": 16,
+          "avgHealing": 0.53,
+          "avgStatusApplied": 5.11,
+          "avgGuards": 1.6,
+          "avgRounds": 13.99,
+          "damageTakenRatio": 1.14
+        },
+        {
+          "id": "kku",
+          "name": "K'ku",
+          "cls": "brute",
+          "prof": "icecraft",
+          "baseHp": 29,
+          "baseArmor": 1,
+          "picks": 254,
+          "winRate": 50.4,
+          "avgDamage": 16.51,
+          "avgTaken": 27.02,
+          "avgHealing": 0,
+          "avgStatusApplied": 15.67,
+          "avgGuards": 2.33,
+          "avgRounds": 15.04,
+          "damageTakenRatio": 0.61
+        },
+        {
+          "id": "hyafrost",
+          "name": "Hyafrost",
+          "cls": "sorcerer",
+          "prof": "icecraft spirit",
+          "baseHp": 22,
+          "baseArmor": 1,
+          "picks": 254,
+          "winRate": 48.4,
+          "avgDamage": 24.16,
+          "avgTaken": 21.38,
+          "avgHealing": 0,
+          "avgStatusApplied": 19.07,
+          "avgGuards": 0,
+          "avgRounds": 14.19,
+          "damageTakenRatio": 1.13
+        },
+        {
+          "id": "paleya",
+          "name": "Paleya",
+          "cls": "sorcerer",
+          "prof": "hypnotic",
+          "baseHp": 20,
+          "baseArmor": 1,
+          "picks": 232,
+          "winRate": 47.4,
+          "avgDamage": 19.88,
+          "avgTaken": 19.69,
+          "avgHealing": 0,
+          "avgStatusApplied": 7.59,
+          "avgGuards": 1.37,
+          "avgRounds": 14.02,
+          "damageTakenRatio": 1.01
+        },
+        {
+          "id": "bakub",
+          "name": "Bakub",
+          "cls": "sorcerer",
+          "prof": "witchcraft hypnotic demon",
+          "baseHp": 20,
+          "baseArmor": 1,
+          "picks": 255,
+          "winRate": 45.1,
+          "avgDamage": 4.76,
+          "avgTaken": 19.79,
+          "avgHealing": 0,
+          "avgStatusApplied": 20.34,
+          "avgGuards": 0.89,
+          "avgRounds": 13.94,
+          "damageTakenRatio": 0.24
+        },
+        {
+          "id": "yaura",
+          "name": "Yaura",
+          "cls": "warrior",
+          "prof": "bloodcraft",
+          "baseHp": 23,
+          "baseArmor": 3,
+          "picks": 245,
+          "winRate": 34.7,
+          "avgDamage": 43.35,
+          "avgTaken": 23.23,
+          "avgHealing": 0,
+          "avgStatusApplied": 0.84,
+          "avgGuards": 2.67,
+          "avgRounds": 12.88,
+          "damageTakenRatio": 1.87
+        }
+      ],
+      "reasons": [
+        "Yaura low: remove HP tax, improve Ward armor / Infusion bleed, +HP. Still no armor-ignore."
+      ],
+      "topAbilities": [
+        {
+          "key": "hyafrost:zero",
+          "character": "Hyafrost",
+          "ability": "Absolute Zero",
+          "kind": "absoluteZeroConsume",
+          "cost": 2,
+          "uses": 639,
+          "winRateWhenUsed": 50.5,
+          "avgDamage": 8.93,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 8.93,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 377
+        },
+        {
+          "key": "smithen:shatter",
+          "character": "Smithen",
+          "ability": "Shatter Shot",
+          "kind": "freezePayoff",
+          "cost": 2,
+          "uses": 726,
+          "winRateWhenUsed": 60.6,
+          "avgDamage": 5.78,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 5.78,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 420
+        },
+        {
+          "key": "kahro:assassinate",
+          "character": "Kahro",
+          "ability": "Assassinate",
+          "kind": "attack",
+          "cost": 2,
+          "uses": 562,
+          "winRateWhenUsed": 63.3,
+          "avgDamage": 4.66,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 4.66,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 325
+        },
+        {
+          "key": "eva:bite",
+          "character": "Lady Eva",
+          "ability": "Final Bite",
+          "kind": "bleedPayoff",
+          "cost": 2,
+          "uses": 412,
+          "winRateWhenUsed": 54.6,
+          "avgDamage": 3.97,
+          "avgHealing": 0.37,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 4.23,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 307
+        },
+        {
+          "key": "paleya:lance",
+          "character": "Paleya",
+          "ability": "Mind Lance",
+          "kind": "hypnosisDamagePayoff",
+          "cost": 1,
+          "uses": 1193,
+          "winRateWhenUsed": 45.3,
+          "avgDamage": 3.58,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.58,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 627
+        },
+        {
+          "key": "shaman:rupture",
+          "character": "Bahl",
+          "ability": "Demon Rupture",
+          "kind": "demonRupture",
+          "cost": 2,
+          "uses": 1196,
+          "winRateWhenUsed": 51.3,
+          "avgDamage": 3.49,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.49,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 633
+        },
+        {
+          "key": "eva:kiss",
+          "character": "Lady Eva",
+          "ability": "Vampire Kiss",
+          "kind": "damageStatus",
+          "cost": 2,
+          "uses": 731,
+          "winRateWhenUsed": 53.6,
+          "avgDamage": 2.11,
+          "avgHealing": 0.0,
+          "avgStatus": 1.76,
+          "avgKills": 0,
+          "avgValue": 3.25,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 438
+        },
+        {
+          "key": "yaura:price",
+          "character": "Yaura",
+          "ability": "Blood Price",
+          "kind": "frontDamageForAllyHp",
+          "cost": 1,
+          "uses": 1885,
+          "winRateWhenUsed": 27.5,
+          "avgDamage": 3.19,
+          "avgHealing": 0.0,
+          "avgStatus": 0.02,
+          "avgKills": 0,
+          "avgValue": 3.21,
+          "deathRateAfterUse": 4.2,
+          "usedWhenBehind": 891
+        },
+        {
+          "key": "poom:roar",
+          "character": "Poom",
+          "ability": "Mesmer Roar",
+          "kind": "mesmerPayoff",
+          "cost": 2,
+          "uses": 287,
+          "winRateWhenUsed": 51.9,
+          "avgDamage": 3.17,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 3.17,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 131
+        },
+        {
+          "key": "bakub:toxin",
+          "character": "Bakub",
+          "ability": "Mind Toxin",
+          "kind": "attack",
+          "cost": 1,
+          "uses": 343,
+          "winRateWhenUsed": 51.9,
+          "avgDamage": 3.13,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 3.14,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 169
+        },
+        {
+          "key": "dravain:bash",
+          "character": "Dravain",
+          "ability": "Shield Bash",
+          "kind": "armorStrike",
+          "cost": 1,
+          "uses": 808,
+          "winRateWhenUsed": 67.3,
+          "avgDamage": 3.02,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 3.02,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 393
+        },
+        {
+          "key": "kku:break",
+          "character": "K'ku",
+          "ability": "Glacier Break",
+          "kind": "attack",
+          "cost": 2,
+          "uses": 424,
+          "winRateWhenUsed": 41.3,
+          "avgDamage": 2.98,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 2.98,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 174
+        },
+        {
+          "key": "kku:slam",
+          "character": "K'ku",
+          "ability": "Frost Slam",
+          "kind": "damageStatus",
+          "cost": 1,
+          "uses": 1154,
+          "winRateWhenUsed": 47.2,
+          "avgDamage": 2.35,
+          "avgHealing": 0.0,
+          "avgStatus": 0.78,
+          "avgKills": 0,
+          "avgValue": 2.86,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 437
+        },
+        {
+          "key": "maoja:breath",
+          "character": "Maoja",
+          "ability": "Caustic Breath",
+          "kind": "rowStatus",
+          "cost": 2,
+          "uses": 902,
+          "winRateWhenUsed": 53.8,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 4.14,
+          "avgKills": 0,
+          "avgValue": 2.69,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 319
+        },
+        {
+          "key": "hyafrost:field",
+          "character": "Hyafrost",
+          "ability": "Frozen Field",
+          "kind": "rowStatus",
+          "cost": 2,
+          "uses": 743,
+          "winRateWhenUsed": 46.8,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 4.09,
+          "avgKills": 0,
+          "avgValue": 2.66,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 361
+        }
+      ],
+      "bottomAbilities": [
+        {
+          "key": "yaura:bolt",
+          "character": "Yaura",
+          "ability": "Blood Infusion",
+          "kind": "empowerNextAttack",
+          "cost": 1,
+          "uses": 447,
+          "winRateWhenUsed": 26.8,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 246
+        },
+        {
+          "key": "yaura:ward",
+          "character": "Yaura",
+          "ability": "Blood Ward",
+          "kind": "bloodWard",
+          "cost": 1,
+          "uses": 653,
+          "winRateWhenUsed": 25.9,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 4.4,
+          "usedWhenBehind": 298
+        },
+        {
+          "key": "bakub:future",
+          "character": "Bakub",
+          "ability": "False Future",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 226,
+          "winRateWhenUsed": 37.6,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 170
+        },
+        {
+          "key": "hyafrost:armor",
+          "character": "Hyafrost",
+          "ability": "Frost Armor",
+          "kind": "frostArmorRetaliate",
+          "cost": 1,
+          "uses": 334,
+          "winRateWhenUsed": 45.2,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 171
+        },
+        {
+          "key": "kku:guard",
+          "character": "K'ku",
+          "ability": "Ice Guard",
+          "kind": "selfCounter",
+          "cost": 1,
+          "uses": 593,
+          "winRateWhenUsed": 32.4,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 300
+        },
+        {
+          "key": "eva:mist",
+          "character": "Lady Eva",
+          "ability": "Mist Step",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 460,
+          "winRateWhenUsed": 54.8,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 312
+        },
+        {
+          "key": "maoja:hands",
+          "character": "Maoja",
+          "ability": "Poison Hands",
+          "kind": "utility",
+          "cost": 1,
+          "uses": 191,
+          "winRateWhenUsed": 47.1,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 69
+        },
+        {
+          "key": "paleya:mirror",
+          "character": "Paleya",
+          "ability": "Mirror Guard",
+          "kind": "hypnosisCancelPayoff",
+          "cost": 1,
+          "uses": 317,
+          "winRateWhenUsed": 39.4,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 156
+        },
+        {
+          "key": "smithen:flash",
+          "character": "Smithen",
+          "ability": "Whiteout Step",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 263,
+          "winRateWhenUsed": 44.1,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 156
+        },
+        {
+          "key": "kahro:vanish",
+          "character": "Kahro",
+          "ability": "Vanish",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 248,
+          "winRateWhenUsed": 42.7,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 191
+        }
+      ],
+      "patchAfterIteration": {
+        "dravain": {
+          "abilities": {
+            "bash": {
+              "cost": 1
+            },
+            "protect": {
+              "cost": 1,
+              "cleanse": 1,
+              "armor": 0
+            }
+          },
+          "hp": 22
+        },
+        "yaura": {
+          "abilities": {
+            "price": {
+              "self": 0,
+              "dmg": 4
+            },
+            "ward": {
+              "cost": 1,
+              "self": 0,
+              "armor": 4,
+              "stacks": 3
+            },
+            "bolt": {
+              "bonus": 3,
+              "bleed": 4,
+              "range": "ally",
+              "ignoreArmor": false
+            }
+          },
+          "hp": 24
+        },
+        "poom": {
+          "abilities": {
+            "bodyguard": {
+              "dmg": 3,
+              "self": 5
+            },
+            "roar": {
+              "bonus": 4
+            }
+          }
+        },
+        "eva": {
+          "abilities": {
+            "stab": {
+              "dmg": 2
+            },
+            "bite": {
+              "bonus": 4,
+              "heal": 1
+            },
+            "kiss": {
+              "dmg": 2
+            }
+          }
+        },
+        "kahro": {
+          "abilities": {
+            "assassinate": {
+              "dmg": 4,
+              "bonus": 1
+            },
+            "needle": {
+              "dmg": 2
+            }
+          }
+        },
+        "paleya": {
+          "abilities": {
+            "mirror": {
+              "exposed": 1,
+              "shield": 3
+            },
+            "mass": {
+              "spd": 1,
+              "stacks": 2
+            }
+          }
+        }
+      }
+    },
+    {
+      "iteration": 1,
+      "smartSummary": [
+        {
+          "id": "maoja",
+          "name": "Maoja",
+          "cls": "brute",
+          "prof": "witchcraft",
+          "baseHp": 29,
+          "baseArmor": 1,
+          "picks": 239,
+          "winRate": 59.4,
+          "avgDamage": 7.87,
+          "avgTaken": 26.48,
+          "avgHealing": 0,
+          "avgStatusApplied": 16.1,
+          "avgGuards": 0,
+          "avgRounds": 14.64,
+          "damageTakenRatio": 0.3
+        },
+        {
+          "id": "poom",
+          "name": "Poom",
+          "cls": "brute",
+          "prof": "hypnotic",
+          "baseHp": 30,
+          "baseArmor": 1,
+          "picks": 288,
+          "winRate": 58.3,
+          "avgDamage": 19.15,
+          "avgTaken": 27.37,
+          "avgHealing": 0,
+          "avgStatusApplied": 2.78,
+          "avgGuards": 2.26,
+          "avgRounds": 15.08,
+          "damageTakenRatio": 0.7
+        },
+        {
+          "id": "smithen",
+          "name": "Smithen",
+          "cls": "assassin",
+          "prof": "icecraft",
+          "baseHp": 16,
+          "baseArmor": 2,
+          "picks": 255,
+          "winRate": 56.9,
+          "avgDamage": 24.35,
+          "avgTaken": 14.5,
+          "avgHealing": 0,
+          "avgStatusApplied": 4,
+          "avgGuards": 0.95,
+          "avgRounds": 13.04,
+          "damageTakenRatio": 1.68
+        },
+        {
+          "id": "dravain",
+          "name": "Dravain",
+          "cls": "warrior",
+          "prof": "vampire",
+          "baseHp": 22,
+          "baseArmor": 3,
+          "picks": 246,
+          "winRate": 54.5,
+          "avgDamage": 13.37,
+          "avgTaken": 19.88,
+          "avgHealing": 0.2,
+          "avgStatusApplied": 0.11,
+          "avgGuards": 5.63,
+          "avgRounds": 15.39,
+          "damageTakenRatio": 0.67
+        },
+        {
+          "id": "kahro",
+          "name": "Kahro",
+          "cls": "assassin",
+          "prof": "darkness",
+          "baseHp": 17,
+          "baseArmor": 2,
+          "picks": 255,
+          "winRate": 54.5,
+          "avgDamage": 13.04,
+          "avgTaken": 16.32,
+          "avgHealing": 0,
+          "avgStatusApplied": 10.59,
+          "avgGuards": 0.94,
+          "avgRounds": 14.02,
+          "damageTakenRatio": 0.8
+        },
+        {
+          "id": "eva",
+          "name": "Lady Eva",
+          "cls": "assassin",
+          "prof": "vampire",
+          "baseHp": 16,
+          "baseArmor": 2,
+          "picks": 234,
+          "winRate": 53.8,
+          "avgDamage": 17.79,
+          "avgTaken": 15.2,
+          "avgHealing": 0.47,
+          "avgStatusApplied": 4.85,
+          "avgGuards": 1.45,
+          "avgRounds": 13.87,
+          "damageTakenRatio": 1.17
+        },
+        {
+          "id": "kku",
+          "name": "K'ku",
+          "cls": "brute",
+          "prof": "icecraft",
+          "baseHp": 29,
+          "baseArmor": 1,
+          "picks": 250,
+          "winRate": 50.4,
+          "avgDamage": 16.27,
+          "avgTaken": 27.36,
+          "avgHealing": 0,
+          "avgStatusApplied": 15.18,
+          "avgGuards": 2.5,
+          "avgRounds": 14.58,
+          "damageTakenRatio": 0.59
+        },
+        {
+          "id": "shaman",
+          "name": "Bahl",
+          "cls": "sorcerer",
+          "prof": "bloodcraft demon",
+          "baseHp": 23,
+          "baseArmor": 1,
+          "picks": 228,
+          "winRate": 49.6,
+          "avgDamage": 19.43,
+          "avgTaken": 22.02,
+          "avgHealing": 0,
+          "avgStatusApplied": 11.92,
+          "avgGuards": 0,
+          "avgRounds": 13.71,
+          "damageTakenRatio": 0.88
+        },
+        {
+          "id": "hyafrost",
+          "name": "Hyafrost",
+          "cls": "sorcerer",
+          "prof": "icecraft spirit",
+          "baseHp": 22,
+          "baseArmor": 1,
+          "picks": 235,
+          "winRate": 48.5,
+          "avgDamage": 24.9,
+          "avgTaken": 21.34,
+          "avgHealing": 0,
+          "avgStatusApplied": 19.59,
+          "avgGuards": 0,
+          "avgRounds": 14.09,
+          "damageTakenRatio": 1.17
+        },
+        {
+          "id": "paleya",
+          "name": "Paleya",
+          "cls": "sorcerer",
+          "prof": "hypnotic",
+          "baseHp": 20,
+          "baseArmor": 1,
+          "picks": 263,
+          "winRate": 47.9,
+          "avgDamage": 18.71,
+          "avgTaken": 20.06,
+          "avgHealing": 0,
+          "avgStatusApplied": 7.16,
+          "avgGuards": 1.33,
+          "avgRounds": 13.84,
+          "damageTakenRatio": 0.93
+        },
+        {
+          "id": "bakub",
+          "name": "Bakub",
+          "cls": "sorcerer",
+          "prof": "witchcraft hypnotic demon",
+          "baseHp": 20,
+          "baseArmor": 1,
+          "picks": 254,
+          "winRate": 41.7,
+          "avgDamage": 5.5,
+          "avgTaken": 19.37,
+          "avgHealing": 0,
+          "avgStatusApplied": 21.42,
+          "avgGuards": 0.65,
+          "avgRounds": 13.59,
+          "damageTakenRatio": 0.28
+        },
+        {
+          "id": "yaura",
+          "name": "Yaura",
+          "cls": "warrior",
+          "prof": "bloodcraft",
+          "baseHp": 24,
+          "baseArmor": 3,
+          "picks": 253,
+          "winRate": 24.1,
+          "avgDamage": 43.8,
+          "avgTaken": 24.43,
+          "avgHealing": 0,
+          "avgStatusApplied": 0.72,
+          "avgGuards": 3.02,
+          "avgRounds": 13.21,
+          "damageTakenRatio": 1.79
+        }
+      ],
+      "reasons": [
+        "Poom high: Revenge Body winWhenUsed 60.3; reduce damage / increase self-cost.",
+        "Yaura low: remove HP tax, improve Ward armor / Infusion bleed, +HP. Still no armor-ignore.",
+        "Bakub low: Vial poison 2 + HP."
+      ],
+      "topAbilities": [
+        {
+          "key": "hyafrost:zero",
+          "character": "Hyafrost",
+          "ability": "Absolute Zero",
+          "kind": "absoluteZeroConsume",
+          "cost": 2,
+          "uses": 597,
+          "winRateWhenUsed": 50.9,
+          "avgDamage": 9.14,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 9.15,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 360
+        },
+        {
+          "key": "smithen:shatter",
+          "character": "Smithen",
+          "ability": "Shatter Shot",
+          "kind": "freezePayoff",
+          "cost": 2,
+          "uses": 814,
+          "winRateWhenUsed": 65.5,
+          "avgDamage": 5.58,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 5.58,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 510
+        },
+        {
+          "key": "kahro:assassinate",
+          "character": "Kahro",
+          "ability": "Assassinate",
+          "kind": "attack",
+          "cost": 2,
+          "uses": 567,
+          "winRateWhenUsed": 63.3,
+          "avgDamage": 4.57,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 4.57,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 323
+        },
+        {
+          "key": "eva:bite",
+          "character": "Lady Eva",
+          "ability": "Final Bite",
+          "kind": "bleedPayoff",
+          "cost": 2,
+          "uses": 308,
+          "winRateWhenUsed": 57.8,
+          "avgDamage": 4.1,
+          "avgHealing": 0.36,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 4.35,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 216
+        },
+        {
+          "key": "paleya:lance",
+          "character": "Paleya",
+          "ability": "Mind Lance",
+          "kind": "hypnosisDamagePayoff",
+          "cost": 1,
+          "uses": 1245,
+          "winRateWhenUsed": 49.3,
+          "avgDamage": 3.67,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.67,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 672
+        },
+        {
+          "key": "shaman:rupture",
+          "character": "Bahl",
+          "ability": "Demon Rupture",
+          "kind": "demonRupture",
+          "cost": 2,
+          "uses": 1177,
+          "winRateWhenUsed": 49.2,
+          "avgDamage": 3.44,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.44,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 669
+        },
+        {
+          "key": "poom:roar",
+          "character": "Poom",
+          "ability": "Mesmer Roar",
+          "kind": "mesmerPayoff",
+          "cost": 2,
+          "uses": 260,
+          "winRateWhenUsed": 58.5,
+          "avgDamage": 3.38,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.38,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 139
+        },
+        {
+          "key": "eva:kiss",
+          "character": "Lady Eva",
+          "ability": "Vampire Kiss",
+          "kind": "damageStatus",
+          "cost": 2,
+          "uses": 563,
+          "winRateWhenUsed": 56.1,
+          "avgDamage": 2.12,
+          "avgHealing": 0.0,
+          "avgStatus": 1.76,
+          "avgKills": 0,
+          "avgValue": 3.27,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 337
+        },
+        {
+          "key": "yaura:price",
+          "character": "Yaura",
+          "ability": "Blood Price",
+          "kind": "frontDamageForAllyHp",
+          "cost": 1,
+          "uses": 1960,
+          "winRateWhenUsed": 20.3,
+          "avgDamage": 3.16,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 3.17,
+          "deathRateAfterUse": 4.0,
+          "usedWhenBehind": 862
+        },
+        {
+          "key": "bakub:toxin",
+          "character": "Bakub",
+          "ability": "Mind Toxin",
+          "kind": "attack",
+          "cost": 1,
+          "uses": 384,
+          "winRateWhenUsed": 56.8,
+          "avgDamage": 3.16,
+          "avgHealing": 0.0,
+          "avgStatus": 0.02,
+          "avgKills": 0,
+          "avgValue": 3.17,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 184
+        },
+        {
+          "key": "dravain:bash",
+          "character": "Dravain",
+          "ability": "Shield Bash",
+          "kind": "armorStrike",
+          "cost": 1,
+          "uses": 797,
+          "winRateWhenUsed": 64.4,
+          "avgDamage": 3.01,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 3.01,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 349
+        },
+        {
+          "key": "kku:break",
+          "character": "K'ku",
+          "ability": "Glacier Break",
+          "kind": "attack",
+          "cost": 2,
+          "uses": 439,
+          "winRateWhenUsed": 44.6,
+          "avgDamage": 2.86,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 2.87,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 165
+        },
+        {
+          "key": "kku:slam",
+          "character": "K'ku",
+          "ability": "Frost Slam",
+          "kind": "damageStatus",
+          "cost": 1,
+          "uses": 1116,
+          "winRateWhenUsed": 46.8,
+          "avgDamage": 2.3,
+          "avgHealing": 0.0,
+          "avgStatus": 0.75,
+          "avgKills": 0,
+          "avgValue": 2.79,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 422
+        },
+        {
+          "key": "maoja:breath",
+          "character": "Maoja",
+          "ability": "Caustic Breath",
+          "kind": "rowStatus",
+          "cost": 2,
+          "uses": 910,
+          "winRateWhenUsed": 64.3,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 4.21,
+          "avgKills": 0,
+          "avgValue": 2.74,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 315
+        },
+        {
+          "key": "hyafrost:field",
+          "character": "Hyafrost",
+          "ability": "Frozen Field",
+          "kind": "rowStatus",
+          "cost": 2,
+          "uses": 703,
+          "winRateWhenUsed": 50.2,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 4.16,
+          "avgKills": 0,
+          "avgValue": 2.7,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 343
+        }
+      ],
+      "bottomAbilities": [
+        {
+          "key": "yaura:ward",
+          "character": "Yaura",
+          "ability": "Blood Ward",
+          "kind": "bloodWard",
+          "cost": 1,
+          "uses": 763,
+          "winRateWhenUsed": 18.7,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 3.8,
+          "usedWhenBehind": 356
+        },
+        {
+          "key": "dravain:protect",
+          "character": "Dravain",
+          "ability": "Protect Ally",
+          "kind": "protect",
+          "cost": 1,
+          "uses": 1384,
+          "winRateWhenUsed": 52.0,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 728
+        },
+        {
+          "key": "poom:guard",
+          "character": "Poom",
+          "ability": "Mesmeric Taunt",
+          "kind": "poomMassGuardMind",
+          "cost": 1,
+          "uses": 651,
+          "winRateWhenUsed": 50.1,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 352
+        },
+        {
+          "key": "kku:guard",
+          "character": "K'ku",
+          "ability": "Ice Guard",
+          "kind": "selfCounter",
+          "cost": 1,
+          "uses": 624,
+          "winRateWhenUsed": 34.3,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 321
+        },
+        {
+          "key": "kahro:vanish",
+          "character": "Kahro",
+          "ability": "Vanish",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 239,
+          "winRateWhenUsed": 51.5,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 151
+        },
+        {
+          "key": "smithen:flash",
+          "character": "Smithen",
+          "ability": "Whiteout Step",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 243,
+          "winRateWhenUsed": 61.7,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 143
+        },
+        {
+          "key": "hyafrost:armor",
+          "character": "Hyafrost",
+          "ability": "Frost Armor",
+          "kind": "frostArmorRetaliate",
+          "cost": 1,
+          "uses": 334,
+          "winRateWhenUsed": 47.6,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 166
+        },
+        {
+          "key": "paleya:mirror",
+          "character": "Paleya",
+          "ability": "Mirror Guard",
+          "kind": "hypnosisCancelPayoff",
+          "cost": 1,
+          "uses": 351,
+          "winRateWhenUsed": 37.6,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 206
+        },
+        {
+          "key": "eva:mist",
+          "character": "Lady Eva",
+          "ability": "Mist Step",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 340,
+          "winRateWhenUsed": 50.3,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 239
+        },
+        {
+          "key": "bakub:future",
+          "character": "Bakub",
+          "ability": "False Future",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 164,
+          "winRateWhenUsed": 37.2,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 102
+        }
+      ],
+      "patchAfterIteration": {
+        "dravain": {
+          "abilities": {
+            "bash": {
+              "cost": 1
+            },
+            "protect": {
+              "cost": 1,
+              "cleanse": 1,
+              "armor": 0
+            }
+          },
+          "hp": 22
+        },
+        "yaura": {
+          "abilities": {
+            "price": {
+              "self": 0,
+              "dmg": 4
+            },
+            "ward": {
+              "cost": 1,
+              "self": 0,
+              "armor": 4,
+              "stacks": 3
+            },
+            "bolt": {
+              "bonus": 3,
+              "bleed": 4,
+              "range": "ally",
+              "ignoreArmor": false
+            }
+          },
+          "hp": 24
+        },
+        "poom": {
+          "abilities": {
+            "bodyguard": {
+              "dmg": 3,
+              "self": 6
+            },
+            "roar": {
+              "bonus": 4
+            }
+          }
+        },
+        "eva": {
+          "abilities": {
+            "stab": {
+              "dmg": 2
+            },
+            "bite": {
+              "bonus": 4,
+              "heal": 1
+            },
+            "kiss": {
+              "dmg": 2
+            }
+          }
+        },
+        "kahro": {
+          "abilities": {
+            "assassinate": {
+              "dmg": 4,
+              "bonus": 1
+            },
+            "needle": {
+              "dmg": 2
+            }
+          }
+        },
+        "paleya": {
+          "abilities": {
+            "mirror": {
+              "exposed": 1,
+              "shield": 3
+            },
+            "mass": {
+              "spd": 1,
+              "stacks": 2
+            }
+          }
+        },
+        "bakub": {
+          "abilities": {
+            "vial": {
+              "statuses": [
+                [
+                  "poison",
+                  2
+                ],
+                [
+                  "hypnosis",
+                  1
+                ]
+              ]
+            }
+          },
+          "hp": 21
+        }
+      }
+    },
+    {
+      "iteration": 2,
+      "smartSummary": [
+        {
+          "id": "smithen",
+          "name": "Smithen",
+          "cls": "assassin",
+          "prof": "icecraft",
+          "baseHp": 16,
+          "baseArmor": 2,
+          "picks": 247,
+          "winRate": 57.5,
+          "avgDamage": 22.35,
+          "avgTaken": 15.04,
+          "avgHealing": 0,
+          "avgStatusApplied": 3.9,
+          "avgGuards": 0.91,
+          "avgRounds": 13.43,
+          "damageTakenRatio": 1.49
+        },
+        {
+          "id": "dravain",
+          "name": "Dravain",
+          "cls": "warrior",
+          "prof": "vampire",
+          "baseHp": 22,
+          "baseArmor": 3,
+          "picks": 242,
+          "winRate": 55.8,
+          "avgDamage": 13.52,
+          "avgTaken": 20.26,
+          "avgHealing": 0.29,
+          "avgStatusApplied": 0.21,
+          "avgGuards": 6.02,
+          "avgRounds": 15.63,
+          "damageTakenRatio": 0.67
+        },
+        {
+          "id": "maoja",
+          "name": "Maoja",
+          "cls": "brute",
+          "prof": "witchcraft",
+          "baseHp": 29,
+          "baseArmor": 1,
+          "picks": 236,
+          "winRate": 54.2,
+          "avgDamage": 8.03,
+          "avgTaken": 27.17,
+          "avgHealing": 0,
+          "avgStatusApplied": 15.71,
+          "avgGuards": 0,
+          "avgRounds": 14.65,
+          "damageTakenRatio": 0.3
+        },
+        {
+          "id": "bakub",
+          "name": "Bakub",
+          "cls": "sorcerer",
+          "prof": "witchcraft hypnotic demon",
+          "baseHp": 21,
+          "baseArmor": 1,
+          "picks": 248,
+          "winRate": 54,
+          "avgDamage": 6.58,
+          "avgTaken": 19.71,
+          "avgHealing": 0,
+          "avgStatusApplied": 24.02,
+          "avgGuards": 0.64,
+          "avgRounds": 13.69,
+          "damageTakenRatio": 0.33
+        },
+        {
+          "id": "kahro",
+          "name": "Kahro",
+          "cls": "assassin",
+          "prof": "darkness",
+          "baseHp": 17,
+          "baseArmor": 2,
+          "picks": 239,
+          "winRate": 52.7,
+          "avgDamage": 14.45,
+          "avgTaken": 16.19,
+          "avgHealing": 0,
+          "avgStatusApplied": 11.38,
+          "avgGuards": 1.27,
+          "avgRounds": 14.01,
+          "damageTakenRatio": 0.89
+        },
+        {
+          "id": "poom",
+          "name": "Poom",
+          "cls": "brute",
+          "prof": "hypnotic",
+          "baseHp": 30,
+          "baseArmor": 1,
+          "picks": 248,
+          "winRate": 52,
+          "avgDamage": 19.48,
+          "avgTaken": 28.04,
+          "avgHealing": 0,
+          "avgStatusApplied": 2.9,
+          "avgGuards": 2.37,
+          "avgRounds": 14.88,
+          "damageTakenRatio": 0.69
+        },
+        {
+          "id": "hyafrost",
+          "name": "Hyafrost",
+          "cls": "sorcerer",
+          "prof": "icecraft spirit",
+          "baseHp": 22,
+          "baseArmor": 1,
+          "picks": 287,
+          "winRate": 51.6,
+          "avgDamage": 22.99,
+          "avgTaken": 21.64,
+          "avgHealing": 0,
+          "avgStatusApplied": 18.19,
+          "avgGuards": 0,
+          "avgRounds": 13.91,
+          "damageTakenRatio": 1.06
+        },
+        {
+          "id": "kku",
+          "name": "K'ku",
+          "cls": "brute",
+          "prof": "icecraft",
+          "baseHp": 29,
+          "baseArmor": 1,
+          "picks": 241,
+          "winRate": 51.5,
+          "avgDamage": 16.31,
+          "avgTaken": 27.2,
+          "avgHealing": 0,
+          "avgStatusApplied": 14.93,
+          "avgGuards": 2.39,
+          "avgRounds": 14.9,
+          "damageTakenRatio": 0.6
+        },
+        {
+          "id": "paleya",
+          "name": "Paleya",
+          "cls": "sorcerer",
+          "prof": "hypnotic",
+          "baseHp": 20,
+          "baseArmor": 1,
+          "picks": 238,
+          "winRate": 49.6,
+          "avgDamage": 18.29,
+          "avgTaken": 20.03,
+          "avgHealing": 0,
+          "avgStatusApplied": 7.06,
+          "avgGuards": 1.28,
+          "avgRounds": 13.98,
+          "damageTakenRatio": 0.91
+        },
+        {
+          "id": "shaman",
+          "name": "Bahl",
+          "cls": "sorcerer",
+          "prof": "bloodcraft demon",
+          "baseHp": 23,
+          "baseArmor": 1,
+          "picks": 272,
+          "winRate": 44.9,
+          "avgDamage": 19.78,
+          "avgTaken": 22.3,
+          "avgHealing": 0,
+          "avgStatusApplied": 12.57,
+          "avgGuards": 0,
+          "avgRounds": 13.8,
+          "damageTakenRatio": 0.89
+        },
+        {
+          "id": "eva",
+          "name": "Lady Eva",
+          "cls": "assassin",
+          "prof": "vampire",
+          "baseHp": 16,
+          "baseArmor": 2,
+          "picks": 267,
+          "winRate": 44.2,
+          "avgDamage": 19.91,
+          "avgTaken": 16.27,
+          "avgHealing": 0.6,
+          "avgStatusApplied": 5.37,
+          "avgGuards": 1.54,
+          "avgRounds": 14.14,
+          "damageTakenRatio": 1.22
+        },
+        {
+          "id": "yaura",
+          "name": "Yaura",
+          "cls": "warrior",
+          "prof": "bloodcraft",
+          "baseHp": 24,
+          "baseArmor": 3,
+          "picks": 235,
+          "winRate": 32.3,
+          "avgDamage": 42.15,
+          "avgTaken": 23.8,
+          "avgHealing": 0,
+          "avgStatusApplied": 0.6,
+          "avgGuards": 2.73,
+          "avgRounds": 13.14,
+          "damageTakenRatio": 1.77
+        }
+      ],
+      "reasons": [
+        "Yaura low: remove HP tax, improve Ward armor / Infusion bleed, +HP. Still no armor-ignore."
+      ],
+      "topAbilities": [
+        {
+          "key": "hyafrost:zero",
+          "character": "Hyafrost",
+          "ability": "Absolute Zero",
+          "kind": "absoluteZeroConsume",
+          "cost": 2,
+          "uses": 691,
+          "winRateWhenUsed": 56.6,
+          "avgDamage": 8.97,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 8.97,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 406
+        },
+        {
+          "key": "smithen:shatter",
+          "character": "Smithen",
+          "ability": "Shatter Shot",
+          "kind": "freezePayoff",
+          "cost": 2,
+          "uses": 745,
+          "winRateWhenUsed": 54.8,
+          "avgDamage": 5.54,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 5.54,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 421
+        },
+        {
+          "key": "kahro:assassinate",
+          "character": "Kahro",
+          "ability": "Assassinate",
+          "kind": "attack",
+          "cost": 2,
+          "uses": 577,
+          "winRateWhenUsed": 56.7,
+          "avgDamage": 4.55,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 4.55,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 372
+        },
+        {
+          "key": "eva:bite",
+          "character": "Lady Eva",
+          "ability": "Final Bite",
+          "kind": "bleedPayoff",
+          "cost": 2,
+          "uses": 454,
+          "winRateWhenUsed": 48.2,
+          "avgDamage": 4.07,
+          "avgHealing": 0.35,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 4.31,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 334
+        },
+        {
+          "key": "paleya:lance",
+          "character": "Paleya",
+          "ability": "Mind Lance",
+          "kind": "hypnosisDamagePayoff",
+          "cost": 1,
+          "uses": 1109,
+          "winRateWhenUsed": 51.0,
+          "avgDamage": 3.61,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.61,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 605
+        },
+        {
+          "key": "shaman:rupture",
+          "character": "Bahl",
+          "ability": "Demon Rupture",
+          "kind": "demonRupture",
+          "cost": 2,
+          "uses": 1388,
+          "winRateWhenUsed": 48.0,
+          "avgDamage": 3.51,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 3.52,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 831
+        },
+        {
+          "key": "poom:roar",
+          "character": "Poom",
+          "ability": "Mesmer Roar",
+          "kind": "mesmerPayoff",
+          "cost": 2,
+          "uses": 268,
+          "winRateWhenUsed": 54.5,
+          "avgDamage": 3.28,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.28,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 127
+        },
+        {
+          "key": "eva:kiss",
+          "character": "Lady Eva",
+          "ability": "Vampire Kiss",
+          "kind": "damageStatus",
+          "cost": 2,
+          "uses": 689,
+          "winRateWhenUsed": 46.6,
+          "avgDamage": 2.08,
+          "avgHealing": 0.0,
+          "avgStatus": 1.8,
+          "avgKills": 0,
+          "avgValue": 3.25,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 406
+        },
+        {
+          "key": "yaura:price",
+          "character": "Yaura",
+          "ability": "Blood Price",
+          "kind": "frontDamageForAllyHp",
+          "cost": 1,
+          "uses": 1744,
+          "winRateWhenUsed": 30.8,
+          "avgDamage": 3.22,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 3.23,
+          "deathRateAfterUse": 4.6,
+          "usedWhenBehind": 761
+        },
+        {
+          "key": "bakub:toxin",
+          "character": "Bakub",
+          "ability": "Mind Toxin",
+          "kind": "attack",
+          "cost": 1,
+          "uses": 436,
+          "winRateWhenUsed": 68.6,
+          "avgDamage": 3.15,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 3.15,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 188
+        },
+        {
+          "key": "dravain:bash",
+          "character": "Dravain",
+          "ability": "Shield Bash",
+          "kind": "armorStrike",
+          "cost": 1,
+          "uses": 787,
+          "winRateWhenUsed": 61.1,
+          "avgDamage": 2.91,
+          "avgHealing": 0.0,
+          "avgStatus": 0.01,
+          "avgKills": 0,
+          "avgValue": 2.92,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 361
+        },
+        {
+          "key": "kku:slam",
+          "character": "K'ku",
+          "ability": "Frost Slam",
+          "kind": "damageStatus",
+          "cost": 1,
+          "uses": 1068,
+          "winRateWhenUsed": 51.6,
+          "avgDamage": 2.37,
+          "avgHealing": 0.0,
+          "avgStatus": 0.74,
+          "avgKills": 0,
+          "avgValue": 2.86,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 401
+        },
+        {
+          "key": "kku:break",
+          "character": "K'ku",
+          "ability": "Glacier Break",
+          "kind": "attack",
+          "cost": 2,
+          "uses": 426,
+          "winRateWhenUsed": 52.3,
+          "avgDamage": 2.75,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 2.75,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 164
+        },
+        {
+          "key": "maoja:breath",
+          "character": "Maoja",
+          "ability": "Caustic Breath",
+          "kind": "rowStatus",
+          "cost": 2,
+          "uses": 884,
+          "winRateWhenUsed": 56.4,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 4.17,
+          "avgKills": 0,
+          "avgValue": 2.71,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 341
+        },
+        {
+          "key": "hyafrost:field",
+          "character": "Hyafrost",
+          "ability": "Frozen Field",
+          "kind": "rowStatus",
+          "cost": 2,
+          "uses": 816,
+          "winRateWhenUsed": 55.3,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 4.14,
+          "avgKills": 0,
+          "avgValue": 2.69,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 375
+        }
+      ],
+      "bottomAbilities": [
+        {
+          "key": "dravain:protect",
+          "character": "Dravain",
+          "ability": "Protect Ally",
+          "kind": "protect",
+          "cost": 1,
+          "uses": 1458,
+          "winRateWhenUsed": 51.6,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 739
+        },
+        {
+          "key": "yaura:bolt",
+          "character": "Yaura",
+          "ability": "Blood Infusion",
+          "kind": "empowerNextAttack",
+          "cost": 1,
+          "uses": 453,
+          "winRateWhenUsed": 30.9,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 193
+        },
+        {
+          "key": "kku:guard",
+          "character": "K'ku",
+          "ability": "Ice Guard",
+          "kind": "selfCounter",
+          "cost": 1,
+          "uses": 575,
+          "winRateWhenUsed": 39.1,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 314
+        },
+        {
+          "key": "hyafrost:armor",
+          "character": "Hyafrost",
+          "ability": "Frost Armor",
+          "kind": "frostArmorRetaliate",
+          "cost": 1,
+          "uses": 363,
+          "winRateWhenUsed": 52.9,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 191
+        },
+        {
+          "key": "poom:guard",
+          "character": "Poom",
+          "ability": "Mesmeric Taunt",
+          "kind": "poomMassGuardMind",
+          "cost": 1,
+          "uses": 588,
+          "winRateWhenUsed": 48.0,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 285
+        },
+        {
+          "key": "bakub:future",
+          "character": "Bakub",
+          "ability": "False Future",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 158,
+          "winRateWhenUsed": 47.5,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 86
+        },
+        {
+          "key": "maoja:hands",
+          "character": "Maoja",
+          "ability": "Poison Hands",
+          "kind": "utility",
+          "cost": 1,
+          "uses": 227,
+          "winRateWhenUsed": 59.0,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 70
+        },
+        {
+          "key": "paleya:mirror",
+          "character": "Paleya",
+          "ability": "Mirror Guard",
+          "kind": "hypnosisCancelPayoff",
+          "cost": 1,
+          "uses": 304,
+          "winRateWhenUsed": 40.5,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 178
+        },
+        {
+          "key": "eva:mist",
+          "character": "Lady Eva",
+          "ability": "Mist Step",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 410,
+          "winRateWhenUsed": 43.4,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 261
+        },
+        {
+          "key": "kahro:vanish",
+          "character": "Kahro",
+          "ability": "Vanish",
+          "kind": "dodge",
+          "cost": 1,
+          "uses": 304,
+          "winRateWhenUsed": 38.2,
+          "avgDamage": 0.0,
+          "avgHealing": 0.0,
+          "avgStatus": 0.0,
+          "avgKills": 0,
+          "avgValue": 0.0,
+          "deathRateAfterUse": 0.0,
+          "usedWhenBehind": 224
+        }
+      ],
+      "patchAfterIteration": {
+        "dravain": {
+          "abilities": {
+            "bash": {
+              "cost": 1
+            },
+            "protect": {
+              "cost": 1,
+              "cleanse": 1,
+              "armor": 0
+            }
+          },
+          "hp": 22
+        },
+        "yaura": {
+          "abilities": {
+            "price": {
+              "self": 0,
+              "dmg": 4
+            },
+            "ward": {
+              "cost": 1,
+              "self": 0,
+              "armor": 4,
+              "stacks": 3
+            },
+            "bolt": {
+              "bonus": 3,
+              "bleed": 4,
+              "range": "ally",
+              "ignoreArmor": false
+            }
+          },
+          "hp": 24
+        },
+        "poom": {
+          "abilities": {
+            "bodyguard": {
+              "dmg": 3,
+              "self": 6
+            },
+            "roar": {
+              "bonus": 4
+            }
+          }
+        },
+        "eva": {
+          "abilities": {
+            "stab": {
+              "dmg": 2
+            },
+            "bite": {
+              "bonus": 4,
+              "heal": 1
+            },
+            "kiss": {
+              "dmg": 2
+            }
+          }
+        },
+        "kahro": {
+          "abilities": {
+            "assassinate": {
+              "dmg": 4,
+              "bonus": 1
+            },
+            "needle": {
+              "dmg": 2
+            }
+          }
+        },
+        "paleya": {
+          "abilities": {
+            "mirror": {
+              "exposed": 1,
+              "shield": 3
+            },
+            "mass": {
+              "spd": 1,
+              "stacks": 2
+            }
+          }
+        },
+        "bakub": {
+          "abilities": {
+            "vial": {
+              "statuses": [
+                [
+                  "poison",
+                  2
+                ],
+                [
+                  "hypnosis",
+                  1
+                ]
+              ]
+            }
+          },
+          "hp": 21
+        }
+      }
+    }
+  ],
+  "finalSmartVsSmart": [
+    {
+      "id": "smithen",
+      "name": "Smithen",
+      "cls": "assassin",
+      "prof": "icecraft",
+      "baseHp": 16,
+      "baseArmor": 2,
+      "picks": 379,
+      "winRate": 57.5,
+      "avgDamage": 23.07,
+      "avgTaken": 14.94,
+      "avgHealing": 0,
+      "avgStatusApplied": 3.98,
+      "avgGuards": 1.04,
+      "avgRounds": 13.34,
+      "damageTakenRatio": 1.54
+    },
+    {
+      "id": "bakub",
+      "name": "Bakub",
+      "cls": "sorcerer",
+      "prof": "witchcraft hypnotic demon",
+      "baseHp": 21,
+      "baseArmor": 1,
+      "picks": 369,
+      "winRate": 54.5,
+      "avgDamage": 6.27,
+      "avgTaken": 19.94,
+      "avgHealing": 0,
+      "avgStatusApplied": 23.07,
+      "avgGuards": 0.64,
+      "avgRounds": 13.7,
+      "damageTakenRatio": 0.31
+    },
+    {
+      "id": "poom",
+      "name": "Poom",
+      "cls": "brute",
+      "prof": "hypnotic",
+      "baseHp": 30,
+      "baseArmor": 1,
+      "picks": 351,
+      "winRate": 54.1,
+      "avgDamage": 18.77,
+      "avgTaken": 27.93,
+      "avgHealing": 0,
+      "avgStatusApplied": 2.87,
+      "avgGuards": 2.16,
+      "avgRounds": 14.68,
+      "damageTakenRatio": 0.67
+    },
+    {
+      "id": "maoja",
+      "name": "Maoja",
+      "cls": "brute",
+      "prof": "witchcraft",
+      "baseHp": 29,
+      "baseArmor": 1,
+      "picks": 332,
+      "winRate": 52.4,
+      "avgDamage": 8.46,
+      "avgTaken": 27.4,
+      "avgHealing": 0,
+      "avgStatusApplied": 15.71,
+      "avgGuards": 0,
+      "avgRounds": 14.52,
+      "damageTakenRatio": 0.31
+    },
+    {
+      "id": "dravain",
+      "name": "Dravain",
+      "cls": "warrior",
+      "prof": "vampire",
+      "baseHp": 22,
+      "baseArmor": 3,
+      "picks": 358,
+      "winRate": 52,
+      "avgDamage": 13.46,
+      "avgTaken": 19.97,
+      "avgHealing": 0.19,
+      "avgStatusApplied": 0.16,
+      "avgGuards": 6.09,
+      "avgRounds": 15.49,
+      "damageTakenRatio": 0.67
+    },
+    {
+      "id": "kahro",
+      "name": "Kahro",
+      "cls": "assassin",
+      "prof": "darkness",
+      "baseHp": 17,
+      "baseArmor": 2,
+      "picks": 315,
+      "winRate": 51.4,
+      "avgDamage": 14.56,
+      "avgTaken": 16.21,
+      "avgHealing": 0,
+      "avgStatusApplied": 10.7,
+      "avgGuards": 1.21,
+      "avgRounds": 13.95,
+      "damageTakenRatio": 0.9
+    },
+    {
+      "id": "shaman",
+      "name": "Bahl",
+      "cls": "sorcerer",
+      "prof": "bloodcraft demon",
+      "baseHp": 23,
+      "baseArmor": 1,
+      "picks": 352,
+      "winRate": 51.1,
+      "avgDamage": 17.87,
+      "avgTaken": 22.28,
+      "avgHealing": 0,
+      "avgStatusApplied": 11.41,
+      "avgGuards": 0,
+      "avgRounds": 13.65,
+      "damageTakenRatio": 0.8
+    },
+    {
+      "id": "kku",
+      "name": "K'ku",
+      "cls": "brute",
+      "prof": "icecraft",
+      "baseHp": 29,
+      "baseArmor": 1,
+      "picks": 346,
+      "winRate": 50.3,
+      "avgDamage": 17.24,
+      "avgTaken": 27.77,
+      "avgHealing": 0,
+      "avgStatusApplied": 15.03,
+      "avgGuards": 2.46,
+      "avgRounds": 14.75,
+      "damageTakenRatio": 0.62
+    },
+    {
+      "id": "hyafrost",
+      "name": "Hyafrost",
+      "cls": "sorcerer",
+      "prof": "icecraft spirit",
+      "baseHp": 22,
+      "baseArmor": 1,
+      "picks": 331,
+      "winRate": 49.5,
+      "avgDamage": 23.28,
+      "avgTaken": 21.62,
+      "avgHealing": 0,
+      "avgStatusApplied": 18.3,
+      "avgGuards": 0,
+      "avgRounds": 14,
+      "damageTakenRatio": 1.08
+    },
+    {
+      "id": "paleya",
+      "name": "Paleya",
+      "cls": "sorcerer",
+      "prof": "hypnotic",
+      "baseHp": 20,
+      "baseArmor": 1,
+      "picks": 342,
+      "winRate": 47.4,
+      "avgDamage": 19.58,
+      "avgTaken": 19.88,
+      "avgHealing": 0,
+      "avgStatusApplied": 7.19,
+      "avgGuards": 1.11,
+      "avgRounds": 13.76,
+      "damageTakenRatio": 0.98
+    },
+    {
+      "id": "eva",
+      "name": "Lady Eva",
+      "cls": "assassin",
+      "prof": "vampire",
+      "baseHp": 16,
+      "baseArmor": 2,
+      "picks": 357,
+      "winRate": 46.8,
+      "avgDamage": 19.33,
+      "avgTaken": 15.93,
+      "avgHealing": 0.56,
+      "avgStatusApplied": 5.24,
+      "avgGuards": 1.49,
+      "avgRounds": 14.01,
+      "damageTakenRatio": 1.21
+    },
+    {
+      "id": "yaura",
+      "name": "Yaura",
+      "cls": "warrior",
+      "prof": "bloodcraft",
+      "baseHp": 24,
+      "baseArmor": 3,
+      "picks": 368,
+      "winRate": 33.2,
+      "avgDamage": 42.08,
+      "avgTaken": 24.19,
+      "avgHealing": 0,
+      "avgStatusApplied": 0.72,
+      "avgGuards": 2.82,
+      "avgRounds": 12.9,
+      "damageTakenRatio": 1.74
+    }
+  ],
+  "finalAbilityTop": [
+    {
+      "key": "hyafrost:zero",
+      "character": "Hyafrost",
+      "ability": "Absolute Zero",
+      "kind": "absoluteZeroConsume",
+      "cost": 2,
+      "uses": 813,
+      "winRateWhenUsed": 51.2,
+      "avgDamage": 8.95,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 8.95,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 481
+    },
+    {
+      "key": "smithen:shatter",
+      "character": "Smithen",
+      "ability": "Shatter Shot",
+      "kind": "freezePayoff",
+      "cost": 2,
+      "uses": 1190,
+      "winRateWhenUsed": 65.4,
+      "avgDamage": 5.48,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 5.48,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 736
+    },
+    {
+      "key": "kahro:assassinate",
+      "character": "Kahro",
+      "ability": "Assassinate",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 774,
+      "winRateWhenUsed": 53.7,
+      "avgDamage": 4.53,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 4.53,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 494
+    },
+    {
+      "key": "eva:bite",
+      "character": "Lady Eva",
+      "ability": "Final Bite",
+      "kind": "bleedPayoff",
+      "cost": 2,
+      "uses": 554,
+      "winRateWhenUsed": 51.6,
+      "avgDamage": 3.97,
+      "avgHealing": 0.36,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 4.23,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 403
+    },
+    {
+      "key": "paleya:lance",
+      "character": "Paleya",
+      "ability": "Mind Lance",
+      "kind": "hypnosisDamagePayoff",
+      "cost": 1,
+      "uses": 1728,
+      "winRateWhenUsed": 48.2,
+      "avgDamage": 3.59,
+      "avgHealing": 0.0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 3.59,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 902
+    },
+    {
+      "key": "poom:roar",
+      "character": "Poom",
+      "ability": "Mesmer Roar",
+      "kind": "mesmerPayoff",
+      "cost": 2,
+      "uses": 381,
+      "winRateWhenUsed": 57.7,
+      "avgDamage": 3.55,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 3.55,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 191
+    },
+    {
+      "key": "shaman:rupture",
+      "character": "Bahl",
+      "ability": "Demon Rupture",
+      "kind": "demonRupture",
+      "cost": 2,
+      "uses": 1663,
+      "winRateWhenUsed": 48.5,
+      "avgDamage": 3.41,
+      "avgHealing": 0.0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 3.42,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 902
+    },
+    {
+      "key": "bakub:toxin",
+      "character": "Bakub",
+      "ability": "Mind Toxin",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 617,
+      "winRateWhenUsed": 68.1,
+      "avgDamage": 3.27,
+      "avgHealing": 0.0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 3.28,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 274
+    },
+    {
+      "key": "eva:kiss",
+      "character": "Lady Eva",
+      "ability": "Vampire Kiss",
+      "kind": "damageStatus",
+      "cost": 2,
+      "uses": 915,
+      "winRateWhenUsed": 49.0,
+      "avgDamage": 2.12,
+      "avgHealing": 0.0,
+      "avgStatus": 1.75,
+      "avgKills": 0,
+      "avgValue": 3.25,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 554
+    },
+    {
+      "key": "yaura:price",
+      "character": "Yaura",
+      "ability": "Blood Price",
+      "kind": "frontDamageForAllyHp",
+      "cost": 1,
+      "uses": 2744,
+      "winRateWhenUsed": 30.6,
+      "avgDamage": 3.17,
+      "avgHealing": 0.0,
+      "avgStatus": 0.02,
+      "avgKills": 0,
+      "avgValue": 3.18,
+      "deathRateAfterUse": 4.0,
+      "usedWhenBehind": 1198
+    },
+    {
+      "key": "dravain:bash",
+      "character": "Dravain",
+      "ability": "Shield Bash",
+      "kind": "armorStrike",
+      "cost": 1,
+      "uses": 1180,
+      "winRateWhenUsed": 58.9,
+      "avgDamage": 2.94,
+      "avgHealing": 0.0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 2.94,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 562
+    },
+    {
+      "key": "kku:break",
+      "character": "K'ku",
+      "ability": "Glacier Break",
+      "kind": "attack",
+      "cost": 2,
+      "uses": 630,
+      "winRateWhenUsed": 47.9,
+      "avgDamage": 2.91,
+      "avgHealing": 0.0,
+      "avgStatus": 0.03,
+      "avgKills": 0,
+      "avgValue": 2.93,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 273
+    },
+    {
+      "key": "kku:slam",
+      "character": "K'ku",
+      "ability": "Frost Slam",
+      "kind": "damageStatus",
+      "cost": 1,
+      "uses": 1621,
+      "winRateWhenUsed": 45.5,
+      "avgDamage": 2.35,
+      "avgHealing": 0.0,
+      "avgStatus": 0.75,
+      "avgKills": 0,
+      "avgValue": 2.84,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 618
+    },
+    {
+      "key": "maoja:breath",
+      "character": "Maoja",
+      "ability": "Caustic Breath",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 1262,
+      "winRateWhenUsed": 56.7,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 4.12,
+      "avgKills": 0,
+      "avgValue": 2.68,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 400
+    },
+    {
+      "key": "hyafrost:field",
+      "character": "Hyafrost",
+      "ability": "Frozen Field",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 950,
+      "winRateWhenUsed": 51.5,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 4.07,
+      "avgKills": 0,
+      "avgValue": 2.65,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 433
+    },
+    {
+      "key": "bakub:fog",
+      "character": "Bakub",
+      "ability": "Demon Fog",
+      "kind": "rowMultiStatus",
+      "cost": 2,
+      "uses": 1255,
+      "winRateWhenUsed": 57.1,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 3.75,
+      "avgKills": 0,
+      "avgValue": 2.44,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 774
+    },
+    {
+      "key": "kahro:needle",
+      "character": "Kahro",
+      "ability": "Shadow Needle",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 289,
+      "winRateWhenUsed": 60.2,
+      "avgDamage": 2.34,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 2.34,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 145
+    },
+    {
+      "key": "kku:roar",
+      "character": "K'ku",
+      "ability": "Blizzard Roar",
+      "kind": "rowStatus",
+      "cost": 2,
+      "uses": 685,
+      "winRateWhenUsed": 43.9,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 3.52,
+      "avgKills": 0,
+      "avgValue": 2.29,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 289
+    },
+    {
+      "key": "maoja:burst",
+      "character": "Maoja",
+      "ability": "Rot Burst",
+      "kind": "poisonPayoff",
+      "cost": 2,
+      "uses": 416,
+      "winRateWhenUsed": 57.9,
+      "avgDamage": 2.23,
+      "avgHealing": 0.0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 2.24,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 143
+    },
+    {
+      "key": "smithen:iceNeedle",
+      "character": "Smithen",
+      "ability": "Ice Needle",
+      "kind": "damageStatusOnHit",
+      "cost": 1,
+      "uses": 851,
+      "winRateWhenUsed": 63.9,
+      "avgDamage": 1.81,
+      "avgHealing": 0.0,
+      "avgStatus": 0.61,
+      "avgKills": 0,
+      "avgValue": 2.2,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 497
+    },
+    {
+      "key": "poom:bash",
+      "character": "Poom",
+      "ability": "Bash",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 1938,
+      "winRateWhenUsed": 60.9,
+      "avgDamage": 2.18,
+      "avgHealing": 0.0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 2.19,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 751
+    },
+    {
+      "key": "eva:stab",
+      "character": "Lady Eva",
+      "ability": "Crimson Stab",
+      "kind": "bloodDash",
+      "cost": 1,
+      "uses": 1192,
+      "winRateWhenUsed": 51.8,
+      "avgDamage": 2.09,
+      "avgHealing": 0.0,
+      "avgStatus": 0.01,
+      "avgKills": 0,
+      "avgValue": 2.1,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 738
+    },
+    {
+      "key": "dravain:claim",
+      "character": "Dravain",
+      "ability": "Blood Claim",
+      "kind": "bleedPayoff",
+      "cost": 2,
+      "uses": 137,
+      "winRateWhenUsed": 54.0,
+      "avgDamage": 1.67,
+      "avgHealing": 0.5,
+      "avgStatus": 0.08,
+      "avgKills": 0,
+      "avgValue": 2.07,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 80
+    },
+    {
+      "key": "shaman:mark",
+      "character": "Bahl",
+      "ability": "Infect Mark",
+      "kind": "multiStatus",
+      "cost": 1,
+      "uses": 1242,
+      "winRateWhenUsed": 56.4,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 3.0,
+      "avgKills": 0,
+      "avgValue": 1.95,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 641
+    },
+    {
+      "key": "maoja:grip",
+      "character": "Maoja",
+      "ability": "Corrosive Grip",
+      "kind": "attack",
+      "cost": 1,
+      "uses": 1049,
+      "winRateWhenUsed": 54.4,
+      "avgDamage": 1.68,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 1.68,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 338
+    }
+  ],
+  "finalAbilityBottom": [
+    {
+      "key": "paleya:mesmer",
+      "character": "Paleya",
+      "ability": "Mesmerize",
+      "kind": "status",
+      "cost": 1,
+      "uses": 588,
+      "winRateWhenUsed": 43.0,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.91,
+      "avgKills": 0,
+      "avgValue": 0.59,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 281
+    },
+    {
+      "key": "smithen:pin",
+      "character": "Smithen",
+      "ability": "Frost Pin",
+      "kind": "whiteout",
+      "cost": 1,
+      "uses": 898,
+      "winRateWhenUsed": 65.8,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.92,
+      "avgKills": 0,
+      "avgValue": 0.59,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 518
+    },
+    {
+      "key": "hyafrost:frostbite",
+      "character": "Hyafrost",
+      "ability": "Frostbite",
+      "kind": "whiteout",
+      "cost": 1,
+      "uses": 784,
+      "winRateWhenUsed": 49.2,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.91,
+      "avgKills": 0,
+      "avgValue": 0.59,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 361
+    },
+    {
+      "key": "kku:guard",
+      "character": "K'ku",
+      "ability": "Ice Guard",
+      "kind": "selfCounter",
+      "cost": 1,
+      "uses": 852,
+      "winRateWhenUsed": 34.6,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 449
+    },
+    {
+      "key": "eva:mist",
+      "character": "Lady Eva",
+      "ability": "Mist Step",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 533,
+      "winRateWhenUsed": 45.4,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 349
+    },
+    {
+      "key": "yaura:bolt",
+      "character": "Yaura",
+      "ability": "Blood Infusion",
+      "kind": "empowerNextAttack",
+      "cost": 1,
+      "uses": 651,
+      "winRateWhenUsed": 31.3,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 295
+    },
+    {
+      "key": "yaura:ward",
+      "character": "Yaura",
+      "ability": "Blood Ward",
+      "kind": "bloodWard",
+      "cost": 1,
+      "uses": 1037,
+      "winRateWhenUsed": 27.9,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 4.7,
+      "usedWhenBehind": 494
+    },
+    {
+      "key": "poom:guard",
+      "character": "Poom",
+      "ability": "Mesmeric Taunt",
+      "kind": "poomMassGuardMind",
+      "cost": 1,
+      "uses": 758,
+      "winRateWhenUsed": 45.9,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 359
+    },
+    {
+      "key": "kahro:vanish",
+      "character": "Kahro",
+      "ability": "Vanish",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 381,
+      "winRateWhenUsed": 42.8,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 287
+    },
+    {
+      "key": "paleya:mirror",
+      "character": "Paleya",
+      "ability": "Mirror Guard",
+      "kind": "hypnosisCancelPayoff",
+      "cost": 1,
+      "uses": 381,
+      "winRateWhenUsed": 43.0,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 205
+    },
+    {
+      "key": "dravain:protect",
+      "character": "Dravain",
+      "ability": "Protect Ally",
+      "kind": "protect",
+      "cost": 1,
+      "uses": 2181,
+      "winRateWhenUsed": 47.1,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 1188
+    },
+    {
+      "key": "smithen:flash",
+      "character": "Smithen",
+      "ability": "Whiteout Step",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 394,
+      "winRateWhenUsed": 58.4,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 236
+    },
+    {
+      "key": "bakub:future",
+      "character": "Bakub",
+      "ability": "False Future",
+      "kind": "dodge",
+      "cost": 1,
+      "uses": 235,
+      "winRateWhenUsed": 51.9,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 158
+    },
+    {
+      "key": "hyafrost:armor",
+      "character": "Hyafrost",
+      "ability": "Frost Armor",
+      "kind": "frostArmorRetaliate",
+      "cost": 1,
+      "uses": 440,
+      "winRateWhenUsed": 46.4,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 226
+    },
+    {
+      "key": "maoja:hands",
+      "character": "Maoja",
+      "ability": "Poison Hands",
+      "kind": "utility",
+      "cost": 1,
+      "uses": 316,
+      "winRateWhenUsed": 60.1,
+      "avgDamage": 0.0,
+      "avgHealing": 0.0,
+      "avgStatus": 0.0,
+      "avgKills": 0,
+      "avgValue": 0.0,
+      "deathRateAfterUse": 0.0,
+      "usedWhenBehind": 79
+    }
+  ],
+  "finalSkillMatrix": [
+    {
+      "character": "Bakub",
+      "oldVsOld": 59.1,
+      "smartVsSmart": 57.4,
+      "smartPilotVsOldOpp": 69.5,
+      "oldPilotVsSmartOpp": 47.1,
+      "pilotSkillGainVsOldOpp": 10.4,
+      "smartOpponentSuppression": 12.1,
+      "smartOpponentPunishesOldPilot": 12,
+      "label": "too-good-baseline"
+    },
+    {
+      "character": "Kahro",
+      "oldVsOld": 57,
+      "smartVsSmart": 55.2,
+      "smartPilotVsOldOpp": 69.7,
+      "oldPilotVsSmartOpp": 37.3,
+      "pilotSkillGainVsOldOpp": 12.7,
+      "smartOpponentSuppression": 14.5,
+      "smartOpponentPunishesOldPilot": 19.7,
+      "label": "ok"
+    },
+    {
+      "character": "Maoja",
+      "oldVsOld": 48.7,
+      "smartVsSmart": 55.1,
+      "smartPilotVsOldOpp": 54.7,
+      "oldPilotVsSmartOpp": 41.2,
+      "pilotSkillGainVsOldOpp": 6,
+      "smartOpponentSuppression": -0.4,
+      "smartOpponentPunishesOldPilot": 7.5,
+      "label": "ok"
+    },
+    {
+      "character": "Dravain",
+      "oldVsOld": 55.6,
+      "smartVsSmart": 54.9,
+      "smartPilotVsOldOpp": 70.3,
+      "oldPilotVsSmartOpp": 41.8,
+      "pilotSkillGainVsOldOpp": 14.7,
+      "smartOpponentSuppression": 15.4,
+      "smartOpponentPunishesOldPilot": 13.8,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Hyafrost",
+      "oldVsOld": 37.8,
+      "smartVsSmart": 52.3,
+      "smartPilotVsOldOpp": 65.4,
+      "oldPilotVsSmartOpp": 25.4,
+      "pilotSkillGainVsOldOpp": 27.6,
+      "smartOpponentSuppression": 13.1,
+      "smartOpponentPunishesOldPilot": 12.4,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Smithen",
+      "oldVsOld": 52.2,
+      "smartVsSmart": 51,
+      "smartPilotVsOldOpp": 57.7,
+      "oldPilotVsSmartOpp": 50,
+      "pilotSkillGainVsOldOpp": 5.5,
+      "smartOpponentSuppression": 6.7,
+      "smartOpponentPunishesOldPilot": 2.2,
+      "label": "ok"
+    },
+    {
+      "character": "K'ku",
+      "oldVsOld": 48.6,
+      "smartVsSmart": 50.7,
+      "smartPilotVsOldOpp": 61.6,
+      "oldPilotVsSmartOpp": 30.1,
+      "pilotSkillGainVsOldOpp": 13,
+      "smartOpponentSuppression": 10.9,
+      "smartOpponentPunishesOldPilot": 18.5,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Paleya",
+      "oldVsOld": 36.6,
+      "smartVsSmart": 50.3,
+      "smartPilotVsOldOpp": 58.8,
+      "oldPilotVsSmartOpp": 28.9,
+      "pilotSkillGainVsOldOpp": 22.2,
+      "smartOpponentSuppression": 8.5,
+      "smartOpponentPunishesOldPilot": 7.7,
+      "label": "ok"
+    },
+    {
+      "character": "Poom",
+      "oldVsOld": 56.4,
+      "smartVsSmart": 48.4,
+      "smartPilotVsOldOpp": 70.1,
+      "oldPilotVsSmartOpp": 36,
+      "pilotSkillGainVsOldOpp": 13.7,
+      "smartOpponentSuppression": 21.7,
+      "smartOpponentPunishesOldPilot": 20.4,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Bahl",
+      "oldVsOld": 56.5,
+      "smartVsSmart": 48,
+      "smartPilotVsOldOpp": 65.3,
+      "oldPilotVsSmartOpp": 38.7,
+      "pilotSkillGainVsOldOpp": 8.8,
+      "smartOpponentSuppression": 17.3,
+      "smartOpponentPunishesOldPilot": 17.8,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Lady Eva",
+      "oldVsOld": 56.8,
+      "smartVsSmart": 47.1,
+      "smartPilotVsOldOpp": 70.3,
+      "oldPilotVsSmartOpp": 48.8,
+      "pilotSkillGainVsOldOpp": 13.5,
+      "smartOpponentSuppression": 23.2,
+      "smartOpponentPunishesOldPilot": 8,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Yaura",
+      "oldVsOld": 32.1,
+      "smartVsSmart": 28.4,
+      "smartPilotVsOldOpp": 37.8,
+      "oldPilotVsSmartOpp": 22.5,
+      "pilotSkillGainVsOldOpp": 5.7,
+      "smartOpponentSuppression": 9.4,
+      "smartOpponentPunishesOldPilot": 9.6,
+      "label": "underpowered"
+    }
+  ]
+}

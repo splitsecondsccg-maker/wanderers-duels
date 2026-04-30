@@ -1,0 +1,147 @@
+{
+  "dravain": {
+    "abilities": {
+      "bash": {
+        "cost": 1
+      },
+      "protect": {
+        "cost": 1,
+        "cleanse": 1,
+        "armor": 0
+      }
+    },
+    "hp": 22
+  },
+  "yaura": {
+    "abilities": {
+      "price": {
+        "name": "Blood Price",
+        "effect": "bloodPrice",
+        "kind": "attack",
+        "range": "ranged",
+        "cost": 1,
+        "dmg": 6,
+        "bonus": 0,
+        "self": 2,
+        "ignoreArmor": false
+      },
+      "ward": {
+        "name": "Blood Ward",
+        "kind": "bloodWard",
+        "range": "ally",
+        "cost": 1,
+        "self": 1,
+        "armor": 1,
+        "stacks": 2
+      },
+      "bolt": {
+        "name": "Blood Infusion",
+        "effect": "bloodInfusion",
+        "kind": "empowerNextAttack",
+        "range": "ally",
+        "cost": 1,
+        "dmg": 0,
+        "ignoreArmor": false,
+        "bonus": 3,
+        "bleed": 3
+      },
+      "rain": {
+        "name": "Red Rain",
+        "effect": "allStatus",
+        "kind": "allStatus",
+        "range": "self",
+        "cost": 1,
+        "status": "bleed",
+        "stacks": 1,
+        "self": 0
+      }
+    },
+    "hp": 22
+  },
+  "poom": {
+    "abilities": {
+      "bodyguard": {
+        "kind": "revenge",
+        "effect": "revenge",
+        "dmg": 5,
+        "bonus": 3,
+        "self": 2
+      },
+      "roar": {
+        "bonus": 6
+      }
+    }
+  },
+  "eva": {
+    "abilities": {
+      "stab": {
+        "dmg": 2
+      },
+      "bite": {
+        "bonus": 1,
+        "mult": 2,
+        "heal": 2
+      },
+      "kiss": {
+        "dmg": 2,
+        "bleed": 2,
+        "ignoreArmor": true
+      }
+    }
+  },
+  "kahro": {
+    "abilities": {
+      "assassinate": {
+        "dmg": 5,
+        "bonus": 3
+      },
+      "needle": {
+        "dmg": 3
+      }
+    }
+  },
+  "paleya": {
+    "abilities": {
+      "mirror": {
+        "exposed": 1,
+        "shield": 3
+      },
+      "mass": {
+        "spd": 1,
+        "stacks": 2,
+        "cost": 1
+      }
+    }
+  },
+  "bakub": {
+    "abilities": {
+      "vial": {
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "hypnosis",
+            1
+          ]
+        ]
+      }
+    },
+    "hp": 21
+  },
+  "smithen": {
+    "abilities": {
+      "shatter": {
+        "dmg": 3
+      }
+    }
+  },
+  "hyafrost": {
+    "abilities": {
+      "field": {
+        "stacks": 3
+      }
+    }
+  }
+}

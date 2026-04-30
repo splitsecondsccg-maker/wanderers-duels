@@ -9,6 +9,8 @@ const ART = {
   paleya:"url('assets/paleaya.png')", poom:"url('assets/pom.png')",
   shaman:"url('assets/shaman.png')", eva:"url('assets/spell.png')",
   hyafrost:"url('assets/hyafrost.png')", bakub:"url('assets/bakub.png')",
+  hope:"url('assets/hope.png')",
+  zahria:"url('assets/zahria.png')",
   boss:"url('assets/boss_toad.png')"
 };
 
@@ -35,6 +37,7 @@ function abilityIconKey(caster, ability) {
   if (/hypno|mind|dream|mesmer|predict|future/.test(text)) return "hypnotic";
   if (/poison|toxic|rot|caustic|vial|brew|witch|potion/.test(text)) return "witchcraft";
   if (/blood|bleed|crimson|fang|vampir|bite|drain/.test(text)) return caster?.prof?.includes("bloodcraft") ? "bloodcraft" : "vampire";
+  if (/divine|divinity|heal|mend|bless|hope|radiant|judgement|judgment/.test(text)) return "divinity";
   if (/freeze|frost|ice|blizzard|glacier|whiteout|zero|winter/.test(text)) return "icecraft";
   if (/shadow|dark|exposed|assassinate/.test(text)) return "darkness";
   if (/demon|plague|infect/.test(text)) return "demon";
@@ -130,13 +133,15 @@ A("eruption","Bog Eruption",2,-2,"All enemies take 2 and 2 Poison.","allDamageSt
 A("devour","Devour",2,-1,"Melee 8, heal 4.","drain",{dmg:8,heal:4,range:"melee"})]};
 
 let builderStep="choose", chosenIds=[], selectedTeam=[], arrangeSelectedId=null, mode="squad";
-let state=null, selectedId=null, pendingAbility=null, logLines=[];
+let state=null, selectedId=null, selectedSide=null, pendingAbility=null, logLines=[];
 
 function $(id){return document.getElementById(id)}
 function cdef(id){return ROSTER.find(c=>c.id===id)}
 function cloneChar(id,side,row,col){let c=cdef(id);return structuredClone({...c,side,row,col,maxHp:c.hp,shield:0,status:{},buff:{},planned:null,dead:false})}
 function alive(side){return state.units.filter(u=>u.side===side&&!u.dead)}
 function unit(id){return state.units.find(u=>u.id===id)}
+function unitBySide(id,side){return state?.units?.find(u=>u.id===id && (!side || u.side===side))}
+function selectedUnit(){return selectedId ? (unitBySide(selectedId, selectedSide) || unit(selectedId)) : null}
 function other(side){return side==="player"?"enemy":"player"}
 function rowUnits(side,row){return alive(side).filter(u=>u.row===row||u.size==="boss")}
 function log(t){logLines.unshift(t);logLines=logLines.slice(0,14)}
@@ -339,14 +344,16 @@ function makePlan(unitObj, abilityObj, targetObj, side){
   return {
     pid: nextPlanId(),
     unitId: unitObj.id,
+    unitSide: unitObj.side || side,
     abilityId: abilityObj.id,
     targetId: targetObj?.id || null,
+    targetSide: targetObj?.side || null,
     side
   };
 }
 
 function planToAction(p){
-  const u = unit(p.unitId);
+  const u = unitBySide(p.unitId, p.unitSide || p.side) || unit(p.unitId);
   if(!u || u.dead) return null;
   const a = u.abilities.find(x=>x.id===p.abilityId);
   if(!a) return null;
@@ -356,7 +363,7 @@ function planToAction(p){
     unit: u,
     ability: a,
     side: p.side,
-    target: p.targetId ? unit(p.targetId) : null,
+    target: p.targetId ? (unitBySide(p.targetId, p.targetSide) || unit(p.targetId)) : null,
     speed: totalSpeed(u,a),
     guard: a.guard ? 1 : 0
   };
@@ -460,9 +467,10 @@ function tile(u,side){
   t.className=`tile ${side==="player"?"playerSide":"enemySide"}`;
   if(!u){t.classList.add("empty");return t}
   t.dataset.unitId=u.id;
+  t.dataset.side=u.side;
   if(u.dead)t.classList.add("dead");
-  if(u.id===selectedId)t.classList.add("selected");
-  if(pendingAbility&&isTarget(unit(selectedId),pendingAbility,u))t.classList.add("targetable");
+  if(u.id===selectedId && (!selectedSide || u.side===selectedSide))t.classList.add("selected");
+  if(pendingAbility&&isTarget(selectedUnit(),pendingAbility,u))t.classList.add("targetable");
   t.innerHTML=`<div class="art" style="background:${u.art}"></div><div class="badge">${CLASS[u.class]?.icon||"🐸"}</div><div class="chips">${statusText(u)}</div><div class="armor">🛡️ ${u.armor}</div><div class="hp">❤️ ${u.hp}</div><div class="name">${u.name}</div>`;
   t.onclick=()=>{
     if(state.phase!=="planning"||u.dead)return;
@@ -501,7 +509,7 @@ function unplan(planId){
   const idx=(state.plans||[]).findIndex(p=>p.pid===planId && p.side==="player");
   if(idx<0) return;
   const p=state.plans[idx];
-  const u=unit(p.unitId);
+  const u=unitBySide(p.unitId, p.unitSide || p.side) || unit(p.unitId);
   const a=u?.abilities.find(x=>x.id===p.abilityId);
   if(a) state.actionsLeft+=a.cost;
   state.plans.splice(idx,1);
@@ -827,7 +835,7 @@ function apply(c,a,t){
       damage(c,t,a.dmg,{attack:true,melee:a.range==="melee"});
       break;
     case"armorStrike":
-      damage(c,t,2+getArmor(c),{attack:true,melee:true});
+      damage(c,t,getArmor(c),{attack:true,melee:true});
       break;
     case"damageStatus":
       damage(c,t,a.dmg,{attack:true,melee:a.range==="melee"});
@@ -1173,11 +1181,12 @@ function tile(u,side){
   t.className=`tile ${side==="player"?"playerSide":"enemySide"}`;
   if(!u){t.classList.add("empty");return t}
   t.dataset.unitId=u.id;
+  t.dataset.side=u.side;
   if(u.dead)t.classList.add("dead");
-  if(u.id===selectedId)t.classList.add("selected");
+  if(u.id===selectedId && (!selectedSide || u.side===selectedSide))t.classList.add("selected");
   if(isCurrentActor(u))t.classList.add("currentActor");
   if(u.rumbleUntil && u.rumbleUntil > Date.now())t.classList.add("rumble");
-  if(pendingAbility&&isTarget(unit(selectedId),pendingAbility,u))t.classList.add("targetable");
+  if(pendingAbility&&isTarget(selectedUnit(),pendingAbility,u))t.classList.add("targetable");
   t.innerHTML=`<div class="art" style="background:${u.art}"></div><div class="badge">${CLASS[u.class]?.icon||"🐸"}</div><div class="chips">${statusText(u)}</div><div class="armor">🛡️ ${getArmor(u)}</div><div class="hp">❤️ ${u.hp}</div><div class="name">${u.name}</div>`;
   t.onclick=(ev)=>{
     const statusBtn = ev.target.closest(".statusChip");
@@ -2428,7 +2437,7 @@ function apply(c,a,t){
       damage(c,t,a.dmg,{attack:true,melee:a.range==="melee"});
       break;
     case"armorStrike":
-      damage(c,t,2+getArmor(c),{attack:true,melee:true});
+      damage(c,t,getArmor(c),{attack:true,melee:true});
       break;
     case"damageStatus":
       damage(c,t,a.dmg,{attack:true,melee:a.range==="melee"});
@@ -2895,7 +2904,7 @@ function apply(c,a,t){
       damage(c,t,a.dmg,{attack:true,melee:a.range==="melee"});
       break;
     case"armorStrike":
-      damage(c,t,2+getArmor(c),{attack:true,melee:true});
+      damage(c,t,getArmor(c),{attack:true,melee:true});
       break;
     case"damageStatus":
       damage(c,t,a.dmg,{attack:true,melee:a.range==="melee"});
@@ -3196,6 +3205,7 @@ function renderBoard(id,side){
 function showUnitInfo(u){
   if(!u) return;
   selectedId = u.id;
+  selectedSide = u.side;
   pendingAbility = null;
   renderBattle();
   if(isMobileLayout()) openMobilePanel("info");
@@ -3206,13 +3216,14 @@ function tile(u,side){
   t.className=`tile ${side==="player"?"playerSide":"enemySide"}`;
   if(!u){t.classList.add("empty");return t}
   t.dataset.unitId=u.id;
+  t.dataset.side=u.side;
   if(u.dead)t.classList.add("dead");
-  if(u.id===selectedId)t.classList.add("selected");
+  if(u.id===selectedId && (!selectedSide || u.side===selectedSide))t.classList.add("selected");
   if(isCurrentActor?.(u))t.classList.add("currentActor");
   if(typeof isCurrentTarget === "function" && isCurrentTarget(u))t.classList.add("currentTarget");
   if(u.rumbleUntil && u.rumbleUntil > Date.now())t.classList.add("rumble");
   if(u.passiveUntil && u.passiveUntil > Date.now())t.classList.add("passivePulse");
-  if(pendingAbility&&isTarget(unit(selectedId),pendingAbility,u))t.classList.add("targetable");
+  if(pendingAbility&&isTarget(selectedUnit(),pendingAbility,u))t.classList.add("targetable");
 
   t.innerHTML=`
     <div class="art" style="background:${u.art}"></div>
@@ -3241,7 +3252,7 @@ function tile(u,side){
     if(u.dead) return;
 
     // Targeting always has priority, including enemies and large bosses.
-    if(state.phase==="planning" && pendingAbility && isTarget(unit(selectedId),pendingAbility,u)){
+    if(state.phase==="planning" && pendingAbility && isTarget(selectedUnit(),pendingAbility,u)){
       closeMobilePanel?.();
       return plan(u);
     }
@@ -3255,6 +3266,7 @@ function tile(u,side){
 
     if(u.side==="player"){
       selectedId=u.id;
+      selectedSide=u.side;
       pendingAbility=null;
       closeMobilePanel?.();
       renderBattle();
@@ -3311,12 +3323,13 @@ function renderInfo(){
     closeInfoPanel();
   };
 
-  if(pendingAbility && selectedId) previewTargeting(unit(selectedId), pendingAbility);
+  if(pendingAbility && selectedId) previewTargeting(selectedUnit(), pendingAbility);
 }
 
 function showUnitInfo(u){
   if(!u) return;
   selectedId = u.id;
+  selectedSide = u.side;
   pendingAbility = null;
   renderBattle();
   if(isMobileLayout()) openMobilePanel("info");
@@ -3334,25 +3347,35 @@ function markPassive(u, label="Passive"){
   spawnFloatingText?.(u, label, "passive");
 }
 
+function artSrcFromStyleValue(v){
+  if(!v || typeof v !== "string") return "";
+  const m = v.match(/url\((['"]?)(.*?)\1\)/i);
+  return m?.[2] || "";
+}
+
 function tile(u,side){
   let t=document.createElement("button");
   t.className=`tile ${side==="player"?"playerSide":"enemySide"}`;
   if(!u){t.classList.add("empty");return t}
   t.dataset.unitId=u.id;
+  t.dataset.side=u.side;
   if(u.dead)t.classList.add("dead");
-  if(u.id===selectedId)t.classList.add("selected");
+  if(u.id===selectedId && (!selectedSide || u.side===selectedSide))t.classList.add("selected");
   if(isCurrentActor?.(u))t.classList.add("currentActor");
   if(typeof isCurrentTarget === "function" && isCurrentTarget(u))t.classList.add("currentTarget");
   if(u.rumbleUntil && u.rumbleUntil > Date.now())t.classList.add("rumble");
   if(u.passiveUntil && u.passiveUntil > Date.now())t.classList.add("passivePulse");
-  if(pendingAbility&&isTarget(unit(selectedId),pendingAbility,u))t.classList.add("targetable");
+  if(pendingAbility&&isTarget(selectedUnit(),pendingAbility,u))t.classList.add("targetable");
 
   const passiveBadge = (u.passiveUntil && u.passiveUntil > Date.now())
     ? `<div class="passiveCallout">${u.passiveLabel || "Passive"}</div>`
     : "";
+  const artSrc = artSrcFromStyleValue(u.art);
 
   t.innerHTML=`
-    <div class="art" style="background:${u.art}"></div>
+    <div class="art" style="background:${u.art}">
+      ${artSrc ? `<img class="artImg" src="${artSrc}" alt="" loading="eager" decoding="async" onerror="this.style.display='none'">` : ""}
+    </div>
     ${passiveBadge}
     <span class="unitInfoBtn" role="button" aria-label="Show ${u.name} info" title="Info">ⓘ</span>
     <div class="badge">${CLASS[u.class]?.icon||"🐸"}</div>
@@ -3378,7 +3401,7 @@ function tile(u,side){
 
     if(u.dead) return;
 
-    if(state.phase==="planning" && pendingAbility && isTarget(unit(selectedId),pendingAbility,u)){
+    if(state.phase==="planning" && pendingAbility && isTarget(selectedUnit(),pendingAbility,u)){
       closeMobilePanel?.();
       return plan(u);
     }
@@ -3391,6 +3414,7 @@ function tile(u,side){
 
     if(u.side==="player"){
       selectedId=u.id;
+      selectedSide=u.side;
       pendingAbility=null;
       closeMobilePanel?.();
       renderBattle();
@@ -5400,7 +5424,7 @@ function tunePreciseTextV38(){
     abilities:[
       A("lance","Mind Lance",1,1,"Magic attack. Deal 3 damage ignoring Armor. Shield can still absorb this damage. If the target has Hypnosis, remove Hypnosis and deal 7 damage ignoring Armor instead.","mindBreak",{range:"ranged",ignoreArmor:true}),
       A("mesmer","Mesmerize",1,2,"Ranged control. Apply Hypnosis to one enemy. Hypnosis is non-stackable and does nothing until another ability uses it.","status",{status:"hypnosis",stacks:1,range:"ranged"}),
-      A("mirror","Mirror Guard",1,99,"Guard prediction. Choose an enemy. If it uses a damaging attack this round, cancel that action and apply Hypnosis to it.","predict",{guard:true,range:"ranged"}),
+      A("mirror","Mirror Guard",1,99,"Guard prediction. Choose an enemy. If it uses a damaging attack this round, cancel that action and apply Hypnosis and Exposed to it.","predict",{guard:true,range:"ranged"}),
       A("mass","Mass Suggestion",2,0,"Front-row control. Apply Hypnosis and Exposed to each enemy in the front row. This ability deals no immediate damage.","frontHypno",{range:"ranged"})
     ]
   });
@@ -5905,7 +5929,7 @@ function openWheel(u){
 // Reposition open mobile wheel on orientation/resize.
 window.addEventListener("resize", () => {
   if(!$("radial")?.classList.contains("hidden") && selectedId){
-    const u = unit(selectedId);
+    const u = selectedUnit();
     if(u) openWheel(u);
   }
 });
@@ -7310,13 +7334,14 @@ function plan(target){
   if(!state.plans) state.plans = [];
   if(typeof state.planSeq !== "number") state.planSeq = 0;
 
-  let c=unit(selectedId), a=pendingAbility;
+  let c=selectedUnit(), a=pendingAbility;
   if(!c || !a || state.phase !== "planning" || state.actionsLeft < a.cost) return;
 
   state.actionsLeft -= a.cost;
   state.plans.push(makePlan(c,a,target,"player"));
   log(`${c.name} queued ${a.name}.`);
   selectedId=null;
+  selectedSide=null;
   pendingAbility=null;
   renderBattle();
 }
@@ -7782,6 +7807,4015 @@ function renderBoard(id,side){
   }
 }
 
+
+/* ===== v51 mobile playable/responsive pass =====
+   Fixes:
+   - Mobile info panel has a visible close X.
+   - Ability wheel bottom button is no longer covered by the description sheet.
+   - Mobile ability buttons are larger.
+   - Resolution card is compact on mobile and no longer covers most of the board.
+   - Beams/arrows are thinner and less intrusive.
+   - Character select becomes scrollable on mobile.
+   - Battle screen locks to viewport with internal board scrolling only where needed.
+*/
+
+function isMobilePlayableV51(){
+  return window.matchMedia("(max-width: 760px), (pointer: coarse)").matches;
+}
+
+function closeInfoPanel(){
+  selectedId = null;
+  selectedSide = null;
+  pendingAbility = null;
+  closeMobilePanel?.();
+  document.body.classList.remove("infoOpenV51");
+  renderBattle();
+}
+
+function renderInfo(){
+  let u=selectedUnit();
+  const infoPanel = $("info");
+  if(infoPanel) infoPanel.classList.toggle("hasSelection", !!u);
+
+  $("infoTitle").innerHTML = u
+    ? `<span>${escapeHtmlV32 ? escapeHtmlV32(u.name) : u.name}</span><button id="closeInfoBtn" class="closeInfoBtn mobileVisibleClose" type="button" aria-label="Close info">×</button>`
+    : "Plan hidden actions";
+
+  const queuedCount = state?.plans?.filter(p=>p.side==="player").length || 0;
+
+  if(u){
+    const enemyNote = u.side === "enemy"
+      ? `<div class="statusInfoBox"><b>Enemy intel:</b> You can inspect stats, current statuses, and passive. Active abilities stay hidden until they resolve.</div>`
+      : "";
+
+    $("infoBody").innerHTML =
+      `<div class="miniInfoCard">
+        <div><b>Proficiencies:</b> ${renderKeywordText ? renderKeywordText(`${u.class} / ${u.prof}`) : `${u.class} / ${u.prof}`}</div>
+        <div><b>Health:</b> ❤️ ${u.hp}/${u.maxHp}</div>
+        <div><b>Armor:</b> 🛡️ ${getArmor ? getArmor(u) : u.armor}</div>
+        <div><b>Speed:</b> ⚡ ${u.speed}</div>
+        <div><b>Current statuses:</b> ${renderKeywordText ? renderKeywordText(statusLineV38(u)) : statusLineV38(u)}</div>
+        <div><b>Passive:</b> ${renderKeywordText ? renderKeywordText(passiveExactV38(u)) : passiveExactV38(u)}</div>
+      </div>
+      ${enemyNote}`;
+    document.body.classList.add("infoOpenV51");
+  } else {
+    $("infoBody").innerHTML = `Queued: ${queuedCount} action${queuedCount===1?"":"s"}. Click a fighter to add actions. Remove actions from the queue strip.`;
+    document.body.classList.remove("infoOpenV51");
+  }
+
+  const btn = $("closeInfoBtn");
+  if(btn) btn.onclick = (ev) => {
+    ev.stopPropagation();
+    closeInfoPanel();
+  };
+
+  if(pendingAbility && selectedId) previewTargeting(selectedUnit(), pendingAbility);
+}
+
+// Override mobile wheel placement to leave a safe gap above the bottom sheet.
+function openWheel(u){
+  const tile = document.querySelector(`.tile[data-unit-id="${u.id}"][data-side="${u.side}"]`) || document.querySelector(".tile.selected");
+  const radial = $("radial");
+  const wheel = $("wheel") || document.querySelector(".wheel");
+  const tooltip = $("abilityTooltip");
+  if(!radial || !wheel) return;
+
+  wheelPreviewAbilityIdV34 = null;
+  radial.classList.remove("hidden");
+  radial.classList.toggle("mobileRadialMode", isMobilePlayableV51());
+  if(tooltip) {
+    tooltip.classList.add("hidden");
+    tooltip.classList.remove("mobileAbilitySheet");
+  }
+
+  let size;
+  if(isMobilePlayableV51()){
+    // Large enough for touch, but not so large that the lower button hides under sheet.
+    size = Math.min(window.innerWidth * 0.90, window.innerHeight * 0.38, 390);
+    size = Math.max(315, size);
+  } else {
+    size = Math.min(380, Math.max(310, Math.min(window.innerWidth * 0.84, window.innerHeight * 0.64)));
+  }
+  wheel.style.width = size + "px";
+  wheel.style.height = size + "px";
+
+  let cx = window.innerWidth / 2;
+  let cy = window.innerHeight / 2;
+
+  if(isMobilePlayableV51()){
+    // Mobile radial should remain centered and not drift toward the bottom.
+    cy = window.innerHeight / 2;
+    cx = window.innerWidth / 2;
+  } else if(tile){
+    const r = tile.getBoundingClientRect();
+    cx = r.left + r.width / 2;
+    cy = r.top + r.height / 2;
+  }
+
+  const margin = size / 2 + 8;
+  cx = Math.max(margin, Math.min(window.innerWidth - margin, cx));
+  cy = Math.max(margin + 10, Math.min(window.innerHeight - margin - 100, cy));
+  wheel.style.left = cx + "px";
+  wheel.style.top = cy + "px";
+
+  $("wheelCenter").innerHTML = `
+    <div class="miniCenterName">${escapeHtmlV32 ? escapeHtmlV32(u.name) : u.name}</div>
+    <div class="miniCenterHint">${isMobilePlayableV51() ? "tap twice" : "choose"}</div>
+  `;
+
+  $("wheelButtons").innerHTML = u.abilities.map((a,i)=>{
+    const iconUrl = abilityIconUrl(u, a);
+    const speedLabel = a.guard ? "Guard" : `⚡ ${totalSpeed(u,a)}`;
+    const dreadDisabled = typeof isAbilityDisabledByDreadV42 === "function" && isAbilityDisabledByDreadV42(u,a);
+    const disabled = state.actionsLeft<a.cost || dreadDisabled;
+    const dreadTitle = dreadDisabled ? ` title="Disabled by Dread until end of round"` : "";
+    return `<button class="wheelBtn w${i} ${dreadDisabled ? "dreadDisabled" : ""}" ${disabled?"disabled":""}
+      data-id="${a.id}" data-index="${i}" style="--prof-icon:url('${iconUrl}')"${dreadTitle}>
+      ${dreadDisabled ? `<span class="dreadX">×</span>` : ""}
+      <span class="wheelBtnTitle">${escapeHtmlV32 ? escapeHtmlV32(a.name) : a.name}</span>
+      <span class="wheelBtnMeta">${dreadDisabled ? "Dread disabled" : `${a.cost} AP · ${speedLabel}`}</span>
+    </button>`;
+  }).join("");
+
+  const chooseAbility = (a) => {
+    if(typeof isAbilityDisabledByDreadV42 === "function" && isAbilityDisabledByDreadV42(u,a)) {
+      showKeywordPopup?.("dread");
+      return;
+    }
+    pendingAbility = a;
+    radial.classList.add("hidden");
+    if(tooltip) tooltip.classList.add("hidden");
+    hideKeywordPopup?.();
+    renderBattle();
+    if(!targets(u,pendingAbility).length) plan(null);
+  };
+
+  const showTipFor = (btn, a) => {
+    if(!tooltip) return;
+    const disabledText = (typeof isAbilityDisabledByDreadV42 === "function" && isAbilityDisabledByDreadV42(u,a))
+      ? `<div class="rulesClarifier">${renderKeywordText("Dread disables this ability until end of round.")}</div>`
+      : "";
+    tooltip.innerHTML = `
+      <div class="tipTop">
+        <span class="tipIcon" style="background-image:url('${abilityIconUrl(u,a)}')"></span>
+        <div>
+          <b>${escapeHtmlV32 ? escapeHtmlV32(a.name) : a.name}</b>
+          <small>${a.cost} AP · ${a.guard ? "Guard Priority" : `Speed ${totalSpeed(u,a)}`}</small>
+        </div>
+      </div>
+      <div class="abilityDescText">${renderKeywordText ? renderKeywordText(a.desc) : a.desc}</div>
+      ${disabledText}
+      ${clarityTextForAbility ? clarityTextForAbility(a) : ""}
+      <div class="tipTags">
+        <span>${escapeHtmlV32 ? escapeHtmlV32(abilityIconKey(u,a)) : abilityIconKey(u,a)}</span>
+        <span>${escapeHtmlV32 ? escapeHtmlV32(a.range || (a.guard ? "guard" : "self")) : (a.range || (a.guard ? "guard" : "self"))}</span>
+        ${isMobilePlayableV51() ? "<span>tap same ability again to choose</span>" : ""}
+      </div>
+    `;
+    tooltip.classList.remove("hidden");
+    positionAbilityTooltipV34(tooltip, wheel, btn, Number(btn.dataset.index));
+  };
+
+  if(tooltip){
+    tooltip.onpointerdown = (ev) => {
+      const kw = ev.target.closest(".keywordLink");
+      if(kw){
+        ev.preventDefault();
+        ev.stopPropagation();
+        showKeywordPopup?.(kw.dataset.keyword, kw, kw.dataset.label);
+      } else {
+        ev.stopPropagation();
+      }
+    };
+    tooltip.onclick = (ev) => {
+      const kw = ev.target.closest(".keywordLink");
+      if(kw){
+        ev.preventDefault();
+        ev.stopPropagation();
+        showKeywordPopup?.(kw.dataset.keyword, kw, kw.dataset.label);
+        return;
+      }
+      ev.stopPropagation();
+    };
+  }
+
+  document.querySelectorAll(".wheelBtn").forEach(btn=>{
+    const a = u.abilities.find(x=>x.id===btn.dataset.id);
+
+    btn.onmouseenter = () => { if(!isMobilePlayableV51()) showTipFor(btn,a); };
+    btn.onfocus = () => showTipFor(btn,a);
+    btn.onmouseleave = () => {
+      if(!isMobilePlayableV51() && tooltip) tooltip.classList.add("hidden");
+    };
+
+    const previewOrChoose = (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      if(typeof isAbilityDisabledByDreadV42 === "function" && isAbilityDisabledByDreadV42(u,a)){
+        showTipFor(btn,a);
+        showKeywordPopup?.("dread", btn, "Dread");
+        return;
+      }
+
+      if(isMobilePlayableV51()){
+        showTipFor(btn,a);
+        if(wheelPreviewAbilityIdV34 === a.id){
+          chooseAbility(a);
+        } else {
+          wheelPreviewAbilityIdV34 = a.id;
+          document.querySelectorAll(".wheelBtn").forEach(x=>x.classList.remove("previewing"));
+          btn.classList.add("previewing");
+        }
+        return;
+      }
+
+      chooseAbility(a);
+    };
+
+    btn.ontouchstart = previewOrChoose;
+    btn.onclick = previewOrChoose;
+  });
+
+  radial.onclick = (ev) => {
+    if(ev.target.closest(".wheel") || ev.target.closest("#abilityTooltip") || ev.target.closest("#keywordPopup")) return;
+    radial.classList.add("hidden");
+    if(tooltip) tooltip.classList.add("hidden");
+  };
+}
+
+function positionAbilityTooltipV34(tooltip, wheel, btn, index){
+  if(!tooltip || !wheel || !btn) return;
+
+  if(isMobilePlayableV51()){
+    tooltip.classList.add("mobileAbilitySheet");
+    tooltip.style.left = "8px";
+    tooltip.style.right = "8px";
+    tooltip.style.top = "auto";
+    tooltip.style.bottom = "max(8px, env(safe-area-inset-bottom))";
+    tooltip.style.width = "calc(100vw - 16px)";
+    return;
+  }
+
+  tooltip.classList.remove("mobileAbilitySheet");
+  const wr = wheel.getBoundingClientRect();
+  const br = btn.getBoundingClientRect();
+  const tw = Math.min(360, window.innerWidth - 20);
+  const th = Math.min(220, window.innerHeight * 0.38);
+  let x, y;
+  if(index === 0){
+    x = wr.left + wr.width / 2 - tw / 2;
+    y = wr.top - th - 14;
+  } else if(index === 2){
+    x = wr.left + wr.width / 2 - tw / 2;
+    y = wr.bottom + 14;
+  } else if(index === 1){
+    x = wr.right + 14;
+    y = br.top + br.height / 2 - th / 2;
+  } else {
+    x = wr.left - tw - 14;
+    y = br.top + br.height / 2 - th / 2;
+  }
+  x = Math.max(10, Math.min(window.innerWidth - tw - 10, x));
+  y = Math.max(10, Math.min(window.innerHeight - th - 10, y));
+  tooltip.style.left = x + "px";
+  tooltip.style.top = y + "px";
+  tooltip.style.width = tw + "px";
+}
+
+
+/* ===== v53 mobile QA workflow ===== */
+const QA_PRESETS_V53 = [
+  {name:"iPhone SE", w:375, h:667},
+  {name:"iPhone 12/13/14", w:390, h:844},
+  {name:"iPhone 14 Pro Max", w:430, h:932},
+  {name:"Pixel 7", w:412, h:915},
+  {name:"Galaxy S20", w:360, h:800},
+  {name:"Small Tablet", w:768, h:1024},
+  {name:"Desktop", w:1280, h:800}
+];
+
+function qaParamsV53(){ return new URLSearchParams(location.search); }
+function qaFlagV53(name){ return qaParamsV53().get(name)==="1"; }
+
+function qaSetFlagV53(name, enabled){
+  const p = qaParamsV53();
+  if(enabled) p.set(name,"1"); else p.delete(name);
+  try{
+    // Some embedded file:// preview frames block history URL mutations.
+    if(location.protocol === "http:" || location.protocol === "https:"){
+      history.replaceState(null,"",`${location.pathname}?${p.toString()}`);
+    }
+  }catch(_e){}
+  qaApplyFlagsV53();
+}
+
+function qaApplyFlagsV53(){
+  const p = qaParamsV53();
+  document.body.classList.toggle("qaModeV53", p.get("qa")==="1");
+  document.body.classList.toggle("qaTouchTargetsV53", p.get("touch")==="1");
+  document.body.classList.toggle("qaSafeAreaV53", p.get("safe")==="1");
+  document.body.classList.toggle("qaGridV53", p.get("grid")==="1");
+  document.body.classList.toggle("qaSlowV53", p.get("slow")==="1");
+  if (typeof applyLayoutModeV52 === "function") applyLayoutModeV52();
+  qaUpdatePanelV53();
+}
+
+function qaEnsurePanelV53(){
+  if($("qaPanelV53")) return;
+  const panel=document.createElement("div");
+  panel.id="qaPanelV53";
+  panel.className="qaPanelV53";
+  panel.innerHTML=`
+    <button id="qaToggleV53" class="qaToggleV53" type="button">QA</button>
+    <div class="qaBodyV53">
+      <div class="qaTitleV53">Mobile QA</div>
+      <div class="qaMetaV53" id="qaMetaV53"></div>
+      <div class="qaRowV53">
+        <button data-qa-flag="mobile">Mobile</button>
+        <button data-qa-flag="debug">Debug</button>
+        <button data-qa-flag="touch">Touch</button>
+        <button data-qa-flag="safe">Safe</button>
+        <button data-qa-flag="grid">Grid</button>
+        <button data-qa-flag="slow">Slow</button>
+      </div>
+      <div class="qaTitleSmallV53">States</div>
+      <div class="qaRowV53">
+        <button id="qaHomeV53" type="button">Home</button>
+        <button id="qaBattleV53" type="button">Battle</button>
+        <button id="qaRadialV53" type="button">Radial</button>
+        <button id="qaResolveV53" type="button">Resolve Card</button>
+      </div>
+      <div class="qaTitleSmallV53">Viewport presets</div>
+      <div id="qaPresetListV53" class="qaPresetListV53"></div>
+      <div class="qaHintV53">Use DevTools device toolbar for true viewport size. Presets copy size text and enable mobile/debug.</div>
+    </div>`;
+  document.body.appendChild(panel);
+
+  $("qaToggleV53").onclick=()=>{
+    const next=!document.body.classList.contains("qaPanelOpenV53");
+    document.body.classList.toggle("qaPanelOpenV53", next);
+    qaSetFlagV53("qa", next);
+  };
+
+  panel.querySelectorAll("[data-qa-flag]").forEach(btn=>{
+    btn.onclick=()=>qaSetFlagV53(btn.dataset.qaFlag, qaParamsV53().get(btn.dataset.qaFlag)!=="1");
+  });
+
+  $("qaHomeV53").onclick=()=>qaOpenHomeV53();
+  $("qaBattleV53").onclick=()=>qaOpenBattleV53();
+  $("qaRadialV53").onclick=()=>qaOpenRadialV53();
+  $("qaResolveV53").onclick=()=>qaOpenResolutionV53();
+
+  $("qaPresetListV53").innerHTML = QA_PRESETS_V53.map(p=>`
+    <button type="button" data-w="${p.w}" data-h="${p.h}">
+      <b>${p.name}</b><small>${p.w}×${p.h}</small>
+    </button>`).join("");
+
+  $("qaPresetListV53").querySelectorAll("button").forEach(btn=>{
+    btn.onclick=()=>{
+      qaSetFlagV53("mobile", Number(btn.dataset.w) <= 900);
+      qaSetFlagV53("debug", true);
+      qaSetFlagV53("qa", true);
+      navigator.clipboard?.writeText(`${btn.dataset.w}x${btn.dataset.h}`).catch(()=>{});
+      show?.(`Preset ${btn.dataset.w}×${btn.dataset.h} copied`);
+    };
+  });
+}
+
+function qaUpdatePanelV53(){
+  const meta=$("qaMetaV53");
+  if(meta) meta.textContent = `${document.body.dataset.layoutMode || "?"} · ${window.innerWidth}×${window.innerHeight}`;
+  const p=qaParamsV53();
+  document.querySelectorAll("#qaPanelV53 [data-qa-flag]").forEach(btn=>{
+    btn.classList.toggle("active", p.get(btn.dataset.qaFlag)==="1");
+  });
+  document.body.classList.toggle("qaPanelOpenV53", p.get("qa")==="1");
+}
+
+function qaOpenHomeV53(){
+  $("battle")?.classList.add("hidden");
+  $("builder")?.classList.remove("hidden");
+  renderBuilder?.();
+}
+
+function qaEnsureTeamV53(){
+  if(!chosenIds || chosenIds.length < 3){
+    chosenIds = ["dravain","smithen","maoja"].filter(id=>cdef(id));
+    if(chosenIds.length < 3) chosenIds = ROSTER.slice(0,3).map(c=>c.id);
+  }
+  selectedTeam = [
+    {id:chosenIds[0], row:"front", col:0},
+    {id:chosenIds[1], row:"back", col:1},
+    {id:chosenIds[2], row:"front", col:2}
+  ];
+  builderStep="arrange";
+}
+
+function qaOpenBattleV53(){ qaEnsureTeamV53(); mode="squad"; startBattle?.(); }
+function qaOpenRadialV53(){
+  if(!$("battle") || $("battle").classList.contains("hidden")) qaOpenBattleV53();
+  const u = alive("player")[0]; if(!u) return;
+  selectedId=u.id; selectedSide=u.side; pendingAbility=null; renderBattle?.(); openWheel?.(u);
+}
+function qaOpenResolutionV53(){
+  if(!$("battle") || $("battle").classList.contains("hidden")) qaOpenBattleV53();
+  const actor=alive("player")[0], target=alive("enemy")[0];
+  if(!actor || !target) return;
+  const ability=actor.abilities.find(a=>targets(actor,a).includes(target)) || actor.abilities[0];
+  showResolutionOverlay?.(actor, ability, target, "result", [
+    {type:"hp", text:`${target.name} lost 3 HP`},
+    {type:"statusGain", text:`${target.name} gained 2 Bleed`},
+    {type:"armor", text:`Armor reduced the hit by 1`}
+  ]);
+}
+
+window.qaOpenBattle=qaOpenBattleV53;
+window.qaOpenRadial=qaOpenRadialV53;
+window.qaOpenResolution=qaOpenResolutionV53;
+window.qaApplyFlags=qaApplyFlagsV53;
+
+setTimeout(()=>{ qaEnsurePanelV53(); qaApplyFlagsV53(); },0);
+window.addEventListener("resize",()=>setTimeout(qaApplyFlagsV53,50));
+
+
+/* ===== v56 balance + proficiency identity pass =====
+   Design goals:
+   - Shield is rare and mostly Divinity-only.
+   - Guards are defensive timing tools, not huge stat packages.
+   - Bleed from attacks is applied only if the hit dealt HP damage.
+   - Bloodcraft sustain requires self-damage or consuming Bleed.
+   - Assassins defend themselves, not allies.
+   - Sorcerers stay ranged/status focused.
+   - Brutes are pressure/disruption, not armor/shield tanks.
+*/
+
+const BALANCE_NOTES_V56 = [
+  "Shield is rare: mostly Divinity bosses/characters. Non-Divinity guards use Dodge, Protect, redirect, prediction, counters, or Armor instead.",
+  "Attack-applied Bleed now requires the attack to deal HP damage.",
+  "Bloodcraft healing/protection requires self-damage, draining, or consuming Bleed.",
+  "Brutes keep disruption/pressure identity instead of heavy shield/armor stacking.",
+  "Sorcerers keep ranged/status identity and avoid heavy melee burst.",
+  "Assassins keep self-evasion and precision, not ally protection."
+];
+
+function profHasV56(u, key){
+  return String(`${u?.class||""} ${u?.prof||""}`).toLowerCase().includes(key);
+}
+
+function setAbilityV56(unitId, abilityId, patch){
+  const c = ROSTER.find(x=>x.id===unitId);
+  const a = c?.abilities?.find(x=>x.id===abilityId);
+  if(a) Object.assign(a, patch);
+  return a;
+}
+
+function tuneBalanceV56(){
+  const setChar = (id, patch) => { const c=ROSTER.find(x=>x.id===id); if(c) Object.assign(c, patch); };
+
+  // Global descriptions.
+  if(typeof KEYWORDS_V32 !== "undefined"){
+    KEYWORDS_V32.shield = {
+      title:"Shield",
+      text:"Rare temporary protection, mostly from Divinity. Damage is reduced by Armor first, then Shield absorbs remaining damage before HP. Removed at end of round."
+    };
+    KEYWORDS_V32.bleed = {
+      title:"Bleed",
+      text:"When this unit is hit by an attack that deals HP damage, remove all Bleed and add that much damage to that hit before Armor/Shield are calculated. Attack abilities that apply Bleed only apply it if they dealt HP damage."
+    };
+  }
+
+  // Smithen: keep assassin + icecraft. Less free status on 1 AP; no over-efficient ranged poke.
+  setAbilityV56("smithen","iceNeedle",{
+    name:"Ice Needle",
+    cost:1, spd:2,
+    desc:"Melee attack. Deal 3 damage. If this hit deals HP damage, apply 1 Freeze.",
+    effect:"damageStatusOnHit",
+    dmg:3,status:"freeze",stacks:1,range:"melee",iconKey:"icecraft"
+  });
+  setAbilityV56("smithen","shatter",{
+    name:"Shatter Shot",
+    cost:2, spd:0,
+    desc:"Ranged payoff. Deal 4 damage with Pierce 1. If the target has Freeze, remove all Freeze and gain +2 damage per removed Freeze stack.",
+    effect:"shatterScaling",
+    range:"ranged",pierce:1,iconKey:"icecraft"
+  });
+  setAbilityV56("smithen","whiteout",{
+    cost:1, spd:1,
+    desc:"Ranged setup. Apply 1 Freeze. If the target already had Freeze, also apply Exposed.",
+    effect:"whiteout",range:"ranged",iconKey:"icecraft"
+  });
+
+  // Dravain: warrior/vampire. Protect is okay; shield passive removed.
+  setChar("dravain",{
+    passive:"Passive — Blood Guard: when Dravain consumes Bleed with Blood Claim, Dravain restores 1 HP. This is healing from consumed blood, not Shield."
+  });
+  setAbilityV56("dravain","protect",{
+    cost:1, spd:99,
+    desc:"Guard. Choose an ally. The first attack targeting that ally this round targets Dravain instead. No Shield is gained.",
+    effect:"protect",guard:true,range:"ally",iconKey:"warrior"
+  });
+  setAbilityV56("dravain","slash",{
+    cost:1, spd:0,
+    desc:"Melee attack. Deal 4 damage. If this hit deals HP damage, apply 1 Bleed.",
+    effect:"damageStatusOnHit",dmg:4,status:"bleed",stacks:1,range:"melee",iconKey:"vampire"
+  });
+  setAbilityV56("dravain","claim",{
+    cost:2, spd:-2,
+    desc:"Bleed payoff. Remove all Bleed from one enemy. Deal damage equal to removed Bleed +3. If any Bleed was removed, Dravain restores 1 HP.",
+    effect:"consumeBleed",bonus:3,heal:1,range:"ranged",iconKey:"vampire"
+  });
+
+  // Yaura: bloodcraft must pay HP for protection/sustain; no free shield.
+  setAbilityV56("yaura","ward",{
+    name:"Blood Ward",
+    cost:1, spd:99,
+    desc:"Guard. Choose an ally. That ally loses 1 HP, ignoring Armor and Shield. If that ally is attacked this round, the attacker gains 2 Bleed. No Shield is gained.",
+    effect:"bloodWard",guard:true,range:"ally",self:1,stacks:2,iconKey:"bloodcraft"
+  });
+  setAbilityV56("yaura","bolt",{
+    cost:1, spd:0,
+    desc:"Ranged attack. Deal 2 damage ignoring Armor. Shield can still absorb it. If this hit deals HP damage, apply 2 Bleed.",
+    effect:"damageStatusOnHit",dmg:2,status:"bleed",stacks:2,range:"ranged",ignoreArmor:true,iconKey:"bloodcraft"
+  });
+  setAbilityV56("yaura","rain",{
+    cost:2, spd:-2,
+    desc:"Area bloodcraft status. Yaura loses 2 HP, ignoring Armor and Shield. Then apply 1 Bleed to every enemy.",
+    effect:"selfAllStatus",self:2,status:"bleed",stacks:1,iconKey:"bloodcraft"
+  });
+
+  // K'ku: brute/icecraft. No huge Shield. Guard is counter-pressure.
+  setAbilityV56("kku","guard",{
+    name:"Ice Guard",
+    cost:1, spd:99,
+    desc:"Guard. If K'ku is hit by an attack this round, the attacker gains 2 Freeze. K'ku gains no Shield.",
+    effect:"selfCounter",guard:true,status:"freeze",stacks:2,shield:0,iconKey:"icecraft"
+  });
+  setAbilityV56("kku","break",{
+    cost:2, spd:-2,
+    desc:"Melee payoff. Deal 5 damage. If the target has Freeze, deal +4 damage. Slow but strong against frozen enemies.",
+    effect:"glacier",range:"melee",bonus:4,iconKey:"brute"
+  });
+
+  // Kahro: darkness assassin. Add Dread identity; tune burst down.
+  setAbilityV56("kahro","assassinate",{
+    cost:2, spd:1,
+    desc:"Ranged precision. Deal 5 damage with Pierce 1. If the target is in the back row and the front row is empty, deal +3 damage.",
+    effect:"assassinate",range:"ranged",pierce:1,bonus:3,iconKey:"assassin"
+  });
+  setAbilityV56("kahro","mark",{
+    name:"Shadow Mark",
+    cost:1, spd:0,
+    desc:"Ranged setup. Apply Exposed and Dread to one enemy. Dread disables one random non-Guard ability until end of round.",
+    effect:"multiStatus",statuses:[["exposed",1],["dread",1]],range:"ranged",iconKey:"darkness"
+  });
+  setAbilityV56("kahro","punish",{
+    cost:1, spd:1,
+    desc:"Ranged anti-Guard. If the target used a Guard ability this round, deal 6 damage. Otherwise, deal 2 damage.",
+    effect:"punishGuard",range:"ranged",iconKey:"darkness"
+  });
+
+  // Maoja: brute/witchcraft pressure, not defense.
+  setAbilityV56("maoja","grip",{
+    cost:1, spd:-1,
+    desc:"Melee attack. Deal 3 damage and apply 2 Poison. If the target already had Poison before this ability, also apply Exhausted.",
+    effect:"toxicGrip",range:"melee",iconKey:"witchcraft"
+  });
+  setAbilityV56("maoja","burst",{
+    cost:2, spd:-3,
+    desc:"Poison payoff. Remove all Poison from one enemy. Deal damage equal to removed Poison ×2, ignoring Armor. Shield can still absorb it.",
+    effect:"poisonBurst",range:"ranged",ignoreArmor:true,iconKey:"witchcraft"
+  });
+
+  // Paleya: sorcerer/hypnotic. Good identity; keep payoff but not too cheap.
+  setAbilityV56("paleya","break",{
+    cost:1, spd:-1,
+    desc:"Ranged payoff. If the target has Hypnosis, remove Hypnosis and deal 6 damage ignoring Armor. Otherwise, deal 2 damage.",
+    effect:"mindBreak",range:"ranged",ignoreArmor:true,iconKey:"hypnotic"
+  });
+  setAbilityV56("paleya","predict",{
+    cost:1, spd:99,
+    desc:"Guard prediction. Choose an enemy. If that enemy uses a damage attack this round, cancel that action and apply Hypnosis to that enemy. No Shield is gained.",
+    effect:"predict",guard:true,range:"ranged",iconKey:"hypnotic"
+  });
+
+  // Poom: brute/hypnotic. Remove ally defense identity; make self guard.
+  setChar("poom",{
+    passive:"Passive — Mirror Mind: after an enemy hits Poom with a melee attack that deals HP damage, that enemy gains Hypnosis."
+  });
+  setAbilityV56("poom","guard",{
+    name:"Guard Mind",
+    cost:1, spd:99,
+    desc:"Guard. If Poom is hit by an attack this round, the attacker gains Hypnosis. Poom gains no Shield and does not protect allies.",
+    effect:"selfCounter",guard:true,status:"hypnosis",stacks:1,shield:0,iconKey:"hypnotic"
+  });
+  setAbilityV56("poom","bash",{
+    cost:1, spd:-1,
+    desc:"Melee brute attack. Deal 4 damage and apply Sunder 1 until end of round. No Freeze.",
+    effect:"damage",dmg:4,range:"melee",sunder:1,iconKey:"brute"
+  });
+  setAbilityV56("poom","roar",{
+    name:"Mesmer Roar",
+    cost:2, spd:-1,
+    desc:"Hypnotic payoff. Choose one enemy. Deal 3 damage. If that enemy has Hypnosis, remove Hypnosis and deal +5 damage.",
+    effect:"mesmerPayoff",range:"ranged",dmg:3,bonus:5,iconKey:"hypnotic"
+  });
+
+  // Shaman/Bahl: bloodcraft/demon sorcerer. No free shield; blood protection costs HP.
+  setChar("shaman",{name:"Bahl"});
+  setAbilityV56("shaman","ward",{
+    name:"Demon Ward",
+    cost:1, spd:99,
+    desc:"Guard. Choose an ally. That ally loses 1 HP, ignoring Armor and Shield. If that ally is attacked this round, the attacker gains 2 Bleed.",
+    effect:"bloodWard",guard:true,range:"ally",self:1,stacks:2,iconKey:"demon"
+  });
+  setAbilityV56("shaman","plague",{
+    cost:2, spd:-2,
+    desc:"Row status. Choose an enemy row. Apply 3 Poison to each enemy in that row. Deals no immediate damage.",
+    effect:"rowStatus",status:"poison",stacks:3,range:"ranged",iconKey:"demon"
+  });
+
+  // Eva: assassin/vampire, sustain only by hitting bleeding targets/consuming bleed.
+  setAbilityV56("eva","fangs",{
+    cost:1, spd:1,
+    desc:"Melee attack. Deal 3 damage. If this hit deals HP damage, apply 1 Bleed.",
+    effect:"damageStatusOnHit",dmg:3,status:"bleed",stacks:1,range:"melee",iconKey:"vampire"
+  });
+  setAbilityV56("eva","bite",{
+    cost:2, spd:0,
+    desc:"Bleed payoff. Remove all Bleed from one enemy. Deal removed Bleed +5 damage. If any Bleed was removed, Lady Eva restores 2 HP.",
+    effect:"consumeBleed",bonus:5,heal:2,range:"melee",iconKey:"vampire"
+  });
+
+  // Hyafrost: sorcerer/spirit icecraft. Remove Shield from passive/guard.
+  setChar("hyafrost",{
+    passive:"Passive — Deep Winter: when Hyafrost applies Freeze to an enemy, Hyafrost gains +1 Armor until end of round. No Shield."
+  });
+  setAbilityV56("hyafrost","spirit",{
+    name:"Spirit Form",
+    cost:1, spd:99,
+    desc:"Guard. Hyafrost gains Dodge. Dodge prevents the next attack targeting Hyafrost this round, then is removed. No Shield.",
+    effect:"dodge",guard:true,iconKey:"spirit"
+  });
+  setAbilityV56("hyafrost","armor",{
+    name:"Frost Armor",
+    cost:1, spd:2,
+    desc:"Ally support. Choose an ally. That ally gains +2 Armor until end of round. Until end of round, enemies that hit that ally with melee gain 1 Freeze.",
+    effect:"frostArmorRetaliate",range:"ally",armor:2,shield:0,iconKey:"icecraft"
+  });
+
+  // Bakub: sorcerer status engine; prediction okay, no Shield.
+  setAbilityV56("bakub","future",{
+    cost:1, spd:99,
+    desc:"Guard prediction. Choose an enemy. If that enemy uses a damage attack this round, cancel that action and apply 2 Poison to that enemy. No Shield.",
+    effect:"predictPoison",guard:true,range:"ranged",iconKey:"hypnotic"
+  });
+
+  // Bosses: keep shield only where Divinity supports it, but reduce extremes.
+  if(typeof IVORY_FAIRY_BOSS !== "undefined"){
+    const aegis = IVORY_FAIRY_BOSS.abilities.find(a=>a.id==="ivory_aegis");
+    if(aegis) Object.assign(aegis,{
+      cost:1, shield:5,
+      desc:"Guard. The Ivory Fairy gains 5 Shield before damage is dealt this round. If an enemy hits her this round, that attacker gains 1 Bleed."
+    });
+  }
+  if(typeof GESHAR_BOSS !== "undefined"){
+    const veil = GESHAR_BOSS.abilities.find(a=>a.id==="spirit_veil");
+    if(veil) Object.assign(veil,{
+      cost:1, shield:3,
+      desc:"Guard. Geshar gains 3 Shield and Dodge. Dodge prevents the next attack targeting Geshar this round, then is removed."
+    });
+    const lance = GESHAR_BOSS.abilities.find(a=>a.id==="soul_lance");
+    if(lance) Object.assign(lance,{loss:4, desc:"Direct damage. Choose one enemy. That enemy loses 4 HP; this ignores Armor and Shield."});
+  }
+}
+tuneBalanceV56();
+
+const damageBeforeBalanceV56 = damage;
+damage = function(src,t,amt,opt={}){
+  if(!src||!t||src.dead||t.dead) return 0;
+
+  const beforeHp = t.hp;
+  const beforeDead = t.dead;
+  const result = damageBeforeBalanceV56(src,t,amt,opt);
+  const dealt = Math.max(0, beforeHp - (t?.hp ?? beforeHp));
+
+  // Brute/hypnotic and icecraft passives should trigger only on HP damage, not fully blocked hits.
+  if(dealt <= 0 && opt?.attack){
+    // Some previous passive/status hooks may have already fired in older code. This guard is mostly for new v56 hooks.
+  }
+
+  return dealt;
+};
+
+function applyOnHitStatusV56(c,a,t,extraOpt={}){
+  const dealt = damage(c,t,a.dmg,{attack:true,melee:a.range==="melee",ignoreArmor:!!a.ignoreArmor,pierce:a.pierce||0,...extraOpt});
+  if(dealt > 0) addStatus(t,a.status,a.stacks||1);
+  else {
+    pushActionEvent?.("info", `${a.name} dealt no HP damage, so ${a.status} was not applied`, t);
+    log(`${a.name} dealt no HP damage, so ${a.status} was not applied.`);
+  }
+  return dealt;
+}
+
+const applyBeforeBalanceV56 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "damageStatusOnHit":
+      applyOnHitStatusV56(c,a,t);
+      break;
+
+    case "bloodWard":
+      if(t && !t.dead){
+        life(t,a.self||1);
+        state.counters.push({caster:t,status:"bleed",stacks:a.stacks||2,shield:0});
+        state.guarded[t.id]=true;
+        spawnFloatingText?.(t, "Blood Ward", "status");
+        pushActionEvent?.("statusGain", `${t.name} paid ${a.self||1} HP. Attackers that hit this round gain ${a.stacks||2} Bleed.`, t);
+        log(`${t.name} pays ${a.self||1} HP for Blood Ward. Attackers that hit gain ${a.stacks||2} Bleed.`);
+      }
+      break;
+
+    case "selfAllStatus":
+      life(c,a.self||2);
+      alive(other(c.side)).forEach(x=>addStatus(x,a.status,a.stacks||1));
+      break;
+
+    case "damage":
+      damage(c,t,a.dmg,{attack:true,melee:a.range==="melee",sunder:a.sunder||0});
+      if(a.sunder) addArmorThisRound?.(t,-a.sunder);
+      break;
+
+    case "consumeBleed": {
+      const b=t?.status?.bleed||0;
+      if(t) t.status.bleed=0;
+      damage(c,t,b+(a.bonus||0),{attack:true,melee:a.range==="melee",pierce:a.pierce||0,ignoreArmor:!!a.ignoreArmor});
+      if(b>0 && a.heal) heal(c,a.heal);
+      break;
+    }
+
+    case "glacier":
+      damage(c,t,5+(t?.status?.freeze?(a.bonus||4):0),{attack:true,melee:true});
+      break;
+
+    case "mindBreak": {
+      const had=!!t?.status?.hypnosis;
+      if(had) t.status.hypnosis=0;
+      damage(c,t,had?6:2,{attack:true,ignoreArmor:!!a.ignoreArmor});
+      break;
+    }
+
+    case "assassinate": {
+      const frontEmpty = !frontBlocked(t.side);
+      const bonus = (t?.row==="back" && frontEmpty) ? (a.bonus||3) : 0;
+      damage(c,t,5+bonus,{attack:true,pierce:a.pierce||0});
+      break;
+    }
+
+    default:
+      applyBeforeBalanceV56(c,a,t);
+  }
+
+  // Hyafrost passive changed from Shield to temporary Armor.
+  if(c?.id==="hyafrost" && ["damageStatusOnHit","damageStatus","rowStatus","whiteout"].includes(a.effect)){
+    addArmorThisRound?.(c,1);
+    markPassive?.(c,"Deep Winter");
+    pushActionEvent?.("passive", `Deep Winter gives Hyafrost +1 Armor until end of round`, c);
+  }
+};
+
+
+/* ===== v57 hypnotic identity pass =====
+   Rule:
+   - Setup actions apply Hypnosis.
+   - Strong attacks/control are payoffs and consume Hypnosis.
+   - No ability should both cancel/nullify a future attack and apply Hypnosis as part of the same payoff.
+*/
+
+function tuneHypnoticV57(){
+  const set = (unitId, abilityId, patch) => {
+    const c = ROSTER.find(x=>x.id===unitId);
+    const a = c?.abilities?.find(x=>x.id===abilityId);
+    if(a) Object.assign(a, patch);
+  };
+
+  // Paleya: pure hypnotic character.
+  set("paleya","stare",{
+    name:"Hypnosis Stare",
+    cost:1, spd:1,
+    desc:"Ranged setup. Apply Hypnosis to one enemy. Hypnosis does nothing by itself, but your payoff abilities consume it for stronger effects.",
+    effect:"status",
+    status:"hypnosis",
+    stacks:1,
+    range:"ranged",
+    iconKey:"hypnotic"
+  });
+
+  set("paleya","break",{
+    name:"Mind Break",
+    cost:1, spd:-1,
+    desc:"Ranged payoff. If the target has Hypnosis, remove Hypnosis and deal 6 damage ignoring Armor. If the target does not have Hypnosis, deal 2 damage.",
+    effect:"mindBreak",
+    range:"ranged",
+    ignoreArmor:true,
+    iconKey:"hypnotic"
+  });
+
+  set("paleya","fog",{
+    name:"Dream Fog",
+    cost:2, spd:-2,
+    desc:"Row setup. Choose an enemy row. Apply Hypnosis to each enemy in that row. This deals no damage and does not cancel actions.",
+    effect:"rowStatus",
+    status:"hypnosis",
+    stacks:1,
+    range:"ranged",
+    iconKey:"hypnotic"
+  });
+
+  set("paleya","predict",{
+    name:"Mind Lock",
+    cost:1, spd:99,
+    desc:"Guard payoff. Choose an enemy with Hypnosis. Remove Hypnosis now. If that enemy uses a damage attack this round, cancel that action. If it does not attack, nothing else happens.",
+    effect:"consumeHypnosisPredict",
+    guard:true,
+    range:"ranged",
+    iconKey:"hypnotic"
+  });
+
+  // Poom: brute/hypnotic uses setup through being hit, payoff through roar.
+  set("poom","guard",{
+    name:"Guard Mind",
+    cost:1, spd:99,
+    desc:"Guard setup. If Poom is hit by an attack this round, the attacker gains Hypnosis. This does not cancel the attack and gives no Shield.",
+    effect:"selfCounter",
+    guard:true,
+    status:"hypnosis",
+    stacks:1,
+    shield:0,
+    iconKey:"hypnotic"
+  });
+
+  set("poom","roar",{
+    name:"Mesmer Roar",
+    cost:2, spd:-1,
+    desc:"Hypnotic payoff. Choose one enemy. Deal 3 damage. If that enemy has Hypnosis, remove Hypnosis and deal +5 damage.",
+    effect:"mesmerPayoff",
+    range:"ranged",
+    dmg:3,
+    bonus:5,
+    iconKey:"hypnotic"
+  });
+
+  // Bakub: setup poisons + hypnosis; control payoff consumes hypnosis.
+  set("bakub","vial",{
+    name:"Nightmare Vial",
+    cost:1, spd:0,
+    desc:"Ranged setup. Apply 2 Poison and Hypnosis to one enemy. This sets up Poison and Hypnosis payoffs.",
+    effect:"multiStatus",
+    statuses:[["poison",2],["hypnosis",1]],
+    range:"ranged",
+    iconKey:"hypnotic"
+  });
+
+  set("bakub","fog",{
+    name:"Demon Fog",
+    cost:2, spd:-2,
+    desc:"Row setup. Choose an enemy row. Apply 1 Poison and Hypnosis to each enemy in that row.",
+    effect:"rowMultiStatus",
+    statuses:[["poison",1],["hypnosis",1]],
+    range:"ranged",
+    iconKey:"hypnotic"
+  });
+
+  set("bakub","toxin",{
+    name:"Mind Toxin",
+    cost:1, spd:-1,
+    desc:"Ranged payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis and apply 3 Poison.",
+    effect:"mindToxinConsume",
+    range:"ranged",
+    dmg:3,
+    poison:3,
+    iconKey:"witchcraft"
+  });
+
+  set("bakub","future",{
+    name:"False Future",
+    cost:1, spd:99,
+    desc:"Guard payoff. Choose an enemy with Hypnosis. Remove Hypnosis now. If that enemy uses a damage attack this round, cancel that action and apply 2 Poison. If it does not attack, nothing else happens.",
+    effect:"consumeHypnosisPoisonPredict",
+    guard:true,
+    range:"ranged",
+    iconKey:"hypnotic"
+  });
+}
+tuneHypnoticV57();
+
+function hasHypnosisV57(u){
+  return !!(u?.status?.hypnosis);
+}
+
+function consumeHypnosisV57(u){
+  if(!u?.status?.hypnosis) return false;
+  u.status.hypnosis = 0;
+  spawnFloatingText?.(u, "Hypnosis removed", "status");
+  pushActionEvent?.("statusLoss", `${u.name}'s Hypnosis was removed`, u);
+  log(`${u.name}'s Hypnosis is removed.`);
+  return true;
+}
+
+const targetsBeforeHypnoticV57 = targets;
+targets = function(c,a){
+  if(a?.effect === "consumeHypnosisPredict" || a?.effect === "consumeHypnosisPoisonPredict"){
+    return alive(other(c.side)).filter(x => hasHypnosisV57(x));
+  }
+  return targetsBeforeHypnoticV57(c,a);
+};
+
+const applyBeforeHypnoticV57 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "consumeHypnosisPredict": {
+      if(!t || !consumeHypnosisV57(t)){
+        spawnFloatingText?.(c, "Needs Hypnosis", "cancel");
+        pushActionEvent?.("cancel", `${a.name} needs a target with Hypnosis`, c);
+        log(`${a.name} needs a target with Hypnosis.`);
+        return;
+      }
+      state.predicts.push({caster:c,target:t,status:null,stacks:0,consumeOnly:true});
+      state.guarded[t.id]=true;
+      spawnFloatingText?.(t, "Mind Locked", "status");
+      pushActionEvent?.("statusTrigger", `${c.name} locked ${t.name}. If ${t.name} uses a damage attack this round, it is canceled.`, t);
+      log(`${c.name} locks ${t.name}'s mind. If ${t.name} attacks this round, it is canceled.`);
+      return;
+    }
+
+    case "consumeHypnosisPoisonPredict": {
+      if(!t || !consumeHypnosisV57(t)){
+        spawnFloatingText?.(c, "Needs Hypnosis", "cancel");
+        pushActionEvent?.("cancel", `${a.name} needs a target with Hypnosis`, c);
+        log(`${a.name} needs a target with Hypnosis.`);
+        return;
+      }
+      state.predicts.push({caster:c,target:t,status:"poison",stacks:2,consumeOnly:true});
+      state.guarded[t.id]=true;
+      spawnFloatingText?.(t, "False Future", "status");
+      pushActionEvent?.("statusTrigger", `${c.name} set a False Future on ${t.name}. If ${t.name} uses a damage attack this round, it is canceled and gains 2 Poison.`, t);
+      log(`${c.name} sets a False Future on ${t.name}. If ${t.name} attacks this round, it is canceled and gains 2 Poison.`);
+      return;
+    }
+
+    case "mindToxinConsume": {
+      const had = !!t?.status?.hypnosis;
+      damage(c,t,a.dmg || 3,{attack:true,melee:false});
+      if(had){
+        consumeHypnosisV57(t);
+        if(!t.dead) addStatus(t,"poison",a.poison || 3);
+      }
+      return;
+    }
+
+    default:
+      applyBeforeHypnoticV57(c,a,t);
+  }
+};
+
+// Prediction resolver cleanup: if a predict has status:null, it only cancels and does not apply a setup status.
+const damageBeforeHypnoticV57 = damage;
+damage = function(src,t,amt,opt={}){
+  if(opt.attack && state?.predicts){
+    const idx = state.predicts.findIndex(p => p.target === src);
+    if(idx >= 0 && state.predicts[idx].status == null){
+      const pr = state.predicts[idx];
+      state.predicts.splice(idx,1);
+      state.canceledActionKeys?.push(state.currentActionKey);
+      markPassive?.(pr.caster, "Hypnotic Payoff");
+      pushActionEvent?.("cancel", `${pr.caster.name} consumed Hypnosis and canceled ${src.name}'s action`, src);
+      log(`${pr.caster.name} consumed Hypnosis and canceled ${src.name}'s action.`);
+      spawnFloatingText?.(src, "Canceled", "cancel");
+      return 0;
+    }
+  }
+  return damageBeforeHypnoticV57(src,t,amt,opt);
+};
+
+// AI hint: these are payoff abilities, not setup.
+const isPayoffAbilityBeforeHypnoticV57 = typeof isPayoffAbilityV45 === "function" ? isPayoffAbilityV45 : null;
+if(isPayoffAbilityBeforeHypnoticV57){
+  isPayoffAbilityV45 = function(a){
+    return ["consumeHypnosisPredict","consumeHypnosisPoisonPredict","mindToxinConsume"].includes(a.effect) || isPayoffAbilityBeforeHypnoticV57(a);
+  };
+}
+
+const payoffReadinessBeforeHypnoticV57 = typeof payoffReadinessV45 === "function" ? payoffReadinessV45 : null;
+if(payoffReadinessBeforeHypnoticV57){
+  payoffReadinessV45 = function(a,t){
+    if(["consumeHypnosisPredict","consumeHypnosisPoisonPredict","mindToxinConsume"].includes(a.effect)) return hasHypnosisV57(t);
+    return payoffReadinessBeforeHypnoticV57(a,t);
+  };
+}
+
+
+/* ===== v58 Poom Purple Blood + Guard Mind cleanup =====
+   Lore/design update:
+   - Poom passive is now Purple Blood.
+   - Guard Mind is no longer redundant setup. It is now a defensive Hypnosis payoff.
+*/
+
+function tunePoomV58(){
+  const poom = ROSTER.find(c=>c.id==="poom");
+  if(!poom) return;
+
+  poom.passive = "Passive — Purple Blood: Poom's blood is hypnotic. After an enemy hits Poom with a melee attack that deals HP damage, that enemy gains Hypnosis.";
+
+  const guard = poom.abilities.find(a=>a.id==="guard");
+  if(guard){
+    Object.assign(guard,{
+      name:"Guard Mind",
+      cost:1,
+      spd:99,
+      desc:"Guard payoff. Choose an enemy with Hypnosis. Remove Hypnosis from that enemy. If that enemy uses a damage attack targeting Poom this round, cancel that attack.",
+      effect:"poomGuardMindPayoff",
+      guard:true,
+      range:"ranged",
+      status:null,
+      stacks:0,
+      shield:0,
+      iconKey:"hypnotic"
+    });
+  }
+}
+tunePoomV58();
+
+const targetsBeforePoomV58 = targets;
+targets = function(c,a){
+  if(a?.effect === "poomGuardMindPayoff"){
+    return alive(other(c.side)).filter(x => !!x.status?.hypnosis);
+  }
+  return targetsBeforePoomV58(c,a);
+};
+
+const applyBeforePoomV58 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  if(a.effect === "poomGuardMindPayoff"){
+    if(!t?.status?.hypnosis){
+      spawnFloatingText?.(c, "Needs Hypnosis", "cancel");
+      pushActionEvent?.("cancel", `Guard Mind needs a target with Hypnosis`, c);
+      log(`Guard Mind needs a target with Hypnosis.`);
+      return;
+    }
+
+    t.status.hypnosis = 0;
+    spawnFloatingText?.(t, "Hypnosis removed", "status");
+    pushActionEvent?.("statusLoss", `${t.name}'s Hypnosis was removed by Guard Mind`, t);
+
+    state.predicts.push({
+      caster:c,
+      target:t,
+      status:null,
+      stacks:0,
+      onlyIfTargetId:c.id,
+      poomGuardMind:true
+    });
+
+    state.guarded[t.id]=true;
+    spawnFloatingText?.(c, "Guard Mind", "status");
+    pushActionEvent?.("statusTrigger", `${c.name} used Guard Mind. If ${t.name} attacks Poom this round, that attack is canceled.`, c);
+    log(`${c.name} uses Guard Mind on ${t.name}. If ${t.name} attacks Poom this round, that attack is canceled.`);
+    return;
+  }
+
+  applyBeforePoomV58(c,a,t);
+};
+
+const damageBeforePoomV58 = damage;
+damage = function(src,t,amt,opt={}){
+  if(opt?.attack && state?.predicts){
+    const idx = state.predicts.findIndex(p => p.poomGuardMind && p.target === src);
+    if(idx >= 0){
+      const pr = state.predicts[idx];
+      state.predicts.splice(idx,1);
+
+      if(t?.id === pr.onlyIfTargetId){
+        state.canceledActionKeys?.push(state.currentActionKey);
+        markPassive?.(pr.caster, "Guard Mind");
+        pushActionEvent?.("cancel", `${pr.caster.name}'s Guard Mind canceled ${src.name}'s attack on Poom`, src);
+        log(`${pr.caster.name}'s Guard Mind cancels ${src.name}'s attack on Poom.`);
+        spawnFloatingText?.(src, "Canceled", "cancel");
+        return 0;
+      }
+
+      // The enemy attacked someone else, so Guard Mind remains armed for a later attack this round.
+      const result = damageBeforePoomV58(src,t,amt,opt);
+      if(!src.dead && !pr.caster.dead && state?.phase === "resolving") state.predicts.push(pr);
+      return result;
+    }
+  }
+
+  return damageBeforePoomV58(src,t,amt,opt);
+};
+
+// Keep AI aware that Guard Mind is a payoff and should not be used without Hypnosis.
+const isPayoffAbilityBeforePoomV58 = typeof isPayoffAbilityV45 === "function" ? isPayoffAbilityV45 : null;
+if(isPayoffAbilityBeforePoomV58){
+  isPayoffAbilityV45 = function(a){
+    return a.effect === "poomGuardMindPayoff" || isPayoffAbilityBeforePoomV58(a);
+  };
+}
+
+const payoffReadinessBeforePoomV58 = typeof payoffReadinessV45 === "function" ? payoffReadinessV45 : null;
+if(payoffReadinessBeforePoomV58){
+  payoffReadinessV45 = function(a,t){
+    if(a.effect === "poomGuardMindPayoff") return !!t?.status?.hypnosis;
+    return payoffReadinessBeforePoomV58(a,t);
+  };
+}
+
+
+/* ===== v59 Poom Guard Mind redesign =====
+   New Guard Mind:
+   - Consume Hypnosis from ALL enemies.
+   - For each enemy whose Hypnosis was consumed, all offensive actions they use this turn are redirected to Poom.
+   - Poom gains +1 Armor until end of round for each Hypnosis consumed.
+*/
+
+function tunePoomV59(){
+  const poom = ROSTER.find(c=>c.id==="poom");
+  if(!poom) return;
+
+  poom.passive = "Passive — Purple Blood: Poom's blood is hypnotic. After an enemy hits Poom with a melee attack that deals HP damage, that enemy gains Hypnosis.";
+
+  const guard = poom.abilities.find(a=>a.id==="guard");
+  if(guard){
+    Object.assign(guard,{
+      name:"Guard Mind",
+      cost:1,
+      spd:99,
+      desc:"Guard payoff. Consume Hypnosis from all enemies. For each enemy that lost Hypnosis this way, all offensive actions they use this turn are redirected to Poom. Poom gains +1 Armor until end of round for each Hypnosis consumed.",
+      effect:"poomMassGuardMind",
+      guard:true,
+      range:"self",
+      status:null,
+      stacks:0,
+      shield:0,
+      iconKey:"hypnotic"
+    });
+  }
+}
+tunePoomV59();
+
+function isOffensiveAbilityV59(a){
+  if(!a) return false;
+  if(a.guard) return false;
+  const e = a.effect || "";
+  const text = `${a.name||""} ${a.desc||""} ${e}`.toLowerCase();
+  return /damage|attack|status|poison|bleed|freeze|hypnosis|dread|exposed|exhaust|direct|row|all/i.test(text)
+    && !/heal|ally support|choose an ally|protect|ward|armor/.test(text);
+}
+
+function poomForSideV59(side){
+  return alive(other(side)).find(u=>u.id==="poom");
+}
+
+function clearPoomRedirectsV59(){
+  (state?.units||[]).forEach(u=>{
+    if(u.buff) {
+      delete u.buff.poomRedirectTargetId;
+      delete u.buff.poomRedirectTargetSide;
+      delete u.buff.poomRedirectSource;
+    }
+  });
+}
+
+const endRoundBeforePoomV59 = endRound;
+endRound = function(){
+  clearPoomRedirectsV59();
+  endRoundBeforePoomV59();
+};
+
+const targetsBeforePoomV59 = targets;
+targets = function(c,a){
+  if(a?.effect === "poomMassGuardMind"){
+    return [];
+  }
+  return targetsBeforePoomV59(c,a);
+};
+
+const applyBeforePoomV59 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  if(a.effect === "poomMassGuardMind"){
+    const enemies = alive(other(c.side));
+    const consumed = enemies.filter(x=>x.status?.hypnosis);
+
+    if(!consumed.length){
+      spawnFloatingText?.(c, "No Hypnosis", "cancel");
+      pushActionEvent?.("cancel", `Guard Mind found no enemies with Hypnosis`, c);
+      log(`Guard Mind found no enemies with Hypnosis.`);
+      return;
+    }
+
+    consumed.forEach(enemy=>{
+      enemy.status.hypnosis = 0;
+      enemy.buff = enemy.buff || {};
+      enemy.buff.poomRedirectTargetId = c.id;
+      enemy.buff.poomRedirectTargetSide = c.side;
+      enemy.buff.poomRedirectSource = "Guard Mind";
+      spawnFloatingText?.(enemy, "Hypnosis consumed", "status");
+      pushActionEvent?.("statusLoss", `${enemy.name}'s Hypnosis was consumed by Guard Mind`, enemy);
+    });
+
+    addArmorThisRound?.(c, consumed.length);
+    state.guarded[c.id] = true;
+    spawnFloatingText?.(c, `+${consumed.length} Armor`, "armor");
+    pushActionEvent?.("statusTrigger", `${c.name} consumed Hypnosis from ${consumed.length} enemies. Their offensive actions this turn redirect to Poom.`, c);
+    log(`${c.name} consumes Hypnosis from ${consumed.length} enemies. Their offensive actions this turn redirect to Poom. Poom gains +${consumed.length} Armor.`);
+    return;
+  }
+
+  // If an enemy was caught by Guard Mind, force offensive actions onto Poom.
+  if(c?.buff?.poomRedirectTargetId && isOffensiveAbilityV59(a)){
+    const poom = unitBySide(c.buff.poomRedirectTargetId, c.buff.poomRedirectTargetSide) || unit(c.buff.poomRedirectTargetId);
+    if(poom && !poom.dead && poom.side !== c.side){
+      spawnFloatingText?.(c, "Redirected", "status");
+      pushActionEvent?.("statusTrigger", `${c.name}'s ${a.name} was redirected to Poom by Guard Mind`, c);
+      log(`${c.name}'s ${a.name} is redirected to Poom by Guard Mind.`);
+
+      // Convert broad/row offensive actions into a single action on Poom.
+      if(["rowStatus","rowDamageStatus","rowMultiStatus","frontHypno","allStatus","allDamageStatus","gesharRowExhaust"].includes(a.effect)){
+        if(a.dmg) damage(c,poom,a.dmg,{attack:true,aoe:false,melee:false});
+        if(a.status) addStatus(poom,a.status,a.stacks||1);
+        if(a.statuses) a.statuses.forEach(([s,n])=>addStatus(poom,s,n));
+        if(a.effect==="frontHypno"){
+          addStatus(poom,"hypnosis",1);
+          addStatus(poom,"exposed",1);
+        }
+        return;
+      }
+
+      return applyBeforePoomV59(c,a,poom);
+    }
+  }
+
+  applyBeforePoomV59(c,a,t);
+};
+
+// AI: Guard Mind is a payoff, ready only if any enemy has Hypnosis.
+const isPayoffAbilityBeforePoomV59 = typeof isPayoffAbilityV45 === "function" ? isPayoffAbilityV45 : null;
+if(isPayoffAbilityBeforePoomV59){
+  isPayoffAbilityV45 = function(a){
+    return a.effect === "poomMassGuardMind" || isPayoffAbilityBeforePoomV59(a);
+  };
+}
+
+const payoffReadinessBeforePoomV59 = typeof payoffReadinessV45 === "function" ? payoffReadinessV45 : null;
+if(payoffReadinessBeforePoomV59){
+  payoffReadinessV45 = function(a,t){
+    if(a.effect === "poomMassGuardMind"){
+      // t is not relevant for this no-target payoff.
+      return alive("player").some(x=>x.status?.hypnosis) || alive("enemy").some(x=>x.status?.hypnosis);
+    }
+    return payoffReadinessBeforePoomV59(a,t);
+  };
+}
+
+
+/* ===== v60 Poom ability rename =====
+   Guard Mind did not describe the new mass-redirect payoff well enough.
+   New name: Mesmeric Taunt.
+*/
+
+function renamePoomGuardMindV60(){
+  const poom = ROSTER.find(c=>c.id==="poom");
+  const ability = poom?.abilities?.find(a=>a.id==="guard");
+  if(!ability) return;
+
+  ability.name = "Mesmeric Taunt";
+  ability.desc = "Guard payoff. Consume Hypnosis from all enemies. For each enemy that lost Hypnosis this way, all offensive actions they use this turn are redirected to Poom. Poom gains +1 Armor until end of round for each Hypnosis consumed.";
+  ability.iconKey = "hypnotic";
+}
+renamePoomGuardMindV60();
+
+// Keep logs/tooltips coherent if older code still references the old text.
+const applyBeforePoomRenameV60 = apply;
+apply = function(c,a,t){
+  if(a?.effect === "poomMassGuardMind"){
+    a.name = "Mesmeric Taunt";
+  }
+  return applyBeforePoomRenameV60(c,a,t);
+};
+
+
+/* ===== v63 balance patch after analytics =====
+   Goals:
+   - Armor is very strong, so Dravain loses the 4-Armor outlier.
+   - Sorcerers are low-health/low-armor, so their payoff damage must actually matter.
+   - Bahl gets a real Poison/Bleed payoff instead of more low-impact guarding.
+   - Hyafrost and Paleya get better control-to-damage conversion.
+*/
+
+function tuneBalanceV63(){
+  const char = id => ROSTER.find(c=>c.id===id);
+  const abil = (id, aid) => char(id)?.abilities?.find(a=>a.id===aid);
+
+  // Dravain was the dominant outlier: 83% simulated win rate and Armor 4 was too strong.
+  const dravain = char("dravain");
+  if(dravain){
+    dravain.armor = 3;
+    dravain.passive = "Passive — Blood Guard: when Dravain consumes Bleed with Blood Claim, Dravain restores 1 HP. This is healing from consumed blood, not Shield.";
+  }
+  Object.assign(abil("dravain","slash") || {}, {
+    cost:1, dmg:3,
+    desc:"Melee attack. Deal 3 damage. If this hit deals HP damage, apply 1 Bleed."
+  });
+  Object.assign(abil("dravain","drain") || {}, {
+    cost:2, dmg:4, heal:2,
+    desc:"Melee vampire attack. Deal 4 damage. If this deals HP damage, Dravain restores 2 HP."
+  });
+  Object.assign(abil("dravain","protect") || {}, {
+    desc:"Guard. Choose an ally. The first damage attack targeting that ally this round targets Dravain instead. Does not redirect pure status/control effects and gives no Shield.",
+    damageOnly:true
+  });
+
+  // K'ku was high but not absurd. Light nerf only.
+  const kku = char("kku");
+  if(kku){ kku.hp = 29; }
+  Object.assign(abil("kku","break") || {}, {
+    bonus:3,
+    desc:"Melee payoff. Deal 5 damage. If the target has Freeze, deal +3 damage. Slow but strong against frozen enemies."
+  });
+
+  // Paleya: 0 Armor made her too fragile, and she lacked reliable payoff DPS.
+  const paleya = char("paleya");
+  if(paleya){ paleya.armor = 1; }
+  Object.assign(abil("paleya","break") || {}, {
+    dmg:3,
+    desc:"Ranged payoff. If the target has Hypnosis, remove Hypnosis and deal 6 damage ignoring Armor. If the target does not have Hypnosis, deal 3 damage."
+  });
+  Object.assign(abil("paleya","fog") || {}, {
+    cost:2,
+    statuses:[["hypnosis",1],["exposed",1]],
+    effect:"rowMultiStatus",
+    desc:"Row setup. Choose an enemy row. Apply Hypnosis and Exposed to each enemy in that row. This sets up Mind Break and other payoff attacks."
+  });
+
+  // Hyafrost: better survival and a real Freeze payoff.
+  const hyafrost = char("hyafrost");
+  if(hyafrost){ hyafrost.hp = 22; }
+  Object.assign(abil("hyafrost","blast") || {}, {
+    dmg:3,
+    desc:"Ranged icecraft attack. Deal 3 damage. If this hit deals HP damage, apply 2 Freeze."
+  });
+  Object.assign(abil("hyafrost","zero") || {}, {
+    name:"Absolute Zero",
+    cost:2,
+    spd:-3,
+    effect:"absoluteZeroConsume",
+    desc:"Freeze payoff. For each enemy with Freeze, remove all Freeze from that enemy, deal 3 + removed Freeze damage, and apply Exhausted."
+  });
+
+  // Bahl had lots of setup but no payoff. Replace defensive ward with a real sorcerer/demon cashout.
+  const bahl = char("shaman");
+  const ward = abil("shaman","ward");
+  if(ward){
+    Object.assign(ward,{
+      id:"rupture",
+      name:"Demon Rupture",
+      cost:2,
+      spd:-1,
+      guard:false,
+      range:"ranged",
+      effect:"demonRupture",
+      iconKey:"demon",
+      desc:"Demon payoff. Choose an enemy. Remove all Poison and Bleed from it. Deal damage equal to removed counters +3, ignoring Armor. Shield can still absorb it."
+    });
+  }
+
+  // Maoja was also low. Slightly improve witchcraft pressure without making brute tankier.
+  Object.assign(abil("maoja","grip") || {}, {
+    dmg:4,
+    desc:"Melee attack. Deal 4 damage and apply 2 Poison. If the target already had Poison before this ability, also apply Exhausted."
+  });
+  Object.assign(abil("maoja","burst") || {}, {
+    desc:"Poison payoff. Remove all Poison from one enemy. Deal damage equal to removed Poison ×2 +2, ignoring Armor. Shield can still absorb it.",
+    bonus:2
+  });
+}
+tuneBalanceV63();
+
+const applyBeforeBalanceV63 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "absoluteZeroConsume": {
+      alive(other(c.side)).filter(x=>(x.status?.freeze||0)>0).forEach(x=>{
+        const stacks = x.status.freeze || 0;
+        x.status.freeze = 0;
+        damage(c,x,3+stacks,{attack:true,melee:false,ignoreArmor:false});
+        if(!x.dead) addStatus(x,"exhausted",1);
+        pushActionEvent?.("statusTrigger", `${c.name} consumed ${stacks} Freeze on ${x.name}`, x);
+      });
+      return;
+    }
+
+    case "demonRupture": {
+      const poison = t?.status?.poison || 0;
+      const bleed = t?.status?.bleed || 0;
+      const total = poison + bleed;
+      if(t){
+        t.status.poison = 0;
+        t.status.bleed = 0;
+      }
+      damage(c,t,total+3,{attack:true,melee:false,ignoreArmor:true});
+      pushActionEvent?.("statusTrigger", `${c.name} consumed ${total} Poison/Bleed counters`, t);
+      return;
+    }
+
+    case "poisonBurst": {
+      const p = t?.status?.poison || 0;
+      if(t) t.status.poison = 0;
+      damage(c,t,p*2+(a.bonus||0),{attack:true,melee:false,ignoreArmor:true});
+      return;
+    }
+
+    default:
+      return applyBeforeBalanceV63(c,a,t);
+  }
+};
+
+// Protect Ally should not redirect pure setup/control/status-only effects.
+const redirectBeforeBalanceV63 = redirect;
+redirect = function(target,source){
+  const p=state.protects.find(p=>p.target===target && !p.used && p.guard && !p.guard.dead);
+  if(!p) return target;
+
+  // If a future version passes effect context, this hook can check it. For now Dravain's protect is still
+  // primarily balanced by lower armor and lower damage/heal.
+  return redirectBeforeBalanceV63(target,source);
+};
+
+
+/* ===== v64 five-iteration balance patch =====
+   Based on five headless sim iterations.
+   Notes:
+   - No ability was changed to 0 cost.
+   - Counter payoffs now use multiplication where buildup should matter.
+*/
+
+function tuneBalanceV64(){
+  const char = id => ROSTER.find(c=>c.id===id);
+  const abil = (id, aid) => char(id)?.abilities?.find(a=>a.id===aid);
+
+  // Armor was the strongest stat. Dravain/Yaura no longer sit above the rest of the roster.
+  const dravain = char("dravain");
+  if(dravain){
+    dravain.armor = 2;
+    dravain.passive = "Passive — Blood Guard: when Dravain consumes Bleed with Blood Claim, Dravain restores 1 HP. This is healing from consumed blood, not Shield.";
+  }
+  Object.assign(abil("dravain","protect") || {}, {
+    cost:2,
+    desc:"Guard. Choose an ally. The first damage attack targeting that ally this round targets Dravain instead. Gives no Shield."
+  });
+  Object.assign(abil("dravain","slash") || {}, {
+    dmg:2,
+    desc:"Melee attack. Deal 2 damage. If this hit deals HP damage, apply 1 Bleed."
+  });
+  Object.assign(abil("dravain","drain") || {}, {
+    dmg:4,
+    heal:1,
+    desc:"Melee vampire attack. Deal 4 damage. If this deals HP damage, Dravain restores 1 HP."
+  });
+
+  const yaura = char("yaura");
+  if(yaura) yaura.armor = 2;
+  Object.assign(abil("yaura","ward") || {}, {
+    cost:2,
+    desc:"Guard. Choose an ally. That ally loses 1 HP, ignoring Armor and Shield. If that ally is attacked this round, the attacker gains 2 Bleed. No Shield is gained."
+  });
+
+  // K'ku remains a strong brute, but less dominant.
+  const kku = char("kku");
+  if(kku) kku.hp = 29;
+  Object.assign(abil("kku","break") || {}, {
+    bonus:3,
+    desc:"Melee payoff. Deal 5 damage. If the target has Freeze, deal +3 damage."
+  });
+
+  // Smithen was pushed high by icecraft after Dravain was nerfed. Trim payoff base.
+  Object.assign(abil("smithen","shatter") || {}, {
+    dmg:3,
+    desc:"Ranged Freeze payoff. Deal 3 damage with Pierce 1. If the target has Freeze, remove all Freeze and gain +2 damage per removed Freeze stack."
+  });
+
+  // Sorcerers need real payoff because they are low armor/low health.
+  const paleya = char("paleya");
+  if(paleya){
+    paleya.hp = 20;
+    paleya.armor = 1;
+  }
+  Object.assign(abil("paleya","break") || {}, {
+    dmg:3,
+    payoffDmg:8,
+    desc:"Ranged payoff. If the target has Hypnosis, remove Hypnosis and deal 8 damage ignoring Armor. If the target does not have Hypnosis, deal 3 damage."
+  });
+  Object.assign(abil("paleya","fog") || {}, {
+    cost:2,
+    effect:"rowMultiStatus",
+    statuses:[["hypnosis",1],["exposed",1]],
+    desc:"Row setup. Choose an enemy row. Apply Hypnosis and Exposed to each enemy in that row. This sets up Mind Break and other payoff attacks."
+  });
+
+  const hyafrost = char("hyafrost");
+  if(hyafrost) hyafrost.hp = 22;
+  Object.assign(abil("hyafrost","blast") || {}, {
+    dmg:3,
+    desc:"Ranged icecraft attack. Deal 3 damage. If this hit deals HP damage, apply 2 Freeze."
+  });
+  Object.assign(abil("hyafrost","zero") || {}, {
+    name:"Absolute Zero",
+    cost:2,
+    effect:"absoluteZeroConsume",
+    desc:"Freeze payoff. For each enemy with Freeze, remove all Freeze from that enemy, deal 3 + removed Freeze damage, and apply Exhausted."
+  });
+
+  // Bahl now has true multiplicative counter payoff and stronger setup.
+  Object.assign(abil("shaman","mark") || {}, {
+    statuses:[["poison",2],["bleed",1]],
+    desc:"Ranged setup. Apply 2 Poison and 1 Bleed to one enemy."
+  });
+  Object.assign(abil("shaman","plague") || {}, {
+    stacks:4,
+    desc:"Row setup. Choose an enemy row. Apply 4 Poison to each enemy in that row. Deals no immediate damage."
+  });
+  const oldWard = abil("shaman","ward") || abil("shaman","rupture");
+  if(oldWard){
+    Object.assign(oldWard,{
+      id:"rupture",
+      name:"Demon Rupture",
+      cost:2,
+      spd:-1,
+      guard:false,
+      range:"ranged",
+      effect:"demonRupture",
+      mult:2,
+      ignoreArmor:true,
+      iconKey:"demon",
+      desc:"Demon payoff. Choose an enemy. Remove all Poison and Bleed from it. Deal damage equal to twice the removed counters, ignoring Armor. Shield can still absorb it."
+    });
+  }
+
+  // Witchcraft payoff should reward buildup, not flat addition.
+  Object.assign(abil("maoja","grip") || {}, {
+    dmg:4,
+    desc:"Melee attack. Deal 4 damage and apply 2 Poison. If the target already had Poison before this ability, also apply Exhausted."
+  });
+  Object.assign(abil("maoja","burst") || {}, {
+    mult:3,
+    bonus:0,
+    desc:"Poison payoff. Remove all Poison from one enemy. Deal damage equal to removed Poison ×3, ignoring Armor. Shield can still absorb it."
+  });
+
+  // Eva gets a multiplicative Bleed payoff so she is not just worse Dravain.
+  Object.assign(abil("eva","fangs") || {}, {
+    dmg:4,
+    desc:"Melee attack. Deal 4 damage. If this hit deals HP damage, apply 1 Bleed."
+  });
+  Object.assign(abil("eva","bite") || {}, {
+    mult:2,
+    bonus:1,
+    heal:2,
+    desc:"Bleed payoff. Remove all Bleed from one enemy. Deal damage equal to removed Bleed ×2 +1. If any Bleed was removed, Lady Eva restores 2 HP."
+  });
+}
+tuneBalanceV64();
+
+const applyBeforeBalanceV64 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "consumeBleed": {
+      const b = t?.status?.bleed || 0;
+      if(t) t.status.bleed = 0;
+      damage(c,t,b*(a.mult||1)+(a.bonus||0),{attack:true,melee:a.range==="melee",pierce:a.pierce||0,ignoreArmor:!!a.ignoreArmor});
+      if(b>0 && a.heal) heal(c,a.heal);
+      return;
+    }
+
+    case "poisonBurst": {
+      const p = t?.status?.poison || 0;
+      if(t) t.status.poison = 0;
+      damage(c,t,p*(a.mult||2)+(a.bonus||0),{attack:true,melee:false,ignoreArmor:true});
+      return;
+    }
+
+    case "demonRupture": {
+      const poison = t?.status?.poison || 0;
+      const bleed = t?.status?.bleed || 0;
+      const total = poison + bleed;
+      if(t){
+        t.status.poison = 0;
+        t.status.bleed = 0;
+      }
+      damage(c,t,total*(a.mult||2),{attack:true,melee:false,ignoreArmor:true});
+      pushActionEvent?.("statusTrigger", `${c.name} consumed ${total} Poison/Bleed counters`, t);
+      return;
+    }
+
+    case "absoluteZeroConsume": {
+      alive(other(c.side)).filter(x=>(x.status?.freeze||0)>0).forEach(x=>{
+        const stacks = x.status.freeze || 0;
+        x.status.freeze = 0;
+        damage(c,x,3+stacks,{attack:true,melee:false});
+        if(!x.dead) addStatus(x,"exhausted",1);
+        pushActionEvent?.("statusTrigger", `${c.name} consumed ${stacks} Freeze on ${x.name}`, x);
+      });
+      return;
+    }
+
+    default:
+      return applyBeforeBalanceV64(c,a,t);
+  }
+};
+
+
+/* ===== v65 class identity + sorcerer DPS pass =====
+   Class identity:
+   - Warrior: most resilient/protective; lower damage output.
+   - Brute: most HP, low armor, strongest front-line single-target attacks.
+   - Assassin: strong single-target damage, can reach backline, armor bypass tools.
+   - Sorcerer: least resilient, but high DPS through AoE, Armor-ignore, and control.
+*/
+
+function tuneClassIdentityV65(){
+  const C = id => ROSTER.find(c=>c.id===id);
+  const A = (id, aid) => C(id)?.abilities?.find(a=>a.id===aid);
+
+  // Warriors: resilient/protective, lower damage.
+  const dravain = C("dravain");
+  if(dravain){ dravain.armor = 2; dravain.hp = 23; }
+  Object.assign(A("dravain","slash") || {}, {
+    dmg:2,
+    desc:"Melee warrior attack. Deal 2 damage. If this hit deals HP damage, apply 1 Bleed."
+  });
+  Object.assign(A("dravain","drain") || {}, {
+    dmg:3, heal:1,
+    desc:"Melee vampire attack. Deal 3 damage. If this deals HP damage, Dravain restores 1 HP."
+  });
+  Object.assign(A("dravain","claim") || {}, {
+    bonus:2,
+    desc:"Bleed payoff. Remove all Bleed from one enemy. Deal removed Bleed +2 damage. If any Bleed was removed, Dravain restores 1 HP."
+  });
+
+  const yaura = C("yaura");
+  if(yaura){ yaura.armor = 2; yaura.hp = 24; }
+  Object.assign(A("yaura","bolt") || {}, {
+    dmg:1,
+    desc:"Ranged bloodcraft setup. Deal 1 damage ignoring Armor. Shield can still absorb it. If this hit deals HP damage, apply 2 Bleed."
+  });
+  Object.assign(A("yaura","price") || {}, {
+    dmg:3,
+    desc:"Bloodcraft attack. Yaura or an ally loses 2 HP, ignoring Armor and Shield. Deal 3 damage to enemies in the front row."
+  });
+
+  // Brutes: high HP, low armor, strongest single-target attacks, but attacks are front-line constrained.
+  const kku = C("kku");
+  if(kku){ kku.hp = 30; kku.armor = 1; }
+  Object.assign(A("kku","slam") || {}, {
+    dmg:5, range:"melee",
+    desc:"Front-line brute attack. Deal 5 damage. If this hit deals HP damage, apply 1 Freeze."
+  });
+  Object.assign(A("kku","break") || {}, {
+    dmg:6, bonus:3, range:"melee",
+    desc:"Front-line brute payoff. Deal 6 damage. If the target has Freeze, deal +3 damage."
+  });
+
+  const maoja = C("maoja");
+  if(maoja){ maoja.hp = 29; maoja.armor = 1; }
+  Object.assign(A("maoja","grip") || {}, {
+    dmg:5, range:"melee",
+    desc:"Front-line brute attack. Deal 5 damage and apply 2 Poison. If the target already had Poison before this ability, also apply Exhausted."
+  });
+  Object.assign(A("maoja","burst") || {}, {
+    range:"melee", mult:3,
+    desc:"Front-line witchcraft payoff. Remove all Poison from one enemy. Deal removed Poison ×3 damage, ignoring Armor. Shield can still absorb it."
+  });
+
+  const poom = C("poom");
+  if(poom){ poom.hp = 30; poom.armor = 1; }
+  Object.assign(A("poom","bash") || {}, {
+    dmg:5, range:"melee",
+    desc:"Front-line brute attack. Deal 5 damage."
+  });
+  Object.assign(A("poom","roar") || {}, {
+    range:"melee", dmg:3, bonus:6,
+    desc:"Front-line hypnotic payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis and deal +6 damage."
+  });
+  Object.assign(A("poom","revenge") || {}, {
+    range:"melee", dmg:8, self:3, bonus:3,
+    desc:"Front-line brute attack. Poom loses 3 HP, then deals 8 damage. If Poom was attacked this round, deal +3 damage."
+  });
+
+  // Assassins: keep backline reach and armor bypass.
+  Object.assign(A("kahro","assassinate") || {}, {
+    dmg:5, bonus:3, pierce:2, range:"ranged",
+    desc:"Assassin precision. Deal 5 damage with Pierce 2. Can target backline. If the target is in the back row and the front row is empty, deal +3 damage."
+  });
+  Object.assign(A("eva","dash") || {}, {
+    dmg:3, pierce:1, range:"ranged",
+    desc:"Assassin backline tool. Deal 3 damage with Pierce 1. Can target backline. If the target has Bleed, apply Exposed."
+  });
+  Object.assign(A("eva","bite") || {}, {
+    range:"ranged", mult:2, bonus:1, heal:2,
+    desc:"Assassin/vampire payoff. Can target backline. Remove all Bleed from one enemy. Deal Bleed ×2 +1 damage. If any Bleed was removed, Lady Eva restores 2 HP."
+  });
+  Object.assign(A("smithen","shatter") || {}, {
+    dmg:3, pierce:2, range:"ranged",
+    desc:"Assassin icecraft payoff. Deal 3 damage with Pierce 2. Can target backline. If the target has Freeze, remove all Freeze and gain +2 damage per removed Freeze."
+  });
+
+  // Sorcerers: fragile, high DPS through AoE, control, and Armor-ignore.
+  const paleya = C("paleya");
+  if(paleya){ paleya.hp = 18; paleya.armor = 1; }
+  Object.assign(A("paleya","break") || {}, {
+    dmg:3, payoffDmg:9, ignoreArmor:true,
+    desc:"Ranged hypnotic payoff. If the target has Hypnosis, remove Hypnosis and deal 9 damage ignoring Armor. If the target does not have Hypnosis, deal 3 damage ignoring Armor."
+  });
+  Object.assign(A("paleya","fog") || {}, {
+    cost:2, effect:"rowMultiStatus", statuses:[["hypnosis",1],["exposed",1]],
+    desc:"AoE control setup. Choose an enemy row. Apply Hypnosis and Exposed to each enemy in that row."
+  });
+  Object.assign(A("paleya","predict") || {}, {
+    desc:"Guard payoff. Choose an enemy with Hypnosis. Remove Hypnosis now. If that enemy uses any non-Guard action this round, cancel it.",
+    anyAction:true
+  });
+
+  const bahl = C("shaman");
+  if(bahl){ bahl.hp = 20; bahl.armor = 1; }
+  Object.assign(A("shaman","mark") || {}, {
+    statuses:[["poison",2],["bleed",1]],
+    desc:"Ranged demon setup. Apply 2 Poison and 1 Bleed to one enemy."
+  });
+  Object.assign(A("shaman","plague") || {}, {
+    stacks:4,
+    desc:"AoE demon setup. Choose an enemy row. Apply 4 Poison to each enemy in that row."
+  });
+  Object.assign(A("shaman","rupture") || {}, {
+    mult:2,
+    desc:"Demon payoff. Choose an enemy. Remove all Poison and Bleed from it. Deal removed counters ×2 damage, ignoring Armor. Shield can still absorb it."
+  });
+
+  const hyafrost = C("hyafrost");
+  if(hyafrost){ hyafrost.hp = 20; hyafrost.armor = 1; }
+  Object.assign(A("hyafrost","blast") || {}, {
+    dmg:3,
+    desc:"Ranged icecraft setup. Deal 3 damage. If this hit deals HP damage, apply 2 Freeze."
+  });
+  Object.assign(A("hyafrost","field") || {}, {
+    stacks:2,
+    desc:"AoE icecraft control. Choose an enemy row. Apply 2 Freeze to each enemy in that row."
+  });
+  Object.assign(A("hyafrost","zero") || {}, {
+    effect:"absoluteZeroConsume",
+    desc:"AoE Freeze payoff. For each enemy with Freeze, remove all Freeze, deal removed Freeze ×2 damage ignoring Armor, and apply Exhausted."
+  });
+
+  const bakub = C("bakub");
+  if(bakub){ bakub.hp = 20; bakub.armor = 1; }
+  Object.assign(A("bakub","toxin") || {}, {
+    dmg:3, payoffDmg:6, poison:2, ignoreArmor:true,
+    desc:"Ranged hypnotic/witchcraft payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis, deal 6 damage ignoring Armor instead, and apply 2 Poison."
+  });
+  Object.assign(A("bakub","fog") || {}, {
+    statuses:[["poison",2],["hypnosis",1]],
+    desc:"AoE demon setup. Choose an enemy row. Apply 2 Poison and Hypnosis to each enemy in that row."
+  });
+}
+tuneClassIdentityV65();
+
+const applyBeforeClassV65 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "absoluteZeroConsume": {
+      alive(other(c.side)).filter(x=>(x.status?.freeze||0)>0).forEach(x=>{
+        const stacks = x.status.freeze || 0;
+        x.status.freeze = 0;
+        damage(c,x,stacks*2,{attack:true,melee:false,ignoreArmor:true});
+        if(!x.dead) addStatus(x,"exhausted",1);
+        pushActionEvent?.("statusTrigger", `${c.name} consumed ${stacks} Freeze on ${x.name}`, x);
+      });
+      return;
+    }
+
+    case "demonRupture": {
+      const poison = t?.status?.poison || 0;
+      const bleed = t?.status?.bleed || 0;
+      const total = poison + bleed;
+      if(t){ t.status.poison = 0; t.status.bleed = 0; }
+      damage(c,t,total*(a.mult||2),{attack:true,melee:false,ignoreArmor:true});
+      pushActionEvent?.("statusTrigger", `${c.name} consumed ${total} Poison/Bleed counters`, t);
+      return;
+    }
+
+    case "mindToxinConsume": {
+      const had = !!t?.status?.hypnosis;
+      if(had){
+        t.status.hypnosis = 0;
+        damage(c,t,a.payoffDmg||6,{attack:true,melee:false,ignoreArmor:!!a.ignoreArmor});
+        if(!t.dead) addStatus(t,"poison",a.poison||2);
+      } else {
+        damage(c,t,a.dmg||3,{attack:true,melee:false});
+      }
+      return;
+    }
+
+    case "poisonBurst": {
+      const p = t?.status?.poison || 0;
+      if(t) t.status.poison = 0;
+      damage(c,t,p*(a.mult||3),{attack:true,melee:false,ignoreArmor:true});
+      return;
+    }
+
+    default:
+      return applyBeforeClassV65(c,a,t);
+  }
+};
+
+
+/* ===== v66 six-iteration class balance patch =====
+   Six more sim/adjust cycles after the class identity pass.
+   Constraints kept:
+   - No 0-cost abilities.
+   - Counter payoffs use multiplication to reward buildup.
+   - Warriors: resilient/protective, lower damage.
+   - Brutes: high HP, low Armor, front-line attacks.
+   - Assassins: backline/Pierce/single-target tools.
+   - Sorcerers: fragile, high DPS through AoE, control, Armor-ignore.
+*/
+function tuneClassBalanceV66(){
+  const C = id => ROSTER.find(c=>c.id===id);
+  const A = (id, aid) => C(id)?.abilities?.find(a=>a.id===aid);
+
+  const dravain=C("dravain");
+  if(dravain){ dravain.hp=24; dravain.armor=3; }
+  Object.assign(A("dravain","protect")||{}, {cost:2, desc:"Guard. Choose an ally. The first damage attack targeting that ally this round targets Dravain instead. No Shield."});
+  Object.assign(A("dravain","slash")||{}, {dmg:2, desc:"Melee warrior attack. Deal 2 damage. If this hit deals HP damage, apply 1 Bleed."});
+  Object.assign(A("dravain","drain")||{}, {dmg:3, heal:2, desc:"Melee vampire attack. Deal 3 damage. If this deals HP damage, Dravain restores 2 HP."});
+  Object.assign(A("dravain","claim")||{}, {bonus:2, desc:"Bleed payoff. Remove all Bleed from one enemy. Deal removed Bleed +2 damage. If any Bleed was removed, Dravain restores 1 HP."});
+
+  const yaura=C("yaura");
+  if(yaura){ yaura.hp=24; yaura.armor=3; }
+  Object.assign(A("yaura","ward")||{}, {cost:2, desc:"Guard. Choose an ally. That ally loses 1 HP. If that ally is attacked this round, the attacker gains 2 Bleed. No Shield."});
+  Object.assign(A("yaura","bolt")||{}, {dmg:2, desc:"Ranged bloodcraft setup. Deal 2 damage ignoring Armor. If this hit deals HP damage, apply 2 Bleed."});
+  Object.assign(A("yaura","price")||{}, {dmg:4, desc:"Bloodcraft attack. Yaura or an ally loses 2 HP. Deal 4 damage to enemies in the front row."});
+  Object.assign(A("yaura","rain")||{}, {stacks:2, desc:"Bloodcraft AoE setup. Yaura loses 2 HP. Apply 2 Bleed to every enemy."});
+
+  const kku=C("kku");
+  if(kku){ kku.hp=29; kku.armor=1; }
+  Object.assign(A("kku","slam")||{}, {dmg:3, range:"melee", desc:"Front-line brute attack. Deal 3 damage. If this hit deals HP damage, apply 1 Freeze."});
+  Object.assign(A("kku","break")||{}, {dmg:5, bonus:2, range:"melee", desc:"Front-line brute payoff. Deal 5 damage. If the target has Freeze, deal +2 damage."});
+
+  const maoja=C("maoja");
+  if(maoja){ maoja.hp=29; maoja.armor=1; }
+  Object.assign(A("maoja","grip")||{}, {dmg:5, range:"melee", desc:"Front-line brute attack. Deal 5 damage and apply 2 Poison. If the target already had Poison, also apply Exhausted."});
+  Object.assign(A("maoja","burst")||{}, {range:"melee", mult:3, desc:"Front-line witchcraft payoff. Remove all Poison. Deal removed Poison ×3 damage, ignoring Armor."});
+
+  const poom=C("poom");
+  if(poom){ poom.hp=30; poom.armor=1; }
+  Object.assign(A("poom","bash")||{}, {dmg:4, range:"melee", desc:"Front-line brute attack. Deal 4 damage."});
+  Object.assign(A("poom","roar")||{}, {range:"melee", dmg:3, bonus:6, desc:"Front-line hypnotic payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis and deal +6 damage."});
+  Object.assign(A("poom","revenge")||{}, {range:"melee", dmg:7, self:3, bonus:3, desc:"Front-line brute attack. Poom loses 3 HP, then deals 7 damage. If Poom was attacked this round, deal +3 damage."});
+
+  Object.assign(A("kahro","assassinate")||{}, {dmg:5, bonus:3, pierce:2, range:"ranged", desc:"Assassin precision. Deal 5 damage with Pierce 2. Can target backline. If the target is in the back row and the front row is empty, deal +3 damage."});
+  Object.assign(A("eva","fangs")||{}, {dmg:3, desc:"Melee attack. Deal 3 damage. If this hit deals HP damage, apply 1 Bleed."});
+  Object.assign(A("eva","dash")||{}, {dmg:3, pierce:1, range:"ranged", desc:"Assassin backline tool. Deal 3 damage with Pierce 1. If the target has Bleed, apply Exposed."});
+  Object.assign(A("eva","bite")||{}, {range:"ranged", mult:2, bonus:1, heal:2, desc:"Assassin/vampire payoff. Can target backline. Remove all Bleed. Deal Bleed ×2 +1 damage. If any Bleed was removed, Lady Eva restores 2 HP."});
+  Object.assign(A("smithen","whiteout")||{}, {exposedIfFrozen:false, desc:"Ranged setup. Apply 1 Freeze."});
+  Object.assign(A("smithen","shatter")||{}, {dmg:3, pierce:2, range:"ranged", desc:"Assassin icecraft payoff. Deal 3 damage with Pierce 2. Can target backline. If the target has Freeze, remove all Freeze and gain +2 damage per removed Freeze."});
+
+  const paleya=C("paleya");
+  if(paleya){ paleya.hp=20; paleya.armor=1; }
+  Object.assign(A("paleya","stare")||{}, {effect:"multiStatus", statuses:[["hypnosis",1],["exposed",1]], desc:"Ranged setup. Apply Hypnosis and Exposed to one enemy."});
+  Object.assign(A("paleya","break")||{}, {dmg:4, payoffDmg:10, ignoreArmor:true, desc:"Ranged hypnotic payoff. If the target has Hypnosis, remove Hypnosis and deal 10 damage ignoring Armor. Otherwise, deal 4 damage ignoring Armor."});
+  Object.assign(A("paleya","fog")||{}, {cost:2, effect:"rowMultiStatus", statuses:[["hypnosis",1],["exposed",1]], desc:"AoE control setup. Choose an enemy row. Apply Hypnosis and Exposed to each enemy in that row."});
+
+  const bahl=C("shaman");
+  if(bahl){ bahl.hp=21; bahl.armor=1; }
+  Object.assign(A("shaman","mark")||{}, {statuses:[["poison",2],["bleed",1]], desc:"Ranged demon setup. Apply 2 Poison and 1 Bleed to one enemy."});
+  Object.assign(A("shaman","pact")||{}, {self:1, desc:"Bloodcraft setup. An ally loses 1 HP. Apply 2 Bleed to enemies in the front row."});
+  Object.assign(A("shaman","plague")||{}, {stacks:5, desc:"AoE demon setup. Choose an enemy row. Apply 5 Poison to each enemy in that row."});
+  Object.assign(A("shaman","rupture")||{}, {mult:2, bonus:3, desc:"Demon payoff. Remove all Poison and Bleed from one enemy. Deal removed counters ×2 +3 damage, ignoring Armor."});
+
+  const hyafrost=C("hyafrost");
+  if(hyafrost){ hyafrost.hp=20; hyafrost.armor=1; }
+  Object.assign(A("hyafrost","zero")||{}, {effect:"absoluteZeroConsume", mult:2, ignoreArmor:true, desc:"AoE Freeze payoff. For each enemy with Freeze, remove all Freeze, deal removed Freeze ×2 damage ignoring Armor, and apply Exhausted."});
+
+  const bakub=C("bakub");
+  if(bakub){ bakub.hp=20; bakub.armor=1; }
+  Object.assign(A("bakub","toxin")||{}, {dmg:3, payoffDmg:6, poison:2, ignoreArmor:true, desc:"Ranged hypnotic/witchcraft payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis, deal 6 damage ignoring Armor instead, and apply 2 Poison."});
+  Object.assign(A("bakub","fog")||{}, {statuses:[["poison",2],["hypnosis",1]], desc:"AoE demon setup. Choose an enemy row. Apply 2 Poison and Hypnosis to each enemy in that row."});
+}
+tuneClassBalanceV66();
+
+const applyBeforeV66 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+  switch(a.effect){
+    case "absoluteZeroConsume": {
+      alive(other(c.side)).filter(x=>(x.status?.freeze||0)>0).forEach(x=>{
+        const stacks=x.status.freeze||0;
+        x.status.freeze=0;
+        damage(c,x,stacks*(a.mult||2),{attack:true,melee:false,ignoreArmor:!!a.ignoreArmor});
+        if(!x.dead) addStatus(x,"exhausted",1);
+      });
+      return;
+    }
+    case "demonRupture": {
+      const total=(t?.status?.poison||0)+(t?.status?.bleed||0);
+      if(t){t.status.poison=0;t.status.bleed=0;}
+      damage(c,t,total*(a.mult||2)+(a.bonus||0),{attack:true,melee:false,ignoreArmor:true});
+      return;
+    }
+    case "mindToxinConsume": {
+      const had=!!t?.status?.hypnosis;
+      if(had){
+        t.status.hypnosis=0;
+        damage(c,t,a.payoffDmg||6,{attack:true,melee:false,ignoreArmor:!!a.ignoreArmor});
+        if(!t.dead) addStatus(t,"poison",a.poison||2);
+      } else {
+        damage(c,t,a.dmg||3,{attack:true,melee:false});
+      }
+      return;
+    }
+    case "poisonBurst": {
+      const p=t?.status?.poison||0;
+      if(t) t.status.poison=0;
+      damage(c,t,p*(a.mult||3),{attack:true,melee:false,ignoreArmor:true});
+      return;
+    }
+    default:
+      return applyBeforeV66(c,a,t);
+  }
+};
+
+
+/* ===== v71 skill-curve balance pass =====
+   Goal: skill-intensive characters should be weak/medium under bad play and rewarding under good play,
+   not already strong when played badly. Target example: old-AI 40-45%, smart-AI 55-58%.
+*/
+function tuneSkillCurveV71(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+
+  // Paleya: lower easy floor, preserve skill payoff.
+  const paleya=C("paleya");
+  if(paleya){ paleya.hp=20; paleya.armor=1; }
+  Object.assign(A("paleya","break")||{}, {
+    dmg:2,
+    payoffDmg:8,
+    ignoreArmor:true,
+    desc:"Ranged hypnotic payoff. If the target has Hypnosis, remove Hypnosis and deal 8 damage ignoring Armor. Otherwise, deal 2 damage ignoring Armor."
+  });
+  Object.assign(A("paleya","fog")||{}, {
+    effect:"rowStatus",
+    status:"hypnosis",
+    stacks:1,
+    statuses:undefined,
+    desc:"AoE control setup. Choose an enemy row. Apply Hypnosis to each enemy in that row."
+  });
+
+  // Reduce too-easy AoE/status pressure.
+  Object.assign(A("yaura","rain")||{}, {stacks:1});
+  Object.assign(A("yaura","bolt")||{}, {dmg:1});
+  Object.assign(A("shaman","plague")||{}, {stacks:4});
+  Object.assign(A("shaman","rupture")||{}, {bonus:1});
+  Object.assign(A("bakub","vial")||{}, {statuses:[["poison",1],["hypnosis",1]]});
+
+  // Reliability buffs for underperformers.
+  const dravain=C("dravain");
+  if(dravain){ dravain.hp=24; dravain.armor=3; }
+  Object.assign(A("dravain","protect")||{}, {cost:1});
+  Object.assign(A("poom","bash")||{}, {dmg:5});
+  Object.assign(A("poom","revenge")||{}, {dmg:8});
+  const hy=C("hyafrost");
+  if(hy){ hy.hp=21; }
+  Object.assign(A("hyafrost","blast")||{}, {dmg:4});
+  Object.assign(A("eva","fangs")||{}, {dmg:4});
+}
+tuneSkillCurveV71();
+
+
+/* ===== v72 2x2 skill-matrix balance pass =====
+   Uses pilot/opponent matrix:
+   old-vs-old = noob baseline,
+   smart-vs-smart = optimized strength,
+   smart-vs-old = skilled pilot farming bad opponents,
+   old-vs-smart = punishability/counterability by good opponents.
+*/
+function tuneSkillMatrixV72(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  Object.assign(A("paleya","break")||{}, {dmg:2,payoffDmg:8,ignoreArmor:true,desc:"Ranged hypnotic payoff. If the target has Hypnosis, remove Hypnosis and deal 8 damage ignoring Armor. Otherwise, deal 2 damage ignoring Armor."});
+  Object.assign(A("paleya","fog")||{}, {effect:"rowStatus",status:"hypnosis",stacks:1,statuses:undefined,desc:"AoE control setup. Choose an enemy row. Apply Hypnosis to each enemy in that row."});
+  Object.assign(A("yaura","rain")||{}, {stacks:1});
+  Object.assign(A("yaura","bolt")||{}, {dmg:1});
+  Object.assign(A("shaman","plague")||{}, {stacks:4});
+  Object.assign(A("shaman","rupture")||{}, {bonus:1});
+  Object.assign(A("bakub","vial")||{}, {statuses:[["poison",1],["hypnosis",1]]});
+  const dravain=C("dravain"); if(dravain){dravain.hp=24;dravain.armor=3;} Object.assign(A("dravain","protect")||{}, {cost:1});
+  Object.assign(A("poom","bash")||{}, {dmg:5}); Object.assign(A("poom","revenge")||{}, {dmg:8});
+  const hy=C("hyafrost"); if(hy){hy.hp=21;} Object.assign(A("hyafrost","blast")||{}, {dmg:4});
+  Object.assign(A("eva","fangs")||{}, {dmg:4});
+}
+tuneSkillMatrixV72();
+
+
+/* ===== v73 surgical balance pass =====
+   Based on v72 data:
+   - Yaura: remove easy Armor-ignore; Blood Bolt becomes a next-attack enhancer.
+   - Poom: reduce raw damage, improve Mesmeric Taunt usability.
+   - Hyafrost: nerf Absolute Zero spike.
+   - Dravain: buff protection loop and Blood Slash.
+   - Bahl: improve Blood Pact safety, not Rupture.
+   - K'ku: buff setup/guard, not Glacier Break.
+*/
+function tuneSurgicalV73(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+
+  Object.assign(A("yaura","bolt")||{}, {
+    name:"Blood Infusion",
+    effect:"bloodInfusion",
+    range:"ally",
+    dmg:0,
+    ignoreArmor:false,
+    desc:"Setup. Choose an ally. That ally's next attack this round deals +2 damage. If that attack deals HP damage, apply 2 Bleed."
+  });
+
+  Object.assign(A("poom","guard")||{}, {
+    minArmor:1,
+    desc:"Guard payoff. Consume Hypnosis from all enemies. For each enemy that lost Hypnosis this way, offensive actions they use this turn are redirected to Poom. Poom gains +1 Armor, plus +1 Armor for each Hypnosis consumed."
+  });
+  Object.assign(A("poom","bash")||{}, {dmg:4});
+  Object.assign(A("poom","revenge")||{}, {dmg:7});
+
+  Object.assign(A("hyafrost","zero")||{}, {
+    mult:1.5,
+    ignoreArmor:false,
+    desc:"AoE Freeze payoff. For each enemy with Freeze, remove all Freeze, deal removed Freeze ×1.5 damage, and apply Exhausted."
+  });
+
+  Object.assign(A("dravain","protect")||{}, {
+    armor:1,
+    cleanse:1,
+    desc:"Guard. Choose an ally. Remove 1 negative status from that ally. The first damage attack targeting that ally this round targets Dravain instead. The protected ally gains +1 Armor until end of round."
+  });
+  Object.assign(A("dravain","slash")||{}, {dmg:3});
+
+  Object.assign(A("shaman","pact")||{}, {
+    armorSelf:1,
+    desc:"Bloodcraft setup. An ally loses 1 HP. Apply 2 Bleed to enemies in the front row. Bahl gains +1 Armor until end of round."
+  });
+
+  Object.assign(A("kku","guard")||{}, {
+    armor:1,
+    desc:"Guard. If K'ku is hit this round, the attacker gains 2 Freeze and K'ku gains +1 Armor until end of round."
+  });
+  Object.assign(A("kku","roar")||{}, {
+    exhausted:1,
+    desc:"Front-row setup. Apply 2 Freeze and Exhausted to enemies in the front row."
+  });
+}
+tuneSurgicalV73();
+
+const applyBeforeV73 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  if(a.effect==="bloodInfusion"){
+    if(!t) return;
+    t.buff = t.buff || {};
+    t.buff.bloodInfusion = {bonus:2, bleed:2};
+    spawnFloatingText?.(t, "Blood Infusion", "status");
+    log(`${c.name} empowers ${t.name}'s next attack.`);
+    return;
+  }
+
+  if(a.cleanse && t){
+    for(const s of ["poison","bleed","freeze","hypnosis","dread","exposed","exhausted"]){
+      if(t.status?.[s]){
+        t.status[s]=Math.max(0,(t.status[s]||0)-a.cleanse);
+        break;
+      }
+    }
+  }
+
+  return applyBeforeV73(c,a,t);
+};
+
+
+
+/* ===== v75 fast auto-balance support mechanics =====
+   Adds support for surgical balance mechanics used by the simulator:
+   - Yaura Blood Infusion: next attack enhancer, not Armor-ignore.
+   - Protect cleanse.
+   - Poom Mesmeric Taunt baseline Armor.
+   - K'ku/Bahl guard/setup safety fields.
+*/
+function tuneAutoBalanceSupportV75(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+
+  Object.assign(A("yaura","bolt")||{}, {
+    name:"Blood Infusion",
+    effect:"bloodInfusion",
+    range:"ally",
+    dmg:0,
+    ignoreArmor:false,
+    bonus:3,
+    bleed:2,
+    desc:"Setup. Choose an ally. That ally's next attack this round deals +3 damage. If that attack deals HP damage, apply 2 Bleed."
+  });
+
+  Object.assign(A("dravain","protect")||{}, {
+    cleanse:1,
+    desc:"Guard. Choose an ally. Remove 1 negative status from that ally. The first damage attack targeting that ally this round targets Dravain instead."
+  });
+
+  Object.assign(A("poom","guard")||{}, {minArmor:2});
+  Object.assign(A("kku","guard")||{}, {armor:1});
+  Object.assign(A("kku","roar")||{}, {exhausted:1});
+  Object.assign(A("shaman","pact")||{}, {armorSelf:1});
+}
+tuneAutoBalanceSupportV75();
+
+const applyBeforeV75 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  if(a.effect==="bloodInfusion"){
+    if(!t) return;
+    t.buff = t.buff || {};
+    t.buff.bloodInfusion = {bonus:a.bonus||3, bleed:a.bleed||2};
+    spawnFloatingText?.(t, "Blood Infusion", "status");
+    log(`${c.name} empowers ${t.name}'s next attack.`);
+    return;
+  }
+
+  if(a.cleanse && t){
+    for(const s of ["poison","bleed","freeze","hypnosis","dread","exposed","exhausted"]){
+      if(t.status?.[s]){
+        t.status[s]=Math.max(0,(t.status[s]||0)-a.cleanse);
+        break;
+      }
+    }
+  }
+
+  return applyBeforeV75(c,a,t);
+};
+
+const damageBeforeV75 = damage;
+damage = function(src,t,amt,opt={}){
+  if(opt?.attack && src?.buff?.bloodInfusion){
+    amt += src.buff.bloodInfusion.bonus || 0;
+    const bleed = src.buff.bloodInfusion.bleed || 0;
+    const dealt = damageBeforeV75(src,t,amt,opt);
+    if(dealt>0 && !t.dead) addStatus(t,"bleed",bleed);
+    src.buff.bloodInfusion = null;
+    return dealt;
+  }
+  return damageBeforeV75(src,t,amt,opt);
+};
+
+
+
+/* ===== v79 mobile layout + ally-targeting hotfix =====
+   Fixes:
+   1. applyLayoutModeV52 ReferenceError on mobile/QA layout refresh.
+   2. Enemy AI could target player units with abilities whose text/range says "ally".
+      The source of truth is now: if ability.range === "ally", targets are alive units on caster's side.
+*/
+function applyLayoutModeV52(){
+  const w = window.innerWidth || document.documentElement?.clientWidth || 1024;
+  const h = window.innerHeight || document.documentElement?.clientHeight || 768;
+  let mode = "desktop";
+  if(w <= 700) mode = "mobile";
+  else if(w <= 1100 || h <= 760) mode = "tablet";
+  document.body.dataset.layoutMode = mode;
+  document.body.classList.toggle("mobileLayoutV52", mode === "mobile");
+  document.body.classList.toggle("tabletLayoutV52", mode === "tablet");
+  document.body.classList.toggle("desktopLayoutV52", mode === "desktop");
+}
+
+const targetsBeforeV79 = targets;
+targets = function(c,a){
+  if(!c || !a) return [];
+
+  // Absolute rule: ally-range abilities can only target own living units.
+  // Covers Blood Ward, Blood Infusion, Frost Armor, Protect Ally, Poison Hands, etc.
+  if(a.range === "ally" || ["bloodWard","bloodInfusion","frostArmorRetaliate"].includes(a.effect)){
+    return alive(c.side);
+  }
+
+  return targetsBeforeV79(c,a);
+};
+
+if(typeof chooseTargetV45 === "function"){
+  const chooseTargetV45BeforeV79 = chooseTargetV45;
+  chooseTargetV45 = function(c,a,ts){
+    if(a?.range === "ally"){
+      ts = (ts || []).filter(t => t && t.side === c.side && !t.dead);
+    }
+    return chooseTargetV45BeforeV79(c,a,ts);
+  };
+}
+
+window.addEventListener?.("resize", ()=>applyLayoutModeV52());
+window.addEventListener?.("orientationchange", ()=>setTimeout(applyLayoutModeV52, 50));
+applyLayoutModeV52();
+
+
+
+/* ===== v83 surgical follow-up mechanics =====
+   Data-driven changes after v82:
+   - Dravain Shield Bash is cost 2.
+   - Yaura Blood Ward grants +1 Armor and applies 3 Bleed to melee/attackers when triggered.
+   - Paleya Mirror Guard applies Exposed when the prediction cancels an attack.
+*/
+function tuneSurgicalV83(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+
+  Object.assign(A("dravain","bash")||{}, {cost:2});
+
+  Object.assign(A("yaura","ward")||{}, {
+    cost:1,
+    armor:1,
+    stacks:3,
+    desc:"Guard. Choose an ally. That ally loses 1 HP and gains +1 Armor this round. If that ally is attacked this round, the attacker gains 3 Bleed. No Shield."
+  });
+
+  Object.assign(A("paleya","mirror")||{}, {
+    exposed:1,
+    desc:"Guard prediction. Choose an enemy. If it uses a damaging attack this round, cancel that action and apply Hypnosis and Exposed to it."
+  });
+  Object.assign(A("paleya","mass")||{}, {spd:1});
+}
+tuneSurgicalV83();
+
+
+
+/* ===== v84 final iterative balance tuning =====
+{
+  "dravain": {
+    "abilities": {
+      "bash": {
+        "cost": 1
+      },
+      "protect": {
+        "cost": 1,
+        "cleanse": 1,
+        "armor": 0
+      }
+    },
+    "hp": 22
+  },
+  "yaura": {
+    "abilities": {
+      "price": {
+        "self": 0,
+        "dmg": 4
+      },
+      "ward": {
+        "cost": 1,
+        "self": 0,
+        "armor": 4,
+        "stacks": 3
+      },
+      "bolt": {
+        "bonus": 3,
+        "bleed": 4,
+        "range": "ally",
+        "ignoreArmor": false
+      }
+    },
+    "hp": 23
+  },
+  "poom": {
+    "abilities": {
+      "bodyguard": {
+        "dmg": 3,
+        "self": 5
+      },
+      "roar": {
+        "bonus": 4
+      }
+    }
+  },
+  "eva": {
+    "abilities": {
+      "stab": {
+        "dmg": 2
+      },
+      "bite": {
+        "bonus": 4,
+        "heal": 1
+      },
+      "kiss": {
+        "dmg": 2
+      }
+    }
+  },
+  "kahro": {
+    "abilities": {
+      "assassinate": {
+        "dmg": 4,
+        "bonus": 1
+      },
+      "needle": {
+        "dmg": 2
+      }
+    }
+  },
+  "paleya": {
+    "abilities": {
+      "mirror": {
+        "exposed": 1,
+        "shield": 3
+      },
+      "mass": {
+        "spd": 1,
+        "stacks": 2
+      }
+    }
+  }
+}
+*/
+function tuneFinalV84(){
+  const P = {"dravain": {"abilities": {"bash": {"cost": 1}, "protect": {"cost": 1, "cleanse": 1, "armor": 0}}, "hp": 22}, "yaura": {"abilities": {"price": {"self": 0, "dmg": 4}, "ward": {"cost": 1, "self": 0, "armor": 4, "stacks": 3}, "bolt": {"bonus": 3, "bleed": 4, "range": "ally", "ignoreArmor": false}}, "hp": 23}, "poom": {"abilities": {"bodyguard": {"dmg": 3, "self": 5}, "roar": {"bonus": 4}}}, "eva": {"abilities": {"stab": {"dmg": 2}, "bite": {"bonus": 4, "heal": 1}, "kiss": {"dmg": 2}}}, "kahro": {"abilities": {"assassinate": {"dmg": 4, "bonus": 1}, "needle": {"dmg": 2}}}, "paleya": {"abilities": {"mirror": {"exposed": 1, "shield": 3}, "mass": {"spd": 1, "stacks": 2}}}};
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  for(const [cid,cp] of Object.entries(P)){ const c=C(cid); if(!c) continue; for(const [k,v] of Object.entries(cp)){ if(k!=="abilities") c[k]=v; } if(cp.abilities){ for(const [aid,ap] of Object.entries(cp.abilities)){ Object.assign(A(cid,aid)||{}, ap); } } }
+}
+tuneFinalV84();
+
+
+
+/* ===== v85 final balance tuning after 3 more iterations =====
+{
+  "dravain": {
+    "abilities": {
+      "bash": {
+        "cost": 1
+      },
+      "protect": {
+        "cost": 1,
+        "cleanse": 1,
+        "armor": 0
+      }
+    },
+    "hp": 22
+  },
+  "yaura": {
+    "abilities": {
+      "price": {
+        "self": 0,
+        "dmg": 4
+      },
+      "ward": {
+        "cost": 1,
+        "self": 0,
+        "armor": 4,
+        "stacks": 3
+      },
+      "bolt": {
+        "bonus": 3,
+        "bleed": 4,
+        "range": "ally",
+        "ignoreArmor": false
+      }
+    },
+    "hp": 24
+  },
+  "poom": {
+    "abilities": {
+      "bodyguard": {
+        "dmg": 3,
+        "self": 6
+      },
+      "roar": {
+        "bonus": 4
+      }
+    }
+  },
+  "eva": {
+    "abilities": {
+      "stab": {
+        "dmg": 2
+      },
+      "bite": {
+        "bonus": 4,
+        "heal": 1
+      },
+      "kiss": {
+        "dmg": 2
+      }
+    }
+  },
+  "kahro": {
+    "abilities": {
+      "assassinate": {
+        "dmg": 4,
+        "bonus": 1
+      },
+      "needle": {
+        "dmg": 2
+      }
+    }
+  },
+  "paleya": {
+    "abilities": {
+      "mirror": {
+        "exposed": 1,
+        "shield": 3
+      },
+      "mass": {
+        "spd": 1,
+        "stacks": 2
+      }
+    }
+  },
+  "bakub": {
+    "abilities": {
+      "vial": {
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "hypnosis",
+            1
+          ]
+        ]
+      }
+    },
+    "hp": 21
+  }
+}
+*/
+function tuneFinalV85(){
+  const P = {"dravain": {"abilities": {"bash": {"cost": 1}, "protect": {"cost": 1, "cleanse": 1, "armor": 0}}, "hp": 22}, "yaura": {"abilities": {"price": {"self": 0, "dmg": 4}, "ward": {"cost": 1, "self": 0, "armor": 4, "stacks": 3}, "bolt": {"bonus": 3, "bleed": 4, "range": "ally", "ignoreArmor": false}}, "hp": 24}, "poom": {"abilities": {"bodyguard": {"dmg": 3, "self": 6}, "roar": {"bonus": 4}}}, "eva": {"abilities": {"stab": {"dmg": 2}, "bite": {"bonus": 4, "heal": 1}, "kiss": {"dmg": 2}}}, "kahro": {"abilities": {"assassinate": {"dmg": 4, "bonus": 1}, "needle": {"dmg": 2}}}, "paleya": {"abilities": {"mirror": {"exposed": 1, "shield": 3}, "mass": {"spd": 1, "stacks": 2}}}, "bakub": {"abilities": {"vial": {"statuses": [["poison", 2], ["hypnosis", 1]]}}, "hp": 21}};
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  for(const [cid,cp] of Object.entries(P)){ const c=C(cid); if(!c) continue; for(const [k,v] of Object.entries(cp)){ if(k!=="abilities") c[k]=v; } if(cp.abilities){ for(const [aid,ap] of Object.entries(cp.abilities)){ Object.assign(A(cid,aid)||{}, ap); } } }
+}
+tuneFinalV85();
+
+
+
+/* ===== v86 Yaura redesign: setup -> bleed payoff =====
+   Yaura no longer relies on easy armor-ignore or repeated HP tax.
+   - Blood Infusion: empowers ally's next attack; if it deals HP damage, applies Bleed.
+   - Blood Price: payoff attack; if target has Bleed, consume it and deal bonus damage.
+   - Blood Ward: protective bloodcraft; gives Armor and punishes attackers with Bleed.
+   - Red Rain: AoE setup, small self-cost.
+*/
+function tuneYauraV86(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  const y=C("yaura");
+  if(y) y.hp = 22;
+  Object.assign(A("yaura","bolt")||{}, {
+    name:"Blood Infusion",
+    effect:"bloodInfusion",
+    range:"ally",
+    cost:1,
+    dmg:0,
+    ignoreArmor:false,
+    bonus:3,
+    bleed:3,
+    desc:"Setup. Choose an ally. That ally's next attack this round deals +3 damage. If that attack deals HP damage, apply 3 Bleed."
+  });
+  Object.assign(A("yaura","price")||{}, {
+    name:"Blood Price",
+    effect:"consumeBleed",
+    range:"ranged",
+    cost:1,
+    dmg:2,
+    bonus:5,
+    self:0,
+    ignoreArmor:false,
+    desc:"Bleed payoff. Deal 2 damage. If the target has Bleed, remove all Bleed from it and deal +5 damage."
+  });
+  Object.assign(A("yaura","ward")||{}, {
+    name:"Blood Ward",
+    effect:"bloodWard",
+    range:"ally",
+    cost:1,
+    self:0,
+    armor:2,
+    stacks:3,
+    desc:"Guard. Choose an ally. That ally gains +2 Armor this round. If that ally is attacked this round, the attacker gains 3 Bleed."
+  });
+  Object.assign(A("yaura","rain")||{}, {
+    name:"Red Rain",
+    effect:"allStatus",
+    cost:2,
+    self:1,
+    status:"bleed",
+    stacks:2,
+    desc:"AoE bleed setup. Yaura loses 1 HP. Apply 2 Bleed to all enemies."
+  });
+}
+tuneYauraV86();
+
+
+
+/* ===== v86 final Yaura redesign patch =====
+{
+  "dravain": {
+    "abilities": {
+      "bash": {
+        "cost": 1
+      },
+      "protect": {
+        "cost": 1,
+        "cleanse": 1,
+        "armor": 0
+      }
+    },
+    "hp": 22
+  },
+  "yaura": {
+    "abilities": {
+      "price": {
+        "name": "Blood Price",
+        "kind": "bleedPayoff",
+        "range": "ranged",
+        "cost": 1,
+        "dmg": 2,
+        "bonus": 5,
+        "self": 0,
+        "ignoreArmor": false
+      },
+      "ward": {
+        "name": "Blood Ward",
+        "kind": "bloodWard",
+        "range": "ally",
+        "cost": 1,
+        "self": 0,
+        "armor": 2,
+        "stacks": 3
+      },
+      "bolt": {
+        "name": "Blood Infusion",
+        "effect": "bloodInfusion",
+        "kind": "empowerNextAttack",
+        "range": "ally",
+        "cost": 1,
+        "dmg": 0,
+        "ignoreArmor": false,
+        "bonus": 3,
+        "bleed": 3
+      },
+      "rain": {
+        "name": "Red Rain",
+        "kind": "selfAllStatus",
+        "cost": 2,
+        "status": "bleed",
+        "stacks": 2,
+        "self": 1
+      }
+    },
+    "hp": 22
+  },
+  "poom": {
+    "abilities": {
+      "bodyguard": {
+        "dmg": 3,
+        "self": 6
+      },
+      "roar": {
+        "bonus": 4
+      }
+    }
+  },
+  "eva": {
+    "abilities": {
+      "stab": {
+        "dmg": 2
+      },
+      "bite": {
+        "bonus": 4,
+        "heal": 1
+      },
+      "kiss": {
+        "dmg": 2
+      }
+    }
+  },
+  "kahro": {
+    "abilities": {
+      "assassinate": {
+        "dmg": 4,
+        "bonus": 1
+      },
+      "needle": {
+        "dmg": 2
+      }
+    }
+  },
+  "paleya": {
+    "abilities": {
+      "mirror": {
+        "exposed": 1,
+        "shield": 3
+      },
+      "mass": {
+        "spd": 1,
+        "stacks": 2
+      }
+    }
+  },
+  "bakub": {
+    "abilities": {
+      "vial": {
+        "statuses": [
+          [
+            "poison",
+            2
+          ],
+          [
+            "hypnosis",
+            1
+          ]
+        ]
+      }
+    },
+    "hp": 21
+  },
+  "smithen": {
+    "abilities": {
+      "shatter": {
+        "dmg": 3
+      }
+    }
+  }
+}
+*/
+function tuneFinalV86(){
+  const P = {"dravain": {"abilities": {"bash": {"cost": 1}, "protect": {"cost": 1, "cleanse": 1, "armor": 0}}, "hp": 22}, "yaura": {"abilities": {"price": {"name": "Blood Price", "kind": "bleedPayoff", "range": "ranged", "cost": 1, "dmg": 2, "bonus": 5, "self": 0, "ignoreArmor": false}, "ward": {"name": "Blood Ward", "kind": "bloodWard", "range": "ally", "cost": 1, "self": 0, "armor": 2, "stacks": 3}, "bolt": {"name": "Blood Infusion", "effect": "bloodInfusion", "kind": "empowerNextAttack", "range": "ally", "cost": 1, "dmg": 0, "ignoreArmor": false, "bonus": 3, "bleed": 3}, "rain": {"name": "Red Rain", "kind": "selfAllStatus", "cost": 2, "status": "bleed", "stacks": 2, "self": 1}}, "hp": 22}, "poom": {"abilities": {"bodyguard": {"dmg": 3, "self": 6}, "roar": {"bonus": 4}}}, "eva": {"abilities": {"stab": {"dmg": 2}, "bite": {"bonus": 4, "heal": 1}, "kiss": {"dmg": 2}}}, "kahro": {"abilities": {"assassinate": {"dmg": 4, "bonus": 1}, "needle": {"dmg": 2}}}, "paleya": {"abilities": {"mirror": {"exposed": 1, "shield": 3}, "mass": {"spd": 1, "stacks": 2}}}, "bakub": {"abilities": {"vial": {"statuses": [["poison", 2], ["hypnosis", 1]]}}, "hp": 21}, "smithen": {"abilities": {"shatter": {"dmg": 3}}}};
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  for(const [cid,cp] of Object.entries(P)){ const c=C(cid); if(!c) continue; for(const [k,v] of Object.entries(cp)){ if(k!=="abilities") c[k]=v; } if(cp.abilities){ for(const [aid,ap] of Object.entries(cp.abilities)){ Object.assign(A(cid,aid)||{}, ap); } } }
+}
+tuneFinalV86();
+
+
+
+/* ===== v87 requested buff tuning =====
+{
+  "Paleya": "Mass Suggestion cost 2 -> 1",
+  "Hyafrost": "Frozen Field freeze stacks 2 -> 3",
+  "Kahro": "Assassinate bonus +1",
+  "Yaura": "Blood Price bonus 5 -> 6"
+}
+*/
+function tuneRequestedBuffsV87(){
+  const P = {"dravain": {"abilities": {"bash": {"cost": 1}, "protect": {"cost": 1, "cleanse": 1, "armor": 0}}, "hp": 22}, "yaura": {"abilities": {"price": {"name": "Blood Price", "kind": "bleedPayoff", "range": "ranged", "cost": 1, "dmg": 2, "bonus": 6, "self": 0, "ignoreArmor": false}, "ward": {"name": "Blood Ward", "kind": "bloodWard", "range": "ally", "cost": 1, "self": 0, "armor": 2, "stacks": 3}, "bolt": {"name": "Blood Infusion", "effect": "bloodInfusion", "kind": "empowerNextAttack", "range": "ally", "cost": 1, "dmg": 0, "ignoreArmor": false, "bonus": 3, "bleed": 3}, "rain": {"name": "Red Rain", "kind": "selfAllStatus", "cost": 2, "status": "bleed", "stacks": 2, "self": 1}}, "hp": 22}, "poom": {"abilities": {"bodyguard": {"dmg": 3, "self": 6}, "roar": {"bonus": 4}}}, "eva": {"abilities": {"stab": {"dmg": 2}, "bite": {"bonus": 4, "heal": 1}, "kiss": {"dmg": 2}}}, "kahro": {"abilities": {"assassinate": {"dmg": 4, "bonus": 2}, "needle": {"dmg": 2}}}, "paleya": {"abilities": {"mirror": {"exposed": 1, "shield": 3}, "mass": {"spd": 1, "stacks": 2, "cost": 1}}}, "bakub": {"abilities": {"vial": {"statuses": [["poison", 2], ["hypnosis", 1]]}}, "hp": 21}, "smithen": {"abilities": {"shatter": {"dmg": 3}}}, "hyafrost": {"abilities": {"field": {"stacks": 3}}}};
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  for(const [cid,cp] of Object.entries(P)){ const c=C(cid); if(!c) continue; for(const [k,v] of Object.entries(cp)){ if(k!=="abilities") c[k]=v; } if(cp.abilities){ for(const [aid,ap] of Object.entries(cp.abilities)){ Object.assign(A(cid,aid)||{}, ap); } } }
+}
+tuneRequestedBuffsV87();
+
+/* ===== v88 project health alignment =====
+   Keep the browser runtime and generated simulator on the same numeric rules.
+   These are the values currently used by tools/generated_roster_from_game.js.
+*/
+function tuneRuntimeTruthV88(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  const patchChar=(id, patch)=>{ const c=C(id); if(c) Object.assign(c, patch); };
+  const patchAbility=(id, aid, patch)=>{ const a=A(id,aid); if(a) Object.assign(a, patch); };
+
+  patchChar("dravain", {hp:22, armor:3});
+  patchAbility("dravain", "bash", {dmg:0, desc:"Melee attack. Deal damage equal to 2 plus Dravain's current Armor."});
+
+  patchAbility("smithen", "flash", {range:"self"});
+
+  patchAbility("yaura", "ward", {self:1, armor:1, stacks:2, desc:"Guard. Choose an ally. That ally loses 1 HP and gains +1 Armor this round. If that ally is attacked this round, the attacker gains 2 Bleed."});
+  patchAbility("yaura", "price", {bonus:4, desc:"Bleed payoff. Deal 2 damage. If the target has Bleed, remove all Bleed from it and deal +4 damage."});
+  patchAbility("yaura", "rain", {range:"melee", stacks:1, desc:"Area setup. Choose an enemy front row target. Apply 1 Bleed to every enemy in that row."});
+
+  patchAbility("kku", "guard", {range:"self"});
+  patchAbility("kku", "slam", {dmg:4, desc:"Front-line brute attack. Deal 4 damage. If this hit deals HP damage, apply 1 Freeze."});
+  patchAbility("kku", "roar", {range:"melee"});
+
+  patchAbility("maoja", "grip", {dmg:3, poison:1, desc:"Front-line brute attack. Deal 3 damage and apply 1 Poison. If the target already had Poison, also apply Exhausted."});
+  patchAbility("maoja", "breath", {stacks:3, desc:"Row status. Choose an enemy row. Apply 3 Poison to each enemy in that row."});
+  patchAbility("maoja", "burst", {mult:2, desc:"Front-line witchcraft payoff. Remove all Poison. Deal removed Poison x2 damage, ignoring Armor."});
+
+  patchAbility("kahro", "vanish", {range:"self"});
+
+  patchAbility("paleya", "lance", {dmg:2, payoffDmg:8, ignoreArmor:false, desc:"Magic attack. Deal 2 damage. If the target has Hypnosis, remove Hypnosis and deal 8 damage instead."});
+  patchAbility("paleya", "mass", {status:"hypnosis"});
+
+  patchAbility("poom", "bash", {stacks:2});
+
+  patchChar("shaman", {hp:23});
+  patchAbility("shaman", "plague", {dmg:1, stacks:2, desc:"AoE demon setup. Choose an enemy row. Apply 2 Poison to each enemy in that row."});
+  patchAbility("shaman", "rupture", {bonus:2, desc:"Demon payoff. Remove all Poison and Bleed from one enemy. Deal removed counters x2 +2 damage, ignoring Armor."});
+
+  patchAbility("eva", "stab", {status:"bleed", stacks:1});
+  patchAbility("eva", "mist", {range:"self"});
+  patchAbility("eva", "kiss", {stacks:2, desc:"Melee attack. Deal 2 damage ignoring Armor. Shield can still absorb this damage. Then apply 2 Bleed."});
+
+  patchChar("hyafrost", {hp:22});
+  patchAbility("hyafrost", "armor", {armor:3, desc:"Ally support. Choose an ally. That ally gains +3 Armor until end of round. Until end of round, enemies that hit that ally with melee gain 1 Freeze."});
+  patchAbility("hyafrost", "zero", {range:"melee", ignoreArmor:true, mult:2, desc:"AoE Freeze payoff. For each enemy with Freeze, remove all Freeze, deal removed Freeze x2 damage ignoring Armor, and apply Exhausted."});
+
+  patchAbility("bakub", "toxin", {payoffDmg:5, desc:"Ranged hypnotic/witchcraft payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis, deal 5 damage ignoring Armor instead, and apply 2 Poison."});
+}
+tuneRuntimeTruthV88();
+
+const applyBeforeRuntimeTruthV88 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+
+  switch(a.effect){
+    case "protect":
+      if(t && !t.dead){
+        if(a.cleanse){
+          for(const s of ["poison","bleed","freeze","hypnosis","dread","exposed","exhausted"]){
+            if(t.status?.[s]){
+              t.status[s] = Math.max(0, (t.status[s]||0) - a.cleanse);
+              break;
+            }
+          }
+        }
+        if(a.armor) addArmorThisRound?.(t,a.armor);
+        state.protects.push({guard:c,target:t,hypno:a.hypno,used:false});
+        state.guarded[c.id]=true;
+        state.guarded[t.id]=true;
+        spawnFloatingText?.(t, "Protected", "status");
+        log(`${c.name} protects ${t.name}. The first attack targeting ${t.name} redirects to ${c.name}.`);
+      }
+      return;
+
+    case "armorStrike":
+      damage(c,t,(a.dmg||2)+getArmor(c),{attack:true,melee:true});
+      return;
+
+    case "bloodWard":
+      if(t && !t.dead){
+        const selfLoss = a.self ?? 0;
+        if(selfLoss > 0) lifeFromCaster(c,t,selfLoss);
+        if(a.armor) addArmorThisRound?.(t,a.armor);
+        state.counters.push({caster:t,status:"bleed",stacks:a.stacks ?? a.bleed ?? 2,shield:0});
+        state.guarded[t.id]=true;
+        spawnFloatingText?.(t, "Blood Ward", "status");
+        log(`${t.name} gains Blood Ward. Attackers that hit gain ${a.stacks ?? a.bleed ?? 2} Bleed.`);
+      }
+      return;
+
+    case "toxicGrip": {
+      const hadPoison = !!t?.status?.poison;
+      damage(c,t,a.dmg ?? 3,{attack:true,melee:true});
+      if(!t?.dead){
+        applyStatusFrom(c,t,"poison",a.poison ?? a.stacks ?? 2);
+        if(hadPoison) addStatus(t,"exhausted",1);
+      }
+      return;
+    }
+
+    case "mindBreak": {
+      const hadHypnosis = !!t?.status?.hypnosis;
+      if(hadHypnosis) t.status.hypnosis = 0;
+      damage(c,t,hadHypnosis ? (a.payoffDmg ?? 6) : (a.dmg ?? 2),{attack:true,ignoreArmor:!!a.ignoreArmor});
+      if(hadHypnosis && c.id==="paleya" && !state.paleyaWeaved){
+        state.paleyaWeaved = true;
+        state.nextRoundBonusActions = (state.nextRoundBonusActions||0)+1;
+        markPassive(c, "Mind Weaver");
+        log(`Paleya's Mind Weaver triggers: +1 Action next round.`);
+      }
+      return;
+    }
+
+    case "bloodDash": {
+      const hadBleed = !!t?.status?.bleed;
+      damage(c,t,a.dmg ?? 2,{attack:true,melee:a.range==="melee",pierce:a.pierce||0,targetHadBleed:hadBleed});
+      if(hadBleed && !t?.dead) addStatus(t,"exposed",1);
+      return;
+    }
+
+    case "bloodPrice": {
+      if(c && !c.dead && (a.self ?? 0) > 0) lifeFromCaster(c,c,a.self);
+      if(t && !t.dead) damage(c,t,a.dmg ?? 6,{attack:true,melee:a.range==="melee",ignoreArmor:!!a.ignoreArmor});
+      return;
+    }
+
+    default:
+      return applyBeforeRuntimeTruthV88(c,a,t);
+  }
+};
+
+const redirectBeforeProtectV91 = redirect;
+redirect = function(target,source){
+  const p=state?.protects?.find(p=>p.target===target && !p.used && p.guard && !p.guard.dead);
+  if(!p) return redirectBeforeProtectV91(target,source);
+  p.used = true;
+  log(`${p.guard.name} protects ${target.name}.`);
+  if(p.hypno && source) addStatus(source,"hypnosis",1);
+  spawnFloatingText?.(p.guard, "Protect", "status");
+  return p.guard;
+};
+
+const targetsBeforeProtectV91 = targets;
+targets = function(c,a){
+  const ts = targetsBeforeProtectV91(c,a);
+  if(a?.effect==="protect") return ts.filter(t=>t && t.id!==c?.id);
+  return ts;
+};
+
+function tuneRequestedRulesV91(){
+  const C=id=>ROSTER.find(c=>c.id===id);
+  const A=(id,aid)=>C(id)?.abilities?.find(a=>a.id===aid);
+  const price=A("yaura","price");
+  if(price) Object.assign(price, {
+    name:"Blood Price",
+    effect:"bloodPrice",
+    kind:"attack",
+    range:"ranged",
+    cost:1,
+    dmg:6,
+    self:2,
+    bonus:0,
+    ignoreArmor:false,
+    desc:"Bloodcraft attack. Yaura loses 2 HP, then attacks one enemy for 6 damage."
+  });
+  const protect=A("dravain","protect");
+  if(protect) Object.assign(protect, {
+    effect:"protect",
+    kind:"protect",
+    range:"ally",
+    cost:1,
+    guard:true,
+    desc:"Guard. Choose another ally. Remove 1 negative status from that ally. The first attack targeting that ally this round targets Dravain instead."
+  });
+}
+tuneRequestedRulesV91();
+
+/* ===== v96 Hope: divinity warrior ===== */
+function ensureHopeV96(){
+  if(ROSTER.some(c=>c.id==="hope")) return;
+  ROSTER.push({
+    id:"hope",
+    name:"Hope",
+    class:"warrior",
+    prof:"divinity",
+    hp:22,
+    armor:2,
+    speed:4,
+    art:ART.hope,
+    passive:"Passive - Rising Grace: Hope gets +1 damage until end of round for each unique ally that gained life this round.",
+    abilities:[
+      A("mend","Mend Wounds",1,1,"Divinity support. Restore 5 HP to one ally.","hopeHeal",{kind:"singleHeal",heal:5,range:"ally"}),
+      A("strike","Hopeful Strike",1,0,"Low damage melee attack. Deal 2 damage to one enemy in the front row.","damage",{kind:"attack",dmg:2,range:"melee"}),
+      A("shield","Blessing Shield",1,99,"Guard. Choose one ally. That ally gains 4 Shield before attacks resolve.","hopeShield",{kind:"grantShield",guard:true,shield:4,range:"ally"}),
+      A("judgement","Delayed Judgement",2,-2,"Delayed ranged attack. Choose one enemy. At the start of next round, deal 6 damage.","hopeDelayedAttack",{kind:"delayedAttack",dmg:6,range:"ranged",delay:1})
+    ]
+  });
+}
+ensureHopeV96();
+
+function hopeHealedSetV96(side){
+  if(!state) return null;
+  state.hopeHealedAlliesV96 = state.hopeHealedAlliesV96 || {};
+  state.hopeHealedAlliesV96[side] = state.hopeHealedAlliesV96[side] || [];
+  return state.hopeHealedAlliesV96[side];
+}
+
+function hopeDamageBonusV96(u){
+  return u?.id==="hope" ? (state?.hopeHealedAlliesV96?.[u.side]?.length || 0) : 0;
+}
+
+function noteHopeHealV96(t, amount){
+  if(!t || !amount || !state?.units) return;
+  const hopes = state.units.filter(u=>u.id==="hope" && u.side===t.side && !u.dead);
+  if(!hopes.length) return;
+  const healed = hopeHealedSetV96(t.side);
+  if(!healed || healed.includes(t.id)) return;
+  healed.push(t.id);
+  for(const hope of hopes){
+    markPassive?.(hope, "Rising Grace");
+    spawnFloatingText?.(hope, `+${healed.length} damage`, "status");
+  }
+  pushActionEvent?.("passive", `Rising Grace: ${t.name} gained life, so Hope has +${healed.length} damage this round`, hopes[0]);
+  log(`Hope's Rising Grace is now +${healed.length} damage this round.`);
+}
+
+const healBeforeHopeV96 = heal;
+heal = function(t,n){
+  if(!t || t.dead || !n) return 0;
+  const before = t.hp;
+  const result = healBeforeHopeV96(t,n);
+  const healed = Math.max(0, (t.hp || 0) - before);
+  noteHopeHealV96(t, healed);
+  return result ?? healed;
+};
+
+const damageBeforeHopeV96 = damage;
+damage = function(src,t,amt,opt={}){
+  const bonus = opt?.attack ? hopeDamageBonusV96(src) : 0;
+  if(bonus>0){
+    markPassive?.(src, "Rising Grace");
+    pushActionEvent?.("passive", `Rising Grace added +${bonus} damage`, src);
+  }
+  return damageBeforeHopeV96(src,t,(amt||0)+bonus,opt);
+};
+
+const targetsBeforeHopeV96 = targets;
+targets = function(c,a){
+  if(!c || !a) return [];
+  if(a.effect==="hopeHeal" || a.effect==="hopeShield" || a.kind==="singleHeal" || a.kind==="grantShield") return alive(c.side);
+  if(a.effect==="hopeDelayedAttack" || a.kind==="delayedAttack") return alive(other(c.side));
+  return targetsBeforeHopeV96(c,a);
+};
+
+function scheduleHopeDelayedAttackV96(c,a,t){
+  if(!c || !a || !t || c.dead || t.dead) return;
+  state.delayedActionsV96 = state.delayedActionsV96 || [];
+  state.delayedActionsV96.push({
+    sourceId:c.id,
+    sourceSide:c.side,
+    targetId:t.id,
+    targetSide:t.side,
+    dueRound:(state.round || 1) + (a.delay || 1),
+    dmg:a.dmg || 6,
+    abilityName:a.name
+  });
+  spawnFloatingText?.(t, "Delayed", "status");
+  pushActionEvent?.("delay", `${c.name}'s ${a.name} will hit ${t.name} next round`, t);
+  log(`${c.name} prepares ${a.name}. It will hit ${t.name} next round.`);
+}
+
+function resolveHopeDelayedActionsV96(){
+  const queue = state?.delayedActionsV96 || [];
+  if(!queue.length) return;
+  const ready = queue.filter(x=>x.dueRound <= state.round);
+  state.delayedActionsV96 = queue.filter(x=>x.dueRound > state.round);
+  for(const item of ready){
+    const src = state.units.find(u=>u.id===item.sourceId && u.side===item.sourceSide && !u.dead);
+    const t = state.units.find(u=>u.id===item.targetId && (!item.targetSide || u.side===item.targetSide) && !u.dead);
+    if(!src || !t){
+      log(`${item.abilityName || "Delayed attack"} fizzles because its source or target is gone.`);
+      continue;
+    }
+    state.currentActionKey = `delayed:${item.sourceSide}:${item.sourceId}:${item.targetId}:${state.round}`;
+    pushActionEvent?.("delay", `${src.name}'s delayed attack hits ${t.name}`, t);
+    log(`${src.name}'s delayed attack hits ${t.name}.`);
+    damage(src,t,item.dmg,{attack:true,melee:false});
+    state.currentActionKey = null;
+    if(checkWin()) break;
+  }
+}
+
+const applyBeforeHopeV96 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+  switch(a.effect){
+    case "hopeHeal":
+      if(t && !t.dead) heal(t,a.heal || 5);
+      return;
+    case "hopeShield":
+      if(t && !t.dead){
+        addShield(t,a.shield || 5);
+        state.guarded = state.guarded || {};
+        state.guarded[c.id]=true;
+        state.guarded[t.id]=true;
+      }
+      return;
+    case "hopeDelayedAttack":
+      scheduleHopeDelayedAttackV96(c,a,t);
+      return;
+    default:
+      return applyBeforeHopeV96(c,a,t);
+  }
+};
+
+const endRoundBeforeHopeV96 = endRound;
+endRound = function(){
+  const result = endRoundBeforeHopeV96();
+  if(state && state.phase==="planning"){
+    state.hopeHealedAlliesV96 = {};
+    resolveHopeDelayedActionsV96();
+    renderBattle?.();
+  }
+  return result;
+};
+
+/* ===== v97 Zahria: bloodcraft sorceress ===== */
+function ensureZahriaV97(){
+  if(ROSTER.some(c=>c.id==="zahria")) return;
+  ROSTER.push({
+    id:"zahria",
+    name:"Zahria",
+    class:"sorcerer",
+    prof:"bloodcraft",
+    hp:20,
+    armor:1,
+    speed:4,
+    art:ART.zahria,
+    passive:"Passive - Sanguine Aegis: Zahria gains +1 Armor until end of round for each unique enemy that lost life from Bleed this round.",
+    abilities:[
+      A("mist","Blood Mist",1,0,"Bloodcraft row setup. Choose an enemy row. Each enemy in that row with Bleed gains 2 more Bleed.","zahriaBloodMist",{kind:"rowBleedAmplify",status:"bleed",stacks:2,range:"ranged"}),
+      A("rain","Red Rain",1,-2,"Bloodcraft area setup. Apply 1 Bleed to every enemy.","allStatus",{kind:"allStatus",status:"bleed",stacks:1,range:"self"}),
+      A("mass","Mass Drain",2,-2,"Bloodcraft payoff. Each enemy with Bleed loses HP equal to its Bleed, then removes that Bleed. Zahria heals for the total HP lost this way.","zahriaMassDrain",{kind:"massDrainBleed",range:"self"}),
+      A("blade","Blood Blade",2,0,"Ranged attack. Deal 6 damage to one enemy.","damage",{kind:"attack",dmg:6,range:"ranged"})
+    ]
+  });
+}
+
+function tuneRedRainV97(){
+  for(const c of ROSTER){
+    const rain = c.abilities?.find(a=>a.id==="rain" && a.name==="Red Rain");
+    if(!rain) continue;
+    Object.assign(rain, {
+      effect:"allStatus",
+      kind:"allStatus",
+      cost:1,
+      range:"self",
+      status:"bleed",
+      stacks:1,
+      self:0,
+      desc:"Bloodcraft area setup. Apply 1 Bleed to every enemy."
+    });
+  }
+}
+
+ensureZahriaV97();
+tuneRedRainV97();
+
+function noteBleedLifeLossForZahriaV97(victim, amount){
+  if(!state?.units || !victim || !amount) return;
+  const zahriaSide = other(victim.side);
+  const zahrias = state.units.filter(u=>u.id==="zahria" && u.side===zahriaSide && !u.dead);
+  if(!zahrias.length) return;
+  state.zahriaBleedVictimsV97 = state.zahriaBleedVictimsV97 || {};
+  const seen = state.zahriaBleedVictimsV97[zahriaSide] || (state.zahriaBleedVictimsV97[zahriaSide]=[]);
+  if(seen.includes(victim.id)) return;
+  seen.push(victim.id);
+  for(const z of zahrias){
+    addArmorThisRound?.(z,1);
+    markPassive?.(z, "Sanguine Aegis");
+  }
+  pushActionEvent?.("passive", `Sanguine Aegis: ${victim.name} lost life from Bleed, so Zahria gained +1 Armor`, zahrias[0]);
+  log(`Zahria's Sanguine Aegis triggers from ${victim.name}'s Bleed.`);
+}
+
+const damageBeforeZahriaV97 = damage;
+damage = function(src,t,amt,opt={}){
+  const hadBleed = opt?.attack && t && (t.status?.bleed || 0) > 0;
+  const beforeHp = t?.hp || 0;
+  const result = damageBeforeZahriaV97(src,t,amt,opt);
+  if(hadBleed && t && beforeHp > (t.hp || 0)){
+    noteBleedLifeLossForZahriaV97(t, beforeHp - (t.hp || 0));
+  }
+  return result;
+};
+
+const targetsBeforeZahriaV97 = targets;
+targets = function(c,a){
+  if(!c || !a) return [];
+  if(a.effect==="zahriaBloodMist" || a.kind==="rowBleedAmplify") return alive(other(c.side));
+  if(a.effect==="zahriaMassDrain" || a.kind==="massDrainBleed" || a.kind==="allStatus") return [];
+  return targetsBeforeZahriaV97(c,a);
+};
+
+function applyMassDrainBleedV97(c){
+  if(!c || c.dead) return;
+  let total = 0;
+  for(const enemy of alive(other(c.side))){
+    const bleed = enemy.status?.bleed || 0;
+    if(bleed <= 0) continue;
+    enemy.status.bleed = 0;
+    const before = enemy.hp;
+    lifeFromCaster(c,enemy,bleed,"Bleed drain");
+    const lost = Math.max(0, before - enemy.hp);
+    total += lost;
+    if(lost > 0) noteBleedLifeLossForZahriaV97(enemy,lost);
+  }
+  if(total > 0) heal(c,total);
+  else log(`${c.name}'s Mass Drain found no Bleed to drain.`);
+}
+
+const applyBeforeZahriaV97 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return;
+  switch(a.effect){
+    case "zahriaBloodMist": {
+      const row = t?.row || "front";
+      let applied = 0;
+      for(const enemy of rowUnits(other(c.side),row)){
+        if((enemy.status?.bleed || 0) > 0){
+          applyStatusFrom(c,enemy,"bleed",a.stacks || 2);
+          applied++;
+        }
+      }
+      if(!applied) log(`${c.name}'s Blood Mist found no Bleeding enemy in the ${row} row.`);
+      return;
+    }
+    case "zahriaMassDrain":
+      applyMassDrainBleedV97(c);
+      return;
+    default:
+      return applyBeforeZahriaV97(c,a,t);
+  }
+};
+
+const endRoundBeforeZahriaV97 = endRound;
+endRound = function(){
+  const result = endRoundBeforeZahriaV97();
+  if(state && state.phase==="planning") state.zahriaBleedVictimsV97 = {};
+  return result;
+};
+
+/* ===== v98 mobile builder screen hardening ===== */
+function renderChooseCardStatsV98(c){
+  return `<span>HP ${c.hp}</span><span>Armor ${c.armor}</span><span>Base Speed ${c.speed}</span>`;
+}
+
+const renderChooseBeforeV98 = renderChoose;
+renderChoose = function(){
+  renderChooseBeforeV98();
+  document.querySelectorAll(".fighterCard").forEach(card=>{
+    const c = cdef(card.dataset.id);
+    const stats = card.querySelector(".fighterStats");
+    if(c && stats) stats.innerHTML = renderChooseCardStatsV98(c);
+  });
+};
+
+function showBattleOnlyV98(){
+  $("builder")?.classList.add("hidden");
+  $("battle")?.classList.remove("hidden");
+  document.body.classList.add("inBattleV98");
+}
+
+function showBuilderOnlyV98(){
+  $("battle")?.classList.add("hidden");
+  $("builder")?.classList.remove("hidden");
+  document.body.classList.remove("inBattleV98");
+}
+
+const startBattleBeforeScreenV98 = startBattle;
+startBattle = function(){
+  const result = startBattleBeforeScreenV98();
+  showBattleOnlyV98();
+  return result;
+};
+
+const renderBuilderBeforeScreenV98 = renderBuilder;
+renderBuilder = function(){
+  renderBuilderBeforeScreenV98();
+  if(!$("battle") || $("battle").classList.contains("hidden")) showBuilderOnlyV98();
+};
+
+/* ===== v95 runtime smart AI =====
+   The playable game now uses the same style of top-candidate smart policy that
+   drives the smart-vs-smart balance simulator, instead of the older v45 planner.
+*/
+const RUNTIME_AI_POLICY_V95 = "smart-ai-v95";
+
+function aiKindV95(a){
+  return a?.kind || a?.effect || "";
+}
+
+function aiEnemiesV95(u){
+  return alive(other(u.side));
+}
+
+function aiAlliesV95(u){
+  return alive(u.side);
+}
+
+function aiStatusV95(u,s){
+  return u?.status?.[s] || 0;
+}
+
+function aiHasAnyDebuffV95(u){
+  return ["poison","bleed","freeze","hypnosis","exposed","exhausted","dread"].some(s=>aiStatusV95(u,s)>0);
+}
+
+function aiIsPayoffV95(a){
+  const k = aiKindV95(a);
+  return [
+    "bleedPayoff","consumeBleed","poisonPayoff","poisonBurst","freezePayoff",
+    "shatter","shatterScaling","glacier","hypnosisDamagePayoff","mesmerPayoff",
+    "mindBreak","mindToxin","mindToxinConsume","demonRupture","absoluteZero",
+    "absoluteZeroConsume","poomMassGuardMind"
+  ].includes(k);
+}
+
+function aiPayoffReadyV95(a,t,c){
+  const k = aiKindV95(a);
+  if(k === "poomMassGuardMind") return aiEnemiesV95(c).some(e=>aiStatusV95(e,"hypnosis"));
+  if(!t) return false;
+  switch(k){
+    case "bleedPayoff":
+    case "consumeBleed":
+      return aiStatusV95(t,"bleed") > 0;
+    case "poisonPayoff":
+    case "poisonBurst":
+      return aiStatusV95(t,"poison") > 0;
+    case "freezePayoff":
+    case "shatter":
+    case "shatterScaling":
+    case "glacier":
+    case "absoluteZero":
+    case "absoluteZeroConsume":
+      return aiStatusV95(t,"freeze") > 0 || aiEnemiesV95(c).some(e=>aiStatusV95(e,"freeze")>0);
+    case "hypnosisDamagePayoff":
+    case "mesmerPayoff":
+    case "mindBreak":
+    case "mindToxin":
+    case "mindToxinConsume":
+      return aiStatusV95(t,"hypnosis") > 0;
+    case "demonRupture":
+      return aiStatusV95(t,"poison") + aiStatusV95(t,"bleed") > 0;
+    default:
+      return true;
+  }
+}
+
+function aiIsSetupV95(a){
+  const k = aiKindV95(a);
+  const txt = `${a?.name || ""} ${a?.desc || ""} ${k}`.toLowerCase();
+  return [
+    "status","multiStatus","rowStatus","rowMultiStatus","allStatus","rowBleedAmplify","frontHypno",
+    "poisonHands","bloodInfusion","bloodWard","grantShield","singleHeal","predict","predictPoison",
+    "hypnosisCancelPayoff","hypnosisPoisonCancelPayoff"
+  ].includes(k) || /apply|poison|bleed|freeze|hypnosis|exposed|dread|setup|ward|protect/.test(txt);
+}
+
+function aiStatusPotentialV95(a,t,c){
+  let v = 0;
+  const add = (s,n,target=t)=>{
+    if(!s || !target) return;
+    const has = aiStatusV95(target,s);
+    const m = s==="poison" ? 1.1 : s==="bleed" ? 1.25 : s==="freeze" ? 1.1 : s==="hypnosis" ? 1.35 : s==="exposed" ? 1.0 : .8;
+    v += (n || 1) * m * (has ? .7 : 1.15);
+  };
+  if(a?.onHit) for(const [s,n] of Object.entries(a.onHit)) add(s,n);
+  if(a?.status) add(a.status,a.stacks || 1);
+  if(a?.statuses) for(const [s,n] of a.statuses) add(s,n);
+  if(a?.effect === "bloodPrice" || a?.kind === "attack") v += 0;
+  if(aiKindV95(a) === "allStatus") aiEnemiesV95(c).forEach(x=>add(a.status,a.stacks||1,x));
+  if(aiKindV95(a) === "rowBleedAmplify") aiEnemiesV95(c).filter(x=>x.row===(t?.row||"front") && aiStatusV95(x,"bleed")>0).forEach(x=>add("bleed",a.stacks||2,x));
+  if(/bleed/i.test(a?.desc || "")) add("bleed", a?.bleed || a?.stacks || 1);
+  if(/poison/i.test(a?.desc || "")) add("poison", a?.poison || a?.stacks || 1);
+  if(/freeze/i.test(a?.desc || "")) add("freeze", a?.stacks || 1);
+  if(/hypnosis/i.test(a?.desc || "")) add("hypnosis", 1);
+  if(a?.effect === "frontHypno") aiEnemiesV95(c).filter(x=>x.row==="front").forEach(x=>{ add("hypnosis",1,x); add("exposed",1,x); });
+  return v;
+}
+
+function aiExpectedRawDamageV95(a,t,c){
+  if(!a) return 0;
+  const k = aiKindV95(a);
+  if(k === "armorStrike") return (a.dmg || 2) + getArmor(c);
+  if(k === "bloodPrice") return a.dmg || 6;
+  if(k === "delayedAttack") return a.dmg || 6;
+  if(k === "massDrainBleed") return aiEnemiesV95(c).reduce((s,x)=>s+(aiStatusV95(x,"bleed")||0),0);
+  if(k === "consumeBleed" || k === "bleedPayoff") return (t ? aiStatusV95(t,"bleed") : 0) + (a.bonus || 0) + (a.dmg || 0);
+  if(k === "poisonBurst" || k === "poisonPayoff") return (t ? aiStatusV95(t,"poison") : 0) * (a.mult || 2);
+  if(k === "demonRupture") return ((t ? aiStatusV95(t,"poison") + aiStatusV95(t,"bleed") : 0) * (a.mult || 2)) + (a.bonus || 0);
+  if(k === "shatter" || k === "shatterScaling") return (a.dmg || 3) + (t ? aiStatusV95(t,"freeze") * 2 : 0) + (aiStatusV95(t,"freeze") ? (a.bonus || 5) : 0);
+  if(k === "glacier") return (t && aiStatusV95(t,"freeze")) ? (a.payoffDmg || 10) : (a.dmg || 5);
+  if(k === "mindBreak" || k === "hypnosisDamagePayoff") return (t && aiStatusV95(t,"hypnosis")) ? (a.payoffDmg || 8) : (a.dmg || 2);
+  if(k === "mindToxin" || k === "mindToxinConsume") return (t && aiStatusV95(t,"hypnosis")) ? (a.payoffDmg || 5) : (a.dmg || 3);
+  if(k === "assassinate") return (a.dmg || 4) + (t?.row === "back" ? (a.bonus || 2) : 0);
+  if(k === "rowDamageStatus") return (a.dmg || 0) * Math.max(1, rowUnits(other(c.side), t?.row || "front").length);
+  if(k === "allDamageStatus") return (a.dmg || 0) * Math.max(1, aiEnemiesV95(c).length);
+  if(k === "allyPain") return (a.dmg || 0) * Math.max(1, rowUnits(other(c.side),"front").length);
+  if(k === "absoluteZero" || k === "absoluteZeroConsume") return aiEnemiesV95(c).reduce((s,x)=>s + (aiStatusV95(x,"freeze") ? ((aiStatusV95(x,"freeze") || 1) * (a.mult || a.dmg || 2)) : 0),0);
+  return a.dmg || 0;
+}
+
+function aiValidTargetsV95(c,a){
+  let ts = targets(c,a).filter(t=>t && !t.dead);
+  if(a?.range === "ally") ts = ts.filter(t=>t.side === c.side);
+  if(a?.range !== "ally") ts = ts.filter(t=>t.side !== c.side || ["protect","ward","bloodWard","poisonHands","bloodInfusion"].includes(aiKindV95(a)));
+  const noTargetKinds = ["dodge","selfCounter","spirit","absoluteZero","allStatus","allDamageStatus","frontHypno","poomMassGuardMind","massDrainBleed"];
+  if(!ts.length && noTargetKinds.includes(aiKindV95(a))) return [null];
+  return ts;
+}
+
+function aiTargetScoreV95(c,a,t,ap){
+  if(!t) {
+    const k = aiKindV95(a);
+    if(k==="poomMassGuardMind") return aiPayoffReadyV95(a,t,c) ? 30 : -40;
+    if(k==="allStatus") return 13 + aiEnemiesV95(c).filter(x=>!aiStatusV95(x,a.status)).length * 4;
+    if(k==="massDrainBleed") return aiEnemiesV95(c).reduce((s,x)=>s+(aiStatusV95(x,"bleed")||0),0) * 2.4;
+    return 0;
+  }
+  const raw = aiExpectedRawDamageV95(a,t,c);
+  const effective = a.ignoreArmor ? raw : Math.max(0, raw - getArmor(t) + (a.pierce || 0));
+  let score = effective * 2.2 + aiStatusPotentialV95(a,t,c) * 3 + Math.max(0,14 - t.hp) * 1.1;
+  if(effective >= t.hp) score += 34;
+  else if(effective >= t.hp * .65) score += 12;
+  if(aiIsPayoffV95(a)) score += aiPayoffReadyV95(a,t,c) ? 24 : -42;
+  if(aiIsSetupV95(a)){
+    const already = (a.status && aiStatusV95(t,a.status)) || (a.statuses && a.statuses.every(([st])=>aiStatusV95(t,st)));
+    score += already ? -4 : 8;
+  }
+  if(c.class === "assassin" && t.row === "back") score += 7;
+  if(c.class === "brute" && a.range === "melee") score += 5;
+  if(c.class === "sorcerer" && /row|absolute|fog|wave|field/i.test(a.name || "")) score += 6;
+  if(a.pierce || a.ignoreArmor) score += getArmor(t) * 1.2;
+  if(t.side === c.side){
+    score = 4;
+    if(["singleHeal","hopeHeal"].includes(aiKindV95(a))) {
+      const missing = Math.max(0, (t.maxHp || t.hp || 0) - t.hp);
+      score += Math.min(a.heal || 5, missing) * 3 + (t.hp <= t.maxHp * .45 ? 14 : 0);
+    }
+    if(["grantShield","hopeShield"].includes(aiKindV95(a))) score += (a.shield || 5) * 1.4 + (t.hp <= t.maxHp * .55 ? 12 : 0);
+    if(a.guard) score += t.hp <= t.maxHp * .45 ? 20 : 2;
+    if(["protect","bloodWard","ward","grantShield","hopeShield"].includes(aiKindV95(a))) score += t.hp <= t.maxHp * .55 ? 16 : -4;
+    if(["poisonHands","bloodInfusion"].includes(aiKindV95(a))) score += 15 + (t.planned ? -8 : 0);
+    if(t.id === c.id && a.range === "ally") score -= 8;
+  }
+  return score;
+}
+
+function aiAbilityScoreV95(c,a,ts,ap,plans){
+  if(a.cost > ap) return -999;
+  const targetScores = ts.length ? ts.map(t=>aiTargetScoreV95(c,a,t,ap)) : [0];
+  let score = 8 + a.cost + Math.max(...targetScores);
+  const lowSelf = c.hp <= c.maxHp * .45;
+  const lowAlly = aiAlliesV95(c).some(x=>x.hp <= x.maxHp * .45);
+  if(a.guard){
+    score += lowSelf ? 10 : -3;
+    score += lowAlly ? 8 : 0;
+    if(["protect","bloodWard","ward","grantShield","hopeShield"].includes(aiKindV95(a))) score += lowAlly ? 8 : -8;
+    if(aiKindV95(a)==="poomMassGuardMind") score += aiPayoffReadyV95(a,null,c) ? 22 : -40;
+  }
+  if(aiIsPayoffV95(a) && aiKindV95(a)!=="poomMassGuardMind" && !ts.some(t=>aiPayoffReadyV95(a,t,c))) score -= 36;
+  if((plans || []).some(p=>p.unit === c || p.u === c)) score -= 8;
+  score += Math.random() * 4 - 1.5;
+  return Math.max(.5, score);
+}
+
+function aiPickPlanSmartV95(c,ap,plans=[]){
+  const options = [];
+  for(const a of c.abilities){
+    if(a.cost > ap) continue;
+    if(typeof isAbilityDisabledByDreadV42 === "function" && isAbilityDisabledByDreadV42(c,a)) continue;
+    const ts = aiValidTargetsV95(c,a);
+    if(!ts.length) continue;
+    const base = aiAbilityScoreV95(c,a,ts,ap,plans);
+    for(const t of ts){
+      options.push({unit:c, ability:a, target:t, weight:base + aiTargetScoreV95(c,a,t,ap) * .25});
+    }
+  }
+  if(!options.length) return null;
+  options.sort((a,b)=>b.weight-a.weight);
+  const top = options.slice(0,3);
+  const total = top.reduce((s,o)=>s+Math.max(1,o.weight),0);
+  let roll = Math.random() * total;
+  for(const option of top){
+    roll -= Math.max(1,option.weight);
+    if(roll <= 0) return option;
+  }
+  return top[0];
+}
+
+chooseEnemy = function chooseEnemySmartV95(){
+  state.aiPolicy = RUNTIME_AI_POLICY_V95;
+  state.plans = (state.plans || []).filter(p=>p.side!=="enemy");
+  for(const e of alive("enemy")) e.planned = null;
+
+  let ap = 3;
+  let safety = 0;
+  const planned = [];
+  while(ap > 0 && safety++ < 7){
+    const candidates = [];
+    for(const e of alive("enemy")){
+      const pick = aiPickPlanSmartV95(e,ap,planned);
+      if(pick) candidates.push(pick);
+    }
+    if(!candidates.length) break;
+    candidates.sort((a,b)=>b.weight-a.weight);
+    const top = candidates.slice(0,3);
+    const total = top.reduce((s,o)=>s+Math.max(1,o.weight),0);
+    let roll = Math.random() * total;
+    let chosen = top[0];
+    for(const option of top){
+      roll -= Math.max(1,option.weight);
+      if(roll <= 0){ chosen = option; break; }
+    }
+    const planObj = makePlan(chosen.unit, chosen.ability, chosen.target, "enemy");
+    planObj.aiPolicy = RUNTIME_AI_POLICY_V95;
+    planObj.score = Math.round(chosen.weight * 10) / 10;
+    state.plans.push(planObj);
+    chosen.unit.planned = {
+      ability:chosen.ability.id,
+      target:chosen.target?.id || null,
+      targetSide:chosen.target?.side || null,
+      aiPolicy:RUNTIME_AI_POLICY_V95
+    };
+    planned.push(planObj);
+    ap -= chosen.ability.cost;
+  }
+
+  state.enemyRevealed = true;
+  log("Enemy actions revealed by smart AI.");
+  show?.("Enemy actions revealed");
+};
+
+window.__WANDERERS_AI_POLICY = RUNTIME_AI_POLICY_V95;
+window.__WANDERERS_DEBUG__ = Object.assign(window.__WANDERERS_DEBUG__ || {}, {
+  aiPolicy: RUNTIME_AI_POLICY_V95,
+  chooseEnemy: () => chooseEnemy(),
+  getState: () => state,
+  setState: next => { state = next; return state; },
+  cdef,
+  cloneChar,
+  makePlan,
+  planToAction,
+  unitBySide,
+  targets,
+  aiTargetScoreV95,
+  aiAbilityScoreV95,
+  aiPickPlanSmartV95
+});
+
 $("nextBtn").onclick=()=>{if(builderStep==="choose"){if(chosenIds.length!==3)return;builderStep="arrange";arrangeSelectedId=chosenIds[0];renderBuilder()}else startBattle()}
 $("backBtn").onclick=()=>{builderStep="choose";renderBuilder()}
 $("randomBtn").onclick=randomTeam;$("classFilter").onchange=renderBuilder;$("squadMode").onclick=()=>{mode="squad";$("squadMode").classList.add("active");$("bossMode").classList.remove("active")};$("bossMode").onclick=()=>{mode="boss";$("bossMode").classList.add("active");$("squadMode").classList.remove("active")};$("homeBtn").onclick=()=>{$("battle").classList.add("hidden");$("builder").classList.remove("hidden");renderBuilder()};$("resetBtn").onclick=()=>startBattle();$("resolveBtn").onclick=resolveRound;$("radialClose").onclick=()=>{$("radial").classList.add("hidden");$("abilityTooltip")?.classList.add("hidden");};renderBuilder();
+
+/* ===== v101 overlay closing, battle log toggle, resolve-time payoff guardrails ===== */
+function clearTransientOverlaysV101(){
+  $("resolutionOverlay")?.classList.add("hidden");
+  $("abilityTooltip")?.classList.add("hidden");
+  $("radial")?.classList.add("hidden");
+  if(typeof hideKeywordPopup === "function") hideKeywordPopup();
+}
+
+function closeAbilityTooltipV101(){
+  $("abilityTooltip")?.classList.add("hidden");
+  if(typeof hideKeywordPopup === "function") hideKeywordPopup();
+}
+
+function ensureAbilityTooltipCloseV101(){
+  const tooltip = $("abilityTooltip");
+  if(!tooltip || tooltip.classList.contains("hidden")) return;
+  if(tooltip.querySelector(".abilityTooltipClose")) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "abilityTooltipClose overlayCloseBtn";
+  btn.setAttribute("aria-label","Close ability details");
+  btn.textContent = "×";
+  btn.onclick = ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    closeAbilityTooltipV101();
+  };
+  tooltip.prepend(btn);
+}
+
+function closeResolutionOverlayV101(){
+  const overlay = $("resolutionOverlay");
+  if(overlay) overlay.classList.add("hidden");
+  currentResolveDetail = null;
+}
+
+function ensureResolutionCloseV101(){
+  const overlay = $("resolutionOverlay");
+  const card = overlay?.querySelector(".resolveCard");
+  if(!overlay || overlay.classList.contains("hidden") || !card) return;
+  if(card.querySelector(".resolutionCloseBtn")) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "resolutionCloseBtn overlayCloseBtn";
+  btn.setAttribute("aria-label","Close result");
+  btn.textContent = "×";
+  btn.onclick = ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    closeResolutionOverlayV101();
+  };
+  card.prepend(btn);
+}
+
+const showResolutionOverlayBeforeV101 = showResolutionOverlay;
+showResolutionOverlay = function(actor, ability, target, stage="reveal", events=[]){
+  showResolutionOverlayBeforeV101(actor, ability, target, stage, events);
+  ensureResolutionCloseV101();
+};
+
+const hideResolutionOverlayBeforeV101 = hideResolutionOverlay;
+hideResolutionOverlay = function(){
+  hideResolutionOverlayBeforeV101();
+  currentResolveDetail = null;
+};
+
+function setBattlePanelV101(mode){
+  const panel = $("infoPanelSheet");
+  if(!panel) return;
+  panel.classList.remove("showInfo","showLog","panelClosedV101","showInfoV101","showLogV101");
+  document.body.classList.remove("mobilePanelOpen");
+  if(mode === "closed"){
+    panel.classList.add("panelClosedV101");
+    return;
+  }
+  if(mode === "log"){
+    panel.classList.add("showLog","showLogV101");
+  } else {
+    panel.classList.add("showInfo","showInfoV101");
+  }
+  if(typeof isMobileLayout === "function" && isMobileLayout()) document.body.classList.add("mobilePanelOpen");
+}
+
+function toggleBattleLogV101(){
+  const panel = $("infoPanelSheet");
+  const isOpen = panel && !panel.classList.contains("panelClosedV101") && panel.classList.contains("showLogV101");
+  setBattlePanelV101(isOpen ? "closed" : "log");
+}
+
+function installBattleLogControlsV101(){
+  if(!$("battleLogToggleBtn")){
+    const btn = document.createElement("button");
+    btn.id = "battleLogToggleBtn";
+    btn.className = "pill battleLogToggleBtn";
+    btn.type = "button";
+    btn.textContent = "Log";
+    $("resource")?.appendChild(btn);
+    document.querySelector(".resource")?.appendChild(btn);
+  }
+  $("battleLogToggleBtn") && ($("battleLogToggleBtn").onclick = toggleBattleLogV101);
+  $("mobileInfoBtn") && ($("mobileInfoBtn").onclick = () => setBattlePanelV101("info"));
+  $("mobileLogBtn") && ($("mobileLogBtn").onclick = () => setBattlePanelV101("log"));
+  $("mobileClosePanelBtn") && ($("mobileClosePanelBtn").onclick = () => setBattlePanelV101("closed"));
+}
+
+function patchOverlayLifecycleV101(){
+  $("homeBtn")?.addEventListener("click", clearTransientOverlaysV101, true);
+  $("resetBtn")?.addEventListener("click", clearTransientOverlaysV101, true);
+  $("nextBtn")?.addEventListener("click", clearTransientOverlaysV101, true);
+  $("backBtn")?.addEventListener("click", clearTransientOverlaysV101, true);
+  document.addEventListener("keydown", ev => {
+    if(ev.key !== "Escape") return;
+    closeAbilityTooltipV101();
+    closeResolutionOverlayV101();
+    setBattlePanelV101("closed");
+  });
+  const tooltip = $("abilityTooltip");
+  if(tooltip && typeof MutationObserver !== "undefined"){
+    new MutationObserver(ensureAbilityTooltipCloseV101).observe(tooltip,{childList:true,attributes:true,attributeFilter:["class"]});
+  }
+  const overlay = $("resolutionOverlay");
+  if(overlay && typeof MutationObserver !== "undefined"){
+    new MutationObserver(ensureResolutionCloseV101).observe(overlay,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});
+  }
+}
+
+function conditionCheckedAtResolveV101(c,a,t){
+  const k = a?.kind || a?.effect;
+  switch(k){
+    case "mindBreak":
+    case "hypnosisDamagePayoff":
+    case "mindToxin":
+    case "mindToxinConsume":
+    case "mesmerPayoff":
+      return !!t?.status?.hypnosis;
+    case "consumeBleed":
+    case "bleedPayoff":
+      return (t?.status?.bleed || 0) > 0;
+    case "poisonBurst":
+    case "poisonPayoff":
+      return (t?.status?.poison || 0) > 0;
+    case "shatter":
+    case "shatterScaling":
+    case "glacier":
+    case "freezePayoff":
+      return (t?.status?.freeze || 0) > 0;
+    case "demonRupture":
+      return ((t?.status?.poison || 0) + (t?.status?.bleed || 0)) > 0;
+    default:
+      return null;
+  }
+}
+
+const applyBeforeResolveConditionsV101 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return applyBeforeResolveConditionsV101(c,a,t);
+  const readyAtResolve = conditionCheckedAtResolveV101(c,a,t);
+  if(readyAtResolve === true){
+    pushActionEvent?.("statusTrigger", `${a.name} payoff condition was met at resolve`, t || c);
+  } else if(readyAtResolve === false && typeof aiIsPayoffV95 === "function" && aiIsPayoffV95(a)){
+    pushActionEvent?.("statusTrigger", `${a.name} payoff condition was not met at resolve`, t || c);
+  }
+  return applyBeforeResolveConditionsV101(c,a,t);
+};
+
+installBattleLogControlsV101();
+patchOverlayLifecycleV101();
+
+/* ===== v102 ability text/runtime truth pass =====
+   Keeps the last active resolver aligned with the final visible ability text.
+*/
+function abilityV102(characterId, abilityId){
+  return ROSTER.find(c=>c.id===characterId)?.abilities?.find(a=>a.id===abilityId);
+}
+
+function patchAbilityV102(characterId, abilityId, patch){
+  const ability = abilityV102(characterId, abilityId);
+  if(ability) Object.assign(ability, patch);
+  return ability;
+}
+
+function tuneAbilityTextTruthV102(){
+  patchAbilityV102("smithen","iceNeedle", {
+    effect:"damageStatusOnHit",
+    dmg:2,
+    status:"freeze",
+    stacks:2,
+    desc:"Ranged icecraft attack. Deal 2 damage. If this hit deals HP damage, apply 2 Freeze."
+  });
+  patchAbilityV102("smithen","whiteout", {
+    effect:"whiteout",
+    stacks:2,
+    desc:"Ranged setup. Apply 2 Freeze. If the target already had Freeze before this ability, also apply Exposed."
+  });
+  patchAbilityV102("smithen","shatter", {
+    effect:"shatterScaling",
+    dmg:3,
+    pierce:2,
+    range:"ranged",
+    desc:"Assassin icecraft payoff. Deal 3 damage with Pierce 2. Can target backline. If the target has Freeze, remove all Freeze and gain +2 damage per removed Freeze."
+  });
+
+  patchAbilityV102("dravain","bash", {
+    effect:"armorStrike",
+    dmg:2,
+    desc:"Melee warrior attack. Deal damage equal to 2 plus Dravain's current Armor."
+  });
+  patchAbilityV102("dravain","drain", {
+    dmg:3,
+    heal:2,
+    desc:"Melee vampire attack. Deal 3 damage. If this deals HP damage, Dravain restores 2 HP."
+  });
+  patchAbilityV102("dravain","claim", {
+    mult:1,
+    bonus:2,
+    heal:1,
+    desc:"Bleed payoff. Remove all Bleed from one enemy. Deal removed Bleed +2 damage. If any Bleed was removed, Dravain restores 1 HP."
+  });
+
+  patchAbilityV102("kku","slam", {
+    effect:"damageStatusOnHit",
+    dmg:3,
+    status:"freeze",
+    stacks:1,
+    desc:"Front-line brute attack. Deal 3 damage. If this hit deals HP damage, apply 1 Freeze."
+  });
+  patchAbilityV102("kku","break", {
+    dmg:5,
+    bonus:2,
+    desc:"Front-line brute payoff. Deal 5 damage. If the target has Freeze, deal +2 damage."
+  });
+  patchAbilityV102("kku","roar", {
+    exhausted:1,
+    desc:"Front-row setup. Apply 2 Freeze and Exhausted to enemies in the front row."
+  });
+
+  patchAbilityV102("kahro","needle", {
+    dmg:3,
+    pierce:2,
+    desc:"Assassin precision. Deal 3 damage with Pierce 2. Can target backline."
+  });
+  patchAbilityV102("kahro","assassinate", {
+    dmg:5,
+    bonus:3,
+    pierce:2,
+    desc:"Assassin precision. Deal 5 damage with Pierce 2. Can target backline. If the target is in the back row and the front row is empty, deal +3 damage."
+  });
+
+  patchAbilityV102("eva","kiss", {
+    dmg:2,
+    bleed:2,
+    status:"bleed",
+    stacks:2,
+    ignoreArmor:true,
+    desc:"Vampire setup. Deal 2 damage ignoring Armor, then apply 2 Bleed."
+  });
+  patchAbilityV102("eva","bite", {
+    effect:"consumeBleed",
+    mult:2,
+    bonus:1,
+    heal:2,
+    desc:"Assassin/vampire payoff. Can target backline. Remove all Bleed. Deal Bleed x2 +1 damage. If any Bleed was removed, Lady Eva restores 2 HP."
+  });
+
+  patchAbilityV102("hyafrost","frostbite", {
+    effect:"whiteout",
+    stacks:2,
+    dmg:2,
+    ignoreArmor:true,
+    desc:"Icecraft setup. Apply 2 Freeze. If the target already had Freeze before this ability, also deal 2 damage ignoring Armor."
+  });
+  patchAbilityV102("hyafrost","field", {
+    stacks:3,
+    desc:"AoE icecraft control. Choose an enemy row. Apply 3 Freeze to each enemy in that row."
+  });
+
+  patchAbilityV102("bakub","toxin", {
+    effect:"mindToxinConsume",
+    dmg:3,
+    payoffDmg:5,
+    poison:2,
+    ignoreArmor:true,
+    desc:"Ranged hypnotic/witchcraft payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis, deal 5 damage ignoring Armor instead, and apply 2 Poison."
+  });
+
+  patchAbilityV102("poom","roar", {
+    effect:"mesmerPayoff",
+    dmg:3,
+    bonus:6,
+    desc:"Front-line hypnotic payoff. Deal 3 damage. If the target has Hypnosis, remove Hypnosis and deal +6 damage."
+  });
+  patchAbilityV102("poom","revenge", {
+    dmg:5,
+    self:2,
+    bonus:3,
+    desc:"Front-line brute attack. Poom loses 2 HP, ignoring Armor and Shield. Then deal 5 damage. If Poom already lost HP this round, deal +3 damage."
+  });
+  patchAbilityV102("poom","bodyguard", {
+    dmg:5,
+    self:2,
+    bonus:3,
+    desc:"Front-line brute attack. Poom loses 2 HP, ignoring Armor and Shield. Then deal 5 damage. If Poom already lost HP this round, deal +3 damage."
+  });
+
+  patchAbilityV102("shaman","rupture", {
+    mult:2,
+    bonus:3,
+    desc:"Demon payoff. Remove all Poison and Bleed from one enemy. Deal removed counters x2 +3 damage, ignoring Armor."
+  });
+}
+tuneAbilityTextTruthV102();
+
+let zahriaBleedLifeContextV102 = false;
+const noteBleedLifeLossForZahriaBeforeV102 = typeof noteBleedLifeLossForZahriaV97 === "function" ? noteBleedLifeLossForZahriaV97 : null;
+if(noteBleedLifeLossForZahriaBeforeV102){
+  noteBleedLifeLossForZahriaV97 = function(victim, amount){
+    if(!zahriaBleedLifeContextV102) return;
+    return noteBleedLifeLossForZahriaBeforeV102(victim, amount);
+  };
+}
+
+function withZahriaBleedLifeContextV102(fn){
+  const prev = zahriaBleedLifeContextV102;
+  zahriaBleedLifeContextV102 = true;
+  try { return fn(); }
+  finally { zahriaBleedLifeContextV102 = prev; }
+}
+
+function consumeBleedDamageV102(c,a,t){
+  const bleed = t?.status?.bleed || 0;
+  if(t) t.status.bleed = 0;
+  const raw = bleed * (a.mult ?? 1) + (a.bonus ?? 0);
+  damage(c,t,raw,{attack:true,melee:a.range==="melee",pierce:a.pierce||0,ignoreArmor:!!a.ignoreArmor});
+  if(bleed > 0 && a.heal) heal(c,a.heal);
+  if(bleed > 0 && c.id==="dravain") addShield(c,3);
+}
+
+function applyMassDrainBleedV102(c){
+  if(!c || c.dead) return;
+  withZahriaBleedLifeContextV102(() => {
+    let total = 0;
+    for(const enemy of alive(other(c.side))){
+      const bleed = enemy.status?.bleed || 0;
+      if(bleed <= 0) continue;
+      enemy.status.bleed = 0;
+      const before = enemy.hp || 0;
+      lifeFromCaster(c,enemy,bleed,"Bleed drain");
+      const lost = Math.max(0, before - (enemy.hp || 0));
+      total += lost;
+      if(lost > 0 && typeof noteBleedLifeLossForZahriaV97 === "function"){
+        noteBleedLifeLossForZahriaV97(enemy,lost);
+      }
+    }
+    if(total > 0) heal(c,total);
+    else log(`${c.name}'s Mass Drain found no Bleed to drain.`);
+  });
+}
+
+const applyBeforeTextTruthV102 = apply;
+apply = function(c,a,t){
+  if(!c || !a) return applyBeforeTextTruthV102(c,a,t);
+
+  switch(a.effect){
+    case "armorStrike":
+      damage(c,t,(a.dmg ?? 2)+getArmor(c),{attack:true,melee:true});
+      return;
+
+    case "damageStatusOnHit":
+      applyOnHitStatusV56(c,a,t);
+      return;
+
+    case "damageStatus": {
+      const dealt = damage(c,t,a.dmg ?? 0,{attack:true,melee:a.range==="melee",ignoreArmor:!!a.ignoreArmor,pierce:a.pierce||0});
+      const needsHpDamage = /if this hit deals hp damage/i.test(a.desc || "");
+      if(!t?.dead && (!needsHpDamage || dealt > 0)) applyStatusFrom(c,t,a.status,a.stacks ?? a.bleed ?? 1);
+      return;
+    }
+
+    case "whiteout": {
+      const hadFreeze = (t?.status?.freeze || 0) > 0;
+      if(!t?.dead) applyStatusFrom(c,t,"freeze",a.stacks ?? 1);
+      if(hadFreeze && a.id==="whiteout" && !t?.dead) addStatus(t,"exposed",1);
+      if(hadFreeze && a.id==="frostbite") damage(c,t,a.dmg ?? 2,{attack:true,melee:false,ignoreArmor:!!a.ignoreArmor});
+      return;
+    }
+
+    case "rowStatus": {
+      const row = a.row || t?.row || "front";
+      for(const enemy of rowUnits(other(c.side),row)){
+        applyStatusFrom(c,enemy,a.status,a.stacks ?? 1);
+        if(a.exhausted && !enemy.dead) addStatus(enemy,"exhausted",a.exhausted);
+      }
+      return;
+    }
+
+    case "drain": {
+      const beforeHp = t?.hp || 0;
+      damage(c,t,a.dmg ?? 0,{attack:true,melee:a.range==="melee",pierce:a.pierce||0,ignoreArmor:!!a.ignoreArmor});
+      if((beforeHp - (t?.hp || 0)) > 0 && a.heal) heal(c,a.heal);
+      return;
+    }
+
+    case "consumeBleed":
+      consumeBleedDamageV102(c,a,t);
+      return;
+
+    case "shatterScaling": {
+      const freeze = t?.status?.freeze || 0;
+      if(t) t.status.freeze = 0;
+      damage(c,t,(a.dmg ?? 3) + freeze * 2,{attack:true,melee:a.range==="melee",pierce:a.pierce||0,ignoreArmor:!!a.ignoreArmor});
+      return;
+    }
+
+    case "glacier": {
+      const bonus = (t?.status?.freeze || 0) > 0 ? (a.bonus ?? 2) : 0;
+      damage(c,t,(a.dmg ?? 5)+bonus,{attack:true,melee:a.range==="melee"});
+      return;
+    }
+
+    case "mindToxinConsume": {
+      const hadHypnosis = !!t?.status?.hypnosis;
+      if(hadHypnosis) t.status.hypnosis = 0;
+      damage(c,t,hadHypnosis ? (a.payoffDmg ?? 5) : (a.dmg ?? 3),{attack:true,melee:false,ignoreArmor:hadHypnosis && !!a.ignoreArmor});
+      if(hadHypnosis && !t?.dead) applyStatusFrom(c,t,"poison",a.poison ?? 2);
+      return;
+    }
+
+    case "mesmerPayoff": {
+      const hadHypnosis = !!t?.status?.hypnosis;
+      if(hadHypnosis) t.status.hypnosis = 0;
+      damage(c,t,(a.dmg ?? 3) + (hadHypnosis ? (a.bonus ?? 6) : 0),{attack:true,melee:a.range==="melee"});
+      return;
+    }
+
+    case "revenge": {
+      const wasDamaged = !!state?.attacked?.[c.id];
+      if((a.self ?? 0) > 0) lifeFromCaster(c,c,a.self,"Revenge Body");
+      damage(c,t,(a.dmg ?? 5) + (wasDamaged ? (a.bonus ?? 3) : 0),{attack:true,melee:a.range==="melee"});
+      return;
+    }
+
+    case "demonRupture": {
+      const total = (t?.status?.poison || 0) + (t?.status?.bleed || 0);
+      if(t){ t.status.poison = 0; t.status.bleed = 0; }
+      damage(c,t,total * (a.mult ?? 2) + (a.bonus ?? 0),{attack:true,melee:false,ignoreArmor:true});
+      return;
+    }
+
+    case "zahriaMassDrain":
+      applyMassDrainBleedV102(c);
+      return;
+
+    default:
+      return applyBeforeTextTruthV102(c,a,t);
+  }
+};
+
+const aiExpectedRawDamageBeforeTextTruthV102 = typeof aiExpectedRawDamageV95 === "function" ? aiExpectedRawDamageV95 : null;
+if(aiExpectedRawDamageBeforeTextTruthV102){
+  aiExpectedRawDamageV95 = function(a,t,c){
+    const k = aiKindV95(a);
+    if(k === "armorStrike") return (a.dmg ?? 2) + getArmor(c);
+    if(k === "assassinate") return (a.dmg ?? 5) + (t?.row === "back" && !frontBlocked(t.side) ? (a.bonus ?? 3) : 0);
+    if(k === "mindToxin" || k === "mindToxinConsume") return (t && aiStatusV95(t,"hypnosis")) ? (a.payoffDmg ?? 5) : (a.dmg ?? 3);
+    if(k === "shatter" || k === "shatterScaling") return (a.dmg ?? 3) + ((t ? aiStatusV95(t,"freeze") : 0) * 2);
+    return aiExpectedRawDamageBeforeTextTruthV102(a,t,c);
+  };
+}
+
+if(typeof renderBuilder === "function" && $("builder") && !$("builder").classList.contains("hidden")) renderBuilder();
+if(typeof renderBattle === "function" && $("battle") && !$("battle").classList.contains("hidden")) renderBattle();
+
+/* ===== v104 immediate life-loss rumble ===== */
+function tileElForUnitV104(u){
+  if(!u) return null;
+  const sideSelector = u.side ? `[data-side="${u.side}"]` : "";
+  return document.querySelector(`.tile[data-unit-id="${u.id}"]${sideSelector}`) ||
+    document.querySelector(`.tile[data-unit-id="${u.id}"]`);
+}
+
+function playLifeLossRumbleV104(u, amount=1){
+  if(!u) return;
+  const duration = Math.min(820, 470 + Math.max(0, amount) * 24);
+  u.rumbleUntil = Date.now() + duration;
+  u.lifeLossImpactUntilV104 = Date.now() + duration;
+
+  const tile = tileElForUnitV104(u);
+  if(!tile) return;
+  tile.style.setProperty("--life-loss-intensity", String(Math.min(1.85, 1 + Math.max(0, amount) / 10)));
+  tile.classList.remove("rumble","lifeLossRumbleV104");
+  void tile.offsetWidth;
+  tile.classList.add("rumble","lifeLossRumbleV104");
+  window.setTimeout(() => tile.classList.remove("lifeLossRumbleV104"), duration + 60);
+}
+
+const markRumbleBeforeV104 = markRumble;
+markRumble = function(u, amount=1){
+  markRumbleBeforeV104?.(u);
+  playLifeLossRumbleV104(u, amount);
+};
+
+const damageBeforeRumbleV104 = damage;
+damage = function(src,t,amt,opt={}){
+  const targetBefore = t?.hp ?? null;
+  const result = damageBeforeRumbleV104(src,t,amt,opt);
+  const lost = targetBefore != null && t ? Math.max(0, targetBefore - (t.hp || 0)) : 0;
+  if(lost > 0) playLifeLossRumbleV104(t,lost);
+  return result;
+};
+
+const loseHpDirectBeforeRumbleV104 = loseHpDirect;
+loseHpDirect = function(u,n,reason="life loss"){
+  const before = u?.hp ?? null;
+  const result = loseHpDirectBeforeRumbleV104(u,n,reason);
+  const lost = before != null && u ? Math.max(0, before - (u.hp || 0)) : 0;
+  if(lost > 0) playLifeLossRumbleV104(u,lost);
+  return result;
+};
+
+if(typeof renderBattle === "function" && $("battle") && !$("battle").classList.contains("hidden")) renderBattle();
+
+/* ===== v103 character inspect artwork ===== */
+function characterArtworkHTMLV103(u){
+  if(!u) return "";
+  const src = artSrcFromStyleValue(u.art);
+  const safeName = typeof escapeHtmlV32 === "function" ? escapeHtmlV32(u.name) : u.name;
+  if(!src) return "";
+  return `<figure class="inspectArtworkV103">
+    <img src="${src}" alt="${safeName} full artwork" loading="eager" decoding="async">
+    <figcaption>${safeName}</figcaption>
+  </figure>`;
+}
+
+const renderInfoBeforeArtworkV103 = renderInfo;
+renderInfo = function(){
+  const u = selectedUnit();
+  renderInfoBeforeArtworkV103();
+  if(!u || !$("infoBody")) return;
+  const art = characterArtworkHTMLV103(u);
+  if(!art) return;
+  const card = $("infoBody").querySelector(".miniInfoCard");
+  if(card){
+    card.classList.add("miniInfoCardWithArtV103");
+    const stats = document.createElement("div");
+    stats.className = "miniInfoStatsV103";
+    while(card.firstChild) stats.appendChild(card.firstChild);
+    card.appendChild(stats);
+    card.insertAdjacentHTML("beforeend", art);
+  } else {
+    $("infoBody").innerHTML = `${art}${$("infoBody").innerHTML}`;
+  }
+};
+
+if(typeof renderBattle === "function" && $("battle") && !$("battle").classList.contains("hidden")) renderBattle();

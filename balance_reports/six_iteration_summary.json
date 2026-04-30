@@ -1,0 +1,1298 @@
+[
+  {
+    "iteration": "start v65",
+    "avgRounds": 12.29,
+    "characters": [
+      {
+        "name": "K'ku",
+        "winRate": 66,
+        "avgDamage": 30.54,
+        "avgTaken": 24.25,
+        "avgGuards": 1.49
+      },
+      {
+        "name": "Poom",
+        "winRate": 59.9,
+        "avgDamage": 33.89,
+        "avgTaken": 27.25,
+        "avgGuards": 2.03
+      },
+      {
+        "name": "Lady Eva",
+        "winRate": 57.5,
+        "avgDamage": 20.7,
+        "avgTaken": 15.67,
+        "avgGuards": 1.08
+      },
+      {
+        "name": "Smithen",
+        "winRate": 56.3,
+        "avgDamage": 21.6,
+        "avgTaken": 14.55,
+        "avgGuards": 0.85
+      },
+      {
+        "name": "Bakub",
+        "winRate": 52.6,
+        "avgDamage": 9.01,
+        "avgTaken": 18.88,
+        "avgGuards": 2
+      },
+      {
+        "name": "Maoja",
+        "winRate": 51.1,
+        "avgDamage": 14.48,
+        "avgTaken": 26.16,
+        "avgGuards": 0
+      },
+      {
+        "name": "Hyafrost",
+        "winRate": 48.3,
+        "avgDamage": 22.08,
+        "avgTaken": 18.99,
+        "avgGuards": 0.92
+      },
+      {
+        "name": "Kahro",
+        "winRate": 47.8,
+        "avgDamage": 13.44,
+        "avgTaken": 16.53,
+        "avgGuards": 0
+      },
+      {
+        "name": "Paleya",
+        "winRate": 44.4,
+        "avgDamage": 14.56,
+        "avgTaken": 18.23,
+        "avgGuards": 1.95
+      },
+      {
+        "name": "Yaura",
+        "winRate": 40.6,
+        "avgDamage": 19.56,
+        "avgTaken": 23.86,
+        "avgGuards": 1.56
+      },
+      {
+        "name": "Bahl",
+        "winRate": 39.6,
+        "avgDamage": 11.16,
+        "avgTaken": 20.66,
+        "avgGuards": 0
+      },
+      {
+        "name": "Dravain",
+        "winRate": 35.4,
+        "avgDamage": 11.59,
+        "avgTaken": 24.59,
+        "avgGuards": 1.57
+      }
+    ],
+    "class": [
+      {
+        "class": "brute",
+        "picks": 3862,
+        "winRate": 59,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "assassin",
+        "picks": 3636,
+        "winRate": 53.9,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 5024,
+        "winRate": 46.1,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 2478,
+        "winRate": 38.1,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "proficiency": [
+      {
+        "proficiency": "icecraft",
+        "picks": 3677,
+        "winRate": 57.1,
+        "characters": "Smithen, K'ku, Hyafrost"
+      },
+      {
+        "proficiency": "hypnotic",
+        "picks": 3841,
+        "winRate": 52.4,
+        "characters": "Paleya, Poom, Bakub"
+      },
+      {
+        "proficiency": "witchcraft",
+        "picks": 2520,
+        "winRate": 51.8,
+        "characters": "Maoja, Bakub"
+      },
+      {
+        "proficiency": "spirit",
+        "picks": 1203,
+        "winRate": 48.3,
+        "characters": "Hyafrost"
+      },
+      {
+        "proficiency": "darkness",
+        "picks": 1212,
+        "winRate": 47.8,
+        "characters": "Kahro"
+      },
+      {
+        "proficiency": "vampire",
+        "picks": 2417,
+        "winRate": 46.6,
+        "characters": "Dravain, Lady Eva"
+      },
+      {
+        "proficiency": "demon",
+        "picks": 2542,
+        "winRate": 46,
+        "characters": "Bahl, Bakub"
+      },
+      {
+        "proficiency": "bloodcraft",
+        "picks": 2580,
+        "winRate": 40.1,
+        "characters": "Yaura, Bahl"
+      }
+    ],
+    "armor": [
+      {
+        "armor": "1",
+        "picks": 8886,
+        "winRate": 51.7,
+        "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "armor": "2",
+        "picks": 6114,
+        "winRate": 47.5,
+        "characters": "Smithen, Dravain, Yaura, Kahro, Lady Eva"
+      }
+    ]
+  },
+  {
+    "iteration": "iteration 1",
+    "avgRounds": 13.58,
+    "characters": [
+      {
+        "name": "Lady Eva",
+        "winRate": 60.5,
+        "avgDamage": 20.46,
+        "avgTaken": 15.58,
+        "avgGuards": 1.22
+      },
+      {
+        "name": "Smithen",
+        "winRate": 58.5,
+        "avgDamage": 22.15,
+        "avgTaken": 14.79,
+        "avgGuards": 0.92
+      },
+      {
+        "name": "Bakub",
+        "winRate": 58.1,
+        "avgDamage": 9.2,
+        "avgTaken": 18.74,
+        "avgGuards": 2.13
+      },
+      {
+        "name": "K'ku",
+        "winRate": 54.2,
+        "avgDamage": 24.91,
+        "avgTaken": 27.28,
+        "avgGuards": 1.73
+      },
+      {
+        "name": "Poom",
+        "winRate": 51.3,
+        "avgDamage": 30.99,
+        "avgTaken": 28.97,
+        "avgGuards": 2.28
+      },
+      {
+        "name": "Maoja",
+        "winRate": 50.8,
+        "avgDamage": 14.05,
+        "avgTaken": 26.78,
+        "avgGuards": 0
+      },
+      {
+        "name": "Kahro",
+        "winRate": 49,
+        "avgDamage": 13.88,
+        "avgTaken": 16.53,
+        "avgGuards": 0
+      },
+      {
+        "name": "Hyafrost",
+        "winRate": 47.8,
+        "avgDamage": 21.39,
+        "avgTaken": 19.59,
+        "avgGuards": 1.14
+      },
+      {
+        "name": "Yaura",
+        "winRate": 45.8,
+        "avgDamage": 24.02,
+        "avgTaken": 22.77,
+        "avgGuards": 1.92
+      },
+      {
+        "name": "Bahl",
+        "winRate": 44.9,
+        "avgDamage": 15.57,
+        "avgTaken": 20.3,
+        "avgGuards": 0
+      },
+      {
+        "name": "Paleya",
+        "winRate": 42.1,
+        "avgDamage": 15.57,
+        "avgTaken": 18.29,
+        "avgGuards": 1.91
+      },
+      {
+        "name": "Dravain",
+        "winRate": 37.4,
+        "avgDamage": 12.82,
+        "avgTaken": 23.22,
+        "avgGuards": 1.95
+      }
+    ],
+    "class": [
+      {
+        "class": "assassin",
+        "picks": 3816,
+        "winRate": 56,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 3610,
+        "winRate": 52.1,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 5066,
+        "winRate": 48.1,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 2508,
+        "winRate": 41.5,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "proficiency": [
+      {
+        "proficiency": "witchcraft",
+        "picks": 2450,
+        "winRate": 54.4,
+        "characters": "Maoja, Bakub"
+      },
+      {
+        "proficiency": "icecraft",
+        "picks": 3804,
+        "winRate": 53.5,
+        "characters": "Smithen, K'ku, Hyafrost"
+      },
+      {
+        "proficiency": "demon",
+        "picks": 2511,
+        "winRate": 51.3,
+        "characters": "Bahl, Bakub"
+      },
+      {
+        "proficiency": "hypnotic",
+        "picks": 3654,
+        "winRate": 50.4,
+        "characters": "Paleya, Poom, Bakub"
+      },
+      {
+        "proficiency": "vampire",
+        "picks": 2538,
+        "winRate": 49,
+        "characters": "Dravain, Lady Eva"
+      },
+      {
+        "proficiency": "darkness",
+        "picks": 1258,
+        "winRate": 49,
+        "characters": "Kahro"
+      },
+      {
+        "proficiency": "spirit",
+        "picks": 1299,
+        "winRate": 47.8,
+        "characters": "Hyafrost"
+      },
+      {
+        "proficiency": "bloodcraft",
+        "picks": 2524,
+        "winRate": 45.3,
+        "characters": "Yaura, Bahl"
+      }
+    ],
+    "armor": [
+      {
+        "armor": "1",
+        "picks": 8676,
+        "winRate": 49.8,
+        "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "armor": "2",
+        "picks": 3816,
+        "winRate": 56,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "armor": "3",
+        "picks": 2508,
+        "winRate": 41.5,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": "iteration 2",
+    "avgRounds": 13.43,
+    "characters": [
+      {
+        "name": "Lady Eva",
+        "winRate": 58.3,
+        "avgDamage": 20.69,
+        "avgTaken": 15.72,
+        "avgGuards": 1.16
+      },
+      {
+        "name": "Smithen",
+        "winRate": 57.6,
+        "avgDamage": 20.84,
+        "avgTaken": 15.06,
+        "avgGuards": 0.89
+      },
+      {
+        "name": "K'ku",
+        "winRate": 54.5,
+        "avgDamage": 25.34,
+        "avgTaken": 26.95,
+        "avgGuards": 1.69
+      },
+      {
+        "name": "Bakub",
+        "winRate": 53.9,
+        "avgDamage": 9.07,
+        "avgTaken": 19.35,
+        "avgGuards": 2.03
+      },
+      {
+        "name": "Poom",
+        "winRate": 53.4,
+        "avgDamage": 31.71,
+        "avgTaken": 28.89,
+        "avgGuards": 2.22
+      },
+      {
+        "name": "Yaura",
+        "winRate": 51.7,
+        "avgDamage": 24.79,
+        "avgTaken": 22.55,
+        "avgGuards": 1.85
+      },
+      {
+        "name": "Bahl",
+        "winRate": 49.6,
+        "avgDamage": 14.36,
+        "avgTaken": 20.09,
+        "avgGuards": 0
+      },
+      {
+        "name": "Maoja",
+        "winRate": 48.8,
+        "avgDamage": 14.45,
+        "avgTaken": 26.97,
+        "avgGuards": 0
+      },
+      {
+        "name": "Kahro",
+        "winRate": 47.2,
+        "avgDamage": 13.83,
+        "avgTaken": 16.79,
+        "avgGuards": 0
+      },
+      {
+        "name": "Paleya",
+        "winRate": 45,
+        "avgDamage": 17.23,
+        "avgTaken": 18.89,
+        "avgGuards": 2.03
+      },
+      {
+        "name": "Hyafrost",
+        "winRate": 45,
+        "avgDamage": 21.91,
+        "avgTaken": 19.55,
+        "avgGuards": 1.05
+      },
+      {
+        "name": "Dravain",
+        "winRate": 35.5,
+        "avgDamage": 12.81,
+        "avgTaken": 23.16,
+        "avgGuards": 1.93
+      }
+    ],
+    "class": [
+      {
+        "class": "assassin",
+        "picks": 3793,
+        "winRate": 54.3,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 3699,
+        "winRate": 52.1,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 4970,
+        "winRate": 48.3,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 2538,
+        "winRate": 43.7,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "proficiency": [
+      {
+        "proficiency": "icecraft",
+        "picks": 3644,
+        "winRate": 52.3,
+        "characters": "Smithen, K'ku, Hyafrost"
+      },
+      {
+        "proficiency": "demon",
+        "picks": 2461,
+        "winRate": 51.7,
+        "characters": "Bahl, Bakub"
+      },
+      {
+        "proficiency": "witchcraft",
+        "picks": 2519,
+        "winRate": 51.3,
+        "characters": "Maoja, Bakub"
+      },
+      {
+        "proficiency": "bloodcraft",
+        "picks": 2522,
+        "winRate": 50.7,
+        "characters": "Yaura, Bahl"
+      },
+      {
+        "proficiency": "hypnotic",
+        "picks": 3746,
+        "winRate": 50.7,
+        "characters": "Paleya, Poom, Bakub"
+      },
+      {
+        "proficiency": "darkness",
+        "picks": 1280,
+        "winRate": 47.2,
+        "characters": "Kahro"
+      },
+      {
+        "proficiency": "vampire",
+        "picks": 2508,
+        "winRate": 46.9,
+        "characters": "Dravain, Lady Eva"
+      },
+      {
+        "proficiency": "spirit",
+        "picks": 1247,
+        "winRate": 45,
+        "characters": "Hyafrost"
+      }
+    ],
+    "armor": [
+      {
+        "armor": "1",
+        "picks": 8669,
+        "winRate": 49.9,
+        "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "armor": "2",
+        "picks": 3793,
+        "winRate": 54.3,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "armor": "3",
+        "picks": 2538,
+        "winRate": 43.7,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": "iteration 3",
+    "avgRounds": 13.26,
+    "characters": [
+      {
+        "name": "Lady Eva",
+        "winRate": 57.7,
+        "avgDamage": 20.68,
+        "avgTaken": 15.8,
+        "avgGuards": 1.24
+      },
+      {
+        "name": "K'ku",
+        "winRate": 56.5,
+        "avgDamage": 24.9,
+        "avgTaken": 26.82,
+        "avgGuards": 1.69
+      },
+      {
+        "name": "Bakub",
+        "winRate": 55.5,
+        "avgDamage": 8.95,
+        "avgTaken": 19.07,
+        "avgGuards": 2.06
+      },
+      {
+        "name": "Yaura",
+        "winRate": 52.8,
+        "avgDamage": 24.52,
+        "avgTaken": 22.35,
+        "avgGuards": 1.83
+      },
+      {
+        "name": "Poom",
+        "winRate": 52.1,
+        "avgDamage": 30.3,
+        "avgTaken": 29,
+        "avgGuards": 2.22
+      },
+      {
+        "name": "Paleya",
+        "winRate": 49.8,
+        "avgDamage": 17.82,
+        "avgTaken": 18.66,
+        "avgGuards": 1.94
+      },
+      {
+        "name": "Maoja",
+        "winRate": 48.6,
+        "avgDamage": 14.72,
+        "avgTaken": 26.9,
+        "avgGuards": 0
+      },
+      {
+        "name": "Kahro",
+        "winRate": 48.4,
+        "avgDamage": 13.28,
+        "avgTaken": 16.77,
+        "avgGuards": 0
+      },
+      {
+        "name": "Smithen",
+        "winRate": 48.3,
+        "avgDamage": 20.85,
+        "avgTaken": 15.32,
+        "avgGuards": 0.91
+      },
+      {
+        "name": "Bahl",
+        "winRate": 48.3,
+        "avgDamage": 14.38,
+        "avgTaken": 19.65,
+        "avgGuards": 0
+      },
+      {
+        "name": "Hyafrost",
+        "winRate": 44.9,
+        "avgDamage": 21.03,
+        "avgTaken": 20.11,
+        "avgGuards": 1.08
+      },
+      {
+        "name": "Dravain",
+        "winRate": 36.5,
+        "avgDamage": 12.96,
+        "avgTaken": 23.54,
+        "avgGuards": 1.97
+      }
+    ],
+    "class": [
+      {
+        "class": "brute",
+        "picks": 3595,
+        "winRate": 52.4,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "assassin",
+        "picks": 3868,
+        "winRate": 51.5,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 5112,
+        "winRate": 49.6,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 2425,
+        "winRate": 44.8,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "proficiency": [
+      {
+        "proficiency": "hypnotic",
+        "picks": 3752,
+        "winRate": 52.5,
+        "characters": "Paleya, Poom, Bakub"
+      },
+      {
+        "proficiency": "witchcraft",
+        "picks": 2505,
+        "winRate": 52.1,
+        "characters": "Maoja, Bakub"
+      },
+      {
+        "proficiency": "demon",
+        "picks": 2545,
+        "winRate": 51.9,
+        "characters": "Bahl, Bakub"
+      },
+      {
+        "proficiency": "bloodcraft",
+        "picks": 2492,
+        "winRate": 50.6,
+        "characters": "Yaura, Bahl"
+      },
+      {
+        "proficiency": "icecraft",
+        "picks": 3739,
+        "winRate": 49.7,
+        "characters": "Smithen, K'ku, Hyafrost"
+      },
+      {
+        "proficiency": "darkness",
+        "picks": 1283,
+        "winRate": 48.4,
+        "characters": "Kahro"
+      },
+      {
+        "proficiency": "vampire",
+        "picks": 2514,
+        "winRate": 47.7,
+        "characters": "Dravain, Lady Eva"
+      },
+      {
+        "proficiency": "spirit",
+        "picks": 1287,
+        "winRate": 44.9,
+        "characters": "Hyafrost"
+      }
+    ],
+    "armor": [
+      {
+        "armor": "1",
+        "picks": 8707,
+        "winRate": 50.8,
+        "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "armor": "2",
+        "picks": 3868,
+        "winRate": 51.5,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "armor": "3",
+        "picks": 2425,
+        "winRate": 44.8,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": "iteration 4",
+    "avgRounds": 13.89,
+    "characters": [
+      {
+        "name": "Yaura",
+        "winRate": 56.9,
+        "avgDamage": 26.33,
+        "avgTaken": 22.2,
+        "avgGuards": 1.96
+      },
+      {
+        "name": "K'ku",
+        "winRate": 56.1,
+        "avgDamage": 26.25,
+        "avgTaken": 27.13,
+        "avgGuards": 1.8
+      },
+      {
+        "name": "Bakub",
+        "winRate": 55,
+        "avgDamage": 9.23,
+        "avgTaken": 19.08,
+        "avgGuards": 2.15
+      },
+      {
+        "name": "Bahl",
+        "winRate": 50.6,
+        "avgDamage": 14.31,
+        "avgTaken": 20.05,
+        "avgGuards": 0
+      },
+      {
+        "name": "Smithen",
+        "winRate": 50.4,
+        "avgDamage": 21.84,
+        "avgTaken": 15.52,
+        "avgGuards": 1.01
+      },
+      {
+        "name": "Maoja",
+        "winRate": 49.8,
+        "avgDamage": 14.78,
+        "avgTaken": 27.07,
+        "avgGuards": 0
+      },
+      {
+        "name": "Paleya",
+        "winRate": 49.7,
+        "avgDamage": 18.92,
+        "avgTaken": 18.47,
+        "avgGuards": 2.14
+      },
+      {
+        "name": "Kahro",
+        "winRate": 48.4,
+        "avgDamage": 14.03,
+        "avgTaken": 16.73,
+        "avgGuards": 0
+      },
+      {
+        "name": "Poom",
+        "winRate": 48.1,
+        "avgDamage": 29.82,
+        "avgTaken": 29.32,
+        "avgGuards": 2.32
+      },
+      {
+        "name": "Hyafrost",
+        "winRate": 46.8,
+        "avgDamage": 20.92,
+        "avgTaken": 19.74,
+        "avgGuards": 1.12
+      },
+      {
+        "name": "Lady Eva",
+        "winRate": 46.4,
+        "avgDamage": 16.01,
+        "avgTaken": 16.66,
+        "avgGuards": 1.41
+      },
+      {
+        "name": "Dravain",
+        "winRate": 41.5,
+        "avgDamage": 13.76,
+        "avgTaken": 23.26,
+        "avgGuards": 2.06
+      }
+    ],
+    "class": [
+      {
+        "class": "brute",
+        "picks": 3719,
+        "winRate": 51.3,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 4993,
+        "winRate": 50.6,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 2529,
+        "winRate": 49.3,
+        "characters": "Dravain, Yaura"
+      },
+      {
+        "class": "assassin",
+        "picks": 3759,
+        "winRate": 48.4,
+        "characters": "Smithen, Kahro, Lady Eva"
+      }
+    ],
+    "proficiency": [
+      {
+        "proficiency": "bloodcraft",
+        "picks": 2579,
+        "winRate": 53.7,
+        "characters": "Yaura, Bahl"
+      },
+      {
+        "proficiency": "demon",
+        "picks": 2544,
+        "winRate": 52.8,
+        "characters": "Bahl, Bakub"
+      },
+      {
+        "proficiency": "witchcraft",
+        "picks": 2499,
+        "winRate": 52.4,
+        "characters": "Maoja, Bakub"
+      },
+      {
+        "proficiency": "icecraft",
+        "picks": 3698,
+        "winRate": 51.2,
+        "characters": "Smithen, K'ku, Hyafrost"
+      },
+      {
+        "proficiency": "hypnotic",
+        "picks": 3690,
+        "winRate": 50.9,
+        "characters": "Paleya, Poom, Bakub"
+      },
+      {
+        "proficiency": "darkness",
+        "picks": 1282,
+        "winRate": 48.4,
+        "characters": "Kahro"
+      },
+      {
+        "proficiency": "spirit",
+        "picks": 1217,
+        "winRate": 46.8,
+        "characters": "Hyafrost"
+      },
+      {
+        "proficiency": "vampire",
+        "picks": 2499,
+        "winRate": 44,
+        "characters": "Dravain, Lady Eva"
+      }
+    ],
+    "armor": [
+      {
+        "armor": "1",
+        "picks": 8712,
+        "winRate": 50.9,
+        "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "armor": "2",
+        "picks": 3759,
+        "winRate": 48.4,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "armor": "3",
+        "picks": 2529,
+        "winRate": 49.3,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": "iteration 5",
+    "avgRounds": 14.12,
+    "characters": [
+      {
+        "name": "Yaura",
+        "winRate": 58.2,
+        "avgDamage": 27.86,
+        "avgTaken": 21.42,
+        "avgGuards": 1.92
+      },
+      {
+        "name": "Bahl",
+        "winRate": 57.5,
+        "avgDamage": 16.47,
+        "avgTaken": 19.24,
+        "avgGuards": 0
+      },
+      {
+        "name": "Bakub",
+        "winRate": 53.3,
+        "avgDamage": 8.68,
+        "avgTaken": 19.21,
+        "avgGuards": 2.09
+      },
+      {
+        "name": "Kahro",
+        "winRate": 52.1,
+        "avgDamage": 14.33,
+        "avgTaken": 16.41,
+        "avgGuards": 0
+      },
+      {
+        "name": "Paleya",
+        "winRate": 51.7,
+        "avgDamage": 19.07,
+        "avgTaken": 18.2,
+        "avgGuards": 2.09
+      },
+      {
+        "name": "Smithen",
+        "winRate": 48.9,
+        "avgDamage": 21.12,
+        "avgTaken": 15.57,
+        "avgGuards": 0.97
+      },
+      {
+        "name": "Lady Eva",
+        "winRate": 48.7,
+        "avgDamage": 16.78,
+        "avgTaken": 16.24,
+        "avgGuards": 1.54
+      },
+      {
+        "name": "Poom",
+        "winRate": 48.3,
+        "avgDamage": 30.09,
+        "avgTaken": 29.29,
+        "avgGuards": 2.3
+      },
+      {
+        "name": "Maoja",
+        "winRate": 47.7,
+        "avgDamage": 14.09,
+        "avgTaken": 27.09,
+        "avgGuards": 0
+      },
+      {
+        "name": "K'ku",
+        "winRate": 45.2,
+        "avgDamage": 21.82,
+        "avgTaken": 28.36,
+        "avgGuards": 2.01
+      },
+      {
+        "name": "Hyafrost",
+        "winRate": 44.6,
+        "avgDamage": 21.32,
+        "avgTaken": 19.96,
+        "avgGuards": 1.06
+      },
+      {
+        "name": "Dravain",
+        "winRate": 44.1,
+        "avgDamage": 14.29,
+        "avgTaken": 22.6,
+        "avgGuards": 2.09
+      }
+    ],
+    "class": [
+      {
+        "class": "sorcerer",
+        "picks": 4988,
+        "winRate": 51.8,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 2460,
+        "winRate": 51,
+        "characters": "Dravain, Yaura"
+      },
+      {
+        "class": "assassin",
+        "picks": 3696,
+        "winRate": 49.9,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 3856,
+        "winRate": 47.1,
+        "characters": "K'ku, Maoja, Poom"
+      }
+    ],
+    "proficiency": [
+      {
+        "proficiency": "bloodcraft",
+        "picks": 2455,
+        "winRate": 57.8,
+        "characters": "Yaura, Bahl"
+      },
+      {
+        "proficiency": "demon",
+        "picks": 2528,
+        "winRate": 55.3,
+        "characters": "Bahl, Bakub"
+      },
+      {
+        "proficiency": "darkness",
+        "picks": 1235,
+        "winRate": 52.1,
+        "characters": "Kahro"
+      },
+      {
+        "proficiency": "hypnotic",
+        "picks": 3781,
+        "winRate": 51.1,
+        "characters": "Paleya, Poom, Bakub"
+      },
+      {
+        "proficiency": "witchcraft",
+        "picks": 2591,
+        "winRate": 50.4,
+        "characters": "Maoja, Bakub"
+      },
+      {
+        "proficiency": "vampire",
+        "picks": 2488,
+        "winRate": 46.4,
+        "characters": "Dravain, Lady Eva"
+      },
+      {
+        "proficiency": "icecraft",
+        "picks": 3723,
+        "winRate": 46.3,
+        "characters": "Smithen, K'ku, Hyafrost"
+      },
+      {
+        "proficiency": "spirit",
+        "picks": 1223,
+        "winRate": 44.6,
+        "characters": "Hyafrost"
+      }
+    ],
+    "armor": [
+      {
+        "armor": "1",
+        "picks": 8844,
+        "winRate": 49.8,
+        "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "armor": "2",
+        "picks": 3696,
+        "winRate": 49.9,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "armor": "3",
+        "picks": 2460,
+        "winRate": 51,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": "iteration 6",
+    "avgRounds": 14.1,
+    "characters": [
+      {
+        "name": "Yaura",
+        "winRate": 58,
+        "avgDamage": 27.53,
+        "avgTaken": 21.67,
+        "avgGuards": 1.92
+      },
+      {
+        "name": "Bahl",
+        "winRate": 57.6,
+        "avgDamage": 16.99,
+        "avgTaken": 20.13,
+        "avgGuards": 0
+      },
+      {
+        "name": "Bakub",
+        "winRate": 54.9,
+        "avgDamage": 9.4,
+        "avgTaken": 18.94,
+        "avgGuards": 2.11
+      },
+      {
+        "name": "Paleya",
+        "winRate": 53.4,
+        "avgDamage": 19.75,
+        "avgTaken": 19,
+        "avgGuards": 2.06
+      },
+      {
+        "name": "Smithen",
+        "winRate": 50.7,
+        "avgDamage": 21.74,
+        "avgTaken": 15.41,
+        "avgGuards": 1.01
+      },
+      {
+        "name": "Kahro",
+        "winRate": 48.3,
+        "avgDamage": 14.05,
+        "avgTaken": 16.45,
+        "avgGuards": 0
+      },
+      {
+        "name": "Poom",
+        "winRate": 48.3,
+        "avgDamage": 29.73,
+        "avgTaken": 29.36,
+        "avgGuards": 2.36
+      },
+      {
+        "name": "Maoja",
+        "winRate": 48.2,
+        "avgDamage": 14.66,
+        "avgTaken": 26.88,
+        "avgGuards": 0
+      },
+      {
+        "name": "Lady Eva",
+        "winRate": 46.9,
+        "avgDamage": 16.66,
+        "avgTaken": 16.61,
+        "avgGuards": 1.44
+      },
+      {
+        "name": "Hyafrost",
+        "winRate": 46.7,
+        "avgDamage": 21.76,
+        "avgTaken": 19.64,
+        "avgGuards": 1.14
+      },
+      {
+        "name": "Dravain",
+        "winRate": 44,
+        "avgDamage": 13.93,
+        "avgTaken": 22.51,
+        "avgGuards": 2.11
+      },
+      {
+        "name": "K'ku",
+        "winRate": 42.7,
+        "avgDamage": 19.77,
+        "avgTaken": 28.67,
+        "avgGuards": 2
+      }
+    ],
+    "class": [
+      {
+        "class": "sorcerer",
+        "picks": 10017,
+        "winRate": 53.1,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 5050,
+        "winRate": 51.1,
+        "characters": "Dravain, Yaura"
+      },
+      {
+        "class": "assassin",
+        "picks": 7401,
+        "winRate": 48.6,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 7532,
+        "winRate": 46.4,
+        "characters": "K'ku, Maoja, Poom"
+      }
+    ],
+    "proficiency": [
+      {
+        "proficiency": "bloodcraft",
+        "picks": 5011,
+        "winRate": 57.9,
+        "characters": "Yaura, Bahl"
+      },
+      {
+        "proficiency": "demon",
+        "picks": 4928,
+        "winRate": 56.3,
+        "characters": "Bahl, Bakub"
+      },
+      {
+        "proficiency": "hypnotic",
+        "picks": 7512,
+        "winRate": 52.2,
+        "characters": "Paleya, Poom, Bakub"
+      },
+      {
+        "proficiency": "witchcraft",
+        "picks": 5050,
+        "winRate": 51.5,
+        "characters": "Maoja, Bakub"
+      },
+      {
+        "proficiency": "darkness",
+        "picks": 2520,
+        "winRate": 48.3,
+        "characters": "Kahro"
+      },
+      {
+        "proficiency": "icecraft",
+        "picks": 7496,
+        "winRate": 46.7,
+        "characters": "Smithen, K'ku, Hyafrost"
+      },
+      {
+        "proficiency": "spirit",
+        "picks": 2574,
+        "winRate": 46.7,
+        "characters": "Hyafrost"
+      },
+      {
+        "proficiency": "vampire",
+        "picks": 4888,
+        "winRate": 45.4,
+        "characters": "Dravain, Lady Eva"
+      }
+    ],
+    "armor": [
+      {
+        "armor": "1",
+        "picks": 17549,
+        "winRate": 50.2,
+        "characters": "K'ku, Maoja, Paleya, Poom, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "armor": "2",
+        "picks": 7401,
+        "winRate": 48.6,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "armor": "3",
+        "picks": 5050,
+        "winRate": 51.1,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  }
+]

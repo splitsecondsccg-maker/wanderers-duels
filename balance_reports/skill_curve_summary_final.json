@@ -1,0 +1,188 @@
+{
+  "rows": [
+    {
+      "character": "Hyafrost",
+      "oldAI": 58.8,
+      "smartAI": 55.9,
+      "skillDelta": -2.9,
+      "classification": "too-strong-low-skill",
+      "oldAvgDamage": 27.69,
+      "smartAvgDamage": 26.64,
+      "oldGuards": 1.09,
+      "smartGuards": 0.52
+    },
+    {
+      "character": "Bakub",
+      "oldAI": 52.6,
+      "smartAI": 55,
+      "skillDelta": 2.4,
+      "classification": "ok",
+      "oldAvgDamage": 9.64,
+      "smartAvgDamage": 11.83,
+      "oldGuards": 2.29,
+      "smartGuards": 1.22
+    },
+    {
+      "character": "Yaura",
+      "oldAI": 46.9,
+      "smartAI": 53.3,
+      "skillDelta": 6.4,
+      "classification": "ok",
+      "oldAvgDamage": 25.74,
+      "smartAvgDamage": 26.36,
+      "oldGuards": 2.02,
+      "smartGuards": 1.36
+    },
+    {
+      "character": "Lady Eva",
+      "oldAI": 56.1,
+      "smartAI": 52.9,
+      "skillDelta": -3.2,
+      "classification": "ok",
+      "oldAvgDamage": 20.8,
+      "smartAvgDamage": 15.94,
+      "oldGuards": 1.32,
+      "smartGuards": 1.05
+    },
+    {
+      "character": "Kahro",
+      "oldAI": 51.6,
+      "smartAI": 52.8,
+      "skillDelta": 1.2,
+      "classification": "ok",
+      "oldAvgDamage": 13.62,
+      "smartAvgDamage": 19.22,
+      "oldGuards": 0,
+      "smartGuards": 0
+    },
+    {
+      "character": "Poom",
+      "oldAI": 59.6,
+      "smartAI": 52.1,
+      "skillDelta": -7.5,
+      "classification": "too-strong-low-skill",
+      "oldAvgDamage": 34.97,
+      "smartAvgDamage": 32.84,
+      "oldGuards": 2.4,
+      "smartGuards": 1.34
+    },
+    {
+      "character": "Paleya",
+      "oldAI": 42.3,
+      "smartAI": 52,
+      "skillDelta": 9.7,
+      "classification": "ok",
+      "oldAvgDamage": 16.66,
+      "smartAvgDamage": 24.07,
+      "oldGuards": 2.33,
+      "smartGuards": 0.59
+    },
+    {
+      "character": "Maoja",
+      "oldAI": 51.2,
+      "smartAI": 51.3,
+      "skillDelta": 0.1,
+      "classification": "ok",
+      "oldAvgDamage": 14.29,
+      "smartAvgDamage": 15.74,
+      "oldGuards": 0,
+      "smartGuards": 0
+    },
+    {
+      "character": "Smithen",
+      "oldAI": 47.4,
+      "smartAI": 50.2,
+      "skillDelta": 2.8,
+      "classification": "ok",
+      "oldAvgDamage": 20.32,
+      "smartAvgDamage": 20.46,
+      "oldGuards": 1.04,
+      "smartGuards": 0.72
+    },
+    {
+      "character": "K'ku",
+      "oldAI": 42.6,
+      "smartAI": 45.9,
+      "skillDelta": 3.3,
+      "classification": "underpowered-even-smart",
+      "oldAvgDamage": 19.39,
+      "smartAvgDamage": 21.75,
+      "oldGuards": 1.92,
+      "smartGuards": 1.56
+    },
+    {
+      "character": "Dravain",
+      "oldAI": 39.9,
+      "smartAI": 40.3,
+      "skillDelta": 0.4,
+      "classification": "underpowered-even-smart",
+      "oldAvgDamage": 11.8,
+      "smartAvgDamage": 7.27,
+      "oldGuards": 4.11,
+      "smartGuards": 4.28
+    },
+    {
+      "character": "Bahl",
+      "oldAI": 51.4,
+      "smartAI": 38.5,
+      "skillDelta": -12.9,
+      "classification": "ok",
+      "oldAvgDamage": 14.88,
+      "smartAvgDamage": 15.29,
+      "oldGuards": 0,
+      "smartGuards": 0
+    }
+  ],
+  "oldClass": [
+    {
+      "class": "assassin",
+      "picks": 1767,
+      "winRate": 51.6,
+      "characters": "Smithen, Kahro, Lady Eva"
+    },
+    {
+      "class": "brute",
+      "picks": 1812,
+      "winRate": 51.2,
+      "characters": "K'ku, Maoja, Poom"
+    },
+    {
+      "class": "sorcerer",
+      "picks": 2424,
+      "winRate": 51.2,
+      "characters": "Paleya, Bahl, Hyafrost, Bakub"
+    },
+    {
+      "class": "warrior",
+      "picks": 1197,
+      "winRate": 43.4,
+      "characters": "Dravain, Yaura"
+    }
+  ],
+  "smartClass": [
+    {
+      "class": "assassin",
+      "picks": 1807,
+      "winRate": 51.9,
+      "characters": "Smithen, Kahro, Lady Eva"
+    },
+    {
+      "class": "sorcerer",
+      "picks": 2378,
+      "winRate": 50.4,
+      "characters": "Paleya, Bahl, Hyafrost, Bakub"
+    },
+    {
+      "class": "brute",
+      "picks": 1798,
+      "winRate": 49.8,
+      "characters": "K'ku, Maoja, Poom"
+    },
+    {
+      "class": "warrior",
+      "picks": 1217,
+      "winRate": 46.7,
+      "characters": "Dravain, Yaura"
+    }
+  ]
+}

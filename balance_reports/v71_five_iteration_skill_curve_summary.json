@@ -1,0 +1,1136 @@
+[
+  {
+    "iteration": 0,
+    "rows": [
+      {
+        "character": "Paleya",
+        "oldAI": 54,
+        "smartAI": 70.6,
+        "skillDelta": 16.6,
+        "classification": "skill-reward-but-too-safe-floor",
+        "oldAvgDamage": 18.7,
+        "smartAvgDamage": 30.4,
+        "oldGuards": 2.07,
+        "smartGuards": 0.53
+      },
+      {
+        "character": "Yaura",
+        "oldAI": 56.2,
+        "smartAI": 61.9,
+        "skillDelta": 5.7,
+        "classification": "too-good-even-bad",
+        "oldAvgDamage": 27.84,
+        "smartAvgDamage": 28.17,
+        "oldGuards": 1.94,
+        "smartGuards": 1.21
+      },
+      {
+        "character": "Bakub",
+        "oldAI": 60.2,
+        "smartAI": 55.8,
+        "skillDelta": -4.4,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 8.69,
+        "smartAvgDamage": 12.19,
+        "oldGuards": 2.04,
+        "smartGuards": 1.16
+      },
+      {
+        "character": "K'ku",
+        "oldAI": 44,
+        "smartAI": 51.2,
+        "skillDelta": 7.2,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 20.29,
+        "smartAvgDamage": 21.11,
+        "oldGuards": 2.01,
+        "smartGuards": 1.33
+      },
+      {
+        "character": "Kahro",
+        "oldAI": 47.8,
+        "smartAI": 49.2,
+        "skillDelta": 1.4,
+        "classification": "ok",
+        "oldAvgDamage": 14.28,
+        "smartAvgDamage": 19.19,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Maoja",
+        "oldAI": 45.7,
+        "smartAI": 49,
+        "skillDelta": 3.3,
+        "classification": "ok",
+        "oldAvgDamage": 14.96,
+        "smartAvgDamage": 15.73,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Bahl",
+        "oldAI": 58.1,
+        "smartAI": 48.6,
+        "skillDelta": -9.5,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 18.18,
+        "smartAvgDamage": 17.07,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Smithen",
+        "oldAI": 52.2,
+        "smartAI": 48.1,
+        "skillDelta": -4.1,
+        "classification": "ok",
+        "oldAvgDamage": 22.72,
+        "smartAvgDamage": 19.29,
+        "oldGuards": 0.96,
+        "smartGuards": 0.8
+      },
+      {
+        "character": "Poom",
+        "oldAI": 42.9,
+        "smartAI": 43.6,
+        "skillDelta": 0.7,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 29.77,
+        "smartAvgDamage": 28.3,
+        "oldGuards": 2.31,
+        "smartGuards": 1.32
+      },
+      {
+        "character": "Dravain",
+        "oldAI": 44.4,
+        "smartAI": 42.9,
+        "skillDelta": -1.5,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 14.29,
+        "smartAvgDamage": 7.73,
+        "oldGuards": 1.96,
+        "smartGuards": 1.97
+      },
+      {
+        "character": "Hyafrost",
+        "oldAI": 48.7,
+        "smartAI": 40.2,
+        "skillDelta": -8.5,
+        "classification": "ok",
+        "oldAvgDamage": 22.3,
+        "smartAvgDamage": 19.81,
+        "oldGuards": 1.04,
+        "smartGuards": 0.56
+      },
+      {
+        "character": "Lady Eva",
+        "oldAI": 46.3,
+        "smartAI": 39.5,
+        "skillDelta": -6.8,
+        "classification": "weak",
+        "oldAvgDamage": 16.61,
+        "smartAvgDamage": 11.28,
+        "oldGuards": 1.41,
+        "smartGuards": 1.21
+      }
+    ],
+    "oldClass": [
+      {
+        "class": "sorcerer",
+        "picks": 954,
+        "winRate": 55.3,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 528,
+        "winRate": 50.6,
+        "characters": "Dravain, Yaura"
+      },
+      {
+        "class": "assassin",
+        "picks": 736,
+        "winRate": 48.8,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 782,
+        "winRate": 44.2,
+        "characters": "K'ku, Maoja, Poom"
+      }
+    ],
+    "smartClass": [
+      {
+        "class": "sorcerer",
+        "picks": 996,
+        "winRate": 54,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 511,
+        "winRate": 51.7,
+        "characters": "Dravain, Yaura"
+      },
+      {
+        "class": "brute",
+        "picks": 746,
+        "winRate": 48,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "assassin",
+        "picks": 747,
+        "winRate": 45.5,
+        "characters": "Smithen, Kahro, Lady Eva"
+      }
+    ]
+  },
+  {
+    "iteration": 1,
+    "rows": [
+      {
+        "character": "Kahro",
+        "oldAI": 49.2,
+        "smartAI": 57.5,
+        "skillDelta": 8.3,
+        "classification": "ok",
+        "oldAvgDamage": 13.24,
+        "smartAvgDamage": 20.43,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Poom",
+        "oldAI": 58.1,
+        "smartAI": 57,
+        "skillDelta": -1.1,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 34.85,
+        "smartAvgDamage": 34.15,
+        "oldGuards": 2.15,
+        "smartGuards": 1.13
+      },
+      {
+        "character": "Yaura",
+        "oldAI": 46.2,
+        "smartAI": 57,
+        "skillDelta": 10.8,
+        "classification": "ok",
+        "oldAvgDamage": 25.04,
+        "smartAvgDamage": 27.63,
+        "oldGuards": 1.98,
+        "smartGuards": 1.32
+      },
+      {
+        "character": "Hyafrost",
+        "oldAI": 60.9,
+        "smartAI": 55.7,
+        "skillDelta": -5.2,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 27.71,
+        "smartAvgDamage": 25.48,
+        "oldGuards": 0.99,
+        "smartGuards": 0.51
+      },
+      {
+        "character": "Bakub",
+        "oldAI": 50.7,
+        "smartAI": 53.1,
+        "skillDelta": 2.4,
+        "classification": "ok",
+        "oldAvgDamage": 8.43,
+        "smartAvgDamage": 12.46,
+        "oldGuards": 2.26,
+        "smartGuards": 1.09
+      },
+      {
+        "character": "Smithen",
+        "oldAI": 54.3,
+        "smartAI": 49.2,
+        "skillDelta": -5.1,
+        "classification": "ok",
+        "oldAvgDamage": 22.92,
+        "smartAvgDamage": 20.38,
+        "oldGuards": 1.02,
+        "smartGuards": 0.89
+      },
+      {
+        "character": "Maoja",
+        "oldAI": 52.9,
+        "smartAI": 49,
+        "skillDelta": -3.9,
+        "classification": "ok",
+        "oldAvgDamage": 14.51,
+        "smartAvgDamage": 15.94,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Lady Eva",
+        "oldAI": 54.6,
+        "smartAI": 47.8,
+        "skillDelta": -6.8,
+        "classification": "ok",
+        "oldAvgDamage": 19.58,
+        "smartAvgDamage": 15.63,
+        "oldGuards": 1.2,
+        "smartGuards": 1.04
+      },
+      {
+        "character": "Paleya",
+        "oldAI": 43.3,
+        "smartAI": 47.3,
+        "skillDelta": 4.0,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 16.01,
+        "smartAvgDamage": 21.64,
+        "oldGuards": 2.31,
+        "smartGuards": 0.66
+      },
+      {
+        "character": "K'ku",
+        "oldAI": 43.1,
+        "smartAI": 45,
+        "skillDelta": 1.9,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 20.58,
+        "smartAvgDamage": 20.04,
+        "oldGuards": 2.12,
+        "smartGuards": 1.51
+      },
+      {
+        "character": "Dravain",
+        "oldAI": 36.6,
+        "smartAI": 43.7,
+        "skillDelta": 7.1,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 11.99,
+        "smartAvgDamage": 6.96,
+        "oldGuards": 4.33,
+        "smartGuards": 4.23
+      },
+      {
+        "character": "Bahl",
+        "oldAI": 49.6,
+        "smartAI": 37.1,
+        "skillDelta": -12.5,
+        "classification": "ok",
+        "oldAvgDamage": 13.98,
+        "smartAvgDamage": 12.51,
+        "oldGuards": 0,
+        "smartGuards": 0
+      }
+    ],
+    "oldClass": [
+      {
+        "class": "assassin",
+        "picks": 743,
+        "winRate": 52.6,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 755,
+        "winRate": 51.3,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 992,
+        "winRate": 51.2,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 510,
+        "winRate": 42,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "smartClass": [
+      {
+        "class": "assassin",
+        "picks": 734,
+        "winRate": 51.5,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 719,
+        "winRate": 50.6,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "warrior",
+        "picks": 503,
+        "winRate": 50.5,
+        "characters": "Dravain, Yaura"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 1044,
+        "winRate": 48.3,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      }
+    ]
+  },
+  {
+    "iteration": 2,
+    "rows": [
+      {
+        "character": "Bakub",
+        "oldAI": 48.4,
+        "smartAI": 60.7,
+        "skillDelta": 12.3,
+        "classification": "too-strong-optimized",
+        "oldAvgDamage": 9.18,
+        "smartAvgDamage": 12.44,
+        "oldGuards": 2.46,
+        "smartGuards": 1.3
+      },
+      {
+        "character": "Yaura",
+        "oldAI": 43.2,
+        "smartAI": 56.2,
+        "skillDelta": 13.0,
+        "classification": "healthy-skill-reward",
+        "oldAvgDamage": 26.28,
+        "smartAvgDamage": 26.61,
+        "oldGuards": 2.23,
+        "smartGuards": 1.41
+      },
+      {
+        "character": "Poom",
+        "oldAI": 57.5,
+        "smartAI": 56.1,
+        "skillDelta": -1.4,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 34,
+        "smartAvgDamage": 33.77,
+        "oldGuards": 2.39,
+        "smartGuards": 1.1
+      },
+      {
+        "character": "Kahro",
+        "oldAI": 46.5,
+        "smartAI": 55.7,
+        "skillDelta": 9.2,
+        "classification": "ok",
+        "oldAvgDamage": 12.16,
+        "smartAvgDamage": 19.59,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Paleya",
+        "oldAI": 49.1,
+        "smartAI": 52.3,
+        "skillDelta": 3.2,
+        "classification": "ok",
+        "oldAvgDamage": 17.14,
+        "smartAvgDamage": 24.82,
+        "oldGuards": 2.31,
+        "smartGuards": 0.64
+      },
+      {
+        "character": "Maoja",
+        "oldAI": 46.4,
+        "smartAI": 51.4,
+        "skillDelta": 5.0,
+        "classification": "ok",
+        "oldAvgDamage": 14.43,
+        "smartAvgDamage": 15.28,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Hyafrost",
+        "oldAI": 62.7,
+        "smartAI": 50,
+        "skillDelta": -12.7,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 26.85,
+        "smartAvgDamage": 27.13,
+        "oldGuards": 1.14,
+        "smartGuards": 0.54
+      },
+      {
+        "character": "Lady Eva",
+        "oldAI": 54.5,
+        "smartAI": 49.4,
+        "skillDelta": -5.1,
+        "classification": "ok",
+        "oldAvgDamage": 20.76,
+        "smartAvgDamage": 15.4,
+        "oldGuards": 1.52,
+        "smartGuards": 1.18
+      },
+      {
+        "character": "Smithen",
+        "oldAI": 49.8,
+        "smartAI": 47.5,
+        "skillDelta": -2.3,
+        "classification": "ok",
+        "oldAvgDamage": 23.12,
+        "smartAvgDamage": 19.89,
+        "oldGuards": 1.18,
+        "smartGuards": 0.79
+      },
+      {
+        "character": "K'ku",
+        "oldAI": 46.2,
+        "smartAI": 45.2,
+        "skillDelta": -1.0,
+        "classification": "ok",
+        "oldAvgDamage": 19.22,
+        "smartAvgDamage": 20.09,
+        "oldGuards": 2.08,
+        "smartGuards": 1.59
+      },
+      {
+        "character": "Dravain",
+        "oldAI": 45.1,
+        "smartAI": 41.3,
+        "skillDelta": -3.8,
+        "classification": "weak",
+        "oldAvgDamage": 12.75,
+        "smartAvgDamage": 7.52,
+        "oldGuards": 4.38,
+        "smartGuards": 4.37
+      },
+      {
+        "character": "Bahl",
+        "oldAI": 49.8,
+        "smartAI": 36.7,
+        "skillDelta": -13.1,
+        "classification": "ok",
+        "oldAvgDamage": 14.66,
+        "smartAvgDamage": 15.93,
+        "oldGuards": 0,
+        "smartGuards": 0
+      }
+    ],
+    "oldClass": [
+      {
+        "class": "sorcerer",
+        "picks": 986,
+        "winRate": 52.6,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "assassin",
+        "picks": 746,
+        "winRate": 50.4,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 736,
+        "winRate": 50.3,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "warrior",
+        "picks": 532,
+        "winRate": 44.2,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "smartClass": [
+      {
+        "class": "assassin",
+        "picks": 748,
+        "winRate": 50.8,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 761,
+        "winRate": 50.7,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 1015,
+        "winRate": 49.8,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 476,
+        "winRate": 48.1,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": 3,
+    "rows": [
+      {
+        "character": "Yaura",
+        "oldAI": 42.6,
+        "smartAI": 59.1,
+        "skillDelta": 16.5,
+        "classification": "ok",
+        "oldAvgDamage": 25.35,
+        "smartAvgDamage": 27.4,
+        "oldGuards": 2.13,
+        "smartGuards": 1.29
+      },
+      {
+        "character": "Bakub",
+        "oldAI": 51.4,
+        "smartAI": 58,
+        "skillDelta": 6.6,
+        "classification": "ok",
+        "oldAvgDamage": 8.99,
+        "smartAvgDamage": 12.33,
+        "oldGuards": 2.21,
+        "smartGuards": 1.15
+      },
+      {
+        "character": "Paleya",
+        "oldAI": 41.1,
+        "smartAI": 53.9,
+        "skillDelta": 12.8,
+        "classification": "ok",
+        "oldAvgDamage": 16.83,
+        "smartAvgDamage": 24.73,
+        "oldGuards": 2.24,
+        "smartGuards": 0.57
+      },
+      {
+        "character": "Kahro",
+        "oldAI": 51,
+        "smartAI": 53.4,
+        "skillDelta": 2.4,
+        "classification": "ok",
+        "oldAvgDamage": 15.38,
+        "smartAvgDamage": 20.01,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Hyafrost",
+        "oldAI": 61.6,
+        "smartAI": 53.2,
+        "skillDelta": -8.4,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 26.74,
+        "smartAvgDamage": 24.68,
+        "oldGuards": 1.04,
+        "smartGuards": 0.48
+      },
+      {
+        "character": "K'ku",
+        "oldAI": 46.3,
+        "smartAI": 52.5,
+        "skillDelta": 6.2,
+        "classification": "ok",
+        "oldAvgDamage": 20.57,
+        "smartAvgDamage": 20.05,
+        "oldGuards": 1.95,
+        "smartGuards": 1.39
+      },
+      {
+        "character": "Smithen",
+        "oldAI": 50.4,
+        "smartAI": 51.6,
+        "skillDelta": 1.2,
+        "classification": "ok",
+        "oldAvgDamage": 21.86,
+        "smartAvgDamage": 21.21,
+        "oldGuards": 1.14,
+        "smartGuards": 0.84
+      },
+      {
+        "character": "Poom",
+        "oldAI": 59.8,
+        "smartAI": 51.4,
+        "skillDelta": -8.4,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 35.03,
+        "smartAvgDamage": 33.5,
+        "oldGuards": 2.32,
+        "smartGuards": 1.13
+      },
+      {
+        "character": "Lady Eva",
+        "oldAI": 57.4,
+        "smartAI": 50.4,
+        "skillDelta": -7.0,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 20.68,
+        "smartAvgDamage": 17.22,
+        "oldGuards": 1.2,
+        "smartGuards": 1.09
+      },
+      {
+        "character": "Maoja",
+        "oldAI": 46.5,
+        "smartAI": 47.8,
+        "skillDelta": 1.3,
+        "classification": "ok",
+        "oldAvgDamage": 13.84,
+        "smartAvgDamage": 15.73,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Dravain",
+        "oldAI": 39.6,
+        "smartAI": 36.6,
+        "skillDelta": -3.0,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 11.19,
+        "smartAvgDamage": 7.15,
+        "oldGuards": 4.31,
+        "smartGuards": 4.2
+      },
+      {
+        "character": "Bahl",
+        "oldAI": 54,
+        "smartAI": 33.3,
+        "skillDelta": -20.7,
+        "classification": "ok",
+        "oldAvgDamage": 14.41,
+        "smartAvgDamage": 15.84,
+        "oldGuards": 0,
+        "smartGuards": 0
+      }
+    ],
+    "oldClass": [
+      {
+        "class": "assassin",
+        "picks": 739,
+        "winRate": 52.9,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 996,
+        "winRate": 51.9,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "brute",
+        "picks": 742,
+        "winRate": 50.8,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "warrior",
+        "picks": 523,
+        "winRate": 41.1,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "smartClass": [
+      {
+        "class": "assassin",
+        "picks": 734,
+        "winRate": 51.8,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 788,
+        "winRate": 50.5,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 964,
+        "winRate": 49.5,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 514,
+        "winRate": 47.7,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": 4,
+    "rows": [
+      {
+        "character": "Poom",
+        "oldAI": 55.7,
+        "smartAI": 62.6,
+        "skillDelta": 6.9,
+        "classification": "too-good-even-bad",
+        "oldAvgDamage": 34.33,
+        "smartAvgDamage": 33.44,
+        "oldGuards": 2.3,
+        "smartGuards": 1.24
+      },
+      {
+        "character": "Hyafrost",
+        "oldAI": 60.5,
+        "smartAI": 55.6,
+        "skillDelta": -4.9,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 25.69,
+        "smartAvgDamage": 26.04,
+        "oldGuards": 1,
+        "smartGuards": 0.61
+      },
+      {
+        "character": "Yaura",
+        "oldAI": 44.6,
+        "smartAI": 55.5,
+        "skillDelta": 10.9,
+        "classification": "healthy-skill-reward",
+        "oldAvgDamage": 24.88,
+        "smartAvgDamage": 26.45,
+        "oldGuards": 1.78,
+        "smartGuards": 1.26
+      },
+      {
+        "character": "Kahro",
+        "oldAI": 52.1,
+        "smartAI": 54.3,
+        "skillDelta": 2.2,
+        "classification": "ok",
+        "oldAvgDamage": 14.14,
+        "smartAvgDamage": 19.01,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Paleya",
+        "oldAI": 45.9,
+        "smartAI": 52,
+        "skillDelta": 6.1,
+        "classification": "ok",
+        "oldAvgDamage": 16.46,
+        "smartAvgDamage": 25.91,
+        "oldGuards": 2.22,
+        "smartGuards": 0.61
+      },
+      {
+        "character": "Maoja",
+        "oldAI": 48.4,
+        "smartAI": 51,
+        "skillDelta": 2.6,
+        "classification": "ok",
+        "oldAvgDamage": 14.11,
+        "smartAvgDamage": 14.07,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Lady Eva",
+        "oldAI": 55.8,
+        "smartAI": 50,
+        "skillDelta": -5.8,
+        "classification": "ok",
+        "oldAvgDamage": 20.28,
+        "smartAvgDamage": 15.71,
+        "oldGuards": 1.1,
+        "smartGuards": 1.08
+      },
+      {
+        "character": "Bakub",
+        "oldAI": 51,
+        "smartAI": 49.2,
+        "skillDelta": -1.8,
+        "classification": "ok",
+        "oldAvgDamage": 10.18,
+        "smartAvgDamage": 11.1,
+        "oldGuards": 2.26,
+        "smartGuards": 1.1
+      },
+      {
+        "character": "K'ku",
+        "oldAI": 43.1,
+        "smartAI": 48.1,
+        "skillDelta": 5.0,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 21.23,
+        "smartAvgDamage": 21.88,
+        "oldGuards": 1.87,
+        "smartGuards": 1.54
+      },
+      {
+        "character": "Smithen",
+        "oldAI": 49.4,
+        "smartAI": 46.5,
+        "skillDelta": -2.9,
+        "classification": "ok",
+        "oldAvgDamage": 21.44,
+        "smartAvgDamage": 21.43,
+        "oldGuards": 0.99,
+        "smartGuards": 1.06
+      },
+      {
+        "character": "Bahl",
+        "oldAI": 51.6,
+        "smartAI": 39.7,
+        "skillDelta": -11.9,
+        "classification": "ok",
+        "oldAvgDamage": 15.56,
+        "smartAvgDamage": 15.3,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Dravain",
+        "oldAI": 41.5,
+        "smartAI": 35.7,
+        "skillDelta": -5.8,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 11.97,
+        "smartAvgDamage": 7.48,
+        "oldGuards": 4.42,
+        "smartGuards": 4.49
+      }
+    ],
+    "oldClass": [
+      {
+        "class": "assassin",
+        "picks": 751,
+        "winRate": 52.5,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 998,
+        "winRate": 52,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "brute",
+        "picks": 773,
+        "winRate": 49.3,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "warrior",
+        "picks": 478,
+        "winRate": 43.1,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "smartClass": [
+      {
+        "class": "brute",
+        "picks": 722,
+        "winRate": 53.9,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "assassin",
+        "picks": 781,
+        "winRate": 50.1,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 1012,
+        "winRate": 49.2,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 485,
+        "winRate": 45.8,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  },
+  {
+    "iteration": "final",
+    "rows": [
+      {
+        "character": "Hyafrost",
+        "oldAI": 58.8,
+        "smartAI": 55.9,
+        "skillDelta": -2.9,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 27.69,
+        "smartAvgDamage": 26.64,
+        "oldGuards": 1.09,
+        "smartGuards": 0.52
+      },
+      {
+        "character": "Bakub",
+        "oldAI": 52.6,
+        "smartAI": 55,
+        "skillDelta": 2.4,
+        "classification": "ok",
+        "oldAvgDamage": 9.64,
+        "smartAvgDamage": 11.83,
+        "oldGuards": 2.29,
+        "smartGuards": 1.22
+      },
+      {
+        "character": "Yaura",
+        "oldAI": 46.9,
+        "smartAI": 53.3,
+        "skillDelta": 6.4,
+        "classification": "ok",
+        "oldAvgDamage": 25.74,
+        "smartAvgDamage": 26.36,
+        "oldGuards": 2.02,
+        "smartGuards": 1.36
+      },
+      {
+        "character": "Lady Eva",
+        "oldAI": 56.1,
+        "smartAI": 52.9,
+        "skillDelta": -3.2,
+        "classification": "ok",
+        "oldAvgDamage": 20.8,
+        "smartAvgDamage": 15.94,
+        "oldGuards": 1.32,
+        "smartGuards": 1.05
+      },
+      {
+        "character": "Kahro",
+        "oldAI": 51.6,
+        "smartAI": 52.8,
+        "skillDelta": 1.2,
+        "classification": "ok",
+        "oldAvgDamage": 13.62,
+        "smartAvgDamage": 19.22,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Poom",
+        "oldAI": 59.6,
+        "smartAI": 52.1,
+        "skillDelta": -7.5,
+        "classification": "too-strong-low-skill",
+        "oldAvgDamage": 34.97,
+        "smartAvgDamage": 32.84,
+        "oldGuards": 2.4,
+        "smartGuards": 1.34
+      },
+      {
+        "character": "Paleya",
+        "oldAI": 42.3,
+        "smartAI": 52,
+        "skillDelta": 9.7,
+        "classification": "ok",
+        "oldAvgDamage": 16.66,
+        "smartAvgDamage": 24.07,
+        "oldGuards": 2.33,
+        "smartGuards": 0.59
+      },
+      {
+        "character": "Maoja",
+        "oldAI": 51.2,
+        "smartAI": 51.3,
+        "skillDelta": 0.1,
+        "classification": "ok",
+        "oldAvgDamage": 14.29,
+        "smartAvgDamage": 15.74,
+        "oldGuards": 0,
+        "smartGuards": 0
+      },
+      {
+        "character": "Smithen",
+        "oldAI": 47.4,
+        "smartAI": 50.2,
+        "skillDelta": 2.8,
+        "classification": "ok",
+        "oldAvgDamage": 20.32,
+        "smartAvgDamage": 20.46,
+        "oldGuards": 1.04,
+        "smartGuards": 0.72
+      },
+      {
+        "character": "K'ku",
+        "oldAI": 42.6,
+        "smartAI": 45.9,
+        "skillDelta": 3.3,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 19.39,
+        "smartAvgDamage": 21.75,
+        "oldGuards": 1.92,
+        "smartGuards": 1.56
+      },
+      {
+        "character": "Dravain",
+        "oldAI": 39.9,
+        "smartAI": 40.3,
+        "skillDelta": 0.4,
+        "classification": "underpowered-even-smart",
+        "oldAvgDamage": 11.8,
+        "smartAvgDamage": 7.27,
+        "oldGuards": 4.11,
+        "smartGuards": 4.28
+      },
+      {
+        "character": "Bahl",
+        "oldAI": 51.4,
+        "smartAI": 38.5,
+        "skillDelta": -12.9,
+        "classification": "ok",
+        "oldAvgDamage": 14.88,
+        "smartAvgDamage": 15.29,
+        "oldGuards": 0,
+        "smartGuards": 0
+      }
+    ],
+    "oldClass": [
+      {
+        "class": "assassin",
+        "picks": 1767,
+        "winRate": 51.6,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "brute",
+        "picks": 1812,
+        "winRate": 51.2,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 2424,
+        "winRate": 51.2,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "warrior",
+        "picks": 1197,
+        "winRate": 43.4,
+        "characters": "Dravain, Yaura"
+      }
+    ],
+    "smartClass": [
+      {
+        "class": "assassin",
+        "picks": 1807,
+        "winRate": 51.9,
+        "characters": "Smithen, Kahro, Lady Eva"
+      },
+      {
+        "class": "sorcerer",
+        "picks": 2378,
+        "winRate": 50.4,
+        "characters": "Paleya, Bahl, Hyafrost, Bakub"
+      },
+      {
+        "class": "brute",
+        "picks": 1798,
+        "winRate": 49.8,
+        "characters": "K'ku, Maoja, Poom"
+      },
+      {
+        "class": "warrior",
+        "picks": 1217,
+        "winRate": 46.7,
+        "characters": "Dravain, Yaura"
+      }
+    ]
+  }
+]

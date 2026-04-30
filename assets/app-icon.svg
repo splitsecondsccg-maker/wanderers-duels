@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Wanderers Duels">
+  <rect width="512" height="512" rx="112" fill="#17130f"/>
+  <circle cx="256" cy="256" r="174" fill="#f6efe4"/>
+  <circle cx="256" cy="256" r="142" fill="#2f76bf"/>
+  <path d="M164 151l197 197 28-28-197-197-28 28z" fill="#f6efe4"/>
+  <path d="M348 123L151 320l28 28 197-197-28-28z" fill="#f6efe4"/>
+  <path d="M154 348l-36 46 46-36 4-24-14 14zM358 348l36 46-46-36-4-24 14 14z" fill="#d7463f"/>
+  <circle cx="256" cy="256" r="58" fill="#17130f"/>
+  <circle cx="256" cy="256" r="34" fill="#f6efe4"/>
+</svg>

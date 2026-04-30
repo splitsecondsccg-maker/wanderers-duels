@@ -1,0 +1,145 @@
+{
+  "gamesPerConfig": 300,
+  "seed": 102800,
+  "definitions": {
+    "oldVsOld": "bad vs bad",
+    "smartVsSmart": "optimized vs optimized",
+    "smartPilotVsOldOpp": "good pilot vs bad opponent",
+    "oldPilotVsSmartOpp": "bad pilot vs good opponent",
+    "smartOpponentSuppression": "smartPilotVsOldOpp - smartVsSmart"
+  },
+  "rows": [
+    {
+      "character": "Bakub",
+      "oldVsOld": 59.1,
+      "smartVsSmart": 57.4,
+      "smartPilotVsOldOpp": 69.5,
+      "oldPilotVsSmartOpp": 47.1,
+      "pilotSkillGainVsOldOpp": 10.4,
+      "smartOpponentSuppression": 12.1,
+      "smartOpponentPunishesOldPilot": 12,
+      "label": "too-good-baseline"
+    },
+    {
+      "character": "Kahro",
+      "oldVsOld": 57,
+      "smartVsSmart": 55.2,
+      "smartPilotVsOldOpp": 69.7,
+      "oldPilotVsSmartOpp": 37.3,
+      "pilotSkillGainVsOldOpp": 12.7,
+      "smartOpponentSuppression": 14.5,
+      "smartOpponentPunishesOldPilot": 19.7,
+      "label": "ok"
+    },
+    {
+      "character": "Maoja",
+      "oldVsOld": 48.7,
+      "smartVsSmart": 55.1,
+      "smartPilotVsOldOpp": 54.7,
+      "oldPilotVsSmartOpp": 41.2,
+      "pilotSkillGainVsOldOpp": 6,
+      "smartOpponentSuppression": -0.4,
+      "smartOpponentPunishesOldPilot": 7.5,
+      "label": "ok"
+    },
+    {
+      "character": "Dravain",
+      "oldVsOld": 55.6,
+      "smartVsSmart": 54.9,
+      "smartPilotVsOldOpp": 70.3,
+      "oldPilotVsSmartOpp": 41.8,
+      "pilotSkillGainVsOldOpp": 14.7,
+      "smartOpponentSuppression": 15.4,
+      "smartOpponentPunishesOldPilot": 13.8,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Hyafrost",
+      "oldVsOld": 37.8,
+      "smartVsSmart": 52.3,
+      "smartPilotVsOldOpp": 65.4,
+      "oldPilotVsSmartOpp": 25.4,
+      "pilotSkillGainVsOldOpp": 27.6,
+      "smartOpponentSuppression": 13.1,
+      "smartOpponentPunishesOldPilot": 12.4,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Smithen",
+      "oldVsOld": 52.2,
+      "smartVsSmart": 51,
+      "smartPilotVsOldOpp": 57.7,
+      "oldPilotVsSmartOpp": 50,
+      "pilotSkillGainVsOldOpp": 5.5,
+      "smartOpponentSuppression": 6.7,
+      "smartOpponentPunishesOldPilot": 2.2,
+      "label": "ok"
+    },
+    {
+      "character": "K'ku",
+      "oldVsOld": 48.6,
+      "smartVsSmart": 50.7,
+      "smartPilotVsOldOpp": 61.6,
+      "oldPilotVsSmartOpp": 30.1,
+      "pilotSkillGainVsOldOpp": 13,
+      "smartOpponentSuppression": 10.9,
+      "smartOpponentPunishesOldPilot": 18.5,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Paleya",
+      "oldVsOld": 36.6,
+      "smartVsSmart": 50.3,
+      "smartPilotVsOldOpp": 58.8,
+      "oldPilotVsSmartOpp": 28.9,
+      "pilotSkillGainVsOldOpp": 22.2,
+      "smartOpponentSuppression": 8.5,
+      "smartOpponentPunishesOldPilot": 7.7,
+      "label": "ok"
+    },
+    {
+      "character": "Poom",
+      "oldVsOld": 56.4,
+      "smartVsSmart": 48.4,
+      "smartPilotVsOldOpp": 70.1,
+      "oldPilotVsSmartOpp": 36,
+      "pilotSkillGainVsOldOpp": 13.7,
+      "smartOpponentSuppression": 21.7,
+      "smartOpponentPunishesOldPilot": 20.4,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Bahl",
+      "oldVsOld": 56.5,
+      "smartVsSmart": 48,
+      "smartPilotVsOldOpp": 65.3,
+      "oldPilotVsSmartOpp": 38.7,
+      "pilotSkillGainVsOldOpp": 8.8,
+      "smartOpponentSuppression": 17.3,
+      "smartOpponentPunishesOldPilot": 17.8,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Lady Eva",
+      "oldVsOld": 56.8,
+      "smartVsSmart": 47.1,
+      "smartPilotVsOldOpp": 70.3,
+      "oldPilotVsSmartOpp": 48.8,
+      "pilotSkillGainVsOldOpp": 13.5,
+      "smartOpponentSuppression": 23.2,
+      "smartOpponentPunishesOldPilot": 8,
+      "label": "farms-bad-opponents/counterable"
+    },
+    {
+      "character": "Yaura",
+      "oldVsOld": 32.1,
+      "smartVsSmart": 28.4,
+      "smartPilotVsOldOpp": 37.8,
+      "oldPilotVsSmartOpp": 22.5,
+      "pilotSkillGainVsOldOpp": 5.7,
+      "smartOpponentSuppression": 9.4,
+      "smartOpponentPunishesOldPilot": 9.6,
+      "label": "underpowered"
+    }
+  ]
+}
