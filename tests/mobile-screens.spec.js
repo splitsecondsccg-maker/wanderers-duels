@@ -74,13 +74,16 @@ for (const device of devices) {
             const card = document.querySelector('.resolutionOverlay:not(.hidden) .resolveCard');
             if (!card) return false;
             const box = card.getBoundingClientRect();
-            const events = [...card.querySelectorAll('.resolveEvent')];
+            const events = [...card.querySelectorAll('.resolveEvent')]
+              .filter(event => getComputedStyle(event).display !== 'none' && event.getBoundingClientRect().height > 0);
             const collision = events.some((event, index) => {
               const next = events[index + 1];
               if (!next) return false;
               return event.getBoundingClientRect().bottom > next.getBoundingClientRect().top - 1;
             });
-            return box.height >= 220 && box.width <= window.innerWidth - 8 && !collision;
+            const details = card.querySelector('.resolveDetailsToggleV105');
+            const compactEnough = box.height <= Math.min(window.innerHeight * 0.38, 330);
+            return box.height >= 60 && compactEnough && box.width <= window.innerWidth - 8 && !!details && !collision;
           });
           expect(readableSheet).toBe(true);
         }

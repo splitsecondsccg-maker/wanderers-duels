@@ -5883,3 +5883,1189 @@ body.mobileLayoutV52 .chips{
     animation-iteration-count:1!important;
   }
 }
+
+/* ===== v105 compact battle app viewport ===== */
+body.inBattleV98{
+  background:#eee6d8!important;
+}
+
+body.inBattleV98 #battle.battle{
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255,255,255,.82), rgba(255,255,255,0) 38%),
+    #f1eadf!important;
+}
+
+.battleLogToggleBtnV105{
+  grid-column:auto!important;
+  align-self:center!important;
+  justify-self:stretch!important;
+}
+
+.resolveDetailsToggleV105{
+  border:0;
+  border-radius:999px;
+  min-height:36px;
+  padding:7px 11px;
+  background:rgba(30,26,22,.09);
+  color:#2b261f;
+  font-weight:1000;
+  cursor:pointer;
+}
+
+.resolveCard.compactResultV105:not(.detailsOpenV105) .resolveDesc,
+.resolveCard.compactResultV105:not(.detailsOpenV105) .resolveEventList{
+  display:none!important;
+}
+
+.resolutionOverlayV105.minimizedV105{
+  left:auto!important;
+  width:min(320px, calc(100vw - 16px))!important;
+}
+
+.resolutionOverlayV105.minimizedV105 .resolveCard{
+  min-height:0!important;
+  max-height:none!important;
+  overflow:hidden!important;
+  padding:10px 56px 10px 12px!important;
+  border-radius:20px!important;
+}
+
+.resolutionOverlayV105.minimizedV105 .resolveIcon,
+.resolutionOverlayV105.minimizedV105 .resolveDesc,
+.resolutionOverlayV105.minimizedV105 .resolveEventList,
+.resolutionOverlayV105.minimizedV105 .inlineContinueResolveBtn,
+.resolutionOverlayV105.minimizedV105 .resolveDetailsToggleV105{
+  display:none!important;
+}
+
+.resolutionOverlayV105.minimizedV105 .resolveTop{
+  display:block!important;
+}
+
+.resolutionOverlayV105.minimizedV105 .resolveStage{
+  font-size:10px!important;
+}
+
+.resolutionOverlayV105.minimizedV105 .resolveTitle{
+  font-size:14px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+.resolutionOverlayV105.minimizedV105 .resolveMeta{
+  display:none!important;
+}
+
+@media(max-width:900px), (pointer:coarse){
+  body.inBattleV98,
+  body.inBattleV98 .app{
+    width:100vw!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+    overscroll-behavior:none!important;
+  }
+
+  body.inBattleV98 #battle.battle{
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100dvh!important;
+    min-height:100dvh!important;
+    max-width:none!important;
+    padding:calc(8px + env(safe-area-inset-top)) 8px calc(8px + env(safe-area-inset-bottom))!important;
+    display:grid!important;
+    grid-template-rows:auto auto minmax(42px, .12fr) minmax(0, 1fr) minmax(0, 1fr)!important;
+    gap:7px!important;
+    overflow:hidden!important;
+    border-radius:0!important;
+  }
+
+  body.inBattleV98 #battle .battleTop{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto auto 46px 46px!important;
+    align-items:center!important;
+    gap:6px!important;
+    margin:0!important;
+  }
+
+  body.inBattleV98 #battle .battleTop h1{
+    font-size:18px!important;
+    line-height:1.05!important;
+  }
+
+  body.inBattleV98 #battle .eyebrow{
+    font-size:10px!important;
+  }
+
+  body.inBattleV98 #battle .statBox{
+    min-width:54px!important;
+    padding:7px 8px!important;
+    border-radius:16px!important;
+  }
+
+  body.inBattleV98 #battle .statBox span{
+    font-size:9px!important;
+  }
+
+  body.inBattleV98 #battle .statBox b{
+    font-size:16px!important;
+  }
+
+  body.inBattleV98 #battle .icon{
+    width:46px!important;
+    height:46px!important;
+  }
+
+  body.inBattleV98 #battle .resource{
+    display:grid!important;
+    grid-template-columns:minmax(66px,auto) minmax(0,1fr) 56px 56px!important;
+    gap:6px!important;
+    align-items:center!important;
+    margin:0!important;
+  }
+
+  body.inBattleV98 #battle .actions{
+    min-height:44px!important;
+    padding:6px 8px!important;
+    border-radius:15px!important;
+    font-size:12px!important;
+    line-height:1.05!important;
+  }
+
+  body.inBattleV98 #battle #resolveBtn{
+    min-height:46px!important;
+    padding:9px 10px!important;
+    font-size:13px!important;
+    letter-spacing:.06em!important;
+  }
+
+  body.inBattleV98 #battle .battleLogToggleBtnV105,
+  body.inBattleV98 #battle .tacticalToggleBtn{
+    width:56px!important;
+    min-width:56px!important;
+    min-height:46px!important;
+    height:46px!important;
+    padding:0!important;
+    border-radius:18px!important;
+    font-size:0!important;
+  }
+
+  body.inBattleV98 #battle .battleLogToggleBtnV105::before{
+    content:"Log";
+    font-size:12px;
+    letter-spacing:0;
+  }
+
+  body.inBattleV98 #battle .tacticalToggleBtn::before{
+    content:"!";
+    font-size:20px;
+  }
+
+  body.inBattleV98 #battle .tacticalToggleBtn.active::before{
+    content:"✓";
+  }
+
+  body.inBattleV98 #queueStrip{
+    min-height:42px!important;
+    max-height:none!important;
+    padding:6px!important;
+    border-radius:16px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    margin:0!important;
+  }
+
+  body.inBattleV98 #queueStrip .queueEmpty{
+    min-height:30px!important;
+    padding:4px!important;
+    font-size:11px!important;
+  }
+
+  body.inBattleV98 #battle .board{
+    min-height:0!important;
+    height:100%!important;
+    grid-template-rows:repeat(2,minmax(0,1fr))!important;
+    padding:6px!important;
+    gap:6px!important;
+    margin:0!important;
+    border-radius:18px!important;
+    overflow:hidden!important;
+    background:rgba(255,250,243,.43)!important;
+  }
+
+  body.inBattleV98 #battle .row{
+    min-height:0!important;
+    height:auto!important;
+    gap:6px!important;
+  }
+
+  body.inBattleV98 #battle .tile,
+  body.inBattleV98 #battle .tile.empty{
+    min-height:0!important;
+    height:100%!important;
+    aspect-ratio:auto!important;
+    border-radius:16px!important;
+  }
+
+  body.inBattleV98 #battle .mobilePanelControls,
+  body.inBattleV98 #battle #infoPanelSheet.panelClosedV101,
+  body.inBattleV98 #battle #infoPanelSheet:not(.showInfoV101):not(.showLogV101){
+    display:none!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105{
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    top:auto!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveCard{
+    min-height:0!important;
+    max-height:min(34dvh, 310px)!important;
+    padding:12px!important;
+    border-radius:22px!important;
+    background:rgba(255,255,255,.96)!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveTop{
+    display:grid!important;
+    grid-template-columns:40px minmax(0,1fr) auto!important;
+    gap:8px!important;
+    align-items:center!important;
+  }
+
+  /* v115: Geshar uses a full-width boss banner plus a normal front row.
+     The compact battle rules above are correct for 3v3 boards, but they
+     collapse row-boss empty slots into thin strips. */
+  body.inBattleV98 #battle .board.rowBossBoard{
+    display:flex!important;
+    flex-direction:column!important;
+    height:auto!important;
+    min-height:0!important;
+    grid-template-rows:none!important;
+    overflow:visible!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .rowBossFullRow{
+    display:block!important;
+    width:100%!important;
+    flex:0 0 auto!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .rowBossFullRow > .tile.rowBossTile{
+    height:auto!important;
+    min-height:clamp(170px, 28vw, 260px)!important;
+    aspect-ratio:3 / 1!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .row{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    width:100%!important;
+    min-height:clamp(126px, 32vw, 190px)!important;
+    flex:0 0 auto!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .row > .tile,
+  body.inBattleV98 #battle .board.rowBossBoard > .row > .tile.empty{
+    display:block!important;
+    height:auto!important;
+    min-height:clamp(126px, 32vw, 190px)!important;
+    aspect-ratio:1.06 / 1!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveIcon{
+    width:40px!important;
+    height:40px!important;
+    border-radius:14px!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveTitle{
+    font-size:16px!important;
+    line-height:1.08!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveMeta{
+    font-size:10px!important;
+    line-height:1.2!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveDesc{
+    margin-top:8px!important;
+    font-size:12px!important;
+    line-height:1.45!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveEventList{
+    margin-top:8px!important;
+    gap:6px!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .resolveEvent{
+    min-height:0!important;
+    padding:7px 9px!important;
+    font-size:11px!important;
+    line-height:1.35!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .inlineContinueResolveBtn{
+    min-height:46px!important;
+    margin-top:8px!important;
+    font-size:15px!important;
+    position:sticky!important;
+    bottom:0!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105 .overlayCloseBtn{
+    width:42px!important;
+    height:42px!important;
+    top:8px!important;
+    right:8px!important;
+  }
+
+  body.inBattleV98 .resolutionOverlayV105.minimizedV105{
+    left:auto!important;
+    right:8px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    width:min(285px, calc(100vw - 16px))!important;
+  }
+}
+
+/* ===== v106 game-feel feedback layer ===== */
+.gameFeelV106 button,
+.gameFeelV106 .tile,
+.gameFeelV106 .fighterCard,
+.gameFeelV106 .slot,
+.gameFeelV106 .benchFighter,
+.gameFeelV106 .chosenToken{
+  transition:
+    transform .16s cubic-bezier(.2,1,.25,1),
+    filter .18s ease,
+    box-shadow .18s ease;
+  will-change:transform;
+}
+
+.touchPressV106{
+  transform:scale(.965)!important;
+  filter:brightness(.98) saturate(1.06)!important;
+}
+
+.choicePopV106{
+  animation:choicePopV106 .34s cubic-bezier(.18,1.2,.34,1) both!important;
+}
+
+.intentGlowV106{
+  animation:intentGlowV106 .56s ease-out both!important;
+}
+
+.planCommitV106{
+  animation:planCommitV106 .52s cubic-bezier(.19,1.15,.32,1) both!important;
+}
+
+.targetPingV106{
+  animation:targetPingV106 .52s ease-out both!important;
+}
+
+.queuePulseV106{
+  animation:queuePulseV106 .52s ease-out both!important;
+}
+
+.actorSurgeV106{
+  animation:actorSurgeV106 .62s ease-out both!important;
+}
+
+.hitMomentV106{
+  animation:hitMomentV106 .62s cubic-bezier(.2,1,.32,1) both!important;
+}
+
+.healMomentV106{
+  animation:healMomentV106 .68s ease-out both!important;
+}
+
+.guardMomentV106{
+  animation:guardMomentV106 .62s ease-out both!important;
+}
+
+.statusMomentV106{
+  animation:statusMomentV106 .52s ease-out both!important;
+}
+
+.resolvePopV106 .resolveCard{
+  animation:resolvePopV106 .32s cubic-bezier(.2,1.18,.33,1) both!important;
+}
+
+.tile.actorSurgeV106::before,
+.tile.hitMomentV106::before,
+.tile.healMomentV106::before,
+.tile.guardMomentV106::before,
+.tile.statusMomentV106::before,
+.tile.planCommitV106::before,
+.tile.targetPingV106::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:7;
+  pointer-events:none;
+  border-radius:inherit;
+  opacity:0;
+}
+
+.tile.actorSurgeV106::before{
+  background:radial-gradient(circle at 50% 34%, rgba(255,255,255,.48), transparent 48%);
+  animation:tileWashV106 .6s ease-out both;
+}
+
+.tile.hitMomentV106::before{
+  border:3px solid rgba(255,90,60,.82);
+  box-shadow:0 0 0 999px rgba(190,34,28,.12) inset,0 0 24px rgba(255,70,48,.42);
+  animation:impactRingV106 .58s ease-out both;
+}
+
+.tile.healMomentV106::before{
+  border:3px solid rgba(85,220,145,.82);
+  box-shadow:0 0 0 999px rgba(78,210,132,.12) inset,0 0 28px rgba(63,210,132,.42);
+  animation:impactRingV106 .68s ease-out both;
+}
+
+.tile.guardMomentV106::before{
+  border:3px solid rgba(86,153,240,.82);
+  box-shadow:0 0 0 999px rgba(66,130,220,.12) inset,0 0 30px rgba(80,150,245,.42);
+  animation:guardRingV106 .62s ease-out both;
+}
+
+.tile.statusMomentV106::before{
+  border:3px solid rgba(167,102,240,.72);
+  box-shadow:0 0 0 999px rgba(130,82,210,.11) inset,0 0 24px rgba(150,88,235,.34);
+  animation:statusRingV106 .52s ease-out both;
+}
+
+.tile.planCommitV106::before,
+.tile.targetPingV106::before{
+  border:3px solid rgba(223,169,58,.86);
+  box-shadow:0 0 0 999px rgba(223,169,58,.08) inset,0 0 24px rgba(223,169,58,.36);
+  animation:guardRingV106 .52s ease-out both;
+}
+
+.feelParticleV106{
+  position:fixed;
+  width:7px;
+  height:7px;
+  z-index:10200;
+  pointer-events:none;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  animation:feelParticleV106 .68s ease-out forwards;
+  background:#ff664d;
+  box-shadow:0 0 12px rgba(255,86,65,.65);
+}
+
+.feelParticleV106.heal{
+  background:#55dc91;
+  box-shadow:0 0 12px rgba(85,220,145,.7);
+}
+
+.feelParticleV106.guard{
+  background:#5ea4f4;
+  box-shadow:0 0 12px rgba(86,153,240,.7);
+}
+
+.feelParticleV106.heavy{
+  width:10px;
+  height:10px;
+  background:#ff3f35;
+  box-shadow:0 0 16px rgba(255,63,53,.78);
+}
+
+@keyframes choicePopV106{
+  0%{transform:scale(1)}
+  42%{transform:scale(1.035)}
+  100%{transform:scale(1)}
+}
+
+@keyframes intentGlowV106{
+  0%{filter:brightness(1)}
+  35%{filter:brightness(1.18) saturate(1.16);box-shadow:0 0 0 4px rgba(74,145,217,.28),0 14px 36px rgba(74,145,217,.22)}
+  100%{filter:brightness(1)}
+}
+
+@keyframes planCommitV106{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.045) translateY(-2px)}
+  100%{transform:scale(1)}
+}
+
+@keyframes targetPingV106{
+  0%{filter:brightness(1)}
+  35%{filter:brightness(1.22) saturate(1.18)}
+  100%{filter:brightness(1)}
+}
+
+@keyframes queuePulseV106{
+  0%{box-shadow:0 0 0 rgba(223,169,58,0)}
+  40%{box-shadow:0 0 0 4px rgba(223,169,58,.28),0 10px 30px rgba(223,169,58,.22)}
+  100%{box-shadow:0 0 0 rgba(223,169,58,0)}
+}
+
+@keyframes actorSurgeV106{
+  0%{filter:brightness(1)}
+  35%{filter:brightness(1.24) saturate(1.2)}
+  100%{filter:brightness(1)}
+}
+
+@keyframes hitMomentV106{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  18%{transform:translate3d(-3px,1px,0) scale(1.018)}
+  36%{transform:translate3d(3px,-1px,0) scale(1.01)}
+  100%{transform:translate3d(0,0,0) scale(1)}
+}
+
+@keyframes healMomentV106{
+  0%{filter:brightness(1)}
+  36%{filter:brightness(1.26) saturate(1.2);transform:translateY(-2px)}
+  100%{filter:brightness(1);transform:translateY(0)}
+}
+
+@keyframes guardMomentV106{
+  0%{filter:brightness(1)}
+  38%{filter:brightness(1.18) saturate(1.1)}
+  100%{filter:brightness(1)}
+}
+
+@keyframes statusMomentV106{
+  0%{filter:brightness(1)}
+  45%{filter:brightness(1.16) saturate(1.24)}
+  100%{filter:brightness(1)}
+}
+
+@keyframes resolvePopV106{
+  from{transform:translateY(10px) scale(.985);opacity:.82}
+  to{transform:translateY(0) scale(1);opacity:1}
+}
+
+@keyframes tileWashV106{
+  0%{opacity:0}
+  30%{opacity:1}
+  100%{opacity:0}
+}
+
+@keyframes impactRingV106{
+  0%{opacity:0;transform:scale(.96)}
+  25%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.06)}
+}
+
+@keyframes guardRingV106{
+  0%{opacity:0;transform:scale(.92)}
+  28%{opacity:1;transform:scale(1.02)}
+  100%{opacity:0;transform:scale(1.08)}
+}
+
+@keyframes statusRingV106{
+  0%{opacity:0;transform:scale(.96) rotate(0)}
+  30%{opacity:1;transform:scale(1.01) rotate(1deg)}
+  100%{opacity:0;transform:scale(1.055) rotate(0)}
+}
+
+@keyframes feelParticleV106{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}
+  18%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.2)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .gameFeelV106 button,
+  .gameFeelV106 .tile,
+  .gameFeelV106 .fighterCard,
+  .gameFeelV106 .slot,
+  .gameFeelV106 .benchFighter,
+  .gameFeelV106 .chosenToken{
+    transition:none!important;
+  }
+
+  .touchPressV106,
+  .choicePopV106,
+  .intentGlowV106,
+  .planCommitV106,
+  .targetPingV106,
+  .queuePulseV106,
+  .actorSurgeV106,
+  .hitMomentV106,
+  .healMomentV106,
+  .guardMomentV106,
+  .statusMomentV106,
+  .resolvePopV106 .resolveCard,
+  .feelParticleV106{
+    animation:none!important;
+  }
+}
+
+/* ===== v107 defeat break animation ===== */
+.tile.defeatBreakV107{
+  animation:defeatBreakTileV107 1.12s cubic-bezier(.2,1,.28,1) both!important;
+  transform-origin:center 72%;
+  pointer-events:none!important;
+}
+
+.tile.defeatBreakV107 .art,
+.tile.defeatBreakV107 .artImg{
+  animation:defeatBreakArtV107 1.12s ease-out both!important;
+}
+
+.tile.defeatGhostV107{
+  opacity:.98!important;
+  filter:none!important;
+}
+
+.tile.defeatBreakV107::before,
+.tile.defeatBreakV107::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:9;
+  pointer-events:none;
+  border-radius:inherit;
+}
+
+.tile.defeatBreakV107::before{
+  background:
+    linear-gradient(118deg, transparent 0 46%, rgba(255,255,255,.78) 47% 49%, transparent 50% 100%),
+    linear-gradient(34deg, transparent 0 57%, rgba(255,255,255,.56) 58% 60%, transparent 61% 100%),
+    radial-gradient(circle at 50% 44%, rgba(255,255,255,.56), transparent 44%);
+  mix-blend-mode:screen;
+  animation:defeatCracksV107 1.02s ease-out both;
+}
+
+.tile.defeatBreakV107::after{
+  border:4px solid rgba(255,255,255,.76);
+  box-shadow:
+    0 0 0 999px rgba(29,24,20,.28) inset,
+    0 0 38px rgba(255,255,255,.46),
+    0 16px 36px rgba(0,0,0,.22);
+  animation:defeatRingV107 1.05s ease-out both;
+}
+
+.deathShardV107{
+  position:fixed;
+  z-index:10220;
+  pointer-events:none;
+  width:10px;
+  height:13px;
+  border-radius:3px 6px 4px 7px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,215,178,.82) 46%, rgba(78,61,48,.95));
+  box-shadow:0 0 14px rgba(255,230,200,.45);
+  transform:translate(-50%,-50%) rotate(0deg);
+  animation:deathShardV107 1.08s cubic-bezier(.16,.84,.31,1) forwards;
+}
+
+.deathShardV107:nth-child(3n){
+  width:7px;
+  height:16px;
+  background:linear-gradient(150deg, rgba(255,255,255,.88), rgba(160,134,105,.95));
+}
+
+.deathShardV107:nth-child(4n){
+  width:13px;
+  height:8px;
+  background:linear-gradient(135deg, rgba(255,120,95,.86), rgba(70,48,42,.95));
+}
+
+.defeatTextV107{
+  position:fixed;
+  z-index:10230;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  padding:7px 13px;
+  border-radius:999px;
+  background:rgba(25,20,17,.9);
+  color:#fff;
+  font-weight:1000;
+  font-size:15px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  box-shadow:0 14px 32px rgba(0,0,0,.25);
+  animation:defeatTextV107 1.1s cubic-bezier(.18,1,.32,1) forwards;
+}
+
+@keyframes defeatBreakTileV107{
+  0%{transform:translate3d(0,0,0) rotate(0) scale(1);filter:brightness(1)}
+  10%{transform:translate3d(-4px,1px,0) rotate(-1.1deg) scale(1.018);filter:brightness(1.35) saturate(1.25)}
+  20%{transform:translate3d(5px,-2px,0) rotate(1.4deg) scale(1.02)}
+  34%{transform:translate3d(-3px,2px,0) rotate(-.8deg) scale(1.01)}
+  55%{transform:translate3d(0,-3px,0) rotate(0) scale(.985);filter:brightness(.92) saturate(.85)}
+  100%{transform:translate3d(0,16px,0) rotate(.4deg) scale(.93);filter:brightness(.48) saturate(.36);opacity:0}
+}
+
+@keyframes defeatBreakArtV107{
+  0%{filter:brightness(1) saturate(1);opacity:1;clip-path:inset(0)}
+  24%{filter:brightness(1.28) saturate(1.1);opacity:1}
+  55%{filter:grayscale(.45) brightness(.8);clip-path:polygon(0 0,100% 0,96% 36%,100% 100%,0 100%,5% 52%)}
+  100%{filter:grayscale(1) brightness(.45);opacity:.18;clip-path:polygon(3% 7%,96% 0,88% 45%,100% 100%,9% 94%,0 47%)}
+}
+
+@keyframes defeatCracksV107{
+  0%{opacity:0;transform:scale(.96)}
+  18%{opacity:1;transform:scale(1)}
+  58%{opacity:.72;transform:scale(1.025)}
+  100%{opacity:0;transform:scale(1.09)}
+}
+
+@keyframes defeatRingV107{
+  0%{opacity:0;transform:scale(.92)}
+  16%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.1)}
+}
+
+@keyframes deathShardV107{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.62) rotate(0deg)}
+  14%{opacity:1}
+  72%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.18) rotate(var(--rot))}
+}
+
+@keyframes defeatTextV107{
+  0%{opacity:0;transform:translate(-50%, -40%) scale(.86)}
+  16%{opacity:1;transform:translate(-50%, -55%) scale(1.04)}
+  70%{opacity:1;transform:translate(-50%, -78%) scale(1)}
+  100%{opacity:0;transform:translate(-50%, -108%) scale(.9)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tile.defeatBreakV107,
+  .tile.defeatBreakV107 .art,
+  .tile.defeatBreakV107 .artImg,
+  .tile.defeatBreakV107::before,
+  .tile.defeatBreakV107::after,
+  .deathShardV107,
+  .defeatTextV107{
+    animation:none!important;
+  }
+
+  .tile.defeatGhostV107{
+    opacity:.28!important;
+  }
+}
+
+/* ===== v123 active resolver motion: the acting tile physically lifts and turns. ===== */
+.tile.currentActor{
+  animation:currentActorLiftSpinV123 .72s cubic-bezier(.2,1,.22,1) infinite alternate!important;
+  transform-origin:center 78%!important;
+  z-index:12!important;
+  outline:4px solid rgba(255,215,89,.95)!important;
+  box-shadow:0 0 0 6px rgba(255,215,89,.24),0 0 34px rgba(255,215,89,.55),0 18px 38px rgba(40,31,22,.22)!important;
+}
+
+@keyframes currentActorLiftSpinV123{
+  0%{
+    transform:translate3d(0,0,0) rotate(0deg) scale(1);
+    filter:brightness(1) saturate(1);
+  }
+  38%{
+    transform:translate3d(0,-8px,0) rotate(-1.5deg) scale(1.025);
+    filter:brightness(1.12) saturate(1.12);
+  }
+  72%{
+    transform:translate3d(0,-11px,0) rotate(1.3deg) scale(1.03);
+    filter:brightness(1.18) saturate(1.18);
+  }
+  100%{
+    transform:translate3d(0,-7px,0) rotate(.6deg) scale(1.022);
+    filter:brightness(1.08) saturate(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tile.currentActor{
+    animation:none!important;
+    transform:translateY(-3px)!important;
+  }
+}
+
+/* ===== v155 row-sized units stay inside mobile boards ===== */
+@media(max-width:900px), (pointer:coarse){
+  body.inBattleV98 #battle .board.rowBossBoard{
+    display:grid!important;
+    grid-template-rows:repeat(2,minmax(0,1fr))!important;
+    height:100%!important;
+    min-height:0!important;
+    gap:6px!important;
+    overflow:hidden!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .rowBossFullRow,
+  body.inBattleV98 #battle .board.rowBossBoard > .row{
+    width:100%!important;
+    min-width:0!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    overflow:hidden!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .row{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .rowBossFullRow > .tile.rowBossTile,
+  body.inBattleV98 #battle .board.rowBossBoard > .row > .tile,
+  body.inBattleV98 #battle .board.rowBossBoard > .row > .tile.empty{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:100%!important;
+    aspect-ratio:auto!important;
+    display:block!important;
+  }
+
+  body.inBattleV98 #battle .board.rowBossBoard > .rowBossFullRow > .tile.rowBossTile .art{
+    background-position:center 26%!important;
+  }
+}
+
+/* ===== v109 radial ability brief clarity ===== */
+.wheelBriefIconsV109{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin:0 auto 3px;
+  min-height:28px;
+  pointer-events:none;
+}
+
+.wheelProfIconV109,
+.wheelTypeIconV109{
+  width:28px;
+  height:28px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background-color:rgba(255,255,255,.88);
+  box-shadow:0 4px 12px rgba(31,24,18,.18), inset 0 0 0 1px rgba(255,255,255,.76);
+}
+
+.wheelProfIconV109{
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:22px 22px;
+}
+
+.wheelTypeIconV109{
+  color:#fff;
+  font-size:11px;
+  line-height:1;
+  font-weight:1000;
+  text-shadow:0 1px 1px rgba(0,0,0,.22);
+}
+
+.wheelTypeIconV109[data-ability-type="melee"]{background:#9b3f2f;}
+.wheelTypeIconV109[data-ability-type="ranged"]{background:#286e9f;}
+.wheelTypeIconV109[data-ability-type="aoe"]{background:#7550a8;}
+.wheelTypeIconV109[data-ability-type="buff"]{background:#2f8a58;}
+.wheelTypeIconV109[data-ability-type="guard"]{background:#415a77;}
+
+.wheelBtn .wheelBriefIconsV109 + .wheelBtnTitle{
+  margin-top:0;
+}
+
+#radial.mobileRadialMode .wheelBriefIconsV109{
+  min-height:30px;
+  margin-bottom:2px;
+}
+
+#radial.mobileRadialMode .wheelProfIconV109,
+#radial.mobileRadialMode .wheelTypeIconV109{
+  width:30px;
+  height:30px;
+  border-radius:11px;
+}
+
+#radial.mobileRadialMode .wheelProfIconV109{
+  background-size:24px 24px;
+}
+
+#radial.mobileRadialMode .wheelTypeIconV109{
+  font-size:12px;
+}
+
+/* ===== v112 mobile radial joystick chooser ===== */
+#radial.mobileRadialMode.joystickRadialV112 #wheelCenter,
+#radial.mobileRadialMode.joystickRadialV112 .wheelCenter{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:94px!important;
+  height:94px!important;
+  padding:10px!important;
+  border-radius:999px!important;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.34), transparent 34%),
+    linear-gradient(180deg, rgba(34,29,25,.94), rgba(18,15,13,.96))!important;
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.30),
+    inset 0 0 0 1px rgba(255,255,255,.12)!important;
+  color:#fff!important;
+  z-index:40!important;
+  pointer-events:auto!important;
+  touch-action:none!important;
+  user-select:none!important;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .miniCenterName{
+  max-width:76px!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-size:13px!important;
+  line-height:1.05!important;
+  font-weight:1000!important;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .miniCenterHint{
+  font-size:10px!important;
+  line-height:1!important;
+  opacity:.82!important;
+  margin-top:3px!important;
+  text-transform:uppercase!important;
+}
+
+.joystickKnobV112{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  transform:translate(calc(-50% + var(--joy-x, 0px)), calc(-50% + var(--joy-y, 0px)));
+  background:rgba(255,255,255,.94);
+  box-shadow:0 8px 18px rgba(0,0,0,.28);
+  opacity:.28;
+  transition:transform .08s linear, opacity .12s ease;
+  pointer-events:none;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .wheelCenter.choosingV112 .joystickKnobV112{
+  opacity:.82;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .wheelCenter.aimingV112{
+  outline:3px solid rgba(77,157,230,.50)!important;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.joystickTargetV112{
+  outline:4px solid rgba(77,157,230,.82)!important;
+  box-shadow:
+    0 0 0 8px rgba(77,157,230,.22),
+    0 20px 44px rgba(35,94,160,.42),
+    inset 0 0 0 1px rgba(255,255,255,.92)!important;
+  filter:brightness(1.04) saturate(1.06)!important;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w0.previewing,
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w0.joystickTargetV112{
+  transform:translate(-50%, 0)!important;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w1.previewing,
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w1.joystickTargetV112{
+  transform:translate(0, -50%)!important;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w2.previewing,
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w2.joystickTargetV112{
+  transform:translate(-50%, 0)!important;
+}
+
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w3.previewing,
+#radial.mobileRadialMode.joystickRadialV112 .wheelBtn.w3.joystickTargetV112{
+  transform:translate(0, -50%)!important;
+}
+
+@media(max-width:430px){
+  #radial.mobileRadialMode.joystickRadialV112 #wheelCenter,
+  #radial.mobileRadialMode.joystickRadialV112 .wheelCenter{
+    width:86px!important;
+    height:86px!important;
+  }
+}
+
+/* ===== v127 character-select portrait crops and chain targeting clarity ===== */
+#fighterGrid .fighterCard[data-id="duler"] .portrait{
+  background-position:center 8%!important;
+}
+
+#fighterGrid .fighterCard[data-id="fuego"] .portrait{
+  background-position:center 40%!important;
+}
+
+.tile.chainSlamFirstV127{
+  outline:4px solid rgba(160,91,255,.96)!important;
+  box-shadow:0 0 0 7px rgba(160,91,255,.24),0 18px 36px rgba(51,29,78,.28)!important;
+}
+
+.tile.chainSlamFirstV127::after{
+  content:"1";
+  position:absolute;
+  top:10px;
+  right:10px;
+  z-index:8;
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:#6e3fd7;
+  color:white;
+  font-weight:1000;
+  box-shadow:0 8px 18px rgba(42,26,79,.30);
+}
+
+/* ===== v128 log close affordance and final portrait crop ===== */
+#infoPanelSheet{
+  position:relative;
+}
+
+#battleLogCloseBtnV128{
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:20;
+  width:52px;
+  height:52px;
+  border:0;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:#211c18;
+  color:#fff;
+  font-size:30px;
+  font-weight:1000;
+  line-height:1;
+  box-shadow:0 14px 32px rgba(40,31,24,.24);
+}
+
+#battleLogCloseBtnV128[hidden]{
+  display:none!important;
+}
+/* ===== v162 Adventure mode ===== */
+.adventureStepV162{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.adventureStepV162.hidden{display:none}
+.adventureHeroV162,
+.advRewardPanelV162{
+  background:rgba(255,255,255,.72);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 14px 30px rgba(31,25,16,.08);
+}
+.adventureHeroV162{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+}
+.adventureHeroV162 h2{
+  margin:4px 0 0;
+  font-size:clamp(28px,4vw,46px);
+  line-height:1;
+}
+.advProgressV162{
+  font-weight:900;
+  color:#74685c;
+  text-align:right;
+}
+.advBodyV162{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.advCardGridV162,
+.advAbilityGridV162{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;
+}
+.advCharCardV162,
+.advAbilityCardV162{
+  min-height:190px;
+  border:2px solid rgba(50,38,27,.08);
+  background:rgba(255,255,255,.78);
+  border-radius:20px;
+  box-shadow:0 14px 28px rgba(34,27,19,.08);
+  text-align:left;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  color:#241f1a;
+}
+.advCharCardV162 b,
+.advAbilityCardV162 b{
+  font-size:22px;
+  padding:12px 14px 0;
+}
+.advCharCardV162 span,
+.advAbilityCardV162 span{
+  color:#74685c;
+  padding:2px 14px;
+  font-weight:700;
+}
+.advCharCardV162 small,
+.advAbilityCardV162 p{
+  color:#54493e;
+  padding:6px 14px;
+  margin:0;
+}
+.advCharCardV162 em,
+.advAbilityCardV162 em{
+  margin:auto 14px 14px;
+  align-self:flex-start;
+  background:#2f91de;
+  color:#fff;
+  border-radius:999px;
+  padding:9px 14px;
+  font-style:normal;
+  font-weight:900;
+}
+.advPortraitV162{
+  height:128px;
+  background-size:cover !important;
+  background-position:center !important;
+}
+.advAbilityCardV162{
+  padding-top:6px;
+  min-height:210px;
+}
+.advMiniNoteV162{
+  font-weight:800;
+  color:#74685c;
+  padding:4px 6px;
+}
+@media (max-width: 760px){
+  .adventureHeroV162{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .advProgressV162{text-align:left}
+  .advCardGridV162,
+  .advAbilityGridV162{
+    grid-template-columns:1fr;
+  }
+  .advCharCardV162,
+  .advAbilityCardV162{
+    min-height:unset;
+  }
+}
